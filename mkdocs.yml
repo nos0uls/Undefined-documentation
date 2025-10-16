@@ -3,9 +3,9 @@ site_url: https://nos0uls.github.io/Undefined-documentation
 site_author: n0souls
 site_description: Подробнейшая документация проекта
 
-repo_name: nos0uls/my-docs-repo
+repo_name: nos0uls/Undefined-documentation
 repo_url: https://github.com/nos0uls/Undefined-documentation
-edit_uri: edit/main/docs/
+edit_uri: edit/main/
 
 nav:
   - Главная: index.md
