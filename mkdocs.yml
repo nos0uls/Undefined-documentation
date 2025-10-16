@@ -10,6 +10,7 @@ edit_uri: edit/main/docs/
 nav:
   - Главная: index.md
   - Начало работы:
+      - Как работать с этим сайтом: getting-started/syntax.md
       - Установка и запуск: getting-started/installation.md
       - Настройка проекта: getting-started/setup.md
       - Первый запуск: getting-started/first-run.md
