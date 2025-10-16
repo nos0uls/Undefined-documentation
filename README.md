@@ -1,2 +1,3 @@
 # my-docs-repo
-Documentation
+Documentation for UndefinedTale game
+Документация по игре UndefinedTale
