@@ -9,25 +9,28 @@ repo_name: nos0uls/my-docs-repo  # ЗАМЕНИТЕ на свой репозит
 repo_url: https://github.com/nos0uls/my-docs-repo  # ЗАМЕНИТЕ на свой URL
 edit_uri: edit/main/docs/
 
-# Навигация сайта
+# Навигация для игровой документации  
 nav:
   - Главная: index.md
-  - Начало работы:
+  - 🚀 Начало работы:
     - Установка и запуск: getting-started/installation.md
     - Настройка проекта: getting-started/setup.md
     - Первый запуск: getting-started/first-run.md
-  - Геймплей:
+  - 🎮 Геймплей:
     - Обзор игры: gameplay/overview.md
     - Управление: gameplay/controls.md
     - Игровые механики: gameplay/mechanics.md
-  - Разработка:
+  - 🛠️ Разработка:
     - Архитектура проекта: development/architecture.md
     - Объекты и спрайты: development/objects.md
     - Комнаты и уровни: development/rooms.md
-  - Справочник кода:
+  - 💻 Справочник кода:
     - GML скрипты: code-reference/gml-scripts.md
     - События объектов: code-reference/events.md
     - Функции: code-reference/functions.md
+  - ℹ️ О проекте:
+    - История изменений: about/changelog.md
+    - Лицензия: about/license.md
 
 
 # Настройка темы
@@ -38,39 +41,35 @@ theme:
   # Основные функции
   features:
     - navigation.tabs              # Вкладки в навигации
-    - navigation.tabs.sticky       # Закрепленные вкладки
-    - navigation.sections          # Разделы в навигации
+    - navigation.sections          # Разделы в навигации  
     - navigation.expand            # Раскрытие навигации
-    - navigation.path              # Путь навигации
     - navigation.top               # Кнопка "Наверх"
     - navigation.tracking          # Отслеживание URL
     - search.highlight             # Подсветка в поиске
-    - search.share                 # Поделиться поиском
-    - search.suggest               # Предложения в поиске
+    - search.share                # Поделиться поиском
     - content.code.copy            # Кнопка копирования кода
     - content.code.annotate        # Аннотации в коде
     - content.tooltips             # Всплывающие подсказки
-    - content.tabs.link            # Связанные вкладки
   
-  # Палитра с переключателем тем
+  # Палитра с переключателем тем (ВАЖНО!)
   palette:
-    # Светлая тема (по умолчанию)
-    - scheme: slate
-      primary: indigo
-      accent: indigo
+    # Светлая тема
+    - scheme: default
+      primary: deep purple
+      accent: purple
       toggle:
         icon: material/brightness-7
         name: Переключить на темную тему
     
     # Темная тема
-    - scheme: default
-      primary: blue
-      accent: cyan
+    - scheme: slate  
+      primary: deep purple
+      accent: purple
       toggle:
         icon: material/brightness-4
         name: Переключить на светлую тему
   
-   # Иконки для игровой тематики
+  # Иконки для игровой тематики
   icon:
     logo: material/gamepad-variant
     repo: fontawesome/brands/github
