@@ -1,97 +1,74 @@
-# Основная информация о сайте
 site_name: Документация моего проекта
-site_url: https://nos0uls.github.io/my-docs-repo/  # ЗАМЕНИТЕ на свой URL
-site_author: n0souls  # ЗАМЕНИТЕ на свое имя
+site_url: https://nos0uls.github.io/Undefined-documentation
+site_author: n0souls
 site_description: Подробная документация проекта
 
-# Настройки репозитория
-repo_name: nos0uls/my-docs-repo  # ЗАМЕНИТЕ на свой репозиторий
-repo_url: https://github.com/nos0uls/my-docs-repo  # ЗАМЕНИТЕ на свой URL
+repo_name: nos0uls/my-docs-repo
+repo_url: https://github.com/nos0uls/Undefined-documentation
 edit_uri: edit/main/docs/
 
-# Навигация сайта
 nav:
   - Главная: index.md
   - Начало работы:
-    - Установка и запуск: getting-started/installation.md
-    - Настройка проекта: getting-started/setup.md
-    - Первый запуск: getting-started/first-run.md
+      - Установка и запуск: getting-started/installation.md
+      - Настройка проекта: getting-started/setup.md
+      - Первый запуск: getting-started/first-run.md
   - Геймплей:
-    - Обзор игры: gameplay/overview.md
-    - Управление: gameplay/controls.md
-    - Игровые механики: gameplay/mechanics.md
+      - Обзор игры: gameplay/overview.md
+      - Управление: gameplay/controls.md
+      - Игровые механики: gameplay/mechanics.md
   - Разработка:
-    - Архитектура проекта: development/architecture.md
-    - Объекты и спрайты: development/objects.md
-    - Комнаты и уровни: development/rooms.md
+      - Архитектура проекта: development/architecture.md
+      - Объекты и спрайты: development/objects.md
+      - Комнаты и уровни: development/rooms.md
   - Справочник кода:
-    - GML скрипты: code-reference/gml-scripts.md
-    - События объектов: code-reference/events.md
-    - Функции: code-reference/functions.md
+      - GML скрипты: code-reference/gml-scripts.md
+      - События объектов: code-reference/events.md
+      - Функции: code-reference/functions.md
 
-
-# Настройка темы
 theme:
   name: material
   language: ru
-  
-  # Основные функции
   features:
-    - navigation.tabs              # Вкладки в навигации
-    - navigation.sections          # Разделы в навигации  
-    - navigation.tabs.sticky       # Закрепленные вкладки
-    - navigation.sections          # Разделы в навигации
-    - navigation.expand            # Раскрытие навигации
-    - navigation.path              # Путь навигации
-    - navigation.top               # Кнопка "Наверх"
-    - navigation.tracking          # Отслеживание URL
-    - search.highlight             # Подсветка в поиске
-    - search.share                # Поделиться поиском
-    - search.share                 # Поделиться поиском
-    - search.suggest               # Предложения в поиске
-    - content.code.copy            # Кнопка копирования кода
-    - content.code.annotate        # Аннотации в коде
-    - content.tooltips             # Всплывающие подсказки
-    - content.tabs.link            # Связанные вкладки
-  
-  # Палитра с переключателем тем (ВАЖНО!)
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+    - content.tooltips
   palette:
-    # Светлая тема
-    - scheme: default
+    - scheme: slate       # по умолчанию тёмная тема
       primary: deep purple
       accent: purple
       toggle:
         icon: material/brightness-7
-        name: Переключить на темную тему
-    
-    # Темная тема
-    - scheme: slate  
+        name: Переключить на светлую тему
+    - scheme: default     # светлая (альтернатива)
       primary: deep purple
       accent: purple
       toggle:
         icon: material/brightness-4
-        name: Переключить на светлую тему
-  
-  # Иконки для игровой тематики
+        name: Переключить на тёмную тему
   icon:
     logo: material/gamepad-variant
     repo: fontawesome/brands/github
     edit: material/pencil
     view: material/eye
-
-  # Дополнительные настройки
   font:
     text: Roboto
     code: Roboto Mono
 
-# Дополнительные CSS и JavaScript
 extra_css:
   - assets/stylesheets/extra.css
 
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.min.js
 
-# Расширения Markdown с поддержкой GML
 markdown_extensions:
   - abbr
   - admonition
@@ -116,7 +93,6 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
       use_pygments: true
-      # Добавляем поддержку GML синтаксиса
       extend_pygments_lang:
         - name: gml
           lang: javascript
@@ -137,7 +113,6 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
 
-# Плагины
 plugins:
   - search:
       lang: ru
@@ -148,7 +123,6 @@ plugins:
   - minify:
       minify_html: true
 
-# Дополнительная информация
 extra:
   social:
     - icon: fontawesome/brands/github
@@ -156,5 +130,4 @@ extra:
     - icon: fontawesome/brands/telegram
       link: https://telegram.org/n0souls
 
-# Copyright
 copyright: Copyright &copy; 2025 n0souls
