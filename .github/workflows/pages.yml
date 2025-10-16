@@ -25,17 +25,16 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        pip install mkdocs-material
-        pip install mkdocs-git-revision-date-localized-plugin
-
     - name: Install dependencies FOR PYTHON
       run: pip install -r requirements.txt
 
 
     - name: Build MkDocs site
       run: mkdocs build
+      working-directory: ./docs
+
+    - name: List site directory
+      run: ls -la ./site
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
