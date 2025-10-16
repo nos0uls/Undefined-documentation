@@ -31,7 +31,6 @@ jobs:
 
     - name: Build MkDocs site
       run: mkdocs build
-      working-directory: ./docs
 
     - name: List site directory
       run: ls -la ./site
