@@ -1,21 +1,15 @@
-name: Deploy MkDocs site to GitHub Pages
+name: Deploy MkDocs to GitHub Pages
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
 
-permissions:
-  contents: write       # разрешение на пуш
-  pages: write          # разрешение на работу с GitHub Pages
-  id-token: write
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Set up Python
@@ -26,13 +20,8 @@ jobs:
     - name: Install dependencies
       run: |
         pip install mkdocs-material
-        pip install mkdocs-git-revision-date-localized-plugin
 
-    - name: Install dependencies FOR PYTHON
-      run: pip install -r requirements.txt
-
-
-    - name: Build MkDocs site
+    - name: Build site
       run: mkdocs build
 
     - name: Deploy to GitHub Pages
@@ -40,3 +29,4 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./site
+б
