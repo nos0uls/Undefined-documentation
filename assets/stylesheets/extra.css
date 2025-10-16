@@ -1,0 +1,199 @@
+```css
+/* ===== СТИЛИ ДЛЯ ИГРОВОЙ ДОКУМЕНТАЦИИ ===== */
+
+:root {
+  /* Игровая цветовая схема */
+  --game-primary: #6A1B9A;      /* Фиолетовый */
+  --game-secondary: #9C27B0;     /* Светло-фиолетовый */
+  --game-accent: #E91E63;        /* Розовый */
+  --game-success: #4CAF50;       /* Зеленый */
+  --game-warning: #FF9800;       /* Оранжевый */
+  --game-danger: #F44336;        /* Красный */
+  
+  /* Цвета для GML кода */
+  --gml-keyword: #569CD6;        /* Ключевые слова */
+  --gml-function: #DCDCAA;       /* Функции */
+  --gml-string: #CE9178;         /* Строки */
+  --gml-comment: #6A9955;        /* Комментарии */
+  --gml-number: #B5CEA8;         /* Числа */
+}
+
+/* Темная тема для игры */
+[data-md-color-scheme="slate"] {
+  --game-primary: #AB47BC;
+  --game-secondary: #BA68C8;
+  --game-accent: #F06292;
+}
+
+/* Стили для блоков кода GML */
+.language-gml .highlight {
+  background: linear-gradient(135deg, #1e1e1e 0%, #252526 100%);
+  border-left: 4px solid var(--game-primary);
+  border-radius: 8px;
+  position: relative;
+}
+
+.language-gml .highlight::before {
+  content: "GML";
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  color: var(--game-primary);
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0.7;
+}
+
+/* Специальные блоки для игровых концепций */
+.md-typeset .admonition.gamedev {
+  border-left-color: var(--game-primary);
+}
+
+.md-typeset .admonition.gamedev > .admonition-title {
+  background-color: rgba(106, 27, 154, 0.1);
+}
+
+.md-typeset .admonition.gamedev > .admonition-title::before {
+  content: "🎮";
+  margin-right: 0.5em;
+}
+
+.md-typeset .admonition.performance {
+  border-left-color: var(--game-success);
+}
+
+.md-typeset .admonition.performance > .admonition-title::before {
+  content: "⚡";
+  margin-right: 0.5em;
+}
+
+.md-typeset .admonition.bug {
+  border-left-color: var(--game-danger);
+}
+
+.md-typeset .admonition.bug > .admonition-title::before {
+  content: "🐛";
+  margin-right: 0.5em;
+}
+
+/* Стили для игровых статистик */
+.game-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(106, 27, 154, 0.2);
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--game-primary);
+}
+
+.stat-label {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.9rem;
+}
+
+/* Улучшенная навигация для игровой документации */
+.md-nav__title {
+  position: relative;
+}
+
+.md-nav__title[for="__drawer"]::before {
+  content: "🎮";
+  margin-right: 0.5rem;
+}
+
+/* Стили для скриншотов игры */
+.game-screenshot {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  margin: 2rem auto;
+  max-width: 100%;
+  display: block;
+}
+
+/* Анимации для интерактивных элементов */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(106, 27, 154, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(106, 27, 154, 0.8); }
+}
+
+.interactive-element {
+  animation: pulse-glow 2s infinite;
+  cursor: pointer;
+}
+
+/* Специальные стили для таблиц объектов/скриптов */
+.object-table th {
+  background: linear-gradient(135deg, var(--game-primary), var(--game-secondary));
+  color: white;
+}
+
+.object-table td {
+  vertical-align: middle;
+}
+
+.object-type-player { border-left: 4px solid #4CAF50; }
+.object-type-enemy { border-left: 4px solid #F44336; }
+.object-type-system { border-left: 4px solid #2196F3; }
+.object-type-ui { border-left: 4px solid #FF9800; }
+
+/* Стили для версионности GameMaker */
+.gm-version {
+  display: inline-block;
+  background: var(--game-primary);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+
+/* Стили для кнопок действий */
+.action-button {
+  background: linear-gradient(135deg, var(--game-primary), var(--game-secondary));
+  border: none;
+  border-radius: 25px;
+  color: white;
+  padding: 12px 24px;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0.5rem;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(106, 27, 154, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+/* Респонсивность для мобильных устройств */
+@media screen and (max-width: 768px) {
+  .game-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-card {
+    margin: 0.5rem 0;
+  }
+}
