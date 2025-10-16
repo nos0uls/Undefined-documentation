@@ -45,7 +45,7 @@ jobs:
         echo "✅ Документация собрана"
     
     - name: 💾 Сохранение артефактов
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: game-documentation
         path: site/
@@ -64,13 +64,13 @@ jobs:
     
     steps:
     - name: 📥 Скачивание документации
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: game-documentation
         path: site/
     
     - name: 🌐 Настройка GitHub Pages
-      uses: actions/configure-pages@v3
+      uses: actions/configure-pages@v4
     
     - name: 📤 Загрузка в GitHub Pages
       uses: actions/upload-pages-artifact@v2
