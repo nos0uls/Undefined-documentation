@@ -5,7 +5,7 @@ site_description: Подробнейшая документация проект
 
 repo_name: nos0uls/Undefined-documentation
 repo_url: https://github.com/nos0uls/Undefined-documentation
-edit_uri: edit/main/
+edit_uri: edit/main/docs/
 
 nav:
   - Главная: index.md
@@ -42,6 +42,7 @@ theme:
     - content.code.copy
     - content.code.annotate
     - content.tooltips
+    - content.action.edit
   palette:
     - scheme: slate       # по умолчанию тёмная тема
       primary: deep purple
