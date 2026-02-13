@@ -1,411 +1,143 @@
 # Архитектура проекта
 
-## Структура объектов
+Обзор структуры и организации проекта UndefinedTale#888 в GameMaker Studio 2.
 
-obj_parent
-├── obj_player
-├── obj_enemy_parent
-│ ├── obj_enemy_basic
-│ └── obj_enemy_boss
-└── obj_collectible
+## Поток запуска
 
+```
+rm_init → obj_Init.Create_0 (полная инициализация) → room_goto(rm_roomMenu)
+rm_roomMenu → obj_menu.Create_0 (меню) → Alarm_0 (музыка через 1 кадр)
+```
+
+### Порядок инициализации
+
+1. **`obj_Init`** (создаётся в `rm_init`) — центральная точка инициализации:
+    - `scr_constants()` — глобальные константы (`global.DIR`, `SETTINGS_STATE`)
+    - Создаёт `obj_globalManager` (если нет)
+    - `scr_loadSettings()` + `scr_applySettings()` — настройки, input_map, debug
+    - Загрузка game_state, save slots
+    - `ChatterboxLoadFromFile()` — диалоги
+    - Ставит `global.__init_done = true`
+    - `room_goto(rm_roomMenu)` (только из `rm_init`)
+
+2. **`obj_globalManager`** (persistent) — runtime-менеджер:
+    - Fallback-инициализация если `obj_Init` не отработал (DEV-LOAD, F5/F6)
+    - Карта комнат (`global.rooms_by_name`)
+    - Система уведомлений
+    - Музыкальная система (`global.play_music`, `global.play_music_immediate`)
+    - Дебаг-флаги
+    - UI звуки
+
+3. **`obj_menu`** — главное меню:
+    - Опции меню, навигация
+    - `Alarm_0` — запуск музыки с задержкой 1 кадр
+
+### Защита от повторной инициализации
+
+`obj_Init` создаётся через `GlobalRoomCreationCode` в каждой комнате, но `global.__init_done` guard предотвращает повторный запуск.
+
+## Системные объекты
+
+| Объект | Persistent | Назначение |
+|--------|-----------|------------|
+| `obj_Init` | Нет | Центральная инициализация (однократная) |
+| `obj_globalManager` | Да | Runtime: музыка, уведомления, комнаты, дебаг |
+| `obj_menu` | Нет | Главное меню |
+| `obj_settingsManager` | Нет | UI настроек (overlay или отдельная комната) |
+| `obj_saveManager` | Нет | Выбор сейв-слота, DEV-LOAD |
+| `obj_inGameMenu` | Нет | Внутриигровое меню (INFO/ITEMS/SETTINGS) |
+| `obj_player` | Нет | Игрок |
+| `obj_actor` | Нет | NPC/актор в катсценах |
+| `obj_Init_dialogue` | Нет | Тестовый объект диалогов (клавиши 1/2) |
 
 ## Основные скрипты
 
-- `scr_player_movement` — движение игрока
-- `scr_camera_follow` — камера
-- `scr_enemy_ai` — ИИ врагов
-```markdown
-# Архитектура проекта
+### Инициализация и настройки
 
-Обзор структуры и организации проекта игры в GameMaker Studio 2.
+- **`scr_constants`** — глобальные константы (`global.DIR`, `SETTINGS_STATE`)
+- **`scr_settingsManager`** — загрузка/сохранение/применение/сброс настроек:
+    - `scr_loadSettings()` — читает файл, мигрирует недостающие ключи
+    - `scr_saveSettings(settings)` — записывает в файл
+    - `scr_applySettings(settings)` — применяет (debug, окно, звук, input_map)
+    - `scr_resetSettings()` — сброс к дефолтам
+    - `scr_settings_deep_copy(settings)` — глубокая копия struct
+    - `scr_settings_apply_and_save(settings)` — применить + сохранить
+    - `scr_resetInputToDefault(settings)` — сброс только клавиш
+    - `scr_buildInputMap(settings)` — struct действие → массив клавиш
 
-## 📁 Структура проекта
+### Input API (`scr_inputApi`)
 
-### Общая организация
+- **`scr_input_down(action)`** — клавиша зажата (с cutscene-блокировкой)
+- **`scr_input_pressed(action)`** — клавиша только что нажата
+- **`scr_input_repeater(action, delay, interval)`** — авто-повтор
+- **`scr_input_rebind(action, new_key)`** — переназначение клавиши
+- **`scr_input_rebind_slot(action, slot, key, [settings])`** — переназначение конкретного слота
+- **`__scr_input_is_ui_caller()`** — внутренняя: проверка UI-объекта для bypass катсцены
 
-MyGame.yyp
-├── 📂 Sprites/
-│ ├── 🎨 Player/
-│ │ ├── spr_player_idle
-│ │ ├── spr_player_walk
-│ │ └── spr_player_jump
-│ ├── 🎨 Enemies/
-│ │ ├── spr_enemy_basic
-│ │ └── spr_enemy_boss
-│ └── 🎨 Environment/
-│ ├── spr_wall
-│ ├── spr_platform
-│ └── spr_background
-├── 📂 Objects/
-│ ├── 🎮 Player/
-│ │ └── obj_player
-│ ├── 👾 Enemies/
-│ │ ├── obj_enemy_parent
-│ │ ├── obj_enemy_basic
-│ │ └── obj_enemy_boss
-│ ├── 🌍 Environment/
-│ │ ├── obj_wall
-│ │ ├── obj_platform
-│ │ └── obj_collectible
-│ └── 🎯 System/
-│ ├── obj_game_manager
-│ ├── obj_camera
-│ └── obj_ui_manager
-├── 📂 Scripts/
-│ ├── 🎮 Player/
-│ │ ├── scr_player_movement
-│ │ ├── scr_player_collision
-│ │ └── scr_player_animations
-│ ├── 🧠 AI/
-│ │ ├── scr_enemy_ai_basic
-│ │ └── scr_pathfinding
-│ ├── 🔧 Utilities/
-│ │ ├── scr_camera_follow
-│ │ ├── scr_audio_manager
-│ │ └── scr_save_load
-│ └── 📊 Game Logic/
-│ ├── scr_level_manager
-│ ├── scr_score_system
-│ └── scr_collision_manager
-├── 📂 Rooms/
-│ ├── rm_menu
-│ ├── rm_level_01
-│ ├── rm_level_02
-│ └── rm_game_over
-├── 📂 Sounds/
-│ ├── 🎵 Music/
-│ │ ├── mus_menu
-│ │ ├── mus_level
-│ │ └── mus_boss
-│ └── 🔊 SFX/
-│ ├── snd_jump
-│ ├── snd_collect
-│ └── snd_enemy_hit
-└── 📂 Fonts/
-├── fnt_ui_large
-└── fnt_ui_small
+Во время катсцены (`global.cutscene_active`) ввод блокируется для всех объектов кроме UI (textbox, settings, menu, save, inGameMenu). Не-UI объекты получают ввод только через `__cutscene_virtual_down`.
 
-text
+### Игрок
 
-## 🏗️ Системная архитектура
+- **`scr_player_movement`** — движение с коллизиями (4 направления, top-down)
+- **`scr_player_animation`** — спрайты по направлению + анимация ходьбы
+- **`scr_player_facing`** — синхронизация `facing_direction` из `sprite_index` (через `scr_sprite_to_facing`)
+- **`scr_player_marker_update`** — позиция маркера взаимодействия
+- **`scr_player_ui_blocking`** — блокировка ввода при открытых UI
+- **`scr_player_debug_ghost`** — режим призрака (проход через стены)
+- **`scr_player_room_lock`** — блокировка roomchanger после перехода
 
-### Иерархия объектов
+### Направление ↔ Спрайт (`scr_facing_sprite`)
 
-```mermaid
-graph TD
-    A[obj_parent] --> B[obj_living_entity]
-    B --> C[obj_player]
-    B --> D[obj_enemy_parent]
-    D --> E[obj_enemy_basic]
-    D --> F[obj_enemy_boss]
-    
-    A --> G[obj_static_entity]
-    G --> H[obj_wall]
-    G --> I[obj_platform]
-    G --> J[obj_collectible]
-    
-    A --> K[obj_system]
-    K --> L[obj_game_manager]
-    K --> M[obj_camera]
-    K --> N[obj_ui_manager]
-Менеджер игры
-obj_game_manager — центральный объект, контролирующий:
+- **`scr_facing_to_sprite(facing, [chara_sprites])`** — направление → спрайт ходьбы
+- **`scr_sprite_to_facing(spr, [chara_sprites])`** — спрайт → направление
 
-text
-// Создание (Create Event)
-global.score = 0;
-global.lives = 3;
-global.current_level = 1;
-global.game_state = "playing"; // "playing", "paused", "game_over"
+Оба принимают опциональный `chara_sprites` struct для кастомных NPC-спрайтов.
 
-// Пошаговое выполнение (Step Event)
-switch(global.game_state) {
-    case "playing":
-        scr_update_game_logic();
-        break;
-        
-    case "paused":
-        // Обновление только UI
-        scr_update_pause_menu();
-        break;
-        
-    case "game_over":
-        scr_update_game_over_screen();
-        break;
-}
+### Сохранение / Загрузка
 
-// Функция управления состоянием
-function scr_set_game_state(_new_state) {
-    global.game_state = _new_state;
-    
-    switch(_new_state) {
-        case "paused":
-            instance_deactivate_all(true);
-            instance_activate_object(obj_ui_manager);
-            break;
-            
-        case "playing":
-            instance_activate_all();
-            break;
-    }
-}
-🎮 Система игрока
-obj_player — основной объект игрока
-Переменные инициализации:
+- **`scr_saveLoad`** — сохранение/загрузка позиции и комнаты игрока
+- **`scr_game_state_load()`** — загрузка общего состояния игры (last_played_save_slot и т.д.)
+- **`scr_global_handle_dev_spawn()`** — создание игрока при DEV-LOAD
 
-text
-// Create Event
-hspd = 0;           // Горизонтальная скорость
-vspd = 0;           // Вертикальная скорость
-move_speed = 4;     // Скорость движения
-jump_speed = 12;    // Сила прыжка
-gravity_force = 0.8;// Гравитация
-on_ground = false;  // На земле ли игрок
+### Катсцены
 
-max_health = 100;
-current_health = max_health;
-invincible = false;
-invincible_timer = 0;
+- **`scr_cutscene_classes`** — классы действий катсцены (ActionMoveTo, ActionSetFacing, ActionDialogue и др.)
+- **`cutscene_set_facing`** — установка направления актора в катсцене
+- **`obj_actor`** — универсальный NPC для катсцен (движение, auto_face, idle-анимации)
 
-// Анимации
-current_animation = "idle";
-animation_speed = 0.2;
-Основной цикл (Step Event):
+## Комнаты
 
-text
-// Обработка ввода и движения
-scr_player_input();
-scr_player_movement();
-scr_player_collision();
-scr_player_animations();
+| Комната | Назначение |
+|---------|------------|
+| `rm_init` | Стартовая комната, только инициализация |
+| `rm_roomMenu` | Главное меню |
+| `rm_savesSelect` | Выбор сейв-слота |
+| `rm_settings` | Настройки (отдельная комната) |
+| `rm_devLoad` | DEV-LOAD (выбор комнаты для отладки) |
+| `rm_*` | Игровые комнаты |
 
-// Обработка неуязвимости
-if (invincible) {
-    invincible_timer--;
-    if (invincible_timer <= 0) {
-        invincible = false;
-        image_alpha = 1;
-    } else {
-        image_alpha = 0.5;
-    }
-}
-👾 Система ИИ врагов
-obj_enemy_parent — базовый класс врагов
-text
-// Create Event
-enemy_health = 50;
-enemy_speed = 2;
-damage = 10;
-facing = choose(-1, 1);
-patrol_distance = 128;
-start_x = x;
+## Музыкальная система
 
-// Состояния ИИ
-ai_state = "patrol"; // "patrol", "chase", "attack", "stunned"
-detection_range = 200;
-attack_range = 32;
+Определена в `obj_globalManager.Create_0`:
 
-// Таймеры
-attack_cooldown = 0;
-stun_timer = 0;
-Машина состояний:
+- **`global.play_music(snd_asset)`** — плавная смена трека (фейд-ин/фейд-аут)
+- **`global.play_music_immediate(snd_asset)`** — мгновенная смена (без фейда)
+- **`global.is_menu_room(room)`** — проверка, является ли комната «меню» (для автоматической музыки)
 
-text
-// Step Event
-switch(ai_state) {
-    case "patrol":
-        scr_enemy_patrol();
-        scr_check_player_detection();
-        break;
-        
-    case "chase":
-        scr_enemy_chase_player();
-        scr_check_attack_range();
-        break;
-        
-    case "attack":
-        scr_enemy_attack();
-        break;
-        
-    case "stunned":
-        scr_enemy_stunned();
-        break;
-}
+Громкость управляется через `global.__music_volume` (из настроек).
 
-scr_enemy_update_timers();
-📺 Система камеры
-obj_camera — управление видом
-text
-// Create Event
-follow_target = obj_player;
-camera_smooth = 0.1;
-camera_offset_x = 0;
-camera_offset_y = -32;
+## Система уведомлений
 
-// Границы камеры
-camera_min_x = 0;
-camera_min_y = 0;
-camera_max_x = room_width - camera_get_view_width(view_camera);
-camera_max_y = room_height - camera_get_view_height(view_camera);
+- **`global.show_notification(text)`** — показывает текст на экране на 1 секунду
+- Отрисовка и таймер — в `obj_globalManager`
 
-// Step Event
-if (instance_exists(follow_target)) {
-    scr_camera_follow(follow_target);
-    scr_camera_shake(); // Если включен эффект тряски
-}
-🎵 Аудио система
-Структура звуков
-text
-// В obj_game_manager Create Event
-global.music_volume = 0.7;
-global.sound_volume = 0.8;
-global.current_music = -1;
+## Соглашения по именованию
 
-// Массивы звуков по категориям
-global.ui_sounds = [snd_button_click, snd_menu_select];
-global.player_sounds = [snd_jump, snd_land, snd_hurt];
-global.enemy_sounds = [snd_enemy_hurt, snd_enemy_death];
-global.environment_sounds = [snd_collect_item, snd_door_open];
-💾 Система сохранений
-Структура данных
-text
-// Глобальные переменные для сохранения
-global.save_data = {
-    // Прогресс игры
-    current_level: 1,
-    unlocked_levels: ,
-    total_score: 0,
-    best_times: array_create(10, -1),
-    
-    // Настройки
-    music_volume: 0.7,
-    sound_volume: 0.8,
-    fullscreen: false,
-    controls: {
-        left: vk_left,
-        right: vk_right,
-        jump: vk_space,
-        action: ord("Z")
-    },
-    
-    // Достижения
-    achievements: {},
-    
-    // Статистика
-    total_playtime: 0,
-    deaths_count: 0,
-    items_collected: 0
-};
-🔄 Система событий
-Менеджер событий
-text
-// В obj_game_manager
-global.event_listeners = ds_map_create();
-
-/// @function scr_register_event_listener(_event_name, _object_id, _callback)
-function scr_register_event_listener(_event_name, _object_id, _callback) {
-    if (!ds_map_exists(global.event_listeners, _event_name)) {
-        ds_map_add(global.event_listeners, _event_name, ds_list_create());
-    }
-    
-    var _listeners = global.event_listeners[? _event_name];
-    ds_list_add(_listeners, {object_id: _object_id, callback: _callback});
-}
-
-/// @function scr_trigger_event(_event_name, _data)
-function scr_trigger_event(_event_name, _data = undefined) {
-    if (ds_map_exists(global.event_listeners, _event_name)) {
-        var _listeners = global.event_listeners[? _event_name];
-        
-        for (var i = 0; i < ds_list_size(_listeners); i++) {
-            var _listener = _listeners[| i];
-            if (instance_exists(_listener.object_id)) {
-                script_execute(_listener.callback, _data);
-            }
-        }
-    }
-}
-Примеры событий
-text
-// Регистрация событий
-scr_register_event_listener("player_died", obj_ui_manager, scr_ui_show_death_screen);
-scr_register_event_listener("level_complete", obj_game_manager, scr_load_next_level);
-scr_register_event_listener("item_collected", obj_score_manager, scr_add_score);
-
-// Вызов события
-scr_trigger_event("player_died", {cause: "fall", position: {x: x, y: y}});
-🏠 Система комнат
-Соглашения по именованию
-rm_menu — главное меню
-
-rm_level_XX — игровые уровни (01, 02, 03...)
-
-rm_boss_XX — боссы
-
-rm_cutscene_XX — кат-сцены
-
-rm_shop — магазин/улучшения
-
-Переходы между комнатами
-text
-/// @function scr_change_room(_room, _transition_type)
-function scr_change_room(_room, _transition_type = "fade") {
-    global.next_room = _room;
-    global.transition_type = _transition_type;
-    
-    with (obj_transition_manager) {
-        scr_start_transition();
-    }
-}
-🧪 Система отладки
-Отладочная информация
-text
-// В obj_debug_manager (только в Debug режиме)
-#macro DEBUG true
-
-if (DEBUG) {
-    draw_set_color(c_white);
-    draw_text(10, 10, "FPS: " + string(fps));
-    draw_text(10, 30, "Player: (" + string(obj_player.x) + ", " + string(obj_player.y) + ")");
-    draw_text(10, 50, "State: " + global.game_state);
-    draw_text(10, 70, "Instances: " + string(instance_count));
-}
-📈 Оптимизация
-Принципы оптимизации
-Управление объектами
-
-Используйте object pooling для часто создаваемых объектов
-
-Деактивируйте объекты вне экрана
-
-Удаляйте ненужные объекты
-
-Графическая оптимизация
-
-Используйте texture pages эффективно
-
-Минимизируйте draw calls
-
-Используйте поверхности для сложных эффектов
-
-Алгоритмическая оптимизация
-
-Кэшируйте дорогие вычисления
-
-Используйте пространственное разбиение для коллизий
-
-Оптимизируйте циклы
-
-!!! tip "💡 Лучшие практики архитектуры"
-- Используйте наследование объектов для общей функциональности
-- Разделяйте логику на небольшие, переиспользуемые скрипты
-- Документируйте все публичные функции
-- Используйте константы для магических чисел
-- Планируйте архитектуру заранее, особенно для больших проектов
-
-!!! warning "⚠️ Частые проблемы"
-- Циклические зависимости между объектами
-- Слишком много логики в событиях Step
-- Отсутствие проверок существования объектов
-- Глобальные переменные везде вместо инкапсуляции
+- **Скрипты**: `scr_название` (внутренние: `__scr_название`)
+- **Объекты**: `obj_название`
+- **Спрайты**: `spr_название`
+- **Звуки**: `snd_название`, `music_название`
+- **Комнаты**: `rm_название`
+- **Шрифты**: `ft_название`
+- **Переменные**: `snake_case`, константы в struct (`global.DIR.UP`)
+- **Приватные глобальные**: `global.__название` (двойное подчёркивание)

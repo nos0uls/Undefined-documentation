@@ -1,260 +1,223 @@
-
 # GML Скрипты
 
-Справочник основных скриптов и функций, используемых в игре.
+Справочник основных скриптов и функций проекта UndefinedTale#888.
 
-## 🎮 Скрипты игрока
+## Инициализация
+
+### scr_constants
+
+Инициализирует глобальные константы. Вызывается один раз из `obj_Init`.
+
+```gml
+scr_constants();
+// Результат:
+// global.DIR = { RIGHT: 0, LEFT: 1, UP: 2, DOWN: 3 }
+// global.SETTINGS_STATE = { ROOT: 0, CATEGORY: 1, REBIND: 2, CONFIRM_RESET: 3 }
+```
+
+## Настройки (scr_settingsManager)
+
+### scr_loadSettings
+
+Загружает настройки из файла `player_settings.dat`. Если файл отсутствует или содержит не все ключи — автоматически мигрирует и пересохраняет.
+
+```gml
+/// @returns {struct} настройки игрока
+var settings = scr_loadSettings();
+```
+
+### scr_saveSettings
+
+Записывает настройки в файл. Использует ключи из `global.default_settings` как шаблон.
+
+```gml
+/// @param {struct} settings
+/// @returns {bool} успех
+scr_saveSettings(global.player_settings);
+```
+
+### scr_applySettings
+
+Применяет настройки к игре: debug-флаг, режим окна (borderless/windowed), громкость, input_map.
+
+```gml
+/// @param {struct} settings
+/// @returns {bool} успех
+scr_applySettings(global.player_settings);
+// Внутри ставит: global.debug, global.input_map, global.__music_volume, global.__sfx_volume
+```
+
+### scr_settings_apply_and_save
+
+Комбинация: обновляет `global.player_settings`, применяет и сохраняет.
+
+```gml
+/// @param {struct} local_settings
+/// @param {string} [mode] — "apply", "save" или "both" (по умолчанию)
+scr_settings_apply_and_save(local_settings);
+```
+
+### scr_buildInputMap
+
+Собирает struct `действие → [клавиша1, клавиша2]` из настроек.
+
+```gml
+/// @param {struct} settings
+/// @returns {struct} input_map
+global.input_map = scr_buildInputMap(global.player_settings);
+// Результат: { up: [vk_up, -1], down: [vk_down, -1], confirm: [ord("Z"), vk_enter], ... }
+```
+
+## Input API (scr_inputApi)
+
+### scr_input_down
+
+Возвращает `true`, если клавиша действия зажата. Во время катсцены блокирует ввод для не-UI объектов.
+
+```gml
+/// @param {string} action — "up", "down", "left", "right", "confirm", "back", "menu"
+if (scr_input_down("right")) { /* клавиша вправо зажата */ }
+```
+
+### scr_input_pressed
+
+Возвращает `true` только в кадр нажатия.
+
+```gml
+if (scr_input_pressed("confirm")) { /* подтверждение */ }
+```
+
+### scr_input_repeater
+
+Авто-повтор: первое нажатие сразу, затем повтор через `delay` мс, далее каждые `interval` мс.
+
+```gml
+/// @param {string} action
+/// @param {real} [delay] — задержка перед повтором (мс, по умолчанию 200)
+/// @param {real} [interval] — интервал повтора (мс, по умолчанию 60)
+if (scr_input_repeater("down")) { select_index++; }
+```
+
+### scr_input_rebind_slot
+
+Переназначает конкретный слот клавиши. Защищает дефолтные клавиши от перезаписи.
+
+```gml
+/// @param {string} action
+/// @param {real} slotIndex — 1 (основная) или 2 (альтернативная)
+/// @param {real} new_key
+/// @param {struct} [target_settings] — по умолчанию global.player_settings
+scr_input_rebind_slot("confirm", 1, ord("Z"));
+```
+
+## Направление ↔ Спрайт (scr_facing_sprite)
+
+### scr_facing_to_sprite
+
+Возвращает спрайт ходьбы для заданного направления.
+
+```gml
+/// @param {real} facing — global.DIR.RIGHT/LEFT/UP/DOWN
+/// @param {struct} [chara_sprites] — { right, left, up, down } для кастомных NPC
+/// @returns {Asset.GMSprite}
+sprite_index = scr_facing_to_sprite(facing_direction);
+
+// С кастомными спрайтами NPC:
+sprite_index = scr_facing_to_sprite(dir, actor.chara_sprites);
+```
+
+### scr_sprite_to_facing
+
+Обратная функция: спрайт → направление.
+
+```gml
+/// @param {Asset.GMSprite} spr
+/// @param {struct} [chara_sprites]
+/// @returns {real} global.DIR.* или -1
+var f = scr_sprite_to_facing(sprite_index);
+if (f != -1) facing_direction = f;
+```
+
+## Скрипты игрока
 
 ### scr_player_movement
 
-Управляет движением игрока с учетом коллизий.
+Обработка движения игрока (4 направления, top-down) с коллизиями через `obj_collider`.
+
+### scr_player_animation
+
+Обновление спрайтов направления и анимации ходьбы. Не работает во время катсцены.
+
+### scr_player_facing
+
+Синхронизирует `facing_direction` из текущего `sprite_index`. Не работает во время катсцены.
 
 ```gml
-/// @function scr_player_movement()
-/// @description Обработка движения игрока
+// Вызывается в obj_player.Step_0
+scr_player_facing();
+```
 
-function scr_player_movement() {
-    // Получение ввода
-    var _left = keyboard_check(vk_left) || keyboard_check(ord("A"));
-    var _right = keyboard_check(vk_right) || keyboard_check(ord("D"));
-    var _jump = keyboard_check_pressed(vk_space);
-    
-    // Горизонтальное движение
-    var _move = _right - _left;
-    hspd = _move * move_speed;
-    
-    // Прыжок
-    if (_jump && on_ground) {
-        vspd = -jump_speed;
-        on_ground = false;
-    }
-    
-    // Применение гравитации
-    if (!on_ground) {
-        vspd += gravity_force;
-    }
-    
-    // Ограничение скорости падения
-    vspd = clamp(vspd, -max_fall_speed, max_fall_speed);
-}
-Переменные:
+### scr_player_ui_blocking
 
-hspd — горизонтальная скорость
+Проверяет, должен ли UI блокировать ввод игрока (открытое меню, диалог и т.д.).
 
-vspd — вертикальная скорость
+### scr_player_debug_ghost
 
-move_speed — скорость движения (обычно 4-6)
+Режим призрака: проход через стены, включается/выключается в дебаг-режиме.
 
-jump_speed — сила прыжка (обычно 12-15)
+## Сохранение и загрузка
 
-gravity_force — сила гравитации (обычно 0.5-1)
+### scr_game_state_load
 
-scr_player_collision
-Проверяет коллизии игрока с окружением.
+Загружает общее состояние игры из `game_state.dat` (последний слот и т.д.).
 
-text
-/// @function scr_player_collision()
-/// @description Обработка коллизий игрока
+```gml
+global.game_state = scr_game_state_load();
+```
 
-function scr_player_collision() {
-    // Горизонтальная коллизия
-    if (place_meeting(x + hspd, y, obj_wall)) {
-        while (!place_meeting(x + sign(hspd), y, obj_wall)) {
-            x += sign(hspd);
-        }
-        hspd = 0;
-    }
-    x += hspd;
-    
-    // Вертикальная коллизия
-    if (place_meeting(x, y + vspd, obj_wall)) {
-        while (!place_meeting(x, y + sign(vspd), obj_wall)) {
-            y += sign(vspd);
-        }
-        
-        // Проверка приземления
-        if (vspd > 0) {
-            on_ground = true;
-        }
-        
-        vspd = 0;
-    }
-    y += vspd;
-}
-🎯 Скрипты врагов
-scr_enemy_ai_basic
-Базовый ИИ для простых врагов.
+### scr_global_handle_dev_spawn
 
-text
-/// @function scr_enemy_ai_basic()
-/// @description Простой ИИ врага - движение туда-сюда
+Создаёт игрока в комнате после DEV-LOAD с заданной позицией и направлением.
 
-function scr_enemy_ai_basic() {
-    // Проверка стены или края платформы
-    var _wall_ahead = place_meeting(x + (enemy_speed * facing), y, obj_wall);
-    var _edge_ahead = !place_meeting(x + (enemy_speed * facing), y + 1, obj_wall);
-    
-    // Поворот при препятствии
-    if (_wall_ahead || _edge_ahead) {
-        facing *= -1;
-        image_xscale = facing;
-    }
-    
-    // Движение
-    x += enemy_speed * facing;
-    
-    // Проверка столкновения с игроком
-    if (place_meeting(x, y, obj_player)) {
-        with (obj_player) {
-            scr_player_take_damage(other.damage);
-        }
-    }
-}
-🔧 Утилиты
-scr_camera_follow
-Следование камеры за игроком с плавностью.
+```gml
+// Вызывается из obj_globalManager при global.__dev_spawn == true
+scr_global_handle_dev_spawn();
+```
 
-text
-/// @function scr_camera_follow(_target)
-/// @description Плавное следование камеры за целью
-/// @param {instance} _target Объект, за которым следует камера
+## Музыкальная система
 
-function scr_camera_follow(_target) {
-    if (!instance_exists(_target)) return;
-    
-    // Получение размеров камеры
-    var _cam_width = camera_get_view_width(view_camera);
-    var _cam_height = camera_get_view_height(view_camera);
-    
-    // Целевая позиция камеры
-    var _target_x = _target.x - _cam_width / 2;
-    var _target_y = _target.y - _cam_height / 2;
-    
-    // Текущая позиция камеры
-    var _current_x = camera_get_view_x(view_camera);
-    var _current_y = camera_get_view_y(view_camera);
-    
-    // Плавное движение камеры
-    var _new_x = lerp(_current_x, _target_x, camera_smooth);
-    var _new_y = lerp(_current_y, _target_y, camera_smooth);
-    
-    // Ограничения камеры границами комнаты
-    _new_x = clamp(_new_x, 0, room_width - _cam_width);
-    _new_y = clamp(_new_y, 0, room_height - _cam_height);
-    
-    // Применение позиции
-    camera_set_view_pos(view_camera, _new_x, _new_y);
-}
-🔊 Аудио скрипты
-scr_audio_manager
-Управление звуками и музыкой.
+Определена как глобальные функции в `obj_globalManager.Create_0`.
 
-text
-/// @function scr_play_sound(_sound, _pitch, _gain)
-/// @description Проигрывание звука с настройками
-/// @param {sound} _sound Звуковой ресурс
-/// @param {real} _pitch Высота звука (1.0 = нормально)
-/// @param {real} _gain Громкость (0.0-1.0)
+### global.play_music
 
-function scr_play_sound(_sound, _pitch = 1.0, _gain = 1.0) {
-    if (!audio_exists(_sound)) return -1;
-    
-    var _sound_id = audio_play_sound(_sound, 1, false);
-    audio_sound_pitch(_sound_id, _pitch);
-    audio_sound_gain(_sound_id, _gain * global.sound_volume, 0);
-    
-    return _sound_id;
-}
+Плавная смена трека с фейдом (старый трек затухает, новый нарастает).
 
-/// @function scr_play_music(_music, _loop)
-/// @description Проигрывание фоновой музыки
-/// @param {sound} _music Музыкальный трек
-/// @param {bool} _loop Зациклить ли музыку
+```gml
+global.play_music(music_menu);
+```
 
-function scr_play_music(_music, _loop = true) {
-    // Остановка текущей музыки
-    if (global.current_music != -1) {
-        audio_stop_sound(global.current_music);
-    }
-    
-    // Запуск новой музыки
-    global.current_music = audio_play_sound(_music, 2, _loop);
-    audio_sound_gain(global.current_music, global.music_volume, 0);
-}
-💾 Скрипты сохранения
-scr_save_game
-Сохранение игрового прогресса.
+### global.play_music_immediate
 
-text
-/// @function scr_save_game()
-/// @description Сохранение текущего состояния игры
+Мгновенная смена трека (без фейда).
 
-function scr_save_game() {
-    var _save_data = {
-        level: global.current_level,
-        score: global.score,
-        lives: global.lives,
-        items_collected: global.items_collected,
-        unlocked_levels: global.unlocked_levels,
-        settings: {
-            music_volume: global.music_volume,
-            sound_volume: global.sound_volume,
-            fullscreen: global.fullscreen
-        }
-    };
-    
-    var _json_string = json_stringify(_save_data);
-    
-    try {
-        var _file = file_text_open_write("savegame.save");
-        file_text_write_string(_file, _json_string);
-        file_text_close(_file);
-        
-        show_debug_message("Игра сохранена успешно");
-        return true;
-    } catch(_error) {
-        show_debug_message("Ошибка сохранения: " + string(_error));
-        return false;
-    }
-}
-📖 Соглашения по коду
-Именование
-Скрипты: scr_название_функции
+```gml
+global.play_music_immediate(music_battle);
+```
 
-Объекты: obj_название_объекта
+## Утилиты
 
-Спрайты: spr_название_спрайта
+### global.show_notification
 
-Звуки: snd_название_звука
+Показывает текстовое уведомление на экране (1 секунда).
 
-Переменные: snake_case для обычных, UPPER_CASE для констант
+```gml
+global.show_notification("Settings saved!");
+```
 
-Комментарии
-text
-/// @function имя_функции(параметры)
-/// @description Описание функции
-/// @param {тип} имя_параметра Описание параметра
-/// @return {тип} Описание возвращаемого значения
-Константы
-text
-#macro PLAYER_SPEED 4
-#macro JUMP_HEIGHT 15
-#macro GRAVITY 0.8
-#macro MAX_HEALTH 100
-!!! tip "💡 Лучшие практики GML"
-- Используйте functions вместо scripts для лучшей производительности
-- Группируйте связанные функции в одном скрипте
-- Документируйте сложные алгоритмы
-- Используйте осмысленные имена переменных
+### global.is_menu_room
 
-!!! warning "⚠️ Частые ошибки"
-- Забывание объявления локальных переменных (var)
-- Неправильное использование with конструкций
-- Отсутствие проверки существования объектов перед обращением
+Проверяет, является ли комната «служебной» (меню, настройки, сейвы, devload).
 
-🔗 Дополнительные ресурсы
-Объекты и события — справочник событий GameMaker
-
-Архитектура — структура проекта
-
-GameMaker Manual — официальная документация
+```gml
+if (global.is_menu_room(room)) { /* играть music_menu */ }
+```
