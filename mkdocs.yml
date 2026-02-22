@@ -27,7 +27,7 @@ nav:
           - Интерфейс (UI): development/systems/ui.md
       - Объекты и спрайты: development/objects.md
       - Комнаты и уровни: development/rooms.md
-      - Undefinedtale888: Init и Runtime: development/systems/undefinedtale888-init-and-runtime.md
+      - "Undefinedtale888: Init и Runtime": development/systems/undefinedtale888-init-and-runtime.md
   - Справочник кода:
       - GML скрипты: code-reference/gml-scripts.md
       - События объектов: code-reference/events.md
