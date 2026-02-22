@@ -1,7 +1,7 @@
-site_name: Документация моего проекта
+site_name: Undefinedtale-888 Docs
 site_url: https://nos0uls.github.io/Undefined-documentation
 site_author: n0souls
-site_description: Подробнейшая документация проекта
+site_description: Официальная документация проекта Undefinedtale-888
 
 repo_name: nos0uls/Undefined-documentation
 repo_url: https://github.com/nos0uls/Undefined-documentation
@@ -10,24 +10,41 @@ edit_uri: edit/main/docs/
 nav:
   - Главная: index.md
   - Начало работы:
-      - Как работать с этим сайтом: getting-started/syntax.md
-      - Установка и запуск: getting-started/installation.md
-      - Настройка проекта: getting-started/setup.md
-      - Первый запуск: getting-started/first-run.md
+      - Установка и Настройка: getting-started/setup.md
+      - Структура Проекта: getting-started/project-structure.md
+      - Первый Запуск: getting-started/first-run.md
+      - Синтаксис Markdown: getting-started/syntax.md
+  - Архитектура:
+      - Обзор: architecture/overview.md
+      - Инициализация: architecture/initialization.md
+      - Глобальное Состояние: architecture/global-state.md
+      - Объекты: architecture/objects.md
+      - Комнаты: architecture/rooms.md
+  - Системы:
+      - Ввод (Input): systems/input.md
+      - Взаимодействие: systems/interaction.md
+      - Интерфейс (UI): systems/ui.md
+      - Музыка: systems/music.md
+      - Катсцены:
+          - Обзор: systems/cutscenes/overview.md
+          - API: systems/cutscenes/api.md
+          - Актёры: systems/cutscenes/actors.md
+          - Камера: systems/cutscenes/camera.md
+          - Игрок в катсцене: systems/cutscenes/player_in_cutscene.md
+          - Отладка: systems/cutscenes/debugging.md
+          - Примеры: systems/cutscenes/examples.md
+          - Troubleshooting: systems/cutscenes/troubleshooting.md
   - Геймплей:
-      - Обзор игры: gameplay/overview.md
+      - Обзор: gameplay/overview.md
       - Управление: gameplay/controls.md
-      - Игровые механики: gameplay/mechanics.md
-  - Разработка:
-      - Структура проекта: development/project_structure.md
-      - Архитектура проекта: development/architecture.md
-      - Системы:
-          - Музыка: development/systems/music.md
-          - Взаимодействие: development/systems/interaction.md
-          - Интерфейс (UI): development/systems/ui.md
-      - Объекты и спрайты: development/objects.md
-      - Комнаты и уровни: development/rooms.md
-      - "Undefinedtale888: Init и Runtime": development/systems/undefinedtale888-init-and-runtime.md
+      - Механики: gameplay/mechanics.md
+  - Планирование:
+      - Планы фич:
+          - Документация катсцен: planning/feature_plans/cutscene_docs.md
+          - Оптимизация марионетки: planning/feature_plans/cutscene_player_puppet_and_optimization.md
+      - Ревью:
+          - 28.12.2025: planning/reviews/review_2025-12-28.md
+          - 15.01.2026: planning/reviews/review_2026-01-15.md
   - Справочник кода:
       - GML скрипты: code-reference/gml-scripts.md
       - События объектов: code-reference/events.md
@@ -128,6 +145,7 @@ plugins:
       enable_creation_date: true
       type: datetime
       locale: ru
+      enable_git_follow: false
   - minify:
       minify_html: true
 
