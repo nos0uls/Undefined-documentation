@@ -32,6 +32,7 @@ nav:
           - Камера: systems/cutscenes/camera.md
           - Игрок в катсцене: systems/cutscenes/player_in_cutscene.md
           - Отладка: systems/cutscenes/debugging.md
+          - Редактор (Undefscene): systems/cutscenes/editor.md
           - Примеры: systems/cutscenes/examples.md
           - Troubleshooting: systems/cutscenes/troubleshooting.md
   - Геймплей:
