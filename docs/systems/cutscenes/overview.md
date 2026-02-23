@@ -17,6 +17,7 @@
 - `global.cutscene_camera_override` — отключает стандартное ведение камеры игроком (см. `camera.md`).
 
 ## Дальше читать
+- [Редактор (Undefscene)](./editor.md)
 - [Архитектура](./architecture.md)
 - [API](./api.md)
 - [Актёры](./actors.md)
