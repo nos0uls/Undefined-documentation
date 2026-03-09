@@ -53,6 +53,11 @@ obj_music_ctrl.Draw_64
 | `global.room_music_override` | ds_map | room_id → sound для комнат с особой музыкой |
 | `global.music_duck_multiplier` | real (0..1) | Текущий множитель приглушения (1.0 = без duck) |
 | `global.music_duck_target` | real (0..1) | Целевой множитель duck |
+| `global.music_layered_mode` | bool | true = играют два трека (Layer 2) |
+| `global.music_layer2_instance` | real | Instance второго слоя (battle) |
+| `global.music_layer2_asset` | sound/noone | Asset второго слоя |
+| `global.music_layer_intensity` | real (0..1) | Текущая интенсивность (0=calm, 1=battle) |
+| `global.music_layer_intensity_target` | real (0..1) | Целевая интенсивность |
 
 ---
 
@@ -130,7 +135,46 @@ global.unduck_music(0.3); // вернуть полную громкость за
     - **`set_music_volume_fade`** — абсолютная громкость. Использовать только когда нужно именно конкретное значение.
 
 #### `global.pause_music()` / `global.resume_music()`
-Пауза и снятие с паузы. Также ставит на паузу prev_instance при кроссфейде.
+Пауза и снятие с паузы. Также ставит на паузу prev_instance при кроссфейде и layer2_instance.
+
+---
+
+### Layer 2 API — два трека одновременно
+
+#### `global.play_music_layered(calm_asset, battle_asset, fade_sec)`
+Запускает два трека синхронно: calm (спокойная версия) + battle (боевая версия).
+По умолчанию интенсивность = 0 (слышно только calm).
+
+```gml
+global.play_music_layered(music_explore_calm, music_explore_battle, 1.0);
+```
+
+#### `global.set_music_layer_intensity(intensity, fade_sec)`
+Меняет соотношение calm/battle слоёв.
+- `intensity = 0` → только calm (battle на громкости 0)
+- `intensity = 1` → только battle (calm на громкости 0)
+- `intensity = 0.5` → оба на 50%
+
+```gml
+global.set_music_layer_intensity(1.0, 2.0); // переход к battle за 2 сек
+global.set_music_layer_intensity(0, 1.5);   // возврат к calm за 1.5 сек
+```
+
+Формула громкости:
+- `calm_volume = base_volume × (1 - intensity)`
+- `battle_volume = base_volume × intensity`
+
+#### `global.stop_layered_music(fade_sec)`
+Останавливает оба слоя с фейдом.
+
+```gml
+global.stop_layered_music(2.0);
+```
+
+!!! tip "Когда использовать Layer 2"
+    - **Исследование vs Бой**: один трек, две версии (спокойная + напряжённая)
+    - **Динамический саундтрек**: плавный переход между настроениями без перебивания
+    - **НЕ для**: разных треков (используйте обычный `play_music` с кроссфейдом)
 
 ---
 
@@ -173,6 +217,8 @@ global.music_default_game_track = music_new_default;
 | `cutscene_music_intro_loop(intro, loop, fade)` | Intro + Loop |
 | `cutscene_music_duck(multiplier, fade)` | Относительное приглушение (default 0.3) |
 | `cutscene_music_unduck(fade)` | Снять приглушение (default 0.3) |
+| `cutscene_music_layered(calm, battle, fade)` | Запустить Layer 2 (два трека) (default 0.5) |
+| `cutscene_music_intensity(intensity, fade)` | Изменить интенсивность слоёв (default 1.0) |
 
 ### Пример использования в катсцене
 
@@ -194,8 +240,15 @@ cutscene_add(manager, cutscene_music_stop(2.0));
 - **Instance** — ID instance и статус [playing/stopped]
 - **Intro→Loop** — статус intro+loop перехода
 - **Duck** — текущий и целевой множитель приглушения (голубой если < 1.0)
+- **Layer 2** — статус режима двух треков (зелёный если активен)
+- **Battle** — имя второго трека (только в Layer 2 режиме)
+- **Intensity** — текущая интенсивность слоёв (цвет: зелёный=calm, красный=battle)
 - **Prev** — instance предыдущего трека (оранжевый при кроссфейде)
 - **PAUSED** — красный индикатор паузы
+
+**Клавиши отладки:**
+- F12 × 5 — включить/выключить debug mode
+- F9 — toggle music overlay (требуется debug mode)
 
 ---
 
