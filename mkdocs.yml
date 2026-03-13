@@ -34,15 +34,19 @@ nav:
           - Отладка: systems/cutscenes/debugging.md
           - Примеры: systems/cutscenes/examples.md
           - Troubleshooting: systems/cutscenes/troubleshooting.md
-  - Редактор (Undefscene): 
-    - Обзор: systems/cutscenes/editor.md
+  - Редактор (Undefscene):
+      - Обзор: systems/cutscenes/undefscene/overview.md
+      - Интерфейс и Preferences: systems/cutscenes/undefscene/ui.md
+      - Workflow: systems/cutscenes/undefscene/workflow.md
+      - Интеграция с проектом: systems/cutscenes/undefscene/integration.md
+      - Форматы и экспорт: systems/cutscenes/undefscene/formats.md
+      - FAQ и troubleshooting: systems/cutscenes/undefscene/faq.md
   - Геймплей:
       - Обзор: gameplay/overview.md
       - Управление: gameplay/controls.md
       - Механики: gameplay/mechanics.md
   - Планирование:
       - Планы фич:
-          - Документация катсцен: planning/feature_plans/cutscene_docs.md
           - Оптимизация марионетки: planning/feature_plans/cutscene_player_puppet_and_optimization.md
       - Ревью:
           - 28.12.2025: planning/reviews/review_2025-12-28.md

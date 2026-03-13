@@ -35,6 +35,7 @@ hide:
     [:arrow_right: Ввод](systems/input.md)
     [:arrow_right: Взаимодействие](systems/interaction.md)
     [:arrow_right: Катсцены](systems/cutscenes/overview.md)
+    [:arrow_right: Редактор Undefscene](systems/cutscenes/undefscene/overview.md)
 
 -   :material-code-json: **Планы и Задачи**
 
@@ -42,7 +43,7 @@ hide:
 
     Текущие планы по фичам, ревью кода и документация по оптимизации.
 
-    [:arrow_right: Планирование](planning/feature_plans/cutscene_docs.md)
+    [:arrow_right: Планирование](planning/feature_plans/cutscene_player_puppet_and_optimization.md)
 
 </div>
 

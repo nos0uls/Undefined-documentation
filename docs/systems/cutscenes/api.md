@@ -67,7 +67,7 @@ Builder-слой предназначен для построения очере
 - `cutscene_follow_path(target_ref, points_array, speed_px_per_frame, use_collision=false)`
 
 ## JSON‑загрузка
-- `cutscene_load_json(path)` — читает JSON (сгенерированный [редактором Undefscene](./editor.md) через Export for Engine), конвертирует секунды/px‑sec в кадры/px‑frame и создаёт `obj_cutsceneManager`.
+- `cutscene_load_json(path)` — читает JSON (сгенерированный [редактором Undefscene](./undefscene/overview.md) через Export for Engine), конвертирует секунды/px‑sec в кадры/px‑frame и создаёт `obj_cutsceneManager`.
 
 ## Примечания
 Если обёртка принимает legacy значения (например, строковые имена актёров), рекомендуется мигрировать вызовы на instance id.

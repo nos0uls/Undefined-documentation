@@ -40,7 +40,7 @@ if (keyboard_check(vk_right)) x += 4;
 ### 4. **Вставка ссылок**
 
 - `[Текст ссылки](адрес)`
-- На внутренние страницы: `[Перейти к механике](gameplay/mechanics.md)` (может быть просто `/gameplay/mechanics/` для Material)
+- На внутренние страницы: ``[Перейти к механике](../gameplay/mechanics.md)`` (или путь вида `/gameplay/mechanics/` для Material)
 
 
 ### 5. **Вставка изображений и скриншотов**
@@ -48,7 +48,7 @@ if (keyboard_check(vk_right)) x += 4;
 - Из корня docs/ или подпапки:
 
 ```
-![Описание](images/screenshot1.png)
+`![Описание](../images/screenshot1.png)`
 ```
 
 - Рекомендуется хранить скриншоты в папке `docs/images` или аналогичной.
