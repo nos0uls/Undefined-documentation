@@ -46,8 +46,6 @@ nav:
       - Управление: gameplay/controls.md
       - Механики: gameplay/mechanics.md
   - Планирование:
-      - Планы фич:
-          - Оптимизация марионетки: planning/feature_plans/cutscene_player_puppet_and_optimization.md
       - Ревью:
           - 28.12.2025: planning/reviews/review_2025-12-28.md
           - 15.01.2026: planning/reviews/review_2026-01-15.md

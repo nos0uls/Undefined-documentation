@@ -43,7 +43,7 @@ hide:
 
     Текущие планы по фичам, ревью кода и документация по оптимизации.
 
-    [:arrow_right: Планирование](planning/feature_plans/cutscene_player_puppet_and_optimization.md)
+    [:arrow_right: Последнее ревью](planning/reviews/review_2026-01-15.md)
 
 </div>
 
