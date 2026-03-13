@@ -186,7 +186,7 @@ scr_global_handle_dev_spawn();
 
 ## Музыкальная система
 
-Определена как глобальные функции в `obj_globalManager.Create_0`.
+Инициализируется на старте через `scr_music_init()` и поддерживается отдельным runtime-контроллером. Подробности см. в `docs/systems/music.md`.
 
 ### global.play_music
 

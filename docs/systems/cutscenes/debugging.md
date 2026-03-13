@@ -29,31 +29,3 @@
 Некоторые экшены пишут в лог через `show_debug_message`, например когда цель не найдена.
 
 Рекомендация: привязывать такие отрисовки к `debug_enabled`, чтобы не попадало в прод.
-
-## Preview‑control (через файлы)
-В `obj_cutsceneManager` есть поддержка управления проигрыванием через файлы:
-- `preview_control.json` — входящая команда
-- `preview_status.json` — текущий статус
-
-Формат `preview_control.json`:
-```json
-{ "command": "play", "speed": 1 }
-```
-
-Команды:
-- `play`, `pause`, `stop`, `step`
-
-Поле `speed` — множитель скорости (например 0.5, 1, 2, 4).
-
-Формат `preview_status.json`:
-```json
-{
-  "cutscene_id": "test",
-  "is_running": true,
-  "is_paused": false,
-  "current_action_index": 3,
-  "queue_length": 10,
-  "speed": 1,
-  "current_action_type": "Move"
-}
-```
