@@ -5,6 +5,7 @@
 ## Разделы
 
 - [Обзор](./overview.md)
+- [Редактор (Undefscene)](./undefscene/overview.md)
 - [Архитектура](./architecture.md)
 - [API](./api.md)
 - [Актёры](./actors.md)
