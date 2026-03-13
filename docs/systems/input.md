@@ -58,9 +58,13 @@ if (scr_input_down("run")) {
 
 ### Переназначение (Rebinding)
 
-#### `scr_input_rebind(action, new_key)`
-Назначает новую клавишу на действие. Автоматически удаляет эту клавишу с других действий, чтобы избежать конфликтов.
+#### `scr_input_rebind_slot(action, slotIndex, new_key, [target_settings])`
+Переназначает конкретный слот клавиши. Используется для primary/secondary binding и защищает дефолтные клавиши от конфликтной перезаписи.
+
+*   `slotIndex = 1` — основной слот
+*   `slotIndex = 2` — альтернативный слот
+
 ```gml
-// Назначить Пробел на "confirm"
-scr_input_rebind("confirm", vk_space);
+// Назначить Пробел на primary-slot действия "confirm"
+scr_input_rebind_slot("confirm", 1, vk_space);
 ```
