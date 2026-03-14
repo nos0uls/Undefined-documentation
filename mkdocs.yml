@@ -39,6 +39,7 @@ nav:
       - Интерфейс и Preferences: systems/cutscenes/undefscene/ui.md
       - Workflow: systems/cutscenes/undefscene/workflow.md
       - Интеграция с проектом: systems/cutscenes/undefscene/integration.md
+      - Room Screenshot Pipeline: systems/cutscenes/undefscene/room-screenshot-pipeline.md
       - Форматы и экспорт: systems/cutscenes/undefscene/formats.md
       - FAQ и troubleshooting: systems/cutscenes/undefscene/faq.md
   - Геймплей:
