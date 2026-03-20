@@ -11,11 +11,15 @@
 7. Если нужны условия перехода, настройте **Edge Condition** у выбранного ребра.
 8. Проверяйте панель **Логи / Предупреждения**, чтобы замечать ошибки структуры графа, пустые поля и предупреждения.
 9. Для `dialogue`-нод используйте **Text** и **Yarn Preview**, чтобы быстро сверять выбранный `.yarn` файл и `title` нужной ноды.
-10. Сохраняйте рабочую сцену через **Save** / **Save As...**, а финальную версию экспортируйте как engine `.json`.
+10. Для `follow_path` и actor placement откройте **Visual Editing** в отдельном окне, используйте stitched room preview и импортируйте готовый path или actor positions обратно в graph.
+11. Если stitched room data ещё не появились, запустите внешний screenshot runner, затем вернитесь в окно `Visual Editing`: editor попытается автоматически перечитать bundle после `focus`/`visibilitychange`, а при необходимости можно нажать `Refresh`.
+12. Сохраняйте рабочую сцену через **Save** / **Save As...**, а финальную версию экспортируйте как engine `.json`.
 
 ## Практические замечания
 
 - Сначала удобнее открыть `.yyp`, а уже потом редактировать параметры нод, завязанные на ресурсы проекта.
 - При `Open Scene` редактор предупреждает, что текущая несохранённая сцена будет заменена.
 - Если в `Логи / Предупреждения` появились warnings, проверьте пустые поля, имена ресурсов и настройки `dialogue`-нод перед экспортом.
+- Для `Visual Editing` editor ищет screenshot output сначала в project cache `room-screenshots`, а затем в fallback-папке `<projectDir>/screenshots`. Эти пути видны в `Project` panel и в самом окне visual editor как `Search Dirs`.
+- Если GameMaker runner пишет output в `%LOCALAPPDATA%/<project>/screenshots` или в другой внешний каталог, задайте его через `Help > Advanced > Choose Screenshot Output Folder...` или в `Preferences`.
 - `Runtime JSON` — это debug-панель из `Help > Advanced`; она полезна для проверки результата экспорта и диагностики, но не нужна для повседневной работы над сценой.

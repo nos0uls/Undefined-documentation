@@ -20,9 +20,12 @@
 
 Для `follow_path`-ноды Inspector теперь показывает отдельный `Path Preview`: форму траектории, порядок waypoint-ов и анимированный marker движения.
 
+`Visual Editing` теперь открывается в отдельном native окне. Оно живёт отдельно от главного editor window, попадает в `Alt+Tab` и использует stitched room screenshot как фон для path и actor placement workflow.
+
 ## Управление на холсте
 
-- **Создание ноды** — средняя кнопка мыши по пустому месту холста.
+- **Создание ноды** — средняя кнопка мыши по пустому месту холста создаёт обычную `dialogue`-ноду.
+- **Palette drag-and-drop** — ноду можно перетащить из левой палитры прямо на canvas. Во время drag показывается preview позиции, а drop создаёт ноду в этой точке.
 - **Pan** — правая кнопка мыши и движение мыши.
 - **Box Select** — зажать левую кнопку мыши и протянуть по пустому месту.
 - **Выделение** — клик по ноде или связи.
@@ -30,6 +33,16 @@
 - **Соединение нод** — потянуть связь от handle одной ноды к другой.
 - **Wait на ребре** — двойной клик по связи открывает настройку ожидания.
 - **Edge Condition** — на выбранном ребре можно настроить условия перехода.
+
+## Visual Editing
+
+- `Visual Editing` использует отдельное окно с stitched room preview.
+- Редактор показывает, из какой папки были реально загружены screenshot tiles, и какие `Search Dirs` были проверены.
+- После возврата из внешнего screenshot runner окно пытается автоматически перечитать bundle при `focus` и `visibilitychange`, чтобы уменьшить количество ручных `Refresh`.
+- Если runner пишет output не в project cache и не рядом с `.yyp`, путь можно явно задать через `Help > Advanced > Choose Screenshot Output Folder...` или через `Preferences`.
+- Для path editing доступны `Draw Path`, `Pencil`, `Eraser`, `Undo Point`, `Clear Path`, `Import Path`.
+- `Shift` включает `HV lock`, `Ctrl` включает snap к сетке `20 px`, а `Shift + Ctrl` комбинирует оба режима.
+- Для actor preview доступны выбор marker, `Place Selected Actor` и отдельная кнопка `Import Actors`, которая применяет staged positions обратно к `actor_create`-нодам.
 
 ## Preferences
 

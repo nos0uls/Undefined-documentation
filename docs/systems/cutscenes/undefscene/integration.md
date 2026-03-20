@@ -28,12 +28,21 @@
 
 - сериализованный список ресурсов из `.yyp`
 - метаданные последнего открытого проекта
-- отдельную папку `room-screenshots` для будущих preview/capture сценариев
+- отдельную папку `room-screenshots` для `Visual Editing` и stitched room preview сценариев
 
 Это снижает время ожидания при открытии больших проектов по сравнению с последовательным чтением.
+
+Когда открывается `Visual Editing`, editor ищет room screenshots сначала в этой cache-папке проекта, а затем в fallback-папке `<projectDir>/screenshots`.
+
+Это позволяет использовать как project-specific cache workflow, так и внешний screenshot runner, который пишет output рядом с самим GameMaker project.
+
+Дополнительно editor умеет искать screenshots в `%LOCALAPPDATA%/<project>/screenshots`, что удобно для GameMaker runner flow, завязанного на `working_directory`.
+
+Если и этого недостаточно, пользователь может явно выбрать custom screenshot folder через `Help > Advanced` или `Preferences`.
 
 ## Что важно помнить
 
 - Раннее чтение некоторых настроек приложения остаётся синхронным там, где это нужно для старта Electron-процесса.
 - Не все панели нужны в обычной работе: часть технических инструментов вынесена в `Help > Advanced`.
 - Cache используется как ускорение и foundation для preview workflow, но при изменении самого `.yyp` редактор делает cold refresh и пересобирает данные.
+- Текущий путь cache-папки для screenshots и фактические `Search Dirs` можно увидеть в `Project` panel и в окне `Visual Editing`.
