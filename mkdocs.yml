@@ -24,7 +24,9 @@ nav:
       - Ввод (Input): systems/input.md
       - Взаимодействие: systems/interaction.md
       - Интерфейс (UI): systems/ui.md
+      - Карта тонкой настройки UI: systems/ui-tuning-map.md
       - Музыка: systems/music.md
+      - Портреты диалога: systems/dialogue-portraits.md
       - Катсцены:
           - Обзор: systems/cutscenes/overview.md
           - API: systems/cutscenes/api.md
