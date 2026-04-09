@@ -39,6 +39,28 @@ Runtime-state хранится в `textboxTest_scribble`, потому что и
 - предыдущее состояние не теряется между строками
 - `obj_face` остаётся простым renderer-объектом без парсинга текста
 
+## Layout внутри textbox
+
+Позиционирование portrait, текста и continue marker теперь построено вокруг одного anchor:
+
+- `box_x`, `box_y` — это центр textbox
+- `textboxTest_scribble/Create_0.gml` хранит два preset-набора layout-переменных:
+  - `with_portrait`
+  - `without_portrait`
+- текст использует `text_offset_x_*`, `text_offset_y_*`, `text_wrap_width_*`, `text_wrap_height_*`
+- continue marker использует `marker_visible_*`, `marker_offset_x_*`, `marker_offset_y_*`, `marker_scale_*`
+- portrait использует `portrait_offset_x_*`, `portrait_offset_y_*`, `portrait_scale_*`
+
+Это означает, что portrait больше не управляет текстовой колонкой через margins/gap. Теперь и portrait, и текст, и marker настраиваются как независимые зоны внутри одного textbox.
+
+### Правило для continue marker
+
+Continue marker `>` внутри textbox — это отдельная часть layout preset, а не часть portrait renderer.
+
+В текущей схеме:
+- если активен preset с portrait, `>` marker скрыт
+- если portrait нет, marker можно настраивать отдельно от текста
+
 ## Правила fallback
 
 ## Talk Animation
@@ -108,6 +130,7 @@ Runtime-state хранится в `textboxTest_scribble`, потому что и
 - задаёт стартовый typist sound
 - при старте диалога создаёт `obj_face`, если renderer ещё не существует
 - регистрирует `Scribble` per-character callback для reveal-driven talk animation
+- хранит layout preset-переменные для текста, marker и portrait в режимах `with_portrait` / `without_portrait`
 
 ### `objects/textboxTest_scribble/Step_0.gml`
 - пересчитывает portrait runtime после загрузки диалога
@@ -122,6 +145,8 @@ Runtime-state хранится в `textboxTest_scribble`, потому что и
 
 ### `objects/obj_face/Draw_64.gml`
 - только рисует already resolved portrait sprite
+- читает `portrait_offset_*` и `portrait_scale_*` из `textboxTest_scribble`
+- ставит portrait как `box center + portrait offset`
 
 ## Почему выбрана nested struct схема
 
