@@ -32,44 +32,42 @@
   - положение textbox на GUI
 - `box_scale_x`, `box_scale_y`
   - масштаб `spr_dialogue_box`
-- `inner_margin_x`
-  - внутренний горизонтальный отступ
-- `inner_left`, `inner_width`
-  - рабочая область текста и опций
-- `inner_right`
-  - правая граница безопасной текстовой области
-- `inner_top`, `inner_bottom`
-  - верхняя и нижняя границы текстовой области
-- `portrait_margin_left`
-  - левый отступ portrait внутри textbox, читается из `obj_face`
-- `portrait_scale`
-  - размер portrait для расчёта ширины текстовой колонки, читается из `obj_face`
-- `portrait_gap_right`
-  - зазор между portrait и текстом, читается из `obj_face`
-- `text_column_left`
-  - левая граница текстовой колонки после portrait
-- `text_padding_left`
-  - отступ текста от левой рамки textbox
-- `text_padding_right`
-  - отступ текста от правой рамки textbox
-- `text_padding_top`
-  - отступ текста от верхней рамки textbox
-- `text_padding_bottom`
-  - отступ текста от нижней рамки textbox
 - `has_portrait`
-  - флаг, который решает, нужно ли убирать `>` marker и сдвигать текст
-- `text_offset`
-  - дополнительный сдвиг текста вправо
+  - выбирает активный preset: `with_portrait` или `without_portrait`
+- `active_text_offset_x`, `active_text_offset_y`
+  - смещение стартовой точки текста относительно центра textbox
+- `active_text_wrap_width`, `active_text_wrap_height`
+  - явная область wrap для основного текста
+- `active_marker_visible`
+  - решает, рисуется ли `>` marker в текущем preset
+- `active_marker_offset_x`, `active_marker_offset_y`
+  - позиция `>` marker относительно центра textbox
+- `active_marker_scale`
+  - размер `>` marker
+- `inner_left`, `inner_width`
+  - рабочая область choices и безопасная ширина внутри textbox
+- `inner_right`
+  - правая граница безопасной внутренней области
+- `inner_top`, `inner_bottom`
+  - верхняя и нижняя границы безопасной внутренней области
+- `text_padding_left`
+  - левый safe padding textbox
+- `text_padding_right`
+  - правый safe padding textbox
+- `text_padding_top`
+  - верхний safe padding textbox
+- `text_padding_bottom`
+  - нижний safe padding textbox
 - `text_wrap_width`, `text_wrap_height`
-  - область обтекания / wrap для основного текста
+  - итоговые значения wrap, которые передаются в Scribble
 - `text_x`, `text_y`
-  - стартовая позиция текста
+  - итоговая стартовая точка текста: `box center + offset`
 - `var _marker = scribble(">")`
   - сам continue marker внутри textbox
 - `_marker.draw(...)`
-  - точная позиция continue marker
+  - точная позиция continue marker: `box center + marker offset`
 - `textScribble.draw(...)`
-  - точная позиция текста
+  - точная позиция текста: `box center + text offset`
 - `option_row_spacing`
   - базовый spacing для choices
 - `option_spacing_4_x`, `option_spacing_4_y`
@@ -79,19 +77,33 @@
 - `__col_wrap`, `__col_wrap_4`
   - ширина wrap для option text
 
+### Layout zones: как теперь мыслить настройку
+
+- `box_x`, `box_y`
+  - это anchor всей layout-схемы, то есть центр textbox
+- `text_offset_x_*`, `text_offset_y_*`
+  - ставят старт текста относительно центра textbox
+- `text_wrap_width_*`, `text_wrap_height_*`
+  - задают размер текстовой зоны явно, без автозависимости от portrait
+- `marker_offset_x_*`, `marker_offset_y_*`
+  - ставят continue marker как отдельную точку внутри textbox
+- `portrait_offset_x_*`, `portrait_offset_y_*`
+  - ставят portrait относительно того же центра textbox
+- `text_padding_*`
+  - остаются safe bounds для внутренней области textbox и choice layout
+
 ### Важно про marker внутри textbox
 Сейчас именно здесь живёт `>` marker продолжения.
 
-Если portrait рисуется внутри textbox и занимает левую часть бокса, логично менять именно этот файл:
+Если нужно менять marker, логично менять именно этот файл:
 
-- либо скрывать `>` marker, пока portrait активен
+- либо скрывать `>` marker в нужном preset
 - либо переносить marker в другую точку
-- либо сдвигать его вместе с текстом
+- либо менять его scale отдельно от текста
 
 В текущей реализации правило уже такое:
 
-- если portrait активен, `>` marker не рисуется
-- текст начинает рисоваться правее portrait
+- текст не сдвигается автоматически от portrait, а берёт свой явный `text_offset_*`
 
 ## 2. Старт dialogue окна
 
@@ -116,38 +128,47 @@
 
 Здесь лежат:
 
+- `_offset_x`, `_offset_y`
+  - позиция portrait относительно центра textbox
+- `_scale`
+  - масштаб portrait для активного preset
 - `_x`
-  - итоговая X-позиция portrait
+  - итоговая X-позиция portrait: `box center + portrait offset`
 - `_y`
-  - итоговая Y-позиция portrait
+  - итоговая Y-позиция portrait: `box center + portrait offset`
 - `draw_sprite_ext(current_sprite, 0, _x, _y, _scale, _scale, 0, c_white, 1)`
   - фактическая отрисовка portrait с масштабом
 
 Если portrait "летает" не внутри textbox, это первое место, которое надо проверять.
 
-### `objects/obj_face/Create_0.gml`
-Единая точка хранения shared portrait layout-переменных.
+### `objects/textboxTest_scribble/Create_0.gml`
+Единая точка хранения layout preset-переменных для dialogue UI.
 
 Здесь лежат:
 
-- `portrait_margin_left`
-  - левый отступ portrait внутри textbox
-- `portrait_margin_top`
-  - верхний отступ portrait внутри textbox
-- `portrait_margin_right`
-  - правый безопасный отступ portrait от рамки textbox
-- `portrait_margin_bottom`
-  - нижний безопасный отступ portrait от рамки textbox
-- `portrait_scale`
-  - основной размер portrait
-- `portrait_gap_right`
-  - зазор между portrait и текстом
+- `text_offset_x_with_portrait`, `text_offset_y_with_portrait`
+  - старт текста для portrait preset
+- `text_wrap_width_with_portrait`, `text_wrap_height_with_portrait`
+  - размер текстовой зоны для portrait preset
+- `marker_visible_with_portrait`, `marker_offset_x_with_portrait`, `marker_offset_y_with_portrait`
+  - настройки continue marker для portrait preset
+- `portrait_offset_x_with_portrait`, `portrait_offset_y_with_portrait`, `portrait_scale_with_portrait`
+  - настройки portrait для portrait preset
+- `text_offset_x_without_portrait`, `text_offset_y_without_portrait`
+  - старт текста для preset без portrait
+- `text_wrap_width_without_portrait`, `text_wrap_height_without_portrait`
+  - размер текстовой зоны для preset без portrait
+- `marker_visible_without_portrait`, `marker_offset_x_without_portrait`, `marker_offset_y_without_portrait`
+  - настройки continue marker для preset без portrait
+- `portrait_offset_x_without_portrait`, `portrait_offset_y_without_portrait`, `portrait_scale_without_portrait`
+  - симметричный набор настроек для режима без portrait
 
 Важно:
 
-- `obj_face/Draw_64.gml` использует эти значения для реальной отрисовки
-- `textboxTest_scribble/Draw_64.gml` читает эти же значения для автоподстройки текстовой колонки
-- поэтому размер portrait и ширина текстового столбца теперь синхронизированы
+- `textboxTest_scribble` теперь владеет всем layout preset целиком
+- `obj_face/Draw_64.gml` только читает `portrait_offset_*` и `portrait_scale_*`
+- `textboxTest_scribble/Draw_64.gml` читает текстовые и marker-настройки из того же preset
+- старой автосвязки `portrait margin -> text column` больше нет
 
 ### `objects/obj_face/Step_0.gml`
 Runtime-логика выбора portrait sprite.
@@ -168,7 +189,7 @@ Runtime-логика выбора portrait sprite.
 - создаётся `obj_face`, если его ещё нет
 - настраивается `scribble_typist`
 - задаётся `typist.function_per_char(...)`
-- задаются `text_padding_left`, `text_padding_right`, `text_padding_top`, `text_padding_bottom`
+- задаются preset-переменные текста, marker и portrait для двух режимов layout
 - инициализируются `mouth_open_prev`, `mouth_closed_prev`, `sound_prev`
 - инициализируются `talk_hold_timer`, `talk_hold_frames`, `talk_open_now`
 
