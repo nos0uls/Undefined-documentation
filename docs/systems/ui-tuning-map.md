@@ -68,14 +68,14 @@
   - точная позиция continue marker: `box center + marker offset`
 - `textScribble.draw(...)`
   - точная позиция текста: `box center + text offset`
-- `option_row_spacing`
-  - базовый spacing для choices
-- `option_spacing_4_x`, `option_spacing_4_y`
-  - ручная настройка расположения choice layout для 4 опций
-- `option_center_y`, `option_base_y`
-  - вертикическое положение группы choices
-- `__col_wrap`, `__col_wrap_4`
-  - ширина wrap для option text
+- `choice_text_scale`
+  - активный размер текста choices для текущего `option_count`
+- `choice_group_offset_y`
+  - вертикальный offset всей группы choices от центра textbox
+- `choice_wrap_widths`
+  - активные wrap-ширины choices после чтения preset
+- `choice_slot_x`, `choice_slot_y`
+  - активные позиции choice slots после чтения preset
 
 ### Layout zones: как теперь мыслить настройку
 
@@ -91,6 +91,10 @@
   - ставят portrait относительно того же центра textbox
 - `text_padding_*`
   - остаются safe bounds для внутренней области textbox и choice layout
+- `choice_text_scale_*`, `choice_group_offset_y_*`
+  - задают отдельный layout preset для choices по количеству опций
+- `choice_wrap_width_ratio_*`, `choice_slot_x_*`, `choice_slot_y_*`
+  - задают ширину wrap и координаты каждого choice slot для `1/2/3/4` вариантов
 
 ### Важно про marker внутри textbox
 Сейчас именно здесь живёт `>` marker продолжения.
@@ -162,12 +166,18 @@
   - настройки continue marker для preset без portrait
 - `portrait_offset_x_without_portrait`, `portrait_offset_y_without_portrait`, `portrait_scale_without_portrait`
   - симметричный набор настроек для режима без portrait
+- `choice_text_scale_1..4`, `choice_group_offset_y_1..4`
+  - отдельные presets размера и вертикальной посадки choices для каждого `option_count`
+- `choice_wrap_width_ratio_1`, `choice_wrap_width_ratio_2`, `choice_wrap_width_ratio_3`, `choice_wrap_width_ratio_4_0..3`
+  - presets wrap-ширины choices
+- `choice_slot_x_*`, `choice_slot_y_*`
+  - presets позиции choice slots для `1/2/3/4` вариантов
 
 Важно:
 
 - `textboxTest_scribble` теперь владеет всем layout preset целиком
 - `obj_face/Draw_64.gml` только читает `portrait_offset_*` и `portrait_scale_*`
-- `textboxTest_scribble/Draw_64.gml` читает текстовые и marker-настройки из того же preset
+- `textboxTest_scribble/Draw_64.gml` читает текстовые, marker и choice-настройки из тех же preset-блоков
 - старой автосвязки `portrait margin -> text column` больше нет
 
 ### `objects/obj_face/Step_0.gml`
@@ -190,6 +200,7 @@ Runtime-логика выбора portrait sprite.
 - настраивается `scribble_typist`
 - задаётся `typist.function_per_char(...)`
 - задаются preset-переменные текста, marker и portrait для двух режимов layout
+- задаются отдельные choice preset-переменные для `1/2/3/4` вариантов выбора
 - инициализируются `mouth_open_prev`, `mouth_closed_prev`, `sound_prev`
 - инициализируются `talk_hold_timer`, `talk_hold_frames`, `talk_open_now`
 
@@ -368,7 +379,8 @@ Runtime-логика выбора portrait sprite.
 Для текущего dialogue portrait layout важно помнить:
 
 - portrait position настраивается в `objects/obj_face/Draw_64.gml`
-- textbox text wrap настраивается в `objects/textboxTest_scribble/Draw_64.gml`
+- textbox main text wrap настраивается через preset-переменные в `objects/textboxTest_scribble/Create_0.gml`
+- choice layout для `1/2/3/4` тоже настраивается через preset-переменные в `objects/textboxTest_scribble/Create_0.gml`
 - `>` marker внутри textbox тоже живёт в `objects/textboxTest_scribble/Draw_64.gml`
 - если portrait рисуется внутри textbox, `>` marker не должен рисоваться поверх portrait без отдельного согласованного layout
-- в текущем простом layout размер portrait стоит на `1.5`
+- `objects/textboxTest_scribble/Draw_64.gml` теперь в основном читает presets и рисует по ним
