@@ -16,13 +16,17 @@ Builder-слой предназначен для построения очере
 Канон запуска: `c_begin` + `c_play`.
 
 ### Команды (через `c_cmd`)
-- `c_speaker(name)` — выставляет `mgr.delta_current_actor` (строковый ключ актёра).
-- `c_setxy(x, y)` — `ActionSetXY(mgr.delta_current_actor, x, y)`
-- `c_depth(depth)` — `ActionSetDepth(mgr.delta_current_actor, depth)`
-- `c_facing(dir)` — `ActionSetFacing(mgr.delta_current_actor, dir)`
-- `c_autofacing(enabled)` — `ActionAutoFacingToggle(mgr.delta_current_actor, enabled)`
-- `c_autowalk(enabled)` — `ActionAutoWalkToggle(mgr.delta_current_actor, enabled)`
+`c_cmd` — stateless роутер: actor-specific команды требуют **явный `target` как первый аргумент**.
+
+- `c_speaker(name)` — выставляет `dialogue_controller.speaker_name`.
+- `c_setxy(target, x, y)` — `ActionSetXY(target, x, y)`
+- `c_depth(target, depth)` — `ActionSetProperty(target, "depth", depth)`
+- `c_facing(target, dir)` — `ActionRunFunction(...)` с применением направления и спрайта.
+- `c_autofacing(target, enabled)` — `ActionSetProperty(target, "auto_face", enabled)`
+- `c_autowalk(target, enabled)` — `ActionSetProperty(target, "auto_walk", enabled)`
+- `c_visible(target, visible)` — `ActionSetProperty(target, "visible", visible)`
 - `c_instance(key, x, y)` — `ActionActorCreate(key, x, y, undefined)`
+- `c_sprite(target, sprite, image_index, image_speed)` — `ActionAnimate(target, sprite, image_index, image_speed)`
 
 ### Камера (через `c_cmd`)
 - `c_pan(view_x, view_y, frames)` — `ActionCameraPan(view_x, view_y, frames)`
@@ -54,7 +58,7 @@ Builder-слой предназначен для построения очере
 - `cutscene_actor_create(key, x, y, sprite_or_object, copy_from_object=undefined)`
 - `cutscene_actor_destroy(target_ref)`
 - `cutscene_set_xy(target_ref, x, y)`
-- `cutscene_set_depth(target_ref, depth)`
+- `cutscene_set_depth(target_ref, depth)` — **унифицировано в `ActionSetProperty`** (`cutscene_set_visible`, `cutscene_auto_facing_toggle`, `cutscene_auto_walk_toggle` аналогично).
 - `cutscene_auto_facing_toggle(target_ref, enabled)`
 - `cutscene_auto_walk_toggle(target_ref, enabled)`
 - `cutscene_parallel(actions_array)`
@@ -66,10 +70,34 @@ Builder-слой предназначен для построения очере
 - `cutscene_camera_shake(frames, magnitude=4)`
 - `cutscene_follow_path(target_ref, points_array, speed_px_per_frame, use_collision=false)`
 
+### Групповые команды (`c_*_group`)
+Доступны с `ActionGroup` для применения одного экшена к нескольким target-ам:
+- `c_move_group(targets[], x, y, speed, use_collision=false)`
+- `c_walk_group(targets[], dir, speed, frames, use_collision=false)`
+- `c_var_group(targets[], property, value)` — `ActionSetProperty`
+- `c_tween_group(targets[], property, to_value, frames, easing="linear", from_value=undefined)`
+
+### JSON Action Factory
+`cutscene_init_action_factory()` создаёт глобальную фабрику `global.__cutscene_action_factory` — struct с mapping `action_type -> constructor(map, fps)`.
+Используется `cutscene_load_json` для декларативного создания Action-struct из JSON.
+
 ## JSON‑загрузка
 - `cutscene_load_json(path)` — читает JSON (сгенерированный [редактором Undefscene](./undefscene/overview.md) через Export for Engine), конвертирует секунды/px‑sec в кадры/px‑frame и создаёт `obj_cutsceneManager`.
+- Для парсинга использует `global.__cutscene_action_factory` (инициализируется `cutscene_init_action_factory()`).
 
 ## Примечания
+### Chatterbox-интеграция
+Все `ChatterboxAddFunction`-обёртки теперь **stateless** и требуют явный `target`:
+- `c_walk(target, dir, speed, frames)`
+- `c_walkdirect(target, x, y, frames)`
+- `c_walkdirect_speed(target, x, y, speed)`
+- `c_setxy(target, x, y)`
+- `c_depth(target, depth)`
+- `c_facing(target, dir)`
+- `c_autofacing(target, enabled)`
+- `c_autowalk(target, enabled)`
+- `c_sprite(target, sprite, ...)`
+
 Если обёртка принимает legacy значения (например, строковые имена актёров), рекомендуется мигрировать вызовы на instance id.
 
 `cutscene_wait` и `c_wait` работают в кадрах (см. реализацию `ActionWait`).

@@ -5,8 +5,8 @@
 ## Разделы
 
 - [Обзор](./overview.md)
-- [Редактор (Undefscene)](./undefscene/overview.md)
 - [Архитектура](./architecture.md)
+- [Редактор (Undefscene)](./undefscene/overview.md)
 - [API](./api.md)
 - [Актёры](./actors.md)
 - [Игрок в катсцене](./player_in_cutscene.md)

@@ -17,7 +17,8 @@
 
 ### Панорамирование
 - `cutscene_camera_pan(view_x, view_y, frames)`
-  - Плавно панорамирует **позицию вида** (view pos), используя `camera_panner` внутри менеджера.
+  - Плавно панорамирует **позицию вида** (view pos) через tween-систему (`cutscene_runtime_tween_to`).
+  - Если `frames <= 0` — мгновенная установка позиции.
 
 ### Следование (track)
 - `cutscene_camera_track(target_ref, frames, offset_x=0, offset_y=0)`
@@ -39,3 +40,5 @@
 ## Замечания
 - `ActionCameraPanToObj` (через `c_panobj`) выполняет clamp в пределах комнаты.
 - `ActionCameraTrack` позицию не clamp-ит.
+- Устаревший `camera_panner` struct (type 0/1) **удалён** — вся логика панорамирования мигрирована на tween-систему.
+- `ActionCameraPanSpeed`, `ActionCameraPan`, `ActionCameraPanToObj` создают tween через `cutscene_runtime_tween_to` и завершаются когда tween неактивен.
