@@ -29,6 +29,7 @@ nav:
       - Портреты диалога: systems/dialogue-portraits.md
       - Катсцены:
           - Обзор: systems/cutscenes/overview.md
+          - Архитектура: systems/cutscenes/architecture.md
           - API: systems/cutscenes/api.md
           - Актёры: systems/cutscenes/actors.md
           - Камера: systems/cutscenes/camera.md

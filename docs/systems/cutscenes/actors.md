@@ -2,7 +2,7 @@
 
 ## Реестр актёров у менеджера
 - `actor_map` хранит сопоставление `key -> instance`.
-- `actor_names` хранит список ключей (нужен для дебага/итерации).
+- Для итерации используется `variable_struct_get_names(actor_map)` (`actor_names` удалён).
 
 ## Создание (`cutscene_actor_create` / `ActionActorCreate`)
 
@@ -23,6 +23,13 @@
 ## Уничтожение (`cutscene_actor_destroy` / `ActionActorDestroy`)
 - `cutscene_actor_destroy(target_ref)` принимает instance id или некоторые legacy ссылки.
 - Если передан строковый ключ и он был в `actor_map`, запись удаляется.
+
+## Групповые операции (`ActionGroup`)
+`ActionGroup` позволяет применить один экшен к нескольким target-ам:
+- `c_move_group(targets[], x, y, speed, use_collision=false)` — перемещение
+- `c_walk_group(targets[], dir, speed, frames, use_collision=false)` — относительное движение
+- `c_var_group(targets[], property, value)` — `ActionSetProperty`
+- `c_tween_group(targets[], property, to_value, frames, easing="linear", from_value=undefined)` — tween
 
 ## Практические рекомендации
 - Для надёжности передавай в экшены **instance id**, а не строковые ключи.

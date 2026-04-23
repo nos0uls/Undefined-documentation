@@ -11,13 +11,12 @@
 - `is_running`, `is_paused` — состояние выполнения.
 
 ### Реестр актёров
-- `actor_map` — struct-словарь: `ключ -> instance id`.
-- `actor_names` — массив ключей для итерации/дебага.
+- `actor_map` — struct-словарь: `ключ -> instance id`. Итерация по `variable_struct_get_names(actor_map)`.
 
 ### Камера
 - `global.cutscene_camera_override` — флаг, который отключает стандартное ведение камеры игроком.
 - `prev_camera_view_x`, `prev_camera_view_y` — позиция камеры до старта катсцены.
-- `camera_panner` — struct для панорамирования (type 0/1), обрабатывается в `Step`.
+- Камера управляется через tween-систему (`cutscene_runtime_tween_to`) внутри Action-классов камеры.
 
 ### Отложенные команды
 - `delayed_commands` — список команд, которые будут выполнены через N кадров.
@@ -59,7 +58,7 @@
 `resolve_target(_ref)` поддерживает:
 - instance id (если `instance_exists(_ref)`)
 - asset объекта (берётся `instance_find(obj_asset, 0)`)
-- строку `"player"`
+- строку `"player"` или `"player_body"` (разрешаются в `obj_player`)
 - строковые ключи актёров, зарегистрированные в `actor_map`
 
 Практический вывод:
