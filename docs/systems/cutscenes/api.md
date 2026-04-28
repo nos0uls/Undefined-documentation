@@ -1,9 +1,10 @@
 # Катсцены: API
 
 ## Канон
-- **`target_ref`**: канонический формат — **instance id**.
-- **Единицы скорости**: **px/frame**.
-- **JSON‑загрузка**: в JSON длительности в **секундах**, скорости в **px/sec**, при загрузке конвертируются в кадры/px‑per‑frame.
+- **`target_ref`**: канонический формат — **instance id** или строковый actor key, резолвится менеджером.
+- **Единицы скорости**: **px/frame** в builder-API. Длительности в builder — **кадры**.
+- **JSON‐загрузка**: в JSON длительности в **секундах**, скорости в **px/sec**, при загрузке конвертируются в кадры/px‐per‐frame.
+- **Music** — отдельная система (`obj_music_ctrl` + `scr_global_music_*`). Cutscene-ядро не владеет музыкой; из катсцен музыка управляется через `c_run`/`c_sfx` или прямые вызовы `global.play_music(...)`.
 
 ## Builder-API (`c_*`)
 Builder-слой предназначен для построения очереди через активный менеджер (build manager) без передачи `mgr` в каждый вызов.
@@ -33,7 +34,7 @@ Builder-слой предназначен для построения очере
 - `c_panobj(target_ref, frames)` — `ActionCameraPanToObj(target_ref, frames)`
 - `c_panspeed(dx, dy, frames)` — `ActionCameraPanSpeed(dx, dy, frames)`
 - `c_pan_wait(view_x, view_y, frames)` — `c_pan(...)` + `c_wait(frames)`
-- `c_shake()` — добавляет `ActionCameraShake(30, 4)` (фиксировано)
+- `c_cmd("shake", frames=60, magnitude=4)` — `ActionCameraShake(frames, magnitude)`. Дефолты 60/4 применяются, если аргументы не переданы. `ActionCameraShake` теперь корректно восстанавливает позицию камеры на cleanup и не накапливает дрейф (Phase 1 fix).
 
 ### Ожидание
 - `c_wait(frames)` — добавляет `ActionWait(frames)`.
@@ -77,13 +78,62 @@ Builder-слой предназначен для построения очере
 - `c_var_group(targets[], property, value)` — `ActionSetProperty`
 - `c_tween_group(targets[], property, to_value, frames, easing="linear", from_value=undefined)`
 
+### Tween / Lerp
+- `c_tween(target, property, to_value, frames, easing="linear", from_value=undefined)` — `ActionTween` для instance.
+- `c_tween_camera(property, to_value, frames, easing="linear", from_value=undefined)` — `ActionTween` для камеры.
+- `c_var_lerp_instance(target, property, from, to, frames, easing="linear")` — алиас `c_tween` с явным `from`.
+- `c_lerp(target, property, from, to, frames, easing="linear")` — **короткий алиас** для `c_var_lerp_instance` (также доступен из Yarn как `<<c_lerp ...>>`).
+- `c_var_lerp_to_instance(target, property, to, frames, easing="linear")` — tween от текущего значения до `to`.
+
+> Legacy-алиасы `c_snd_play`, `c_lerp_var_instance`, `c_lerpvar_instance`, `c_wait_talk` удалены — используйте `c_soundplay`/`c_var_lerp_instance`/`c_waittalk` или короткий `c_lerp`.
+
 ### JSON Action Factory
 `cutscene_init_action_factory()` создаёт глобальную фабрику `global.__cutscene_action_factory` — struct с mapping `action_type -> constructor(map, fps)`.
 Используется `cutscene_load_json` для декларативного создания Action-struct из JSON.
 
+#### Нормализация action type
+Алиасы legacy-имен приводятся к canonical в `__cutscene_json_normalize_action_type()` до поиска в factory:
+
+| Legacy | Canonical |
+| ------ | --------- |
+| `shakeobj` | `shake_object` |
+| `visible` | `set_visible` |
+| `instant_mode` | `set_instant` |
+| `waittalk`, `wait_talk` | `wait_for_dialogue` |
+| `depth` | `set_depth` |
+| `facing` | `set_facing` |
+| `autofacing` | `auto_facing` |
+| `autowalk` | `auto_walk` |
+
+#### Поддерживаемые JSON action types
+Помимо очевидных (`move`, `wait`, `dialogue`, `parallel`, и т.д.) factory регистрирует:
+
+- `auto_facing` — `ActionSetProperty(target, "auto_face", enabled)`.
+- `auto_walk` — `ActionSetProperty(target, "auto_walk", enabled)`.
+- `emote` — alias к `show_emote`.
+- `actor_create` — поддерживает `copy_from`/`copy_target`: внешний вид (sprite/scale/blend/depth/facing) копируется из источника в новый actor.
+
 ## JSON‑загрузка
 - `cutscene_load_json(path)` — читает JSON (сгенерированный [редактором Undefscene](./undefscene/overview.md) через Export for Engine), конвертирует секунды/px‑sec в кадры/px‑frame и создаёт `obj_cutsceneManager`.
 - Для парсинга использует `global.__cutscene_action_factory` (инициализируется `cutscene_init_action_factory()`).
+
+## Runtime ownership и диагностика
+
+Runtime-эффекты (tweens, jumps, spins, shakes) хранятся в массивах на `obj_globalManager` и обрабатываются `cutscene_runtime_step()` каждый кадр. Каждый entry помечен `owner_id` — id активной катсцены на момент создания.
+
+- `cutscene_runtime_cleanup_owner(owner)` — принудительно деактивирует все entries с `owner_id == owner`. Вызывается автоматически в `finish_cutscene()`, чтобы прерванная катсцена не оставляла сиротливых tweens в очереди.
+- `__cutscene_runtime_remove_at(arr, index, item)` — внутренний helper, используемый `cutscene_runtime_step` для swap-remove с гарантией `entry.active = false`.
+
+### Debug watchdog
+
+`obj_cutsceneManager` ведёт счётчик кадров, в течение которых текущий action уже ждёт завершения. Если счётчик превышает порог (`debug_stuck_warning_frames`, по умолчанию 600), в `show_debug_message` пишется предупреждение с `action_type` и именем катсцены. Счётчик сбрасывается при:
+
+- переходе к следующему action,
+- `start_cutscene()`,
+- `finish_cutscene()`,
+- invalid action struct в очереди.
+
+В debug overlay (`Draw_64.gml`) строка `Wait: N/N frames` показывает текущее значение; когда порог превышен — цвет меняется с жёлтого на красный.
 
 ## Примечания
 ### Chatterbox-интеграция
