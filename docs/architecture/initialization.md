@@ -105,3 +105,12 @@ if (!instance_exists(obj_globalManager)) {
 ```
 
 Если игра стартовала сразу с комнаты или уровня, fallback принудительно создаёт `obj_Init`, чтобы глобальные системы успели инициализироваться. Защита `global.__init_done` внутри `obj_Init.Create` предотвращает двойной запуск.
+
+---
+
+## См. также
+
+- [Глобальное состояние](global-state.md) — `global.__init_done`, UI blocking, катсценные флаги
+- [Объекты системы](objects.md) — `obj_Init`, `obj_globalManager`, `obj_music_ctrl`
+- [Комнаты](rooms.md) — `rm_init`, `GlobalRoomCreationCode.gml`
+- [Система музыки](../systems/music.md) — `scr_music_init()`, `global.play_music()`

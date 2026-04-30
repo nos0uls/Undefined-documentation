@@ -164,3 +164,14 @@ Runtime-эффекты (tweens, jumps, spins, shakes) хранятся в мас
 Если обёртка принимает legacy значения (например, строковые имена актёров), рекомендуется мигрировать вызовы на instance id.
 
 `cutscene_wait` и `c_wait` работают в кадрах (см. реализацию `ActionWait`).
+
+---
+
+## См. также
+
+- [Архитектура катсцен](architecture.md) — `obj_cutsceneManager`, жизненный цикл, target resolution
+- [Актёры](actors.md) — `actor_map`, `ActionActorCreate`, `ActionActorDestroy`
+- [Камера](camera.md) — `ActionCameraPan`, `ActionCameraTrack`, `ActionCameraShake`
+- [Игрок в катсцене](player_in_cutscene.md) — флаги, блокировка движения, camera override
+- [Отладка](debugging.md) — debug overlay, stuck watchdog
+- [Примеры](examples.md) — JSON-загрузка и Builder-стиль
