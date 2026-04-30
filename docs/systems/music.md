@@ -67,27 +67,30 @@ obj_music_ctrl.Draw_64
 
 ### Основные функции
 
-#### `global.play_music(snd_asset)`
-Плавная смена трека с дефолтным фейдом (`global.music_default_fade`).
-Если уже играет этот трек — ничего не делает.
+#### `global.play_music(snd_asset)` / `global.play_music_immediate(snd_asset)`
 
-```gml
-global.play_music(music_SchoolRoutine);
-```
+=== "С фейдом"
 
-#### `global.play_music_fade(snd_asset, fade_sec)`
-Плавная смена трека с явным временем кроссфейда.
+    Плавная смена трека с дефолтным фейдом (`global.music_default_fade`).
+    Если уже играет этот трек — ничего не делает.
 
-```gml
-global.play_music_fade(music_boss, 2.0); // 2 секунды кроссфейд
-```
+    ```gml
+    global.play_music(music_SchoolRoutine);
+    ```
 
-#### `global.play_music_immediate(snd_asset)`
-Мгновенная смена без фейда. Старый трек останавливается сразу.
+    Явное время кроссфейда:
 
-```gml
-global.play_music_immediate(music_battle);
-```
+    ```gml
+    global.play_music_fade(music_boss, 2.0); // 2 секунды кроссфейд
+    ```
+
+=== "Без фейда"
+
+    Мгновенная смена без фейда. Старый трек останавливается сразу.
+
+    ```gml
+    global.play_music_immediate(music_battle);
+    ```
 
 #### `global.stop_music(fade_sec)`
 Остановка с опциональным затуханием. `0` = мгновенно.

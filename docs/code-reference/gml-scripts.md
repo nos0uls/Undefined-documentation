@@ -44,8 +44,10 @@ scr_saveSettings(global.player_settings);
 /// @param {struct} settings
 /// @returns {bool} успех
 scr_applySettings(global.player_settings);
-// Внутри ставит: global.debug, global.input_map, global.__music_volume, global.__sfx_volume
+// (1)!
 ```
+
+1. Внутри ставит: `global.debug`, `global.input_map`, `global.__music_volume`, `global.__sfx_volume`
 
 ### scr_settings_apply_and_save
 
@@ -54,8 +56,10 @@ scr_applySettings(global.player_settings);
 ```gml
 /// @param {struct} local_settings
 /// @param {string} [mode] — "apply", "save" или "both" (по умолчанию)
-scr_settings_apply_and_save(local_settings);
+scr_settings_apply_and_save(local_settings); // (1)!
 ```
+
+1. Сначала обновляет `global.player_settings` из `local_settings`, затем вызывает `scr_applySettings()` и `scr_saveSettings()`
 
 ### scr_buildInputMap
 
@@ -64,9 +68,10 @@ scr_settings_apply_and_save(local_settings);
 ```gml
 /// @param {struct} settings
 /// @returns {struct} input_map
-global.input_map = scr_buildInputMap(global.player_settings);
-// Результат: { up: [vk_up, -1], down: [vk_down, -1], confirm: [ord("Z"), vk_enter], ... }
+global.input_map = scr_buildInputMap(global.player_settings); // (1)!
 ```
+
+1. Результат: `{ up: [vk_up, -1], down: [vk_down, -1], confirm: [ord("Z"), vk_enter], ... }` — каждому действию сопоставлен массив из двух клавиш.
 
 ## Input API (scr_inputApi)
 
@@ -107,8 +112,10 @@ if (scr_input_repeater("down")) { select_index++; }
 /// @param {real} slotIndex — 1 (основная) или 2 (альтернативная)
 /// @param {real} new_key
 /// @param {struct} [target_settings] — по умолчанию global.player_settings
-scr_input_rebind_slot("confirm", 1, ord("Z"));
+scr_input_rebind_slot("confirm", 1, ord("Z")); // (1)!
 ```
+
+1. Защищает дефолтные клавиши (`Z`, `Enter`, `Esc`) от перезаписи — вернёт `false`, если попытка изменить защищённый слот.
 
 ## Направление ↔ Спрайт (scr_facing_sprite)
 
@@ -120,11 +127,12 @@ scr_input_rebind_slot("confirm", 1, ord("Z"));
 /// @param {real} facing — global.DIR.RIGHT/LEFT/UP/DOWN
 /// @param {struct} [chara_sprites] — { right, left, up, down } для кастомных NPC
 /// @returns {Asset.GMSprite}
-sprite_index = scr_facing_to_sprite(facing_direction);
-
-// С кастомными спрайтами NPC:
-sprite_index = scr_facing_to_sprite(dir, actor.chara_sprites);
+sprite_index = scr_facing_to_sprite(facing_direction); // (1)!
+sprite_index = scr_facing_to_sprite(dir, actor.chara_sprites); // (2)!
 ```
+
+1. Без второго аргумента использует стандартную таблицу спрайтов игрока.
+2. С `chara_sprites` — для кастомных NPC, где каждый актёр имеет свои спрайты направлений.
 
 ### scr_sprite_to_facing
 
@@ -134,9 +142,11 @@ sprite_index = scr_facing_to_sprite(dir, actor.chara_sprites);
 /// @param {Asset.GMSprite} spr
 /// @param {struct} [chara_sprites]
 /// @returns {real} global.DIR.* или -1
-var f = scr_sprite_to_facing(sprite_index);
+var f = scr_sprite_to_facing(sprite_index); // (1)!
 if (f != -1) facing_direction = f;
 ```
+
+1. Возвращает `-1`, если спрайт не найден в таблице направлений — полезно как guard перед присваиванием.
 
 ## Скрипты игрока
 

@@ -47,9 +47,9 @@
 
 - [Установка и настройка](setup.md) — клонирование, запуск `mkdocs serve`
 - [Первый запуск](first-run.md) — что ожидать при запуске, решение проблем
-- [Архитектура: объекты](../../architecture/objects.md) — `obj_Init`, `obj_globalManager`, `obj_music_ctrl`
-- [Архитектура: комнаты](../../architecture/rooms.md) — `rm_init`, `global.rooms_by_name`
-- [Глобальное состояние](../../architecture/global-state.md) — `global.input_map`, UI blocking
+- [Архитектура: объекты](../architecture/objects.md) — `obj_Init`, `obj_globalManager`, `obj_music_ctrl`
+- [Архитектура: комнаты](../architecture/rooms.md) — `rm_init`, `global.rooms_by_name`
+- [Глобальное состояние](../architecture/global-state.md) — `global.input_map`, UI blocking
 
 ### `obj_pointMarker`
 Невидимый объект, привязанный к игроку. Показывает точку, куда игрок "смотрит" и с чем может взаимодействовать (нажать Z).
