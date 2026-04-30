@@ -54,10 +54,16 @@
 - [x] `planning/reviews/review_2025-12-28.md` — Added clarification about session date.
 - [x] `planning/reviews/review_2026-01-15.md` — Verified current (historical document, many items fixed in subsequent refactors).
 
-## Phase 9: Finalization (IN PROGRESS)
-- [ ] Save permanent knowledge to memory (key architectural invariants)
-- [ ] Verify mkdocs.yml navigation reflects all updated files
-- [ ] Commit changes if needed
+## Phase 9: Finalization (COMPLETED)
+- [x] CSS файл extra.css проверен — чистый, без markdown fence.
+- [x] Mermaid диаграммы: уже используются в `architecture/initialization.md` и `architecture/overview.md`.
+- [x] Code annotations добавлены в `code-reference/gml-scripts.md` для `scr_applySettings`, `scr_settings_apply_and_save`, `scr_buildInputMap`, `scr_input_rebind_slot`, `scr_facing_to_sprite`, `scr_sprite_to_facing`.
+- [x] Content tabs добавлены в `systems/music.md` — `global.play_music` vs `global.play_music_immediate` в табах "С фейдом" / "Без фейда".
+- [x] Кастомная страница `docs/404.md` создана.
+- [x] `search.highlight` уже включён в `mkdocs.yml`.
+- [x] `docs/tags.md` создан, `tags` plugin добавлен в `mkdocs.yml`, навигация обновлена.
+- [x] mkdocs.yml navigation обновлена — `tags.md` добавлен.
+- [x] Permanent knowledge сохранена в memory (key architectural invariants).
 
 ## Key Invariants Discovered (to save in memory)
 1. UI blocking is hardcoded in `scr_checkUIBlocking()`, not a dynamic stack. No scr_ui_push/pop exist.
