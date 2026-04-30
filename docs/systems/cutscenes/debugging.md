@@ -29,3 +29,12 @@
 Некоторые экшены пишут в лог через `show_debug_message`, например когда цель не найдена.
 
 Рекомендация: привязывать такие отрисовки к `debug_enabled`, чтобы не попадало в прод.
+
+---
+
+## См. также
+
+- [Обзор катсцен](overview.md) — `obj_cutsceneManager`, `action_queue`
+- [Архитектура](architecture.md) — `debug_stuck_warning_frames`
+- [API](api.md) — `cutscene_add`, Action-классы
+- [Типовые проблемы](troubleshooting.md) — камера "застыла", строковые ключи

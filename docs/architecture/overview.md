@@ -21,7 +21,7 @@ graph TD
 
     subgraph Systems [Подсистемы / Subsystems]
         Cutscenes[Cutscene Engine]
-        UI[UI Stack]
+        UI[UI Blocking]
         Audio[Audio Manager]
     end
 
@@ -49,3 +49,14 @@ graph TD
 *   **`scripts/`**: Библиотеки и глобальные функции.
 *   **`rooms/`**: Уровни и меню.
 *   **`datafiles/`**: Внешние ресурсы (диалоги, локализация).
+
+---
+
+## См. также
+
+- [Инициализация](initialization.md) — `obj_Init`, `global.__init_done`
+- [Глобальное состояние](global-state.md) — `global.input_map`, UI blocking
+- [Комнаты](rooms.md) — `rm_init`, `global.rooms_by_name`
+- [Объекты системы](objects.md) — `obj_Init`, `obj_globalManager`, `obj_music_ctrl`
+- [Система ввода](../systems/input.md) — `scr_buildInputMap()`, `scr_input_pressed()`
+- [Катсцены: обзор](../systems/cutscenes/overview.md) — runtime катсцен

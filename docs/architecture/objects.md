@@ -27,3 +27,14 @@
 | **Музыка** | Вызывает `scr_music_init()`, создает `obj_music_ctrl` | Нет (только `scr_global_on_room_change` выбирает трек) |
 | **Глобалы** | Инициализирует ВСЕ `global.*` | Использует, не создает новые |
 | **Катсцены** | Регистрирует Yarn-функции (`cutscene_register_chatterbox_functions`) | Runtime update (`cutscene_runtime_step()`, `emote_step()`) |
+
+---
+
+## См. также
+
+- [Инициализация](initialization.md) — `obj_Init`, `global.__init_done`
+- [Глобальное состояние](global-state.md) — `global.input_map`, UI blocking
+- [Комнаты](rooms.md) — `rm_init`, `global.rooms_by_name`
+- [Система ввода](../systems/input.md) — `scr_buildInputMap()`
+- [Система музыки](../systems/music.md) — `obj_music_ctrl`
+- [Катсцены: обзор](../systems/cutscenes/overview.md) — runtime катсцен

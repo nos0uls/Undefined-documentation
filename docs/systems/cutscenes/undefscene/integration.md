@@ -46,3 +46,13 @@
 - Не все панели нужны в обычной работе: часть технических инструментов вынесена в `Help > Advanced`.
 - Cache используется как ускорение и foundation для preview workflow, но при изменении самого `.yyp` редактор делает cold refresh и пересобирает данные.
 - Текущий путь cache-папки для screenshots и фактические `Search Dirs` можно увидеть в `Project` panel и в окне `Visual Editing`.
+
+---
+
+## См. также
+
+- [Обзор Undefscene](overview.md) — поддерживаемые ноды, запуск
+- [Базовый workflow](workflow.md) — пошаговый процесс работы
+- [Интерфейс и Preferences](ui.md) — `Project` panel, `Visual Editing`, `Help > Advanced`
+- [Room Screenshot Pipeline](room-screenshot-pipeline.md) — `room-screenshots`, `Search Dirs`
+- [Форматы, импорт и экспорт](formats.md) — engine `.json`, `datafiles`

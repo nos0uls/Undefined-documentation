@@ -45,40 +45,43 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
 
 Инициализируются в конце `obj_Init.Create`:
 
-| Переменная | Тип | Назначение |
-|------------|-----|------------|
-| `global.item[0..7]` | real | Содержимое слотов инвентаря (значения определяются `script_items()`). |
-| `global.item_count` | real | Количество предметов (обновляется `script_items()`). |
-| `global.SetArmor` | real | ID экипированной брони. |
-| `global.SetWeapon` | real | ID экипированного оружия. |
-| `global.max_itemskip` | real | Макс. пропуск предметов. |
-| `global.stat_hp / maxhp / atk / def / lv / gold / xp` | real | Базовые статы персонажа. |
-| `global.stat_prevlv` | real | Предыдущий уровень (для анимации). |
-| `global.name` | string | Имя персонажа (default: `"CHARA"`). |
+??? note "Переменные инвентаря и статов"
+    | Переменная | Тип | Назначение |
+    |------------|-----|------------|
+    | `global.item[0..7]` | real | Содержимое слотов инвентаря (значения определяются `script_items()`). |
+    | `global.item_count` | real | Количество предметов (обновляется `script_items()`). |
+    | `global.SetArmor` | real | ID экипированной брони. |
+    | `global.SetWeapon` | real | ID экипированного оружия. |
+    | `global.max_itemskip` | real | Макс. пропуск предметов. |
+    | `global.stat_hp / maxhp / atk / def / lv / gold / xp` | real | Базовые статы персонажа. |
+    | `global.stat_prevlv` | real | Предыдущий уровень (для анимации). |
+    | `global.name` | string | Имя персонажа (default: `"CHARA"`). |
 
 ### Диалог Face-система
 
-| Переменная | Тип | Назначение |
-|------------|-----|------------|
-| `global.current_actor` | instance | Кто говорит в данный момент (default: `obj_player`). |
-| `global.current_emote` | string | Текущий эмоут для портрета (default: `"default"`). |
-| `global.is_talking` | real | Флаг активного диалога. |
-| `global.talk_index` | real | Индекс текущей реплики. |
-| `global.current_sprite` | sprite | Текущий спрайт портрета. |
-| `global.current_voice` | sound | Звук голоса (default: `snd_text_ch1`). |
-| `global.voice_speed` | real | Скорость голоса (default: `1`). |
+??? note "Переменные face-системы"
+    | Переменная | Тип | Назначение |
+    |------------|-----|------------|
+    | `global.current_actor` | instance | Кто говорит в данный момент (default: `obj_player`). |
+    | `global.current_emote` | string | Текущий эмоут для портрета (default: `"default"`). |
+    | `global.is_talking` | real | Флаг активного диалога. |
+    | `global.talk_index` | real | Индекс текущей реплики. |
+    | `global.current_sprite` | sprite | Текущий спрайт портрета. |
+    | `global.current_voice` | sound | Звук голоса (default: `snd_text_ch1`). |
+    | `global.voice_speed` | real | Скорость голоса (default: `1`). |
 
 ### DEV-LOAD и спаун
 
-| Переменная | Тип | Назначение |
-|------------|-----|------------|
-| `global.__dev_spawn` | bool | Флаг: нужно ли телепортировать игрока при входе в комнату. |
-| `global.__dev_spawn_x/y` | real | Координаты DEV-LOAD. |
-| `global.__dev_spawn_facing` | real | Направление DEV-LOAD (default: `global.DIR.UP`). |
-| `global.obj_player` | instance | Ссылка на текущий объект игрока (`noone`, пока не создан). |
-| `global.__next_spawn_x/y` | undefined | Принудительные координаты спавна (из сейвов/переходов). |
-| `global.__next_spawn_facing` | undefined | Принудительное направление спавна. |
-| `global.__transition_safety_frames` | real | Таймер безопасности после перехода между комнатами (default: `0`). |
+??? note "Переменные спавна и переходов"
+    | Переменная | Тип | Назначение |
+    |------------|-----|------------|
+    | `global.__dev_spawn` | bool | Флаг: нужно ли телепортировать игрока при входе в комнату. |
+    | `global.__dev_spawn_x/y` | real | Координаты DEV-LOAD. |
+    | `global.__dev_spawn_facing` | real | Направление DEV-LOAD (default: `global.DIR.UP`). |
+    | `global.obj_player` | instance | Ссылка на текущий объект игрока (`noone`, пока не создан). |
+    | `global.__next_spawn_x/y` | undefined | Принудительные координаты спавна (из сейвов/переходов). |
+    | `global.__next_spawn_facing` | undefined | Принудительное направление спавна. |
+    | `global.__transition_safety_frames` | real | Таймер безопасности после перехода между комнатами (default: `0`). |
 
 ### Уведомления
 
@@ -148,3 +151,13 @@ global.show_notification = function(_text) {
 | `scr_settings_deep_copy(settings)` | Глубокая копия для локального редактирования в меню настроек. |
 
 Это позволяет сбросить прогресс игры, не теряя настройки управления.
+
+---
+
+## См. также
+
+- [Инициализация](initialization.md) — `obj_Init`, `global.__init_done`
+- [Объекты системы](objects.md) — `obj_Init`, `obj_globalManager`, `obj_music_ctrl`
+- [Система ввода](../systems/input.md) — `global.input_map`, `global.player_settings`
+- [Система музыки](../systems/music.md) — `global.play_music()`
+- [Диалоговые портреты](../systems/dialogue-portraits.md) — `global.current_actor`, `global.current_emote`

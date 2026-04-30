@@ -24,3 +24,13 @@
 - [Система ввода](../systems/input.md)
 - [Система взаимодействия](../systems/interaction.md)
 - [Катсцены: Обзор](../systems/cutscenes/overview.md)
+
+---
+
+## См. также
+
+- [Управление](controls.md) — горячие клавиши, debug-режим
+- [Геймплей: обзор](overview.md) — игровой слой, связанные разделы
+- [Система ввода](../systems/input.md) — `scr_input_pressed()`, `scr_buildInputMap()`
+- [Система взаимодействия](../systems/interaction.md) — `scr_interaction()`, `obj_pointMarker`
+- [Система катсцен](../systems/cutscenes/overview.md) — `obj_cutsceneManager`, camera override

@@ -24,3 +24,14 @@
 ## `cutscene_actor_create` по умолчанию создаёт `obj_actor`
 Если не передать объект/спрайт, `ActionActorCreate` использует `obj_actor` как объект по умолчанию.
 Если нужен другой объект, лучше передавать его явно.
+
+---
+
+## См. также
+
+- [Обзор катсцен](overview.md) — `obj_cutsceneManager`, `action_queue`, `global.cutscene_camera_override`
+- [Архитектура](architecture.md) — `actor_map`, `resolve_target`, жизненный цикл
+- [Актёры](actors.md) — `cutscene_actor_create`, `ActionActorCreate`
+- [Камера](camera.md) — `cutscene_camera_pan`, `cutscene_camera_track`
+- [API](api.md) — `cutscene_add`, Action-классы
+- [Игрок в катсцене](player_in_cutscene.md) — блокировка движения, camera override

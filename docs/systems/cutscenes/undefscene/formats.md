@@ -51,3 +51,13 @@
 
 При таком reverse-import редактор восстанавливает граф сцены из массива `actions`, если структура файла соответствует ожидаемому engine-формату.
 Если структура файла повреждена, неполная или неоднозначна, импорт отклоняется как unsupported format, чтобы не строить неверный граф.
+
+---
+
+## См. также
+
+- [Обзор Undefscene](overview.md) — поддерживаемые ноды, запуск
+- [Интерфейс и Preferences](ui.md) — `Project` panel, `Runtime JSON`
+- [Базовый workflow](workflow.md) — Save, Save As, Export for Engine
+- [Интеграция с проектом](integration.md) — загрузка `.yyp`, cache, `datafiles`
+- [Валидация графа](validation.md) — проверки перед экспортом

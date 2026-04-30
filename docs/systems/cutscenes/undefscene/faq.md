@@ -59,3 +59,14 @@
 - исправлен баг React Flow с бесконечными циклами обновления при выделении нод (стабилизация callback-ов через `useCallback`)
 - инструмент `Select` в Visual Editing работает только на маркерах актёров
 - кнопка `Play` в Visual Editing анимирует выбранного актера по draft path — только локальный preview, без записи в граф (для сохранения используется `Import`)
+
+---
+
+## См. также
+
+- [Обзор Undefscene](overview.md) — поддерживаемые ноды, запуск
+- [Интерфейс и Preferences](ui.md) — панели, `Help > Advanced`, `Runtime JSON`
+- [Базовый workflow](workflow.md) — проверка warnings перед экспортом
+- [Интеграция с проектом](integration.md) — загрузка `.yyp`, cache, `Search Dirs`
+- [Форматы, импорт и экспорт](formats.md) — `.usc.json`, engine `.json`
+- [Валидация графа](validation.md) — уровни серьёзности, структурные проверки

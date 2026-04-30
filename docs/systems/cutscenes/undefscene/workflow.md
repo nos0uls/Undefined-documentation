@@ -23,3 +23,12 @@
 - Для `Visual Editing` editor ищет screenshot output сначала в project cache `room-screenshots`, а затем в fallback-папке `<projectDir>/screenshots`. Эти пути видны в `Project` panel и в самом окне visual editor как `Search Dirs`.
 - Если GameMaker runner пишет output в `%LOCALAPPDATA%/<project>/screenshots` или в другой внешний каталог, задайте его через `Help > Advanced > Choose Screenshot Output Folder...` или в `Preferences`.
 - `Runtime JSON` — это debug-панель из `Help > Advanced`; она полезна для проверки результата экспорта и диагностики, но не нужна для повседневной работы над сценой.
+
+---
+
+## См. также
+
+- [Интерфейс и Preferences](ui.md) — панели, Visual Editing, Preferences
+- [Интеграция с проектом](integration.md) — загрузка `.yyp`, cache, screenshot paths
+- [Форматы, импорт и экспорт](formats.md) — `.usc.json`, engine `.json`
+- [Room Screenshot Pipeline](room-screenshot-pipeline.md) — screenshot runner, `Search Dirs`

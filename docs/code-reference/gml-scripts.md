@@ -221,3 +221,13 @@ global.show_notification("Settings saved!");
 ```gml
 if (global.is_menu_room(room)) { /* играть music_menu */ }
 ```
+
+---
+
+## См. также
+
+- [Система ввода](../systems/input.md) — `scr_input_pressed()`, `scr_input_down()`, `scr_input_repeater()`, `scr_buildInputMap()`
+- [Глобальное состояние](../architecture/global-state.md) — `global.game_state`, `global.player_settings`, `global.show_notification`, `global.is_menu_room()`
+- [Система музыки](../systems/music.md) — `global.play_music()`, `global.play_music_immediate()`, `scr_music_init()`
+- [События объектов](events.md) — `Create`, `Step`, `Draw_64`, `GlobalRoomCreationCode`
+- [Глобальные функции](functions.md) — точка входа в справочник по функциям

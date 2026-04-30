@@ -19,3 +19,13 @@
 ## Ключевая идея
 
 Gameplay-логика опирается на единый input API, проверку UI-blocking и объектный подход GameMaker: игрок, маркер взаимодействия, глобальные менеджеры и комнатные объекты работают как отдельные, но согласованные части одной runtime-системы.
+
+---
+
+## См. также
+
+- [Управление](controls.md) — горячие клавиши, debug-режим
+- [Механики](mechanics.md) — перемещение, взаимодействие, диалоги, катсцены
+- [Система ввода](../systems/input.md) — `scr_input_pressed()`, `scr_buildInputMap()`
+- [Система взаимодействия](../systems/interaction.md) — `scr_interaction()`, `obj_pointMarker`
+- [Система катсцен](../systems/cutscenes/overview.md) — `obj_cutsceneManager`, camera override

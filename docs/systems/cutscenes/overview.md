@@ -16,13 +16,16 @@
 - `global.cutscene_active` — булевый флаг активности катсцены.
 - `global.cutscene_camera_override` — отключает стандартное ведение камеры игроком (см. `camera.md`).
 
-## Дальше читать
-- [Редактор (Undefscene)](./undefscene/overview.md)
-- [Архитектура](./architecture.md)
-- [API](./api.md)
-- [Актёры](./actors.md)
-- [Игрок в катсцене](./player_in_cutscene.md)
-- [Камера](./camera.md)
-- [Отладка](./debugging.md)
-- [Примеры](./examples.md)
-- [Типовые проблемы](./troubleshooting.md)
+---
+
+## См. также
+
+- [Архитектура катсцен](architecture.md) — `obj_cutsceneManager`, жизненный цикл
+- [API](api.md) — `cutscene_add`, Action-классы, JSON-загрузка
+- [Актёры](actors.md) — `actor_map`, `ActionActorCreate`, групповые операции
+- [Камера](camera.md) — `ActionCameraPan`, `ActionCameraTrack`, `ActionCameraShake`
+- [Игрок в катсцене](player_in_cutscene.md) — блокировка движения, camera override
+- [Отладка](debugging.md) — debug overlay, stuck watchdog
+- [Примеры](examples.md) — JSON-загрузка и Builder-стиль
+- [Типовые проблемы](troubleshooting.md)
+- [Редактор Undefscene](undefscene/overview.md) — визуальный редактор

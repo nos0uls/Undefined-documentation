@@ -34,3 +34,12 @@
 ## Практические рекомендации
 - Для надёжности передавай в экшены **instance id**, а не строковые ключи.
 - Если нужно создавать не игрока, а актёра катсцены, передавай объект явно (например `obj_actor`).
+
+---
+
+## См. также
+
+- [Обзор катсцен](overview.md) — `obj_cutsceneManager`, `action_queue`
+- [Архитектура](architecture.md) — `actor_map`, `resolve_target`
+- [API](api.md) — `cutscene_actor_create`, `ActionActorCreate`
+- [Камера](camera.md) — `ActionCameraTrack` для слежения за актёрами
