@@ -32,8 +32,14 @@ scr_interaction("npc_dialogue.yarn", "StartNode");
 ### Legacy Обертки
 Для совместимости сохранены старые функции, которые внутри вызывают `scr_interaction`:
 
-*   **`interactionWithNPCsOrObjects(script, node)`**: То же, что `scr_interaction(..., false)`.
-*   **`interactionWithMainCast`**: Аналогично.
+| Функция | Что делает | Проверка |
+|---------|-----------|----------|
+| `interactionWithNPCsOrObjects(script, node)` | `scr_interaction(script, node, false)` | `bbox` (точнее для мелких объектов) |
+| `interactionWithMainCast(script, node)` | `scr_interaction(script, node, true)` | `place_meeting` (маска, для персонажей) |
+
+!!! tip "Когда что использовать"
+    *   **NPC и объекты** (`interactionWithNPCsOrObjects`) — `bbox` подходит для стен, знаков, предметов.
+    *   **MainCast / персонажи** (`interactionWithMainCast`) — `place_meeting` нужен для точной проверки маски персонажа.
 
 ## Маркер Игрока (`obj_pointMarker`)
 Это невидимый объект, который всегда висит перед лицом игрока на небольшом расстоянии. Именно он определяет, с чем мы взаимодействуем.

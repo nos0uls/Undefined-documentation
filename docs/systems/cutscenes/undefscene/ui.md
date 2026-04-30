@@ -43,6 +43,8 @@
 - Для path editing доступны `Draw Path`, `Pencil`, `Eraser`, `Undo Point`, `Clear Path`, `Import Path`.
 - `Shift` включает `HV lock`, `Ctrl` включает snap к сетке `20 px`, а `Shift + Ctrl` комбинирует оба режима.
 - Для actor preview доступны выбор marker, `Place Selected Actor` и отдельная кнопка `Import Actors`, которая применяет staged positions обратно к `actor_create`-нодам.
+- **Select tool** — выделяет только маркеры актёров (не path points). Выбранный actor подсвечивается.
+- **Play button** — анимирует выбранного актера вдоль текущего draft path. Это **локальный preview** (не записывается в граф). Для сохранения позиций и пути используйте `Import Path` / `Import Actors`.
 
 ## Preferences
 

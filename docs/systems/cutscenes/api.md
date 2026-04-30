@@ -108,14 +108,27 @@ Builder-слой предназначен для построения очере
 #### Поддерживаемые JSON action types
 Помимо очевидных (`move`, `wait`, `dialogue`, `parallel`, и т.д.) factory регистрирует:
 
+- `camera_pan` — `ActionCameraPan(x, y, frames)` (конвертирует seconds → frames через `_fps`).
+- `camera_shake` — `ActionCameraShake(frames, magnitude=4)`.
+- `camera_pan_obj` — `ActionCameraPanToObj(target, frames)`.
+- `camera_track` — `ActionCameraTrack(target, frames, offset_x, offset_y)`.
+- `camera_track_until_stop` — `ActionCameraTrackUntilStop(target, offset_x, offset_y)`.
 - `auto_facing` — `ActionSetProperty(target, "auto_face", enabled)`.
 - `auto_walk` — `ActionSetProperty(target, "auto_walk", enabled)`.
+- `set_facing` — принимает строковые направления (`"right"`, `"left"`, `"up"`, `"down"`, `"r"`, `"l"`, `"u"`, `"d"`) через `__cutscene_json_parse_direction`.
 - `emote` — alias к `show_emote`.
 - `actor_create` — поддерживает `copy_from`/`copy_target`: внешний вид (sprite/scale/blend/depth/facing) копируется из источника в новый actor.
 
 ## JSON‑загрузка
 - `cutscene_load_json(path)` — читает JSON (сгенерированный [редактором Undefscene](./undefscene/overview.md) через Export for Engine), конвертирует секунды/px‑sec в кадры/px‑frame и создаёт `obj_cutsceneManager`.
+- **Нормализация пути**: `\` → `/`, удаляется префикс `datafiles/` (если есть). Файл ищется сначала как есть, затем в `datafiles/`, затем fallback.
 - Для парсинга использует `global.__cutscene_action_factory` (инициализируется `cutscene_init_action_factory()`).
+
+!!! note "ActionDialogue — safety timeout"
+    `ActionDialogue` имеет встроенный safety timeout: если `chatterbox` не инициализировался в течение **600 кадров** (~20 сек при 30 FPS), action автоматически завершается с сообщением в лог. Это предотвращает бесконечное зависание катсцены при битом `.yarn` файле.
+
+!!! note "ActionDialogue — нормализация пути"
+    При запуске диалога `ActionDialogue` нормализует путь к `.yarn` файлу: удаляет префиксы `datafiles/` и `Dialogues/`, проверяет существование файла по трём путям (`datafiles/Dialogues/`, `Dialogues/`, корень). Если файл не найден — fallback на `dialogue_default_file` менеджера.
 
 ## Runtime ownership и диагностика
 
