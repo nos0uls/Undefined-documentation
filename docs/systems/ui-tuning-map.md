@@ -59,7 +59,7 @@
 - `choice_wrap_width_ratio_*`, `choice_slot_x_*`, `choice_slot_y_*` — wrap и координаты slots для `1/2/3/4` вариантов
 
 !!! info "Про marker внутри textbox"
-    Текст не сдвигается автоматически от portrait — он берёт свой явный `text_offset_*`. Старой автосвязки `portrait margin → text column` больше нет.
+    Текст не сдвигается автоматически от portrait — он берёт свой явный `text_offset_*`. Автосвязки `portrait margin → text column` не существует.
 
 ## Layout presets
 

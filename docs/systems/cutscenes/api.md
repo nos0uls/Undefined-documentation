@@ -34,7 +34,7 @@ Builder-слой предназначен для построения очере
 - `c_panobj(target_ref, frames)` — `ActionCameraPanToObj(target_ref, frames)`
 - `c_panspeed(dx, dy, frames)` — `ActionCameraPanSpeed(dx, dy, frames)`
 - `c_pan_wait(view_x, view_y, frames)` — `c_pan(...)` + `c_wait(frames)`
-- `c_cmd("shake", frames=60, magnitude=4)` — `ActionCameraShake(frames, magnitude)`. Дефолты 60/4 применяются, если аргументы не переданы. `ActionCameraShake` теперь корректно восстанавливает позицию камеры на cleanup и не накапливает дрейф (Phase 1 fix).
+- `c_cmd("shake", frames=60, magnitude=4)` — `ActionCameraShake(frames, magnitude)`. Дефолты 60/4 применяются, если аргументы не переданы. `ActionCameraShake` корректно восстанавливает позицию камеры на cleanup и не накапливает дрейф.
 
 ### Ожидание
 - `c_wait(frames)` — добавляет `ActionWait(frames)`.
