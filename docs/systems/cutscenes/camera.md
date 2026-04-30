@@ -42,3 +42,13 @@
 - `ActionCameraTrack` позицию не clamp-ит.
 - Устаревший `camera_panner` struct (type 0/1) **удалён** — вся логика панорамирования мигрирована на tween-систему.
 - `ActionCameraPanSpeed`, `ActionCameraPan`, `ActionCameraPanToObj` создают tween через `cutscene_runtime_tween_to` и завершаются когда tween неактивен.
+
+---
+
+## См. также
+
+- [Обзор катсцен](overview.md) — `global.cutscene_camera_override`
+- [Архитектура](architecture.md) — `obj_cutsceneManager`, tween-система
+- [API](api.md) — `cutscene_camera_pan`, `cutscene_camera_track`, `cutscene_camera_shake`
+- [Игрок в катсцене](player_in_cutscene.md) — блокировка камеры игроком
+- [Типовые проблемы](troubleshooting.md) — камера "застыла"

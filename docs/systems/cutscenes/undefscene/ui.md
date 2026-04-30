@@ -103,3 +103,13 @@
 - `Disable Hardware Acceleration`
 
 Если `Runtime JSON` открыто в dock или floating panel, содержимое JSON теперь занимает доступную высоту панели целиком.
+
+---
+
+## См. также
+
+- [Обзор Undefscene](overview.md) — поддерживаемые ноды, запуск, сборка
+- [Базовый workflow](workflow.md) — пошаговый процесс работы
+- [Интеграция с проектом](integration.md) — загрузка `.yyp`, `Project` panel
+- [Room Screenshot Pipeline](room-screenshot-pipeline.md) — `Visual Editing`, `Search Dirs`
+- [Форматы, импорт и экспорт](formats.md) — `.usc.json`, engine `.json`

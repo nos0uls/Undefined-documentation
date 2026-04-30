@@ -63,3 +63,14 @@
 
 Практический вывод:
 - строки поддерживаются, но для максимально предсказуемого поведения в экшенах предпочтительнее передавать instance id напрямую.
+
+---
+
+## См. также
+
+- [Обзор катсцен](overview.md) — `obj_cutsceneManager`, `action_queue`
+- [API](api.md) — `cutscene_add`, `ActionMove`, Action-классы
+- [Актёры](actors.md) — `actor_map`, `ActionActorCreate`, `ActionGroup`
+- [Камера](camera.md) — `cutscene_runtime_tween_to`, camera override
+- [Игрок в катсцене](player_in_cutscene.md) — блокировка движения
+- [Отладка](debugging.md) — debug overlay, stuck watchdog

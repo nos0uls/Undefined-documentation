@@ -24,3 +24,13 @@
 ## Предотвращение конфликтов анимации/направления
 В скриптах игрока делаем ранний `exit`, пока катсцена активна.
 
+---
+
+## См. также
+
+- [Обзор катсцен](overview.md) — `global.active_cutscene_manager`, флаги активности
+- [Архитектура](architecture.md) — `start_cutscene()`, `finish_cutscene()`, блокировка `can_move`
+- [Камера](camera.md) — `global.cutscene_camera_override`, экшены камеры
+- [API](api.md) — `cutscene_add`, Action-классы
+- [Типовые проблемы](troubleshooting.md) — камера "застыла", строковые ключи актёров
+

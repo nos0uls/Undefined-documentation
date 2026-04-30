@@ -64,13 +64,15 @@ if (scr_input_down("back")) {
 ### Блокировка Катсценами
 Функция `scr_input__is_cutscene_blocked_here()` проверяет, идёт ли катсцена.
 *   Если **Да**: Ввод перехватывается. Игрок не получает `true` от `scr_input_pressed`, если только катсцена не "нажимает" кнопки виртуально (через `__cutscene_virtual_down`).
-*   **Исключения**: UI объекты и менеджер катсцен игнорируют блокировку:
-    *   `textboxTest_scribble`
-    *   `obj_settingsManager`
-    *   `obj_menu`
-    *   `obj_saveManager`
-    *   `obj_inGameMenu`
-    *   `obj_cutsceneManager`
+??? note "Исключения из блокировки"
+    UI объекты и менеджер катсцен игнорируют блокировку:
+
+    - `textboxTest_scribble`
+    - `obj_settingsManager`
+    - `obj_menu`
+    - `obj_saveManager`
+    - `obj_inGameMenu`
+    - `obj_cutsceneManager`
 
 ### Переназначение (Rebinding)
 
@@ -92,4 +94,12 @@ scr_input_rebind("confirm", vk_space);
 ```gml
 // Назначить Пробел на primary-slot действия "confirm"
 scr_input_rebind_slot("confirm", 1, vk_space);
+
+---
+
+## См. также
+
+- [Архитектура: объекты](../architecture/objects.md) — `obj_Init`, `obj_globalManager`
+- [Глобальное состояние](../architecture/global-state.md) — `global.input_map`
+- [Геймплей: управление](../gameplay/controls.md) — привязки клавиш по умолчанию
 ```

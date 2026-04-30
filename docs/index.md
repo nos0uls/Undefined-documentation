@@ -37,13 +37,14 @@ hide:
     [:arrow_right: Катсцены](systems/cutscenes/overview.md)
     [:arrow_right: Редактор Undefscene](systems/cutscenes/undefscene/overview.md)
 
--   :material-code-json: **Планы и Задачи**
+-   :material-code-json: **Справочник**
 
     ---
 
-    Текущие планы по фичам, ревью кода и документация по оптимизации.
+    Справочник по скриптам, функциям и событиям проекта.
 
-    [:arrow_right: Последнее ревью](planning/reviews/review_2026-01-15.md)
+    [:arrow_right: GML Скрипты](code-reference/gml-scripts.md)
+    [:arrow_right: События](code-reference/events.md)
 
 </div>
 

@@ -24,3 +24,13 @@
 - [Инициализация](../architecture/initialization.md)
 - [Глобальное состояние](../architecture/global-state.md)
 - [Катсцены: Отладка](../systems/cutscenes/debugging.md)
+
+---
+
+## См. также
+
+- [GML Скрипты](gml-scripts.md) — `scr_*` функции, `global.*` helpers
+- [Глобальные функции](functions.md) — точка входа в справочник по функциям
+- [Архитектура: объекты](../architecture/objects.md) — `obj_Init`, `obj_globalManager`, `obj_player`
+- [Архитектура: инициализация](../architecture/initialization.md) — `obj_Init/Create`, `GlobalRoomCreationCode`
+- [Катсцены: архитектура](../systems/cutscenes/architecture.md) — `obj_cutsceneManager/Step`, `action_queue`

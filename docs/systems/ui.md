@@ -77,3 +77,12 @@ if (option_count == 4) {
     option_spacing_4_y[1] = 60; // вверх
 }
 ```
+
+---
+
+## См. также
+
+- [Карта тонкой настройки UI](ui-tuning-map.md) — layout-переменные textbox, portrait, marker
+- [Диалоговые портреты](dialogue-portraits.md) — `textboxTest_scribble`, `obj_face`
+- [Система ввода](input.md) — `scr_checkUIBlocking()`
+- [Глобальное состояние](../architecture/global-state.md) — UI blocking флаги

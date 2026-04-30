@@ -38,3 +38,13 @@ Builder-стиль работает через «активного менедж
 ```
 
 Примечание: строковые ключи актёров поддерживаются, но для самого надёжного поведения в экшенах предпочтительнее передавать instance id напрямую.
+
+---
+
+## См. также
+
+- [Обзор катсцен](overview.md) — `obj_cutsceneManager`, `action_queue`
+- [Архитектура](architecture.md) — JSON-загрузка, `cutscene_load_json()`
+- [API](api.md) — `cutscene_add`, Action-классы
+- [Игрок в катсцене](player_in_cutscene.md) — блокировка движения, camera override
+- [Актёры](actors.md) — `cutscene_actor_create`, `ActionActorCreate`
