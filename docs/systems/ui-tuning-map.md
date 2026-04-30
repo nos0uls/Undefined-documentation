@@ -1,308 +1,223 @@
-# Карта тонкой настройки UI, debug и dialogue
+# Карта тонкой настройки UI, Debug и Dialogue
 
-Эта страница нужна как быстрый справочник по местам, где лежит **тонкая настройка** интерфейса, диалогов, портретов, debug overlay и маркеров взаимодействия в проекте `Undefinedtale888`.
+Быстрый справочник по файлам тонкой настройки интерфейса, диалогов, портретов, debug overlay и маркеров взаимодействия.
 
-Все пути ниже указаны **относительно корня проекта `Undefinedtale888/`**.
+!!! tip "Пути в этом документе"
+    Все пути указаны относительно корня проекта `Undefinedtale888/`.
 
-## Что считать "тонкой настройкой"
+## Обзор областей
 
-Под этим здесь понимаются места, где меняются:
+| Область | Что настраивается | Основной файл |
+|---------|-------------------|---------------|
+| Textbox | Размер, позиция, wrap текста | `objects/textboxTest_scribble/Draw_64.gml` |
+| Portrait | Позиция, масштаб, sprite | `objects/obj_face/Draw_64.gml` |
+| Continue marker | Позиция `>` внутри textbox | `objects/textboxTest_scribble/Draw_64.gml` |
+| Choices | Расположение option choices | `objects/textboxTest_scribble/Create_0.gml` |
+| Interaction marker | Смещение от игрока | `scripts/scr_player_marker_update.gml` |
+| Debug overlay | Offsets, scale, проекция | `objects/obj_globalManager/Draw_64.gml` |
+| Dialogue entry | Yarn file / node | `scripts/readDialogue.gml` |
 
-- размеры и позиция textbox
-- внутренние margins и wrap текста
-- позиция и размер portrait
-- позиция `>` marker внутри textbox
-- расположение option choices
-- смещение interaction marker
-- debug overlay offsets, scale и draw-проекция
-- выбор dialogue file / node для конкретного interactable
-
-## 1. Textbox layout и текст
+## Textbox layout
 
 ### `objects/textboxTest_scribble/Draw_64.gml`
+
 Главный файл для визуальной настройки dialogue textbox.
 
-Здесь находятся:
+??? note "Полный список переменных"
+    | Переменная | Описание |
+    |------------|----------|
+    | `box_width`, `box_height` | Общие размеры textbox |
+    | `box_x`, `box_y` | Положение на GUI |
+    | `box_scale_x`, `box_scale_y` | Масштаб `spr_dialogue_box` |
+    | `has_portrait` | Выбирает preset: `with_portrait` или `without_portrait` |
+    | `active_text_offset_x/y` | Смещение старта текста от центра textbox |
+    | `active_text_wrap_width/height` | Область wrap для основного текста |
+    | `active_marker_visible` | Рисуется ли `>` marker в текущем preset |
+    | `active_marker_offset_x/y` | Позиция `>` marker относительно центра textbox |
+    | `active_marker_scale` | Размер `>` marker |
+    | `inner_left`, `inner_width`, `inner_right` | Безопасная рабочая область внутри textbox |
+    | `inner_top`, `inner_bottom` | Верхняя/нижняя граница безопасной области |
+    | `text_padding_*` | Safe padding (left/right/top/bottom) |
+    | `text_wrap_width`, `text_wrap_height` | Итоговые значения wrap для Scribble |
+    | `text_x`, `text_y` | Итоговая стартовая точка: `box center + offset` |
+    | `choice_text_scale` | Размер текста choices для текущего `option_count` |
+    | `choice_group_offset_y` | Вертикальный offset группы choices от центра textbox |
+    | `choice_wrap_widths` | Wrap-ширины choices после чтения preset |
+    | `choice_slot_x`, `choice_slot_y` | Позиции choice slots после чтения preset |
 
-- `box_width`
-  - общая ширина textbox
-- `box_height`
-  - общая высота textbox
-- `box_x`, `box_y`
-  - положение textbox на GUI
-- `box_scale_x`, `box_scale_y`
-  - масштаб `spr_dialogue_box`
-- `has_portrait`
-  - выбирает активный preset: `with_portrait` или `without_portrait`
-- `active_text_offset_x`, `active_text_offset_y`
-  - смещение стартовой точки текста относительно центра textbox
-- `active_text_wrap_width`, `active_text_wrap_height`
-  - явная область wrap для основного текста
-- `active_marker_visible`
-  - решает, рисуется ли `>` marker в текущем preset
-- `active_marker_offset_x`, `active_marker_offset_y`
-  - позиция `>` marker относительно центра textbox
-- `active_marker_scale`
-  - размер `>` marker
-- `inner_left`, `inner_width`
-  - рабочая область choices и безопасная ширина внутри textbox
-- `inner_right`
-  - правая граница безопасной внутренней области
-- `inner_top`, `inner_bottom`
-  - верхняя и нижняя границы безопасной внутренней области
-- `text_padding_left`
-  - левый safe padding textbox
-- `text_padding_right`
-  - правый safe padding textbox
-- `text_padding_top`
-  - верхний safe padding textbox
-- `text_padding_bottom`
-  - нижний safe padding textbox
-- `text_wrap_width`, `text_wrap_height`
-  - итоговые значения wrap, которые передаются в Scribble
-- `text_x`, `text_y`
-  - итоговая стартовая точка текста: `box center + offset`
-- `var _marker = scribble(">")`
-  - сам continue marker внутри textbox
-- `_marker.draw(...)`
-  - точная позиция continue marker: `box center + marker offset`
-- `textScribble.draw(...)`
-  - точная позиция текста: `box center + text offset`
-- `choice_text_scale`
-  - активный размер текста choices для текущего `option_count`
-- `choice_group_offset_y`
-  - вертикальный offset всей группы choices от центра textbox
-- `choice_wrap_widths`
-  - активные wrap-ширины choices после чтения preset
-- `choice_slot_x`, `choice_slot_y`
-  - активные позиции choice slots после чтения preset
+#### Layout zones
 
-### Layout zones: как теперь мыслить настройку
+Вся схема строится вокруг одного anchor:
 
-- `box_x`, `box_y`
-  - это anchor всей layout-схемы, то есть центр textbox
-- `text_offset_x_*`, `text_offset_y_*`
-  - ставят старт текста относительно центра textbox
-- `text_wrap_width_*`, `text_wrap_height_*`
-  - задают размер текстовой зоны явно, без автозависимости от portrait
-- `marker_offset_x_*`, `marker_offset_y_*`
-  - ставят continue marker как отдельную точку внутри textbox
-- `portrait_offset_x_*`, `portrait_offset_y_*`
-  - ставят portrait относительно того же центра textbox
-- `text_padding_*`
-  - остаются safe bounds для внутренней области textbox и choice layout
-- `choice_text_scale_*`, `choice_group_offset_y_*`
-  - задают отдельный layout preset для choices по количеству опций
-- `choice_wrap_width_ratio_*`, `choice_slot_x_*`, `choice_slot_y_*`
-  - задают ширину wrap и координаты каждого choice slot для `1/2/3/4` вариантов
+- `box_x`, `box_y` — центр textbox, anchor всей схемы
+- `text_offset_x_*`, `text_offset_y_*` — старт текста относительно центра
+- `text_wrap_width_*`, `text_wrap_height_*` — размер текстовой зоны явно
+- `marker_offset_x_*`, `marker_offset_y_*` — позиция continue marker как отдельная точка
+- `portrait_offset_x_*`, `portrait_offset_y_*` — позиция portrait относительно того же центра
+- `text_padding_*` — safe bounds для внутренней области и choices
+- `choice_text_scale_*`, `choice_group_offset_y_*` — presets для choices по количеству опций
+- `choice_wrap_width_ratio_*`, `choice_slot_x_*`, `choice_slot_y_*` — wrap и координаты slots для `1/2/3/4` вариантов
 
-### Важно про marker внутри textbox
-Сейчас именно здесь живёт `>` marker продолжения.
+!!! info "Про marker внутри textbox"
+    Текст не сдвигается автоматически от portrait — он берёт свой явный `text_offset_*`. Старой автосвязки `portrait margin → text column` больше нет.
 
-Если нужно менять marker, логично менять именно этот файл:
+## Layout presets
 
-- либо скрывать `>` marker в нужном preset
-- либо переносить marker в другую точку
-- либо менять его scale отдельно от текста
+### `objects/textboxTest_scribble/Create_0.gml`
 
-В текущей реализации правило уже такое:
+Единая точка хранения preset-переменных.
 
-- текст не сдвигается автоматически от portrait, а берёт свой явный `text_offset_*`
+??? note "Полный список preset-переменных"
+    | Preset | Переменные | Назначение |
+    |--------|-----------|------------|
+    | with_portrait | `text_offset_x/y_with_portrait` | Старт текста |
+    | | `text_wrap_width/height_with_portrait` | Размер текстовой зоны |
+    | | `marker_visible/offset_x/y_with_portrait` | Настройки `>` marker |
+    | | `portrait_offset_x/y/scale_with_portrait` | Настройки portrait |
+    | without_portrait | `text_offset_x/y_without_portrait` | Старт текста (без portrait) |
+    | | `text_wrap_width/height_without_portrait` | Размер текстовой зоны |
+    | | `marker_visible/offset_x/y_without_portrait` | Настройки `>` marker |
+    | | `portrait_offset_x/y/scale_without_portrait` | Симметричный набор |
+    | choices 1..4 | `choice_text_scale_1..4` | Размер текста choices |
+    | | `choice_group_offset_y_1..4` | Вертикальная посадка |
+    | | `choice_wrap_width_ratio_*` | Wrap-ширины |
+    | | `choice_slot_x/y_*` | Координаты slots |
 
-## 2. Старт dialogue окна
+!!! warning "Владение данными"
+    `textboxTest_scribble` владеет **всеми** preset-переменными. `obj_face/Draw_64.gml` только читает `portrait_offset_*` и `portrait_scale_*`.
 
-### `scripts/readDialogue/readDialogue.gml`
-Файл, который создаёт `textboxTest_scribble` при обычном взаимодействии.
-
-Здесь лежат:
-
-- `dialogue_x`
-  - X-позиция instance textbox при создании
-- `dialogue_y`
-  - Y-позиция instance textbox при создании
-- `instance_create_depth(..., textboxTest_scribble)`
-  - точка создания dialogue controller
-
-Это не основной GUI layout, но это важная входная точка, если нужно понять, откуда вообще стартует диалог.
-
-## 3. Portrait draw и его runtime
+## Portrait draw
 
 ### `objects/obj_face/Draw_64.gml`
-Главная тонкая настройка portrait draw.
 
-Здесь лежат:
+??? note "Переменные portrait draw"
+    | Переменная | Описание |
+    |------------|----------|
+    | `_offset_x`, `_offset_y` | Позиция portrait относительно центра textbox |
+    | `_scale` | Масштаб portrait для активного preset |
+    | `_x`, `_y` | Итоговая позиция: `box center + portrait offset` |
+    | `draw_sprite_ext(...)` | Фактическая отрисовка с масштабом |
 
-- `_offset_x`, `_offset_y`
-  - позиция portrait относительно центра textbox
-- `_scale`
-  - масштаб portrait для активного preset
-- `_x`
-  - итоговая X-позиция portrait: `box center + portrait offset`
-- `_y`
-  - итоговая Y-позиция portrait: `box center + portrait offset`
-- `draw_sprite_ext(current_sprite, 0, _x, _y, _scale, _scale, 0, c_white, 1)`
-  - фактическая отрисовка portrait с масштабом
-
-Если portrait "летает" не внутри textbox, это первое место, которое надо проверять.
-
-### `objects/textboxTest_scribble/Create_0.gml`
-Единая точка хранения layout preset-переменных для dialogue UI.
-
-Здесь лежат:
-
-- `text_offset_x_with_portrait`, `text_offset_y_with_portrait`
-  - старт текста для portrait preset
-- `text_wrap_width_with_portrait`, `text_wrap_height_with_portrait`
-  - размер текстовой зоны для portrait preset
-- `marker_visible_with_portrait`, `marker_offset_x_with_portrait`, `marker_offset_y_with_portrait`
-  - настройки continue marker для portrait preset
-- `portrait_offset_x_with_portrait`, `portrait_offset_y_with_portrait`, `portrait_scale_with_portrait`
-  - настройки portrait для portrait preset
-- `text_offset_x_without_portrait`, `text_offset_y_without_portrait`
-  - старт текста для preset без portrait
-- `text_wrap_width_without_portrait`, `text_wrap_height_without_portrait`
-  - размер текстовой зоны для preset без portrait
-- `marker_visible_without_portrait`, `marker_offset_x_without_portrait`, `marker_offset_y_without_portrait`
-  - настройки continue marker для preset без portrait
-- `portrait_offset_x_without_portrait`, `portrait_offset_y_without_portrait`, `portrait_scale_without_portrait`
-  - симметричный набор настроек для режима без portrait
-- `choice_text_scale_1..4`, `choice_group_offset_y_1..4`
-  - отдельные presets размера и вертикальной посадки choices для каждого `option_count`
-- `choice_wrap_width_ratio_1`, `choice_wrap_width_ratio_2`, `choice_wrap_width_ratio_3`, `choice_wrap_width_ratio_4_0..3`
-  - presets wrap-ширины choices
-- `choice_slot_x_*`, `choice_slot_y_*`
-  - presets позиции choice slots для `1/2/3/4` вариантов
-
-Важно:
-
-- `textboxTest_scribble` теперь владеет всем layout preset целиком
-- `obj_face/Draw_64.gml` только читает `portrait_offset_*` и `portrait_scale_*`
-- `textboxTest_scribble/Draw_64.gml` читает текстовые, marker и choice-настройки из тех же preset-блоков
-- старой автосвязки `portrait margin -> text column` больше нет
+!!! tip "Portrait 'летает'?"
+    Если portrait позиционируется не внутри textbox — проверяй этот файл первым делом.
 
 ### `objects/obj_face/Step_0.gml`
+
 Runtime-логика выбора portrait sprite.
 
-Здесь решается:
-
-- есть ли вообще валидный portrait
-- какой кадр рисовать: `mouth_closed` или `mouth_open`
-- когда portrait скрывается полностью
-
-Это не файл для позиционирования, но это основной файл для понимания, **почему portrait виден или не виден**.
+- Валиден ли portrait (`mouth_closed`)
+- Какой кадр: `mouth_closed` или `mouth_open`
+- Когда portrait скрывается полностью
 
 ### `objects/textboxTest_scribble/Create_0.gml`
-Создание и базовая инициализация portrait/runtime части dialogue UI.
 
-Здесь важно:
+Создание и инициализация portrait/runtime.
 
-- создаётся `obj_face`, если его ещё нет
-- настраивается `scribble_typist`
-- задаётся `typist.function_per_char(...)`
-- задаются preset-переменные текста, marker и portrait для двух режимов layout
-- задаются отдельные choice preset-переменные для `1/2/3/4` вариантов выбора
-- инициализируются `mouth_open_prev`, `mouth_closed_prev`, `sound_prev`
-- инициализируются `talk_hold_timer`, `talk_hold_frames`, `talk_open_now`
+??? note "Компоненты инициализации"
+    | Компонент | Описание |
+    |-----------|----------|
+    | `obj_face` | Создаётся, если renderer ещё не существует |
+    | `scribble_typist` | Настройка typist для текста |
+    | `typist.function_per_char(...)` | Callback на каждый символ |
+    | `mouth_open_prev`, `mouth_closed_prev`, `sound_prev` | Инициализация состояния |
+    | `talk_hold_timer`, `talk_hold_frames`, `talk_open_now` | Таймеры анимации рта |
 
-Также здесь живёт фильтр символов для talk animation:
-
-- `.` `!` `?` `:` `;` `…` `-` `—` не открывают рот
-- запятая остаётся активной
+**Фильтр символов для talk animation:** `.` `!` `?` `:` `;` `…` `-` `—` не открывают рот. Запятая остаётся активной.
 
 ### `objects/textboxTest_scribble/Step_0.gml`
+
 Главный runtime-файл portrait state.
 
-Здесь лежат:
+| Функция | Назначение |
+|---------|------------|
+| `apply_current_dialogue_state()` | Обновление actor/emotion/sprite/sound |
+| `update_talk_animation_state()` | Логика открытия/закрытия рта |
+| `global.current_actor/emote/sprite` | Синхронизация глобального состояния |
 
-- `apply_current_dialogue_state()`
-  - обновление actor/emotion/sprite/sound по текущей строке
-- `update_talk_animation_state()`
-  - логика открытия/закрытия рта
-- синхронизация `global.current_actor`, `global.current_emote`, `global.current_sprite`
+## Dialogue entry
 
-Если portrait draw уже настроен, но кадры или actor/emotion работают странно, смотреть нужно сюда.
+### `scripts/readDialogue/readDialogue.gml`
 
-## 4. Actor/emotion -> portrait mapping
+Создаёт `textboxTest_scribble` при обычном взаимодействии.
+
+??? note "Параметры создания"
+    | Переменная | Описание |
+    |------------|----------|
+    | `dialogue_x`, `dialogue_y` | Позиция instance textbox при создании |
+    | `instance_create_depth(..., textboxTest_scribble)` | Точка создания dialogue controller |
+
+!!! info "Не GUI layout"
+    Это входная точка для понимания, **откуда** стартует диалог, а не основной GUI layout.
+
+## Actor/emotion mapping
 
 ### `scripts/scr_parse_emote/scr_parse_emote.gml`
-Нормализация actor/emotion и fallback-логика.
 
-Здесь решается:
-
-- narrator fallback
-- default emotion
-- использование previous emotion
-- итоговый выбор ключа actor/emotion
+Нормализация actor/emotion и fallback-логика: narrator fallback, default emotion, previous emotion, итоговый выбор ключа.
 
 ### `scripts/map_emotions/map_emotions.gml`
-Таблица сопоставления actor/emotion -> ресурсы portrait/sound.
 
-Здесь лежит:
+Таблица actor/emotion → ресурсы portrait/sound.
 
-- какие sprite используются для `mouth_closed`
-- какие sprite используются для `mouth_open`
-- какой voice sound связан с actor/emotion
+| Ресурс | Описание |
+|--------|----------|
+| `mouth_closed` | Sprite для закрытого рта |
+| `mouth_open` | Sprite для открытого рта |
+| `sound` | Voice sound для actor/emotion |
 
-Если диалог правильно парсится, но показывается не тот portrait, проблема обычно здесь.
+!!! tip "Не тот portrait?"
+    Если диалог парсится правильно, но показывается не тот portrait — проблема обычно здесь.
 
-## 5. Interaction marker у игрока
+## Interaction marker
 
 ### `scripts/scr_player_marker_update/scr_player_marker_update.gml`
+
 Главный файл для offset interaction marker относительно игрока.
 
-Здесь лежат:
-
-- `pointX`
-- `pointY`
-- индивидуальные offsets для `RIGHT`, `LEFT`, `UP`, `DOWN`
-
-Это главное место для ручной подстройки interaction distance и feel.
+| Переменная | Описание |
+|------------|----------|
+| `pointX`, `pointY` | Позиция marker |
+| offsets для `RIGHT/LEFT/UP/DOWN` | Индивидуальные смещения по направлениям |
 
 ### `objects/obj_player/Create_0.gml`
-Здесь создаётся постоянный instance marker:
 
-- `marker_id = instance_create_depth(x, y, -infinity, obj_pointMarker);`
+Создаётся постоянный instance marker: `marker_id = instance_create_depth(x, y, -infinity, obj_pointMarker);`
 
 ### `objects/obj_pointMarker/Create_0.gml`
-Файл состояния самого marker object.
 
-Важно:
-
-- `visible = false`
-- marker сам по себе не является обычным видимым UI-элементом
-- он используется как логическая точка взаимодействия
-- его debug-отрисовка отдельно выводится через F3
+| Свойство | Описание |
+|----------|----------|
+| `visible = false` | Marker невидимый |
+| Логическая точка | Используется для detection взаимодействия |
+| Debug-отрисовка | Отдельно через F3 |
 
 ### `scripts/interactionWithNPCsOrObjects/interactionWithNPCsOrObjects.gml`
+
 Проверка взаимодействия через marker.
 
-Здесь лежит:
-
-- проверка существования `obj_pointMarker`
+- Проверка существования `obj_pointMarker`
 - `place_meeting(...)` или `point_in_rectangle(...)`
-- вызов `readDialogue(_scriptToReadFrom, _node)`
+- Вызов `readDialogue(_scriptToReadFrom, _node)`
 
-## 6. Debug overlay и debug toggles
+## Debug overlay
 
 ### `objects/obj_globalManager/Draw_64.gml`
-Главный файл для debug overlay.
 
-Здесь находятся:
+??? note "Компоненты debug overlay"
+    | Компонент | Описание |
+    |-----------|----------|
+    | `draw_debug_collider(...)` | Проекция world collider в GUI overlay |
+    | `_camx`, `_camy`, `_s`, `_ox`, `_oy` | Параметры пересчёта позиции и масштаба |
+    | F1 overlay | Информация о позиции и направлении |
+    | F2 collider overlay | Коллайдеры |
+    | F3 interaction marker | Debug draw marker |
 
-- `draw_debug_collider(...)`
-  - проекция world collider в GUI overlay
-- `_camx`, `_camy`, `_s`, `_ox`, `_oy`
-  - ключевые параметры пересчёта позиции и масштаба
-- F1 overlay
-- F2 collider overlay
-- F3 interaction marker debug draw
-
-Если debug rectangle смещён, растянут или не совпадает с объектом, смотреть нужно сюда в первую очередь.
+!!! tip "Debug смещён?"
+    Если debug rectangle не совпадает с объектом — смотри сюда первым делом.
 
 ### `objects/obj_Init/Create_0.gml`
-Базовая инициализация debug flags.
 
-Здесь лежат:
+Базовая инициализация debug flags:
 
 - `global.debug_show_info`
 - `global.debug_show_colliders`
@@ -310,77 +225,41 @@ Runtime-логика выбора portrait sprite.
 - `global.debug_show_music`
 
 ### `objects/obj_player/Create_0.gml`
-Локальная синхронизация player-side debug flags с global-state.
 
-Здесь лежат:
+Локальная синхронизация player-side debug flags:
 
 - `debug_show_info`
 - `debug_show_colliders`
 - `debug_show_hitbox`
 
 ### `scripts/scr_global_debug_hotkeys/scr_global_debug_hotkeys.gml`
-Файл hotkeys для переключения debug overlay.
 
-Здесь лежат:
+| Горячая клавиша | Флаг |
+|-----------------|------|
+| F1 | `debug_show_info` |
+| F2 | `debug_show_colliders` |
+| F3 | marker debug |
 
-- `F1` -> `debug_show_info`
-- `F2` -> `debug_show_colliders`
-- `F3` -> marker debug
+## Dialogue entry points
 
-## 7. Dialogue entry points для конкретных объектов
+| Объект | Yarn file | Node |
+|--------|-----------|------|
+| `objects/obj_asher/Step_0.gml` | `testDialogue.yarn` | `Bench` |
+| `objects/obj_bench/Step_0.gml` | — | — |
+| `objects/obj_sheepFountain/Step_0.gml` | — | — |
 
-Эти файлы важны, если нужно понять, **какой именно dialogue file и node реально запускаются**.
+## Быстрый маршрут по задачам
 
-### `objects/obj_asher/Step_0.gml`
-Пример interactable, который запускает:
+| Задача | Куда смотреть |
+|--------|---------------|
+| Подвинуть portrait | `obj_face/Draw_64.gml`, `textboxTest_scribble/Draw_64.gml` |
+| Изменить wrap текста | `textboxTest_scribble/Draw_64.gml` |
+| Скрыть/сдвинуть `>` marker | `textboxTest_scribble/Draw_64.gml` |
+| Изменить interaction marker | `scr_player_marker_update.gml` |
+| Починить F2/F3 debug overlay | `obj_globalManager/Draw_64.gml`, `scr_global_debug_hotkeys.gml`, `obj_Init/Create_0.gml` |
 
-- `testDialogue.yarn`
-- node `Bench`
+## См. также
 
-### `objects/obj_bench/Step_0.gml`
-Ещё один пример конкретного dialogue entry point.
-
-### `objects/obj_sheepFountain/Step_0.gml`
-Ещё один пример dialogue entry point для другого interactable.
-
-## 8. Самый короткий маршрут по частым задачам
-
-### Если нужно подвигать portrait
-Смотри:
-
-- `objects/obj_face/Create_0.gml`
-- `objects/obj_face/Draw_64.gml`
-- `objects/textboxTest_scribble/Draw_64.gml`
-
-### Если нужно изменить wrap текста вокруг portrait
-Смотри:
-
-- `objects/textboxTest_scribble/Draw_64.gml`
-
-### Если нужно скрыть или сдвинуть `>` marker
-Смотри:
-
-- `objects/textboxTest_scribble/Draw_64.gml`
-
-### Если нужно изменить interaction marker возле игрока
-Смотри:
-
-- `scripts/scr_player_marker_update/scr_player_marker_update.gml`
-
-### Если нужно чинить F2/F3 debug overlay
-Смотри:
-
-- `objects/obj_globalManager/Draw_64.gml`
-- `scripts/scr_global_debug_hotkeys/scr_global_debug_hotkeys.gml`
-- `objects/obj_Init/Create_0.gml`
-
-## 9. Практическое правило для текущей portrait-задачи
-
-Для текущего dialogue portrait layout важно помнить:
-
-- portrait position настраивается в `objects/obj_face/Draw_64.gml`
-- textbox main text wrap настраивается через preset-переменные в `objects/textboxTest_scribble/Create_0.gml`
-- choice layout для `1/2/3/4` тоже настраивается через preset-переменные в `objects/textboxTest_scribble/Create_0.gml`
-- `>` marker внутри textbox тоже живёт в `objects/textboxTest_scribble/Draw_64.gml`
-- если portrait рисуется внутри textbox, `>` marker не должен рисоваться поверх portrait без отдельного согласованного layout
-- `objects/textboxTest_scribble/Draw_64.gml` теперь в основном читает presets и рисует по ним
+- [Диалоговые портреты](dialogue-portraits.md)
+- [Система взаимодействия](interaction.md)
+- [Система ввода](input.md)
