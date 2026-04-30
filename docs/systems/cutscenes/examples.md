@@ -1,16 +1,23 @@
 # Катсцены: Примеры
 
-## Пример 1: cutscene_* стиль (из `scr_cutscene.gml`)
-Тестовая катсцена создаёт менеджер, добавляет экшены и запускает:
-- движения (`cutscene_move`)
-- анимации (`cutscene_animate`)
-- поворот (`cutscene_set_facing`)
-- диалог (`cutscene_dialogue`)
-- действия камеры (`cutscene_camera_center`, `cutscene_camera_pan`, `cutscene_camera_track`)
-- параллель (`cutscene_parallel`)
-- выполнение функции (`cutscene_run_function`)
+## Пример 1: JSON-стиль (из `obj_cutsceneTest`)
+Тестовая катсцена теперь загружается из JSON-файла через `cutscene_load_json()`:
 
-Важно: если в катсцене не добавить экшены камеры, камера может остаться на позиции старта катсцены.
+```gml
+var _mgr = cutscene_load_json("cutscenes/test_scene.json");
+_mgr.start_cutscene();
+```
+
+JSON-файл содержит декларативное описание:
+- `move`, `wait`, `dialogue`, `parallel`
+- действия камеры (`camera_pan`, `camera_track`, `camera_shake`)
+- `actor_create`, `set_facing`, `animate`
+- `fade_in`, `fade_out`, `play_sfx`
+
+Если в JSON-катсцене не добавить экшены камеры, камера останется на позиции старта катсцены.
+
+### Legacy fallback
+`obj_cutsceneTest.Step_0` всё ещё поддерживает legacy-функции (`fn`), но все 5 тестовых пунктов меню переписаны на JSON (`json`).
 
 ## Пример 2: Builder стиль (c_*)
 Builder-стиль работает через «активного менеджера»:
@@ -21,4 +28,13 @@ Builder-стиль работает через «активного менедж
 - `c_speaker("name")` — выбирает текущего актёра (строковый ключ).
 - дальнейшие команды `c_setxy`, `c_depth`, `c_facing` используют этот ключ.
 
-Примечание: строковые ключи актёров поддерживаются, но для самого надёжного поведения в экшенах всё равно предпочтительнее передавать instance id напрямую.
+### Регистрация в Yarn (Chatterbox)
+Все `c_*` команды зарегистрированы как Yarn-функции через `cutscene_register_chatterbox_functions()` (вызов в `obj_Init`):
+
+```yarn
+<<c_walk obj_player right 2 60>>
+<<c_dialogue test.yarn Start>>
+<<c_fadein 60>>
+```
+
+Примечание: строковые ключи актёров поддерживаются, но для самого надёжного поведения в экшенах предпочтительнее передавать instance id напрямую.
