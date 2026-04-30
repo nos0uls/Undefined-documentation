@@ -32,4 +32,4 @@
 
 - [Установка и настройка](setup.md) — клонирование, зависимости, `mkdocs serve`
 - [Структура проекта](project-structure.md) — основные папки, объекты, скрипты
-- [Архитектура: инициализация](../../architecture/initialization.md) — `rm_init`, `obj_Init`, `GlobalRoomCreationCode`
+- [Архитектура: инициализация](../architecture/initialization.md) — `rm_init`, `obj_Init`, `GlobalRoomCreationCode`

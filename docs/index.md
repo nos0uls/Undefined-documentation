@@ -46,6 +46,14 @@ hide:
     [:arrow_right: GML Скрипты](code-reference/gml-scripts.md)
     [:arrow_right: События](code-reference/events.md)
 
+-   :material-book-open-variant: **Глоссарий**
+
+    ---
+
+    Словарь ключевых терминов: акторы, action queue, UI blocking, Yarn и другие.
+
+    [:arrow_right: Глоссарий](glossary.md)
+
 </div>
 
 ## Статус проекта
@@ -57,3 +65,4 @@ hide:
 
 *   [GitHub Репозиторий](https://github.com/n0souls/Undefinedtale-888)
 *   [GameMaker Manual](https://manual.yoyogames.com/)
+* [Есть вопросы? Телеграм разработчика](https://t.me/n0souls)

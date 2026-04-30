@@ -46,6 +46,8 @@ nav:
       - Форматы и экспорт: systems/cutscenes/undefscene/formats.md
       - Валидация графа: systems/cutscenes/undefscene/validation.md
       - FAQ и troubleshooting: systems/cutscenes/undefscene/faq.md
+  - Глоссарий: glossary.md
+  - Теги: tags.md
   - Геймплей:
       - Обзор: gameplay/overview.md
       - Управление: gameplay/controls.md
@@ -153,12 +155,13 @@ plugins:
       enable_git_follow: false
   - minify:
       minify_html: true
+  - tags
 
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/n0souls
     - icon: fontawesome/brands/telegram
-      link: https://telegram.org/n0souls
+      link: https://t.me/n0souls
 
-copyright: Copyright &copy; 2025 n0souls
+copyright: Copyright &copy; 2026 n0souls
