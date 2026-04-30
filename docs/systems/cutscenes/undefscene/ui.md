@@ -18,9 +18,9 @@
 
 Для `dialogue`-нод панель `Text` умеет показывать `Yarn Preview`: список нод из выбранного `.yarn` файла и содержимое выбранного блока в режиме чтения.
 
-Для `follow_path`-ноды Inspector теперь показывает отдельный `Path Preview`: форму траектории, порядок waypoint-ов и анимированный marker движения.
+Для `follow_path`-ноды Inspector показывает отдельный `Path Preview`: форму траектории, порядок waypoint-ов и анимированный marker движения.
 
-`Visual Editing` теперь открывается в отдельном native окне. Оно живёт отдельно от главного editor window, попадает в `Alt+Tab` и использует stitched room screenshot как фон для path и actor placement workflow.
+`Visual Editing` открывается в отдельном native окне. Оно живёт отдельно от главного editor window, попадает в `Alt+Tab` и использует stitched room screenshot как фон для path и actor placement workflow.
 
 ## Управление на холсте
 

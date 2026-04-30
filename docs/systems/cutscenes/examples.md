@@ -1,7 +1,7 @@
 # Катсцены: Примеры
 
 ## Пример 1: JSON-стиль (из `obj_cutsceneTest`)
-Тестовая катсцена теперь загружается из JSON-файла через `cutscene_load_json()`:
+Тестовая катсцена загружается из JSON-файла через `cutscene_load_json()`:
 
 ```gml
 var _mgr = cutscene_load_json("cutscenes/test_scene.json");
