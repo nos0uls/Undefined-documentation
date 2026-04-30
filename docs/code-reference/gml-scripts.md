@@ -80,7 +80,7 @@ global.input_map = scr_buildInputMap(global.player_settings); // (1)!
 Возвращает `true`, если клавиша действия зажата. Во время катсцены блокирует ввод для не-UI объектов.
 
 ```gml
-/// @param {string} action — "up", "down", "left", "right", "confirm", "back", "menu"
+/// @param {string} action — "up", "down", "left", "right", "confirm", "back", "menu", "delete"
 if (scr_input_down("right")) { /* клавиша вправо зажата */ }
 ```
 
@@ -117,36 +117,31 @@ scr_input_rebind_slot("confirm", 1, ord("Z")); // (1)!
 
 1. Защищает дефолтные клавиши (`Z`, `Enter`, `Esc`) от перезаписи — вернёт `false`, если попытка изменить защищённый слот.
 
-## Направление ↔ Спрайт (scr_facing_sprite)
+## Направление ↔ Спрайт (scr_player_facing)
 
-### scr_facing_to_sprite
+### scr_sprite_for_facing
 
 Возвращает спрайт ходьбы для заданного направления.
 
 ```gml
 /// @param {real} facing — global.DIR.RIGHT/LEFT/UP/DOWN
-/// @param {struct} [chara_sprites] — { right, left, up, down } для кастомных NPC
 /// @returns {Asset.GMSprite}
-sprite_index = scr_facing_to_sprite(facing_direction); // (1)!
-sprite_index = scr_facing_to_sprite(dir, actor.chara_sprites); // (2)!
+sprite_index = scr_sprite_for_facing(facing_direction); // (1)!
 ```
 
-1. Без второго аргумента использует стандартную таблицу спрайтов игрока.
-2. С `chara_sprites` — для кастомных NPC, где каждый актёр имеет свои спрайты направлений.
+1. Использует стандартную таблицу спрайтов игрока (`spr_Chara_walking_R/L/D/U`).
 
-### scr_sprite_to_facing
+### scr_facing_for_sprite
 
 Обратная функция: спрайт → направление.
 
 ```gml
 /// @param {Asset.GMSprite} spr
-/// @param {struct} [chara_sprites]
-/// @returns {real} global.DIR.* или -1
-var f = scr_sprite_to_facing(sprite_index); // (1)!
-if (f != -1) facing_direction = f;
+/// @returns {real} global.DIR.*
+facing_direction = scr_facing_for_sprite(sprite_index); // (1)!
 ```
 
-1. Возвращает `-1`, если спрайт не найден в таблице направлений — полезно как guard перед присваиванием.
+1. Возвращает направление по текущему спрайту игрока — вызывается каждый кадр в `obj_player.Step` для синхронизации.
 
 ## Скрипты игрока
 
