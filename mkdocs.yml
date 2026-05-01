@@ -133,6 +133,10 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.keys
   - pymdownx.mark
+  - pymdownx.snippets:
+      check_paths: false
+      auto_append:
+        - _snippets/abbr.md
   - pymdownx.smartsymbols
   - pymdownx.superfences:
       custom_fences:

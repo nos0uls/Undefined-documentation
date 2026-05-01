@@ -1,3 +1,10 @@
+---
+tags:
+  - init
+  - runtime
+  - persistent-objects
+---
+
 # Инициализация и Runtime (Initialization)
 
 Этот документ описывает текущую стартовую цепочку игры и разделение ответственности между `obj_Init` и `obj_globalManager`.
@@ -95,7 +102,7 @@ sequenceDiagram
 
 В `GlobalRoomCreationCode.gml` (выполняется в **каждой** комнате) есть fallback-логика на случай запуска не через стандартную цепочку `rm_init -> obj_Init -> rm_roomMenu`:
 
-```gml
+```gml title="GlobalRoomCreationCode.gml"
 if (!instance_exists(obj_Init)) {
     instance_create_depth(0, 0, -10000, obj_Init);
 }
@@ -110,7 +117,7 @@ if (!instance_exists(obj_globalManager)) {
 
 ## См. также
 
-- [Глобальное состояние](global-state.md) — `global.__init_done`, UI blocking, катсценные флаги
-- [Объекты системы](objects.md) — `obj_Init`, `obj_globalManager`, `obj_music_ctrl`
-- [Комнаты](rooms.md) — `rm_init`, `GlobalRoomCreationCode.gml`
+- [Глобальное состояние](global-state.md)
+- [Объекты системы](objects.md)
+- [Комнаты](rooms.md)
 - [Система музыки](../systems/music.md) — `scr_music_init()`, `global.play_music()`

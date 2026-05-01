@@ -1,3 +1,9 @@
+---
+tags:
+  - music
+  - audio
+---
+
 # Система Музыки (Music Engine)
 
 Централизованная система управления музыкой с time-based фейдами, поддержкой intro+loop, pitch control, cutscene-командами и debug overlay.
@@ -36,30 +42,31 @@ obj_music_ctrl.Draw_64
 
 ## Глобальные переменные
 
-| Переменная | Тип | Описание |
-|-----------|-----|---------|
-| `global.music_current` | sound/noone | Asset текущего трека |
-| `global.music_instance` | real | Playing instance |
-| `global.music_volume` | real (0..1) | Текущая громкость |
-| `global.music_volume_target` | real (0..1) | Целевая громкость |
-| `global.music_pitch` | real | Текущий pitch (1.0 = норма) |
-| `global.music_fade_duration` | real | Длительность фейда (сек) |
-| `global.music_fade_timer` | real | Оставшееся время фейда |
-| `global.music_fade_from` | real | Начальная громкость фейда |
-| `global.music_prev_instance` | real | Instance предыдущего трека |
-| `global.music_intro_instance` | real | Instance intro-трека |
-| `global.music_loop_asset` | sound/noone | Asset loop-трека |
-| `global.music_paused` | bool | Пауза |
-| `global.music_default_fade` | real | Дефолтный фейд (0.5 сек) |
-| `global.music_default_game_track` | sound | Трек по умолчанию для игровых комнат |
-| `global.room_music_override` | ds_map | room_id → sound для комнат с особой музыкой |
-| `global.music_duck_multiplier` | real (0..1) | Текущий множитель приглушения (1.0 = без duck) |
-| `global.music_duck_target` | real (0..1) | Целевой множитель duck |
-| `global.music_layered_mode` | bool | true = играют два трека (Layer 2) |
-| `global.music_layer2_instance` | real | Instance второго слоя (battle) |
-| `global.music_layer2_asset` | sound/noone | Asset второго слоя |
-| `global.music_layer_intensity` | real (0..1) | Текущая интенсивность (0=calm, 1=battle) |
-| `global.music_layer_intensity_target` | real (0..1) | Целевая интенсивность |
+???+ note "Таблица глобальных переменных музыки"
+    | Переменная | Тип | Описание |
+    |-----------|-----|---------|
+    | `global.music_current` | sound/noone | Asset текущего трека |
+    | `global.music_instance` | real | Playing instance |
+    | `global.music_volume` | real (0..1) | Текущая громкость |
+    | `global.music_volume_target` | real (0..1) | Целевая громкость |
+    | `global.music_pitch` | real | Текущий pitch (1.0 = норма) |
+    | `global.music_fade_duration` | real | Длительность фейда (сек) |
+    | `global.music_fade_timer` | real | Оставшееся время фейда |
+    | `global.music_fade_from` | real | Начальная громкость фейда |
+    | `global.music_prev_instance` | real | Instance предыдущего трека |
+    | `global.music_intro_instance` | real | Instance intro-трека |
+    | `global.music_loop_asset` | sound/noone | Asset loop-трека |
+    | `global.music_paused` | bool | Пауза |
+    | `global.music_default_fade` | real | Дефолтный фейд (0.5 сек) |
+    | `global.music_default_game_track` | sound | Трек по умолчанию для игровых комнат |
+    | `global.room_music_override` | ds_map | room_id → sound для комнат с особой музыкой |
+    | `global.music_duck_multiplier` | real (0..1) | Текущий множитель приглушения (1.0 = без duck) |
+    | `global.music_duck_target` | real (0..1) | Целевой множитель duck |
+    | `global.music_layered_mode` | bool | true = играют два трека (Layer 2) |
+    | `global.music_layer2_instance` | real | Instance второго слоя (battle) |
+    | `global.music_layer2_asset` | sound/noone | Asset второго слоя |
+    | `global.music_layer_intensity` | real (0..1) | Текущая интенсивность (0=calm, 1=battle) |
+    | `global.music_layer_intensity_target` | real (0..1) | Целевая интенсивность |
 
 ---
 

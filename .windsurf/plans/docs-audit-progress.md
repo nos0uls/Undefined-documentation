@@ -73,3 +73,50 @@
 5. JSON cutscene factory supports camera_pan, camera_shake, auto_facing, auto_walk, set_facing with string directions.
 6. Undefscene editor: Select tool works on actor markers only; Play button is local preview only.
 7. Undefscene editor hotkeys use `e.code` not `e.key` for layout-agnostic Ctrl+A/C/X/Z.
+
+## Phase 10: Megaplan Audit & Polish (COMPLETED)
+
+### 10A: Baseline snapshot ✅
+- [x] `docs-megaplan-findings.md` создан
+- [x] `mkdocs build --strict` проходит
+
+### 10B: Fact-check (all 42 pages) ✅
+- [x] `architecture/` — все сигнатуры сверены с кодом (scr_checkUIBlocking, scr_game_state_*, scr_global_handle_dev_spawn, scr_roomFromName, scr_global_on_room_change, scr_global_transition_safety)
+- [x] `systems/input.md` — scr_input_pressed/down/repeater/rebind/rebind_slot сигнатуры подтверждены
+- [x] `systems/ui.md` — scr_checkUIBlocking подтверждена
+- [x] `systems/music.md` — play_music/stop_music/pause_music/API подтверждены
+- [x] `systems/interaction.md` — scr_interaction подтверждена
+- [x] `systems/dialogue-portraits.md` — scr_parse_emote/map_emotions подтверждены
+- [x] `systems/cutscenes/*` — cutscene_load_json, start_cutscene, cutscene_register_chatterbox_functions подтверждены
+- [x] `systems/cutscenes/undefscene/*` — CameraShakeNode, AutoFacingNode, AutoWalkNode в editor-app подтверждены
+- [x] `gameplay/controls.md` — F1-F12 debug hotkeys сверены с scr_global_debug_hotkeys, scr_debug_activation_check, scr_player_debug_ghost
+- [x] `code-reference/` — справочные страницы без конкретных сигнатур, факт-чек тривиально пройден
+- [x] `getting-started/` — справочные страницы, факт-чек пройден
+
+### 10C: Text polish ✅
+- [x] Убраны временные маркеры из `undefscene/ui.md` (3 шт: "больше не", "теперь" ×2)
+- [x] Убран "теперь" из `cutscenes/api.md`
+- [x] Голое "Важно:" → `!!! warning` в `cutscenes/actors.md`
+- [x] Blockquote "Важно:" → `!!! tip` в `interaction.md`
+- [x] Голое "Примечание:" → `!!! note` в `cutscenes/examples.md`
+- [x] Финальная проверка: 0 оставшихся "теперь", "больше не", "Важно:", "Примечание:", TODO/FIXME
+
+### 10D: Structural polish ✅
+- [x] `tags:` frontmatter добавлен ко всем 38 страницам (исключая index.md, 404.md, tags.md, glossary.md, _snippets/abbr.md)
+- [x] Grid cards добавлены: `architecture/overview.md`, `systems/cutscenes/overview.md`, `gameplay/overview.md`
+- [x] Content tabs добавлены: `cutscenes/examples.md` (JSON/Builder/Yarn), `input.md` (rebind/rebind_slot)
+- [x] Collapsible `???+ note` для таблицы globals в `music.md`
+- [x] Abbr-определения: `_snippets/abbr.md` создан (GML, NPC, UI, SFX, BPM, OGG, RF, IPC, FPS, JSON, Yarn), `pymdownx.snippets` подключён в mkdocs.yml с auto_append
+- [x] Code `title=` добавлен в `gml-scripts.md` (4 блока) и `initialization.md` (1 блок)
+
+### 10E: Navigation ✅
+- [x] Все 42 .md страницы включены в mkdocs.yml nav
+- [x] `404.md` добавлен в nav
+
+### 10F: Final verification ✅
+- [x] 0 временных маркеров
+- [x] 0 TODO/FIXME
+- [x] 0 голых "Важно:" / "Примечание:"
+- [x] Все страницы имеют tags frontmatter
+- [x] mkdocs.yml включает pymdownx.snippets + abbr
+

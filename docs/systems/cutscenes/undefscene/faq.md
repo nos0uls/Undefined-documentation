@@ -1,3 +1,9 @@
+---
+tags:
+  - undefscene
+  - editor
+---
+
 # Undefscene: FAQ и troubleshooting
 
 ## Почему редактор сохраняет `.usc.json`, а игра использует `.json`?

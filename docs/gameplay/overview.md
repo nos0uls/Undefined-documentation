@@ -1,3 +1,8 @@
+---
+tags:
+  - gameplay
+---
+
 # Геймплей: Обзор
 
 Этот раздел описывает игровой слой проекта: базовое управление игроком, взаимодействие с миром, поведение меню и общую структуру повседневного gameplay.
@@ -11,10 +16,33 @@
 
 ## Связанные разделы
 
-- [Управление](./controls.md)
-- [Механики](./mechanics.md)
-- [Система ввода](../systems/input.md)
-- [Система взаимодействия](../systems/interaction.md)
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-keyboard:{ .lg .middle } **Управление**
+    ---
+    Горячие клавиши, debug-режим (F1–F12)
+    ---
+    [:octicons-arrow-right-24: Подробнее](controls.md)
+
+-   :fontawesome-solid-gears:{ .lg .middle } **Механики**
+    ---
+    Перемещение, взаимодействие, диалоги, катсцены
+    ---
+    [:octicons-arrow-right-24: Подробнее](mechanics.md)
+
+-   :fontawesome-solid-gamepad:{ .lg .middle } **Система ввода**
+    ---
+    `scr_input_pressed()`, `scr_buildInputMap()`, rebind
+    ---
+    [:octicons-arrow-right-24: Подробнее](../systems/input.md)
+
+-   :fontawesome-solid-hand-pointer:{ .lg .middle } **Взаимодействие**
+    ---
+    `scr_interaction()`, `obj_pointMarker`, Yarn-диалоги
+    ---
+    [:octicons-arrow-right-24: Подробнее](../systems/interaction.md)
+
+</div>
 
 ## Ключевая идея
 

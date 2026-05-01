@@ -1,3 +1,9 @@
+---
+tags:
+  - undefscene
+  - editor
+---
+
 # Undefscene: Room Screenshot Pipeline
 
 ## Цель

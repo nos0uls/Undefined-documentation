@@ -1,3 +1,9 @@
+---
+tags:
+  - undefscene
+  - editor
+---
+
 # Undefscene: Базовый workflow
 
 ## Рекомендуемый порядок работы

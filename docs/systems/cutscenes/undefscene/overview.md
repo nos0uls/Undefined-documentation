@@ -1,3 +1,11 @@
+---
+tags:
+  - undefscene
+  - editor
+  - electron
+  - react-flow
+---
+
 # Undefscene: Обзор
 
 Undefscene — это desktop app на Electron и React Flow для визуального создания, редактирования и тестирования катсцен проекта Undefinedtale-888.
