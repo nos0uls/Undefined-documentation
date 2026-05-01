@@ -1,3 +1,9 @@
+---
+tags:
+  - dialogue
+  - ui
+---
+
 # Портреты диалога (Dialogue Portraits)
 
 Этот документ описывает текущую runtime-схему портретов для Yarn + Chatterbox в `Undefinedtale888`.

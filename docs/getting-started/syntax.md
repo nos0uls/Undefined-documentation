@@ -1,5 +1,11 @@
+---
+tags:
+  - getting-started
+---
 
-## Основа синтаксиса Markdown для MkDocs Material
+# Синтаксис Markdown для MkDocs Material
+
+## Основа
 
 В MkDocs все страницы пишутся на Markdown (`.md`). Вот базовые правила и расширения для оформления документации.
 

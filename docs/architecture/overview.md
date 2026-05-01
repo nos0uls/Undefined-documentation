@@ -1,3 +1,10 @@
+---
+tags:
+  - init
+  - runtime
+  - persistent-objects
+---
+
 # Обзор Архитектуры (Architecture Overview)
 
 Undefinedtale-888 построен на базе GameMaker Studio 2 (GML). Архитектура проекта стремится к разделению ответственности между системами инициализации, игрового цикла и контента.
@@ -49,6 +56,36 @@ graph TD
 *   **`scripts/`**: Библиотеки и глобальные функции.
 *   **`rooms/`**: Уровни и меню.
 *   **`datafiles/`**: Внешние ресурсы (диалоги, локализация).
+
+## Разделы архитектуры
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-play:{ .lg .middle } **Инициализация**
+    ---
+    Стартовая цепочка `obj_Init` → `obj_globalManager` → `rm_roomMenu`
+    ---
+    [:octicons-arrow-right-24: Подробнее](initialization.md)
+
+-   :fontawesome-solid-database:{ .lg .middle } **Глобальное состояние**
+    ---
+    `global.*` переменные, UI blocking, инвентарь, статы
+    ---
+    [:octicons-arrow-right-24: Подробнее](global-state.md)
+
+-   :fontawesome-solid-cube:{ .lg .middle } **Объекты системы**
+    ---
+    `obj_Init`, `obj_globalManager`, `obj_music_ctrl`, `obj_menu`
+    ---
+    [:octicons-arrow-right-24: Подробнее](objects.md)
+
+-   :fontawesome-solid-door-open:{ .lg .middle } **Комнаты**
+    ---
+    `rm_init`, `rm_roomMenu`, `rm_savesSelect`, room-to-track mapping
+    ---
+    [:octicons-arrow-right-24: Подробнее](rooms.md)
+
+</div>
 
 ---
 

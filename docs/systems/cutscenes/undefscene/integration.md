@@ -1,3 +1,9 @@
+---
+tags:
+  - undefscene
+  - editor
+---
+
 # Undefscene: Интеграция с проектом
 
 ## Открытие проекта

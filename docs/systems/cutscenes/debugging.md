@@ -1,3 +1,8 @@
+---
+tags:
+  - cutscenes
+---
+
 # Катсцены: Отладка
 
 ## Встроенный debug overlay

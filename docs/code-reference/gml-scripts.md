@@ -1,3 +1,9 @@
+---
+tags:
+  - code-reference
+  - scripts
+---
+
 # GML Скрипты
 
 Справочник основных скриптов и функций проекта Undefinedtale-888.
@@ -8,7 +14,7 @@
 
 Инициализирует глобальные константы. Вызывается один раз из `obj_Init`.
 
-```gml
+```gml title="scripts/scr_constants/scr_constants.gml"
 scr_constants();
 // Результат:
 // global.DIR = { RIGHT: 0, LEFT: 1, UP: 2, DOWN: 3 }
@@ -21,7 +27,7 @@ scr_constants();
 
 Загружает настройки из файла `player_settings.dat`. Если файл отсутствует или содержит не все ключи — автоматически мигрирует и пересохраняет.
 
-```gml
+```gml title="scripts/scr_settingsManager/scr_settingsManager.gml"
 /// @returns {struct} настройки игрока
 var settings = scr_loadSettings();
 ```
@@ -30,7 +36,7 @@ var settings = scr_loadSettings();
 
 Записывает настройки в файл. Использует ключи из `global.default_settings` как шаблон.
 
-```gml
+```gml title="scripts/scr_settingsManager/scr_settingsManager.gml"
 /// @param {struct} settings
 /// @returns {bool} успех
 scr_saveSettings(global.player_settings);
@@ -40,7 +46,7 @@ scr_saveSettings(global.player_settings);
 
 Применяет настройки к игре: debug-флаг, режим окна (borderless/windowed), громкость, input_map.
 
-```gml
+```gml title="scripts/scr_settingsManager/scr_settingsManager.gml"
 /// @param {struct} settings
 /// @returns {bool} успех
 scr_applySettings(global.player_settings);

@@ -1,3 +1,9 @@
+---
+tags:
+  - cutscenes
+  - actors
+---
+
 # Катсцены: Актёры
 
 ## Реестр актёров у менеджера
@@ -16,9 +22,9 @@
 - Если `sprite_or_object` — строка, движок пытается найти asset по имени и трактует его как объект или спрайт.
 - Если `sprite_or_object` — sprite asset, он будет назначен в `sprite_index` созданного инстанса.
 
-Важно:
-- Если объект для создания не определён, по умолчанию используется **`obj_actor`**.
-- После создания инстанс регистрируется как `manager.actor_map[$ key] = instance`.
+!!! warning "Важно"
+    - Если объект для создания не определён, по умолчанию используется **`obj_actor`**.
+    - После создания инстанс регистрируется как `manager.actor_map[$ key] = instance`.
 
 ## Уничтожение (`cutscene_actor_destroy` / `ActionActorDestroy`)
 - `cutscene_actor_destroy(target_ref)` принимает instance id или некоторые legacy ссылки.

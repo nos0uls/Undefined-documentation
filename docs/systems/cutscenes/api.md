@@ -1,3 +1,10 @@
+---
+tags:
+  - cutscenes
+  - cutscene-api
+  - yarn
+---
+
 # Катсцены: API
 
 ## Канон
@@ -150,7 +157,7 @@ Runtime-эффекты (tweens, jumps, spins, shakes) хранятся в мас
 
 ## Примечания
 ### Chatterbox-интеграция
-Все `ChatterboxAddFunction`-обёртки теперь **stateless** и требуют явный `target`:
+Все `ChatterboxAddFunction`-обёртки **stateless** и требуют явный `target`:
 - `c_walk(target, dir, speed, frames)`
 - `c_walkdirect(target, x, y, frames)`
 - `c_walkdirect_speed(target, x, y, speed)`
