@@ -14,7 +14,7 @@ tags:
 - **Music** — отдельная система (`obj_music_ctrl` + `scr_global_music_*`). Cutscene-ядро не владеет музыкой; из катсцен музыка управляется через `c_run`/`c_sfx` или прямые вызовы `global.play_music(...)`.
 
 ## Builder-API (`c_*`)
-Builder-слой предназначен для построения очереди через активный менеджер (build manager) без передачи `mgr` в каждый вызов.
+Builder-слой строит очередь через активный менеджер (build manager) без передачи `mgr` в каждый вызов.
 
 ### Менеджер сборки
 - `c_begin(id)` — создаёт менеджер `obj_cutsceneManager` и сохраняет в `global.__cutscene_build_mgr`.

@@ -42,7 +42,7 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
 
 ### Комнаты и сейвы
 
-*   **`global.rooms_by_name`** — `ds_map`, заполняется в цикле `room_first .. room_last`. Позволяет загружать комнаты по строковому имени (`scr_roomFromName`).
+*   **`global.rooms_by_name`** — `ds_map`, заполняется в цикле `room_first .. room_last`. Загружает комнаты по строковому имени (`scr_roomFromName`).
 *   **`global.__service_menu_rooms`** — массив строк: `["rm_roomMenu", "rm_savesSelect", "rm_settings", "rm_devLoad"]`.
 *   **`global.is_menu_room(room)`** — функция. Проверяет, входит ли комната в список service-меню.
 *   **`global.__save_slot_metadata_cache`** — структура (`{}`), кэширует x/y/facing/room для `save1..save3` на старте. Убирает дисковый I/O при первом открытии меню выбора.
@@ -156,7 +156,7 @@ global.show_notification = function(_text) {
 | `scr_saveSettings(settings)` | Записывает настройки на диск. |
 | `scr_settings_deep_copy(settings)` | Глубокая копия для локального редактирования в меню настроек. |
 
-Это позволяет сбросить прогресс игры, не теряя настройки управления.
+Так можно сбросить прогресс игры, не теряя настройки управления.
 
 ---
 
