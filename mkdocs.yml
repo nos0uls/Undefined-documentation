@@ -39,13 +39,14 @@ nav:
           - Troubleshooting: systems/cutscenes/troubleshooting.md
   - Редактор (Undefscene):
       - Обзор: systems/cutscenes/undefscene/overview.md
-      - Интерфейс и Preferences: systems/cutscenes/undefscene/ui.md
-      - Workflow: systems/cutscenes/undefscene/workflow.md
-      - Интеграция с проектом: systems/cutscenes/undefscene/integration.md
-      - Room Screenshot Pipeline: systems/cutscenes/undefscene/room-screenshot-pipeline.md
-      - Форматы и экспорт: systems/cutscenes/undefscene/formats.md
-      - Валидация графа: systems/cutscenes/undefscene/validation.md
-      - FAQ и troubleshooting: systems/cutscenes/undefscene/faq.md
+      - Справочник нод: systems/cutscenes/undefscene/nodes.md
+      - How-to: systems/cutscenes/undefscene/how-to.md
+      - Интерфейс: systems/cutscenes/undefscene/ui.md
+      - Создание катсцены: systems/cutscenes/undefscene/workflow.md
+      - Сохранение и экспорт: systems/cutscenes/undefscene/formats.md
+      - Проверки перед экспортом: systems/cutscenes/undefscene/validation.md
+      - FAQ: systems/cutscenes/undefscene/faq.md
+      - Глоссарий: systems/cutscenes/undefscene/glossary.md
   - Глоссарий: glossary.md
   - Теги: tags.md
   - Геймплей:

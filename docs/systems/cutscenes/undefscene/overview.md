@@ -2,67 +2,116 @@
 tags:
   - undefscene
   - editor
-  - electron
-  - react-flow
 ---
 
-# Undefscene: Обзор
+# Undefscene: Визуальный редактор катсцен
 
-Undefscene — это desktop app на Electron и React Flow для визуального создания, редактирования и тестирования катсцен проекта Undefinedtale-888.
+Undefscene — программа для создания катсцен без программирования. Вы собираете катсцену из блоков (нод), соединяете их линиями, настраиваете параметры — и готово.
 
-Редактор позволяет собирать катсцены как граф из нод и связей, не редактируя вручную JSON-файлы для каждого изменения.
-
-## Где находится редактор
-
-Редактор находится в репозитории `Undefscene`, в папке `editor-app`.
-
-## Запуск в режиме разработки
-
-1. Перейдите в папку `editor-app`.
-2. Установите зависимости: `npm install`.
-3. Запустите приложение: `npm run dev`.
-
-## Сборка
-
-1. Перейдите в папку `editor-app`.
-2. Запустите нужный билд-скрипт, например `npm run build:win` для Windows.
-3. Готовый бинарный файл появится в папке `dist`.
+Катсцена — это управляемая сцена в игре, где персонажи двигаются, разговаривают, камера перемещается, а игрок не может свободно ходить. Примеры: вступление перед боем, разговор NPC, заставка после победы.
 
 ## Что умеет редактор
 
-- Визуально собирать граф катсцены из нод и рёбер.
-- Редактировать параметры выбранной ноды через Inspector.
-- Показывать editor-side preview для `follow_path` прямо в Inspector.
-- Загружать `.yyp` проект GameMaker для автокомплита и валидации.
-- Работать с Yarn-диалогами через `Yarn Preview`.
-- Сохранять рабочую сцену в формате `.usc.json`.
-- Экспортировать runtime-формат `.json` для движка.
+- Собирать катсцену из нод и связей на визуальном холсте
+- Настраивать параметры каждой ноды через Inspector
+- Показывать превью пути и диалогов прямо в редакторе
+- Проверять катсцену на ошибки перед экспортом
+- Экспортировать готовый файл для игры
 
-## Поддерживаемые ноды
-Основные типы нод катсцены: Start, Move, Wait, Dialogue, CameraPan, CameraTrack, ActorCreate, ActorDestroy, SetProperty, FollowPath, Parallel, Branch.
+## Как начать
 
-Дополнительно поддерживаются:
-- `CameraShakeNode` — тряска камеры
-- `AutoFacingNode` — включение/выключение авто-поворота актёра
-- `AutoWalkNode` — включение/выключение авто-движения актёра
+1. Скачайте или соберите редактор (см. ниже)
+2. Откройте проект GameMaker (файл `.yyp`) — это включит автокомплит и проверки
+3. Создайте новую сцену: **New Scene**
+4. Добавляйте ноды из палитры слева, соединяйте их, настраивайте в Inspector справа
+5. Экспортируйте: **Export for Engine** → сохраните в `datafiles/cutscenes/`
 
-## Состав документации
+## Установка и запуск
 
-- [Интерфейс и Preferences](./ui.md)
-- [Базовый workflow](./workflow.md)
-- [Интеграция с проектом](./integration.md)
-- [Room Screenshot Pipeline](./room-screenshot-pipeline.md)
-- [Форматы, импорт и экспорт](./formats.md)
-- [FAQ и troubleshooting](./faq.md)
+=== "Из исходников"
+
+    1. Откройте папку `editor-app`
+    2. Установите зависимости: `npm install`
+    3. Запустите: `npm run dev`
+
+=== "Готовый билд"
+
+    1. Соберите: `npm run build:win` (в папке `editor-app`)
+    2. Запустите файл из папки `dist`
+
+## Навигация по документации
+
+<div class="grid cards" markdown>
+
+-   :fontawesome-solid-cubes:{ .lg .middle } **Справочник нод**
+
+    ---
+
+    Все 30 нод с параметрами и примерами
+
+    [:material-arrow-right: nodes.md](nodes.md)
+
+-   :fontawesome-solid-lightbulb:{ .lg .middle } **How-to карточки**
+
+    ---
+
+    Короткие рецепты: «как добавить диалог», «как настроить камеру»
+
+    [:material-arrow-right: how-to.md](how-to.md)
+
+-   :fontawesome-solid-desktop:{ .lg .middle } **Интерфейс**
+
+    ---
+
+    Где что находится, как управлять холстом, Preferences
+
+    [:material-arrow-right: ui.md](ui.md)
+
+-   :fontawesome-solid-list-check:{ .lg .middle } **Workflow**
+
+    ---
+
+    Пошаговый процесс создания катсцены
+
+    [:material-arrow-right: workflow.md](workflow.md)
+
+-   :fontawesome-solid-file-export:{ .lg .middle } **Сохранение и экспорт**
+
+    ---
+
+    Разница между Save и Export, форматы файлов
+
+    [:material-arrow-right: formats.md](formats.md)
+
+-   :fontawesome-solid-triangle-exclamation:{ .lg .middle } **Проверки и ошибки**
+
+    ---
+
+    Что означают warnings, частые ошибки
+
+    [:material-arrow-right: validation.md](validation.md)
+
+-   :fontawesome-solid-circle-question:{ .lg .middle } **FAQ**
+
+    ---
+
+    Частые вопросы и проблемы
+
+    [:material-arrow-right: faq.md](faq.md)
+
+-   :fontawesome-solid-book:{ .lg .middle } **Глоссарий**
+
+    ---
+
+    Термины и определения
+
+    [:material-arrow-right: glossary.md](glossary.md)
+
+</div>
 
 ---
 
 ## См. также
 
-- [Интерфейс и Preferences](ui.md) — панели, Visual Editing, Preferences
-- [Базовый workflow](workflow.md) — пошаговый процесс работы
-- [Интеграция с проектом](integration.md) — загрузка `.yyp`, cache, screenshot paths
-- [Форматы, импорт и экспорт](formats.md) — `.usc.json`, engine `.json`, Export for Engine
-- [Room Screenshot Pipeline](room-screenshot-pipeline.md) — mini runner, `obj_roomScreenshotBuilder`
-- [Архитектура катсцен](../architecture.md) — `obj_cutsceneManager`, `action_queue`
-- [Катсцены: обзор](../overview.md) — JSON-загрузка, Action-классы
+- [Катсцены: обзор](../overview.md) — как катсцены работают в игре
+- [Архитектура катсцен](../architecture.md) — для разработчиков

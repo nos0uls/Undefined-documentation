@@ -25,7 +25,7 @@ tags:
 
 ## Организация
 
-Комнаты загружаются по имени через глобальную карту `global.rooms_by_name` (`ds_map`), которая строится в `obj_Init.Create` циклом от `room_first` до `room_last`. Это позволяет избегать жестких ссылок на asset index при загрузке сохранений и DEV-LOAD переходах.
+Комнаты загружаются по имени через глобальную карту `global.rooms_by_name` (`ds_map`), которая строится в `obj_Init.Create` циклом от `room_first` до `room_last`. Это избавляет от жёстких ссылок на asset index при загрузке сохранений и DEV-LOAD переходах.
 
 ```gml
 global.rooms_by_name = ds_map_create();

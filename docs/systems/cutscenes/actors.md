@@ -31,7 +31,7 @@ tags:
 - Если передан строковый ключ и он был в `actor_map`, запись удаляется.
 
 ## Групповые операции (`ActionGroup`)
-`ActionGroup` позволяет применить один экшен к нескольким target-ам:
+`ActionGroup` применяет один экшен к нескольким target-ам:
 - `c_move_group(targets[], x, y, speed, use_collision=false)` — перемещение
 - `c_walk_group(targets[], dir, speed, frames, use_collision=false)` — относительное движение
 - `c_var_group(targets[], property, value)` — `ActionSetProperty`
