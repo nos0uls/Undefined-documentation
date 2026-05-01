@@ -16,14 +16,16 @@ tags:
 - `cutscene_actor_create(key, x, y, sprite_or_object, copy_from_object=undefined)`
 
 Поведение `ActionActorCreate`:
-- Если передан `copy_from_object` (и это instance), то базовые параметры берутся от него:
-  - `x/y`, `object_index`, `sprite_index`, `image_index`, `image_xscale/yscale`.
+- Если передан `copy_from_object` (или JSON-ключ `copy_from`/`copy_target`), внешний вид копируется из источника:
+  - `sprite_index`, `image_index`, `image_speed`, `image_xscale/yscale`, `image_blend`, `image_alpha`, `depth`, `visible`, `facing_direction`, `auto_face`, `auto_walk`.
+  - **`object_index` НЕ копируется** — актёр всегда создаётся как `obj_actor` (или указанный объект), чтобы избежать крашей.
+  - Явно заданный `sprite_or_object` всегда приоритетнее копирования.
 - Если `sprite_or_object` — asset объекта, будет создан этот объект.
 - Если `sprite_or_object` — строка, движок пытается найти asset по имени и трактует его как объект или спрайт.
 - Если `sprite_or_object` — sprite asset, он будет назначен в `sprite_index` созданного инстанса.
 
 !!! warning "Важно"
-    - Если объект для создания не определён, по умолчанию используется **`obj_actor`**.
+    - Если объект для создания не определён, по умолчанию используется **`obj_actor`** (из `cutscene_engine_settings.json`).
     - После создания инстанс регистрируется как `manager.actor_map[$ key] = instance`.
 
 ## Уничтожение (`cutscene_actor_destroy` / `ActionActorDestroy`)

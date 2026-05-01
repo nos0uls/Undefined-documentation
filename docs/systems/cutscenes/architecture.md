@@ -45,7 +45,6 @@ tags:
 
 ### Выполнение
 В `Step` менеджер:
-- обновляет `camera_panner` (если есть).
 - выполняет `delayed_commands` и добавляет `background_actions`.
 - выполняет текущий экшен из `action_queue`:
   - если экшен не стартовал — вызывает `start(manager)`.
