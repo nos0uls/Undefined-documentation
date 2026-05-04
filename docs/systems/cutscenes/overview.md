@@ -5,8 +5,7 @@ tags:
 
 # Катсцены: Обзор
 
-## Область
-Эта документация описывает катсцен-движок проекта (скрипты `c_*` и `cutscene_*`, `scr_cutscene_classes`, объект `obj_cutsceneManager`, тестовые катсцены).
+Описание катсцен-движка проекта: скрипты `c_*` и `cutscene_*`, `scr_cutscene_classes`, объект `obj_cutsceneManager`.
 
 ## Как устроена катсцена (кратко)
 - `obj_cutsceneManager` выполняет `action_queue` — массив Action-struct с жизненным циклом `start()`/`update()`/`cleanup()`.
@@ -19,65 +18,56 @@ tags:
 - `global.active_cutscene_manager` — инстанс текущего менеджера.
 - `global.active_cutscene_id` — строковый `cutscene_id` активной катсцены.
 - `global.cutscene_active` — булевый флаг активности катсцены.
-- `global.cutscene_camera_override` — отключает стандартное ведение камеры игроком (см. `camera.md`).
+- `global.cutscene_camera_override` — отключает стандартное ведение камеры игроком (см. [камера](camera.md)).
 
 ## Разделы документации
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-sitemap:{ .lg .middle } **Архитектура**
+-   :material-sitemap: **Архитектура**
     ---
     `obj_cutsceneManager`, жизненный цикл Action-struct, JSON-загрузка
-    ---
-    [:octicons-arrow-right-24: Подробнее](architecture.md)
+    [:material-arrow-right: Подробнее](architecture.md)
 
--   :fontawesome-solid-code:{ .lg .middle } **API**
+-   :material-code-braces: **API**
     ---
     Builder-API `c_*`, `cutscene_*`, Chatterbox-интеграция
-    ---
-    [:octicons-arrow-right-24: Подробнее](api.md)
+    [:material-arrow-right: Подробнее](api.md)
 
--   :fontawesome-solid-users:{ .lg .middle } **Актёры**
+-   :material-account-group: **Актёры**
     ---
     `actor_map`, `ActionActorCreate`, групповые операции
-    ---
-    [:octicons-arrow-right-24: Подробнее](actors.md)
+    [:material-arrow-right: Подробнее](actors.md)
 
--   :fontawesome-solid-video:{ .lg .middle } **Камера**
+-   :material-video-vintage: **Камера**
     ---
     `ActionCameraPan`, `ActionCameraTrack`, `ActionCameraShake`
-    ---
-    [:octicons-arrow-right-24: Подробнее](camera.md)
+    [:material-arrow-right: Подробнее](camera.md)
 
--   :fontawesome-solid-user:{ .lg .middle } **Игрок в катсцене**
+-   :material-account: **Игрок в катсцене**
     ---
     Блокировка движения, camera override, анимация
-    ---
-    [:octicons-arrow-right-24: Подробнее](player_in_cutscene.md)
+    [:material-arrow-right: Подробнее](player_in_cutscene.md)
 
--   :fontawesome-solid-bug:{ .lg .middle } **Отладка**
+-   :material-bug: **Отладка**
     ---
     Debug overlay, stuck watchdog, Wait-счётчик
-    ---
-    [:octicons-arrow-right-24: Подробнее](debugging.md)
+    [:material-arrow-right: Подробнее](debugging.md)
 
--   :fontawesome-solid-lightbulb:{ .lg .middle } **Примеры**
+-   :material-lightbulb-on: **Примеры**
     ---
     JSON-загрузка, Builder-стиль, Yarn-команды
-    ---
-    [:octicons-arrow-right-24: Подробнее](examples.md)
+    [:material-arrow-right: Подробнее](examples.md)
 
--   :fontawesome-solid-wrench:{ .lg .middle } **Типовые проблемы**
+-   :material-wrench: **Типовые проблемы**
     ---
     Камера застряла, актёр не двигается, катсцена не стартует
-    ---
-    [:octicons-arrow-right-24: Подробнее](troubleshooting.md)
+    [:material-arrow-right: Подробнее](troubleshooting.md)
 
--   :fontawesome-solid-desktop:{ .lg .middle } **Редактор Undefscene**
+-   :material-monitor-dashboard: **Редактор Undefscene**
     ---
     Визуальный редактор катсцен на Electron + React Flow
-    ---
-    [:octicons-arrow-right-24: Подробнее](undefscene/overview.md)
+    [:material-arrow-right: Подробнее](undefscene/overview.md)
 
 </div>
 

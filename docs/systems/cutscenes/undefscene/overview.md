@@ -48,7 +48,7 @@ Undefscene — программа для создания катсцен без 
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-cubes:{ .lg .middle } **Справочник нод**
+-   :material-cube-outline: **Справочник нод**
 
     ---
 
@@ -56,7 +56,7 @@ Undefscene — программа для создания катсцен без 
 
     [:material-arrow-right: nodes.md](nodes.md)
 
--   :fontawesome-solid-lightbulb:{ .lg .middle } **How-to карточки**
+-   :material-lightbulb: **How-to карточки**
 
     ---
 
@@ -64,7 +64,7 @@ Undefscene — программа для создания катсцен без 
 
     [:material-arrow-right: how-to.md](how-to.md)
 
--   :fontawesome-solid-desktop:{ .lg .middle } **Интерфейс**
+-   :material-monitor-dashboard: **Интерфейс**
 
     ---
 
@@ -72,7 +72,7 @@ Undefscene — программа для создания катсцен без 
 
     [:material-arrow-right: ui.md](ui.md)
 
--   :fontawesome-solid-list-check:{ .lg .middle } **Workflow**
+-   :material-playlist-check: **Workflow**
 
     ---
 
@@ -80,7 +80,7 @@ Undefscene — программа для создания катсцен без 
 
     [:material-arrow-right: workflow.md](workflow.md)
 
--   :fontawesome-solid-file-export:{ .lg .middle } **Сохранение и экспорт**
+-   :material-file-export: **Сохранение и экспорт**
 
     ---
 
@@ -88,7 +88,7 @@ Undefscene — программа для создания катсцен без 
 
     [:material-arrow-right: formats.md](formats.md)
 
--   :fontawesome-solid-triangle-exclamation:{ .lg .middle } **Проверки и ошибки**
+-   :material-alert-decagram: **Проверки и ошибки**
 
     ---
 
@@ -96,7 +96,7 @@ Undefscene — программа для создания катсцен без 
 
     [:material-arrow-right: validation.md](validation.md)
 
--   :fontawesome-solid-circle-question:{ .lg .middle } **FAQ**
+-   :material-help-circle: **FAQ**
 
     ---
 
@@ -104,7 +104,7 @@ Undefscene — программа для создания катсцен без 
 
     [:material-arrow-right: faq.md](faq.md)
 
--   :fontawesome-solid-book:{ .lg .middle } **Глоссарий**
+-   :material-book: **Глоссарий**
 
     ---
 
