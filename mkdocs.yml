@@ -27,6 +27,7 @@ nav:
       - Карта тонкой настройки UI: systems/ui-tuning-map.md
       - Музыка: systems/music.md
       - Портреты диалога: systems/dialogue-portraits.md
+      - Playtime: systems/playtime.md
       - Катсцены:
           - Обзор: systems/cutscenes/overview.md
           - Архитектура: systems/cutscenes/architecture.md
@@ -37,6 +38,7 @@ nav:
           - Отладка: systems/cutscenes/debugging.md
           - Примеры: systems/cutscenes/examples.md
           - Troubleshooting: systems/cutscenes/troubleshooting.md
+          - Partial Control: systems/cutscenes/partial-control.md
   - Редактор (Undefscene):
       - Обзор: systems/cutscenes/undefscene/overview.md
       - Справочник нод: systems/cutscenes/undefscene/nodes.md
