@@ -2,12 +2,12 @@
 
 :root {
   /* Игровая цветовая схема */
-  --game-primary: #6A1B9A;      /* Фиолетовый */
-  --game-secondary: #9C27B0;     /* Светло-фиолетовый */
-  --game-accent: #E91E63;        /* Розовый */
-  --game-success: #4CAF50;       /* Зеленый */
-  --game-warning: #FF9800;       /* Оранжевый */
-  --game-danger: #F44336;        /* Красный */
+  --game-primary: #455A64;      /* Blue Grey 700 */
+  --game-secondary: #607D8B;     /* Blue Grey 500 */
+  --game-accent: #3F51B5;        /* Indigo 500 */
+  --game-success: #2E7D32;       /* Dark Green */
+  --game-warning: #EF6C00;       /* Dark Orange */
+  --game-danger: #C62828;        /* Dark Red */
   
   /* Цвета для GML кода */
   --gml-keyword: #569CD6;        /* Ключевые слова */
@@ -19,9 +19,9 @@
 
 /* Темная тема для игры */
 [data-md-color-scheme="slate"] {
-  --game-primary: #AB47BC;
-  --game-secondary: #BA68C8;
-  --game-accent: #F06292;
+  --game-primary: #90A4AE;
+  --game-secondary: #B0BEC5;
+  --game-accent: #7986CB;
 }
 
 /* Стили для блоков кода GML */
@@ -49,12 +49,12 @@
 }
 
 .md-typeset .admonition.gamedev > .admonition-title {
-  background-color: rgba(106, 27, 154, 0.1);
+  background-color: rgba(69, 90, 100, 0.1);
 }
 
 .md-typeset .admonition.gamedev > .admonition-title::before {
-  content: "🎮";
-  margin-right: 0.5em;
+  content: "";
+  margin-right: 0;
 }
 
 .md-typeset .admonition.performance {
@@ -62,8 +62,8 @@
 }
 
 .md-typeset .admonition.performance > .admonition-title::before {
-  content: "⚡";
-  margin-right: 0.5em;
+  content: "";
+  margin-right: 0;
 }
 
 .md-typeset .admonition.bug {
@@ -71,8 +71,8 @@
 }
 
 .md-typeset .admonition.bug > .admonition-title::before {
-  content: "🐛";
-  margin-right: 0.5em;
+  content: "";
+  margin-right: 0;
 }
 
 /* Стили для игровых статистик */
@@ -94,7 +94,7 @@
 
 .stat-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(106, 27, 154, 0.2);
+  box-shadow: 0 4px 12px rgba(69, 90, 100, 0.2);
 }
 
 .stat-number {
@@ -114,8 +114,8 @@
 }
 
 .md-nav__title[for="__drawer"]::before {
-  content: "🎮";
-  margin-right: 0.5rem;
+  content: "";
+  margin-right: 0;
 }
 
 /* Стили для скриншотов игры */
@@ -127,15 +127,14 @@
   display: block;
 }
 
-/* Анимации для интерактивных элементов */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 5px rgba(106, 27, 154, 0.5); }
-  50% { box-shadow: 0 0 20px rgba(106, 27, 154, 0.8); }
+/* Анимации (убрано лишнее свечение) */
+.interactive-element {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 
-.interactive-element {
-  animation: pulse-glow 2s infinite;
-  cursor: pointer;
+.interactive-element:hover {
+  opacity: 0.8;
 }
 
 /* Специальные стили для таблиц объектов/скриптов */
@@ -181,7 +180,7 @@
 
 .action-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(106, 27, 154, 0.4);
+  box-shadow: 0 6px 16px rgba(69, 90, 100, 0.4);
   color: white;
   text-decoration: none;
 }

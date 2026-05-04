@@ -78,19 +78,19 @@ theme:
     - content.action.edit
   palette:
     - scheme: slate       # по умолчанию тёмная тема
-      primary: deep purple
-      accent: purple
+      primary: blue grey
+      accent: indigo
       toggle:
         icon: material/brightness-7
         name: Переключить на светлую тему
     - scheme: default     # светлая (альтернатива)
-      primary: deep purple
-      accent: purple
+      primary: blue grey
+      accent: indigo
       toggle:
         icon: material/brightness-4
         name: Переключить на тёмную тему
   icon:
-    logo: material/gamepad-variant
+    logo: material/book-open-page-variant
     repo: fontawesome/brands/github
     edit: material/pencil
     view: material/eye
