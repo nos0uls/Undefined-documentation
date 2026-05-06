@@ -1,20 +1,14 @@
 # Глоссарий (Glossary)
 
+Основные термины и понятия проекта.
+
 ## Actor
-
-Персонаж, управляемый катсценой: игрок, NPC или временный созданный экземпляр. Все акторы используют один и тот же объект `obj_actor` с разными `chara_sprites`.
-
-См. также: [Актёры катсцен](systems/cutscenes/actors.md)
-
----
+Персонаж, управляемый катсценой: игрок, NPC или временный инстанс. Используют объект `obj_actor`.
+[Подробнее](systems/cutscenes/actors.md)
 
 ## Action Queue
-
-Очередь действий катсцены: массив объектов `{ action, params, blocking, actor }`, который `obj_cutsceneManager` выполняет по порядку.
-
-См. также: [Архитектура катсцен](systems/cutscenes/architecture.md)
-
----
+Очередь действий катсцены: массив структур `{ action, params, blocking, actor }`, выполняемых по порядку.
+[Подробнее](systems/cutscenes/architecture.md)
 
 ## Blocking
 
@@ -77,12 +71,8 @@
 ---
 
 ## Rebind
-
-Переназначение клавиши действия. Защищает дефолтные клавиши (`Z`, `Enter`, `Esc`) от перезаписи.
-
+Переназначение клавиши действия.
 См. также: [Система ввода](systems/input.md)
-
----
 
 ## UI Blocking
 
@@ -93,23 +83,9 @@
 ---
 
 ## Undefscene
-
-Визуальный редактор катсцен для проекта Undefinedtale-888. Работает поверх React Flow, экспортирует граф в JSON для движка.
-
-См. также: [Обзор Undefscene](systems/cutscenes/undefscene/overview.md)
-
----
+Визуальный редактор катсцен. Экспортирует катсцены как JSON. 
+[Подробнее](systems/cutscenes/undefscene/overview.md)
 
 ## Yarn
-
-Формат файлов диалогов, используемый в проекте. Файлы имеют расширение `.yarn` и парсятся через Chatterbox.
-
-См. также: [Система диалогов и портретов](systems/dialogue-portraits.md)
-
----
-
-## `???` Collapsible Block
-
-Сворачиваемый блок MkDocs Material. Используется для скрытия дополнительной информации: подробных таблиц переменных, примеров, деталей реализации.
-
-См. также: стайл-гайд документации в `.windsurf/plans/docs-style-guide.md` (вне корня docs).
+Язык разметки диалогов.
+[Подробнее](systems/dialogue-portraits.md)

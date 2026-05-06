@@ -6,42 +6,32 @@ tags:
 
 # Катсцены: Актёры
 
-## Реестр актёров у менеджера
-- `actor_map` хранит сопоставление `key -> instance`.
-- Для итерации используется `variable_struct_get_names(actor_map)` (`actor_names` удалён).
+Реестр и управление участниками сцены: игроком, NPC и временными инстансами.
 
-## Создание (`cutscene_actor_create` / `ActionActorCreate`)
+## Реестр актёров
+- `actor_map`: структура сопоставления `key -> instance`.
+- Итерация через `variable_struct_get_names(actor_map)`.
 
-Сигнатура обёртки:
-- `cutscene_actor_create(key, x, y, sprite_or_object, copy_from_object=undefined)`
+## Создание актёров (`cutscene_actor_create`)
+- `key`: строковый идентификатор.
+- `sprite_or_object`: ассет спрайта или объекта.
+- `copy_from_object`: опциональный источник для копирования свойств (scale, blend, facing).
 
-Поведение `ActionActorCreate`:
-- Если передан `copy_from_object` (или JSON-ключ `copy_from`/`copy_target`), внешний вид копируется из источника:
-  - `sprite_index`, `image_index`, `image_speed`, `image_xscale/yscale`, `image_blend`, `image_alpha`, `depth`, `visible`, `facing_direction`, `auto_face`, `auto_walk`.
-  - **`object_index` НЕ копируется** — актёр всегда создаётся как `obj_actor` (или указанный объект), чтобы избежать крашей.
-  - Явно заданный `sprite_or_object` всегда приоритетнее копирования.
-- Если `sprite_or_object` — asset объекта, будет создан этот объект.
-- Если `sprite_or_object` — строка, движок пытается найти asset по имени и трактует его как объект или спрайт.
-- Если `sprite_or_object` — sprite asset, он будет назначен в `sprite_index` созданного инстанса.
-
-!!! warning "Важно"
-    - Если объект для создания не определён, по умолчанию используется **`obj_actor`** (из `cutscene_engine_settings.json`).
-    - После создания инстанс регистрируется как `manager.actor_map[$ key] = instance`.
-
-## Уничтожение (`cutscene_actor_destroy` / `ActionActorDestroy`)
-- `cutscene_actor_destroy(target_ref)` принимает instance id или некоторые legacy ссылки.
-- Если передан строковый ключ и он был в `actor_map`, запись удаляется.
+### Поведение ActionActorCreate
+1. Если передан ассет объекта — создается этот объект.
+2. Если передан спрайт — создается `obj_actor` с этим спрайтом.
+3. Копирование свойств не клонирует `object_index` — актёр всегда остается `obj_actor`.
 
 ## Групповые операции (`ActionGroup`)
-`ActionGroup` применяет один экшен к нескольким target-ам:
-- `c_move_group(targets[], x, y, speed, use_collision=false)` — перемещение
-- `c_walk_group(targets[], dir, speed, frames, use_collision=false)` — относительное движение
-- `c_var_group(targets[], property, value)` — `ActionSetProperty`
-- `c_tween_group(targets[], property, to_value, frames, easing="linear", from_value=undefined)` — tween
+Применение экшена к массиву целей:
+- `c_move_group`: групповое перемещение.
+- `c_walk_group`: групповая ходьба.
+- `c_var_group`: массовая установка свойств.
+- `c_tween_group`: массовая анимация параметров.
 
-## Практические рекомендации
-- Для надёжности передавай в экшены **instance id**, а не строковые ключи.
-- Если нужно создавать не игрока, а актёра катсцены, передавай объект явно (например `obj_actor`).
+## Рекомендации
+- Используйте **instance id** для надежности в сложных сценах.
+- При создании NPC через катсцену всегда указывайте `obj_actor` или наследников.
 
 ---
 

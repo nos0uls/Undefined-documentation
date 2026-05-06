@@ -6,7 +6,7 @@ tags:
 
 # Система Интерфейса (UI System)
 
-Система UI (User Interface) управляет окнами, меню и блокировкой ввода.
+Менеджмент окон, меню и блокировки ввода.
 
 ## UI Blocking (`scr_checkUIBlocking`)
 

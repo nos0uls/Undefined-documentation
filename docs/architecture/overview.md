@@ -7,7 +7,7 @@ tags:
 
 # Обзор Архитектуры (Architecture Overview)
 
-Undefinedtale-888 построен на базе GameMaker Studio 2 (GML). Архитектура проекта стремится к разделению ответственности между системами инициализации, игрового цикла и контента.
+Архитектурная схема разделения ответственности между системами инициализации, игрового цикла и контента.
 
 ## Диаграмма Архитектуры
 
@@ -61,29 +61,25 @@ graph TD
 
 <div class="grid cards" markdown>
 
--   :fontawesome-solid-play:{ .lg .middle } **Инициализация**
+-   :material-play: **Инициализация**
     ---
     Стартовая цепочка `obj_Init` → `obj_globalManager` → `rm_roomMenu`
-    ---
-    [:octicons-arrow-right-24: Подробнее](initialization.md)
+    [:material-arrow-right: Подробнее](initialization.md)
 
--   :fontawesome-solid-database:{ .lg .middle } **Глобальное состояние**
+-   :material-database: **Глобальное состояние**
     ---
     `global.*` переменные, UI blocking, инвентарь, статы
-    ---
-    [:octicons-arrow-right-24: Подробнее](global-state.md)
+    [:material-arrow-right: Подробнее](global-state.md)
 
--   :fontawesome-solid-cube:{ .lg .middle } **Объекты системы**
+-   :material-cube-outline: **Объекты системы**
     ---
     `obj_Init`, `obj_globalManager`, `obj_music_ctrl`, `obj_menu`
-    ---
-    [:octicons-arrow-right-24: Подробнее](objects.md)
+    [:material-arrow-right: Подробнее](objects.md)
 
--   :fontawesome-solid-door-open:{ .lg .middle } **Комнаты**
+-   :material-door-open: **Комнаты**
     ---
     `rm_init`, `rm_roomMenu`, `rm_savesSelect`, room-to-track mapping
-    ---
-    [:octicons-arrow-right-24: Подробнее](rooms.md)
+    [:material-arrow-right: Подробнее](rooms.md)
 
 </div>
 

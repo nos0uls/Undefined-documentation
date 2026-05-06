@@ -5,20 +5,18 @@ tags:
 
 # Катсцены: Обзор
 
-Описание катсцен-движка проекта: скрипты `c_*` и `cutscene_*`, `scr_cutscene_classes`, объект `obj_cutsceneManager`.
-
-## Как устроена катсцена (кратко)
-- `obj_cutsceneManager` выполняет `action_queue` — массив Action-struct с жизненным циклом `start()`/`update()`/`cleanup()`.
-- Цели экшенов (`target_ref`) обычно передаются как **instance id** (канонический формат), но также поддерживаются строковые ключи актёров: `"actor:<key>"` и просто `<key>`.
-- Скорость движения в `ActionMove` измеряется в **px/frame**.
-- Для JSON‑загрузки используется `cutscene_load_json()`: в JSON длительности задаются в **секундах**, скорости — в **px/sec**, при загрузке всё переводится в кадры/px‑per‑frame.
-- `cutscene_parallel([...])` запускает несколько экшенов одновременно и ждёт, пока завершатся все.
+## Принципы работы
+- `obj_cutsceneManager` выполняет очередь `action_queue`.
+- Каждый экшен имеет жизненный цикл: `start()` → `update()` → `cleanup()`.
+- Резолвинг целей (`target_ref`) поддерживает instance id и строковые ключи актёров.
+- Скорость: в GML используется **px/frame**, в JSON — **px/sec** (конвертируется автоматически).
+- Параллельное выполнение: `cutscene_parallel([...])` ожидает завершения всех вложенных экшенов.
 
 ## Глобальное состояние
-- `global.active_cutscene_manager` — инстанс текущего менеджера.
-- `global.active_cutscene_id` — строковый `cutscene_id` активной катсцены.
-- `global.cutscene_active` — булевый флаг активности катсцены.
-- `global.cutscene_camera_override` — отключает стандартное ведение камеры игроком (см. [камера](camera.md)).
+- `global.cutscene_active`: флаг активности системы.
+- `global.active_cutscene_manager`: ссылка на текущий инстанс менеджера.
+- `global.cutscene_camera_override`: блокировка стандартного поведения камеры игрока.
+- `global.active_cutscene_id` — строковый `cutscene_id` активной катсцены.␍
 
 ## Разделы документации
 

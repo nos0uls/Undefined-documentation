@@ -6,7 +6,7 @@ tags:
 
 # Портреты диалога (Dialogue Portraits)
 
-Этот документ описывает текущую runtime-схему портретов для Yarn + Chatterbox в `Undefinedtale888`.
+Runtime-схема портретов для Yarn + Chatterbox.
 
 ## Формат строки
 

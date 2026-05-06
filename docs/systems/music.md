@@ -6,9 +6,7 @@ tags:
 
 # Система Музыки (Music Engine)
 
-Централизованная система управления музыкой с time-based фейдами, поддержкой intro+loop, pitch control, cutscene-командами и debug overlay.
-
----
+Централизованное управление музыкой: time-based фейды, intro+loop, pitch control, cutscene-команды.
 
 ## Архитектура
 
