@@ -16,9 +16,9 @@ tags:
 | Поток | синий | Start, End, Wait |
 | Движение | фиолетовый | Move, Follow Path, Set Position, Move Relative, Set Position Relative, Jump, Halt |
 | Актёры | фиолетовый | Actor Create, Actor Destroy |
-| Визуал | фиолетовый | Animate, Set Facing, Set Depth, Auto Facing, Auto Walk, Flip, Spin, Shake Object, Set Visible, Emote |
+| Визуал | фиолетовый | Animate, Set Animation Frame, Set Facing, Set Depth, Auto Facing, Auto Walk, Flip, Spin, Shake Object, Set Visible, Emote, Set Emotion |
 | Диалог | розовый | Dialogue, Wait for Dialogue |
-| Камера | зелёный | Camera Pan, Camera Pan To Object, Camera Center, Camera Track, Camera Track Until Stop, Camera Shake, Tween, Tween Camera, Fade In, Fade Out |
+| Камера | зелёный | Camera Pan, Camera Pan To Object, Camera Center, Camera Track, Camera Track Until Stop, Camera Shake, Tween, Tween Camera, Set Property, Fade In, Fade Out |
 | Логика | оранжевый | Parallel Start, Parallel Join, Branch, Run Function, Instant Mode, Mark Node, Wait Until |
 | Звук | бирюзовый | Play SFX, Play Music, Stop Music, Music Volume, Music Duck, Music Unduck, Music Pitch, Music Pause, Music Resume |
 
@@ -89,6 +89,7 @@ tags:
 | points | Список точек `{ x, y }` |
 | speed_px_sec | Скорость в px/sec |
 | collision | `true` — учитывать стены и препятствия |
+| autofacing | `true` — автоматически поворачивать актёра по направлению движения |
 
 ### Jump
 Движение по дуге с заданной высотой.
@@ -99,6 +100,7 @@ tags:
 | x, y | Точка приземления |
 | seconds | Длительность |
 | height | Максимальная высота дуги |
+| easing | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
 
 ### Halt
 Принудительная остановка всех действий актёра.
@@ -112,10 +114,10 @@ tags:
 
 | Параметр | Описание |
 |----------|----------|
-| key | Уникальный ID для ссылок в других нодах |
+| actor_name | Уникальный ID для ссылок в других нодах |
 | x, y | Позиция спавна |
-| sprite_or_object | Ассет спрайта или объекта |
-| copy_from | Источник для копирования свойств (scale, depth) |
+| actor_sprite | Ассет спрайта или объекта |
+| copy_target | Источник для копирования свойств (scale, depth) |
 
 ### Actor Destroy
 Удаление инстанса из мира.
@@ -131,6 +133,16 @@ tags:
 | sprite | Новый ассет спрайта |
 | image_index | Номер стартового кадра |
 | image_speed | Множитель скорости анимации |
+
+### Set Animation Frame
+Установка конкретного кадра анимации без смены спрайта.
+
+| Параметр | Описание |
+|----------|----------|
+| target | Ключ актёра или `player` |
+| image_index | Номер кадра |
+| image_speed | Множитель скорости анимации |
+| pause | `true` — приостановить анимацию на этом кадре |
 
 ### Set Facing
 Установка направления взгляда.
@@ -171,7 +183,11 @@ tags:
 |----------|----------|
 | target | Ключ актёра или `player` |
 | seconds | Длительность |
-| magnitude | Сила смещения в пикселях |
+| magnitude | Общая сила смещения в пикселях |
+| magnitude_x | Сила по X (переопределяет `magnitude`) |
+| magnitude_y | Сила по Y (переопределяет `magnitude`) |
+| decay | `true` — амплитуда затухает со временем |
+| frequency | Частота тряски (кадров на цикл) |
 
 ### Emote
 Отрисовка иконки эмоции над головой актёра.
@@ -185,6 +201,16 @@ tags:
 | scale | Масштаб иконки |
 | wait | `true` — блокировать очередь до исчезновения эмоции |
 
+### Set Emotion
+Установка эмоционального состояния актёра.
+
+| Параметр | Описание |
+|----------|----------|
+| target | Ключ актёра или `player` |
+| emotion | `default`, `neutral`, `angry`, `sad`, `scared`, `happy`, `confused` |
+| apply_to_sprite | `true` — применить к спрайту актёра |
+| apply_to_portrait | `true` — применить к диалоговому портрету |
+
 ## Диалог (Dialogue)
 
 ### Dialogue
@@ -197,6 +223,10 @@ tags:
 
 ### Wait for Dialogue
 Ожидание завершения текущего активного диалога.
+
+| Параметр | Описание |
+|----------|----------|
+| dialogue_controller | Instance ref диалогового контроллера (опционально; пусто — активный textbox)
 
 ## Камера (Camera)
 
@@ -248,7 +278,11 @@ tags:
 | Параметр | Описание |
 |----------|----------|
 | seconds | Длительность |
-| magnitude | Сила смещения в пикселях |
+| magnitude | Общая сила смещения в пикселях |
+| magnitude_x | Сила по X (переопределяет `magnitude`) |
+| magnitude_y | Сила по Y (переопределяет `magnitude`) |
+| decay | `true` — амплитуда затухает со временем |
+| frequency | Частота тряски (кадров на цикл) |
 
 ### Tween
 Плавная интерполяция числового свойства актёра.
@@ -257,11 +291,11 @@ tags:
 |----------|----------|
 | kind | `instance` или `camera` |
 | target | Ключ актёра или `player`; не нужен для `camera` |
-| property | Имя числового свойства |
-| to | Конечное значение; при export становится `to_value` |
-| from | Стартовое значение; при export становится `from_value` |
-| seconds | Длительность |
-| easing | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
+| prop | Имя числового свойства |
+| end_value | Конечное значение; при export становится `to_value` |
+| start_value_override | Стартовое значение (опционально); при export становится `from_value` |
+| duration_frames | Длительность в секундах |
+| ease_name | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
 
 ### Tween Camera
 Плавная интерполяция свойства камеры.
@@ -271,8 +305,8 @@ tags:
 | property | `x`, `y`, `view_x`, `view_y`, `camera_x` или `camera_y` |
 | to_value | Конечное значение |
 | from_value | Стартовое значение |
-| seconds | Длительность |
-| easing | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
+| duration_frames | Длительность в секундах |
+| ease_name | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
 
 ### Set Property
 Установка свойства актёра или камеры без tween.
@@ -288,16 +322,35 @@ tags:
 ### Fade In / Out
 Управление общим затемнением экрана.
 
+| Параметр | Описание |
+|----------|----------|
+| seconds | Длительность |
+
 ## Логика (Logic)
 
 ### Parallel Start / Join
 Разветвление очереди на несколько параллельных потоков и их последующее слияние.
 
-### Branch / Edge Condition
+| Параметр | Описание |
+|----------|----------|
+| branches | Массив ID веток (editor-only) |
+| joinId | ID связанной join-ноды (editor-only) |
+| pairId | ID связанной start-ноды (editor-only, только для join) |
+
+### Branch
 Ветвление логики на основе глобальных переменных.
+
+| Параметр | Описание |
+|----------|----------|
+| condition | Выражение условия (например, `global.flag["key"] == 1`) |
 
 ### Run Function
 Вызов произвольной GML-функции с аргументами.
+
+| Параметр | Описание |
+|----------|----------|
+| function | Имя GML-функции или скрипта |
+| args | JSON-массив аргументов; при export становится `arguments` |
 
 ### Instant Mode
 Режим мгновенного выполнения (0 кадров) всех последующих нод.
@@ -364,6 +417,7 @@ tags:
 |----------|----------|
 | target | Цель взаимодействия |
 | timeout | Макс. время ожидания в секундах (0 = бесконечно) |
+| timeout_action | Действие при таймауте: `continue` или `skip` |
 
 ### Wait Until
 Ожидание выполнения условия или истечения таймаута.
@@ -448,6 +502,17 @@ tags:
 
 ### Music Resume
 Возобновление воспроизведения фоновой музыки с места остановки.
+
+## Мета (Meta)
+
+### Director Note
+Редактор-only заметка режиссёра. Не экспортируется в JSON и не влияет на runtime.
+
+| Параметр | Описание |
+|----------|----------|
+| note_text | Текст заметки |
+| category | Категория: `acting`, `camera`, `sound`, `todo`, `warning` |
+| pinned | `true` — заметка закреплена |
 
 ---
 
