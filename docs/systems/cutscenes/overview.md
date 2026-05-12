@@ -16,7 +16,12 @@ tags:
 - `global.cutscene_active`: флаг активности системы.
 - `global.active_cutscene_manager`: ссылка на текущий инстанс менеджера.
 - `global.cutscene_camera_override`: блокировка стандартного поведения камеры игрока.
-- `global.active_cutscene_id` — строковый `cutscene_id` активной катсцены.␍
+- `global.active_cutscene_id` — строковый `cutscene_id` активной катсцены.
+
+## Текущие возможности
+- Управление музыкой внутри катсцены: смена треков, громкость, pitch, duck/unduck, пауза и возобновление.
+- Относительное позиционирование актёров: `move_relative` и `set_position_relative` для сдвига от текущей позиции.
+- Условное ожидание: `wait_until` — ожидание, пока `global`-переменная примет нужное значение (синтаксический сахар над `guard_global`).
 
 ## Разделы документации
 
@@ -29,7 +34,7 @@ tags:
 
 -   :material-code-braces: **API**
     ---
-    Builder-API `c_*`, `cutscene_*`, Chatterbox-интеграция
+    Builder-API `c_*`, `cutscene_*`, Chatterbox-интеграция, музыкальные ноды, относительное позиционирование
     [:material-arrow-right: Подробнее](api.md)
 
 -   :material-account-group: **Актёры**

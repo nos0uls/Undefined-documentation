@@ -38,6 +38,7 @@ nav:
           - Отладка: systems/cutscenes/debugging.md
           - Примеры: systems/cutscenes/examples.md
           - Troubleshooting: systems/cutscenes/troubleshooting.md
+          - "Wave 1: Музыка, позиционирование и логика": systems/cutscenes/wave1-features.md
           - Partial Control: systems/cutscenes/partial-control.md
   - Редактор (Undefscene):
       - Обзор: systems/cutscenes/undefscene/overview.md

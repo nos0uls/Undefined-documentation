@@ -80,6 +80,57 @@ tags:
 !!! note "Таймаут диалогов"
     Если `chatterbox` не отвечает более 600 кадров (~20 сек), экшен завершается принудительно во избежание зависания сцены.
 
+## Музыка в катсценах
+
+| Type | Поля | Результат в движке |
+|------|------|--------------------|
+| `play_music` | `sound` (string), `volume` (real, 0..1), `fade` (real, sec) | `ActionMusicPlay` — смена трека с кроссфейдом |
+| `stop_music` | `fade` (real, sec) | `ActionMusicStop` — остановка с затуханием |
+| `music_volume` | `volume` (real, 0..1), `fade` (real, sec) | `ActionMusicVolume` — плавное изменение громкости |
+| `music_duck` | `multiplier` (real, 0..1), `fade` (real, sec) | `ActionMusicDuck` — относительное приглушение |
+| `music_unduck` | `fade` (real, sec) | `ActionMusicUnduck` — снятие duck |
+| `music_pitch` | `pitch` (real) | `ActionMusicPitch` — установка pitch |
+| `music_pause` | — | `ActionMusicPause` — пауза |
+| `music_resume` | — | `ActionMusicResume` — возобновление |
+
+**GML-эквиваленты**
+
+- `cutscene_music_play(snd_asset, fade_sec = 0.5)` → `ActionMusicPlay`
+- `cutscene_music_stop(fade_sec = 1.0)` → `ActionMusicStop`
+- `cutscene_music_volume(vol, fade_sec = 0.5)` → `ActionMusicVolume`
+- `cutscene_music_duck(multiplier = 0.3, fade_sec = 0.3)` → `ActionMusicDuck`
+- `cutscene_music_unduck(fade_sec = 0.3)` → `ActionMusicUnduck`
+- `cutscene_music_pitch(pitch)` → `ActionMusicPitch`
+- `cutscene_music_pause()` → `ActionMusicPause`
+- `cutscene_music_resume()` → `ActionMusicResume`
+
+!!! note "Кроссфейд и немедленный старт"
+    Если `fade <= 0`, `play_music` вызывает `global.play_music_immediate()`. При `fade > 0` — `global.play_music_fade()`.
+
+## Относительное позиционирование
+
+| Type | Поля | Результат в движке |
+|------|------|--------------------|
+| `move_relative` | `target` (string), `dx` (real, px), `dy` (real, px), `speed_px_sec` (real), `collision` (bool) | `ActionMoveRelative` — движение на offset от текущей позиции |
+| `set_position_relative` | `target` (string), `dx` (real, px), `dy` (real, px) | `ActionSetPositionRelative` — мгновенный сдвиг |
+
+**GML-эквиваленты**
+
+- `new ActionMoveRelative(target, dx, dy, speed_pf, collision)` — двигает актёра на `(dx, dy)` от позиции на момент старта.
+- `new ActionSetPositionRelative(target, dx, dy)` — мгновенно сдвигает актёра.
+
+!!! note "Скорость и коллизия"
+    `speed_px_sec` конвертируется в `px/frame` при загрузке JSON. `collision = true` включает `move_and_collide` с `obj_collider`.
+
+## `wait_until`
+
+| Type | Поля | Результат в движке |
+|------|------|--------------------|
+| `wait_until` | `condition_var` (string), `condition_equals` (string), `timeout_seconds` (real) | `ActionGuardGlobal` с `if_false: "wait_until_true"` |
+
+!!! info "Синтаксический сахар"
+    `wait_until` не имеет отдельного Action-класса. При компиляции JSON нода превращается в `guard_global` с `if_false: "wait_until_true"` и пустым `actions`. В GML это эквивалентно `new ActionGuardGlobal(var_name, equals, [], "wait_until_true", "none", "", "", "", 0)` (при `timeout_seconds = 0`). Таймаут конвертируется во фреймы и передаётся в `end_timeout_frames`.
+
 ---
 
 ## См. также
