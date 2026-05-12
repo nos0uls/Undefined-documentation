@@ -69,7 +69,7 @@ tags:
 `direction` принимает `left`, `right`, `up`, `down` или числовое значение из `global.DIR`.
 
 ### Нормализация имен
-Старые имена автоматически приводятся к каноническим:
+Неканонические имена автоматически приводятся к каноническим:
 - `shakeobj` → `shake_object`
 - `visible` → `set_visible`
 - `waittalk` → `wait_for_dialogue`
