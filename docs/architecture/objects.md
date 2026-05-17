@@ -17,8 +17,14 @@ tags:
 | `obj_settingsManager` | Нет | **Меню настроек**. Работает как в отдельной комнате `rm_settings`, так и в overlay-режиме (из in-game меню). Категории: Управление, Звук, Разное, Выйти в меню. Поддерживает переназначение клавиш (rebind), мастер-громкость через `scr_menu_volume_push/pop`, grayscale shader через `scr_menu_shader_push/pop`. |
 | `obj_saveManager` | Нет | **Экран выбора сохранения / DEV-LOAD**. Режимы `load` и `save`. 3 слота + dev-load опция (при `global.debug == true` и `player_settings.devload_focus == true`). Читает метаданные из `global.__save_slot_metadata_cache` (быстрый путь) или с диска (fallback). |
 | `obj_inGameMenu` | Нет | Внутриигровое меню (Inventory, Status, Settings). Вызывается по C/Esc. |
-| `obj_player` | Нет | **Игровой персонаж**. Обработка движения (grid-based), коллизий (`collision()` с xplus/yplus unstuck), спавн-оверрайд (`global.__next_spawn_*`), facing → sprite mapping (`scr_sprite_for_facing`), ghost_mode, room_change_lock, создает `obj_pointMarker` для взаимодействия. |
-| `obj_actor` | Нет | **Базовый объект для NPC и участников катсцен**. Содержит tween-based movement system (`move_to_point()`): `move_active`, `move_progress`, `target_x/y`, `move_speed`, `use_collision`. Idle system: `idle_active`, `idle_timer`, `idle_delay_frames`, `chara_idle_sprites`. `auto_face` (default: true), `auto_walk` (default: false). |
+| `obj_player` | Нет | **Игровой персонаж**. Наследует `par_actor` → `par_depth`. Обработка движения (grid-based), коллизий (`scr_collision_resolve()` с `obj_collider`, `par_decor`, `par_interactable`), спавн-оверрайд (`global.__next_spawn_*`), facing → sprite mapping (`scr_sprite_for_facing`), ghost_mode, room_change_lock, создает `obj_pointMarker` для взаимодействия. |
+| `par_actor` | Нет | **Родительский объект для актёров** (`obj_player`, `obj_actor`). Управляет `move_active`, `move_speed`, `target_x/y`. Наследует `par_depth` для Z-сортировки. |
+| `par_depth` | Нет | **Базовый объект для Z-сортировки** (isometric). Иерархия: `par_depth` → `par_actor` → `obj_player`/`obj_actor`. `par_depth` → `par_decor`/`par_interactable`/`par_entity` → `obj_collider`. |
+| `par_entity` | Нет | **Родительский объект для сущностей мира** (`obj_collider`). Обеспечивает коллизию. |
+| `par_decor` | Нет | **Родительский объект декораций** (`obj_lantern`, статические объекты). Наследует `par_depth`. Участвует в коллизии (`is_static = true`). |
+| `par_interactable` | Нет | **Родительский объект для интерактивных объектов** (`obj_bench`, NPC). Наследует `par_depth`. Участвует в коллизии. |
+| `obj_actor` | Нет | **Базовый объект для NPC и участников катсцен**. Наследует `par_actor`. Содержит tween-based movement system (`move_to_point()`): `move_active`, `move_progress`, `target_x/y`, `move_speed`, `use_collision`. Idle system: `idle_active`, `idle_timer`, `idle_delay_frames`, `chara_idle_sprites`. `auto_face` (default: true), `auto_walk` (default: false). |
+| `obj_collider` | Нет | **Базовый коллайдер**. Наследует `par_entity` → `par_depth`. Объекты, блокирующие движение. |
 | `obj_pointMarker` | Нет | **Невидимый маркер взаимодействия**. Создается при спавне игрока. depth = -9999. Отрисовывается только в debug-режиме (F3). Используется `interactionWithNPCsOrObjects()` для определения цели взаимодействия. |
 
 ## Детали по объектам

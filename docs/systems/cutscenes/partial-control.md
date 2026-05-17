@@ -28,7 +28,7 @@ tags:
 - `timeout_action`: поведение при таймауте - `"continue"` (продолжить ветку, по умолчанию) или `"abort_parallel"` (прервать parallel)
 
 **Работа в parallel ветках:**
-Механизм использует глобальный флаг `global.__last_interacted_target` для отслеживания последнего взаимодействия. Это позволяет нескольким `wait_for_interact` в разных parallel ветках ждать разные цели одновременно. При взаимодействии с объектом только те ветки, у которых target совпадает с взаимодействованным объектом, продолжат выполнение.
+Механизм использует очередь `global.__interacted_targets` (массив) вместо флага. Каждое взаимодействие добавляет ID объекта в очередь. `ActionWaitForInteract` ищет свой target в этой очереди и удаляет его при совпадении. Это безопасно для parallel веток — несколько `wait_for_interact` могут ждать разные цели одновременно без race condition.
 
 ## Изменение состояния мира
 Экшены для перманентного влияния на игру:
@@ -36,6 +36,38 @@ tags:
 - `set_plot`: изменение основной переменной сюжета.
 - `spawn_entity`: создание объектов, которые должны остаться после сцены.
 - `destroy_entity`: удаление объектов из мира.
+
+## Checkpoint / Restore
+
+Система сохранения и восстановления состояния катсцены.
+
+### ActionCheckpointState
+Создаёт snapshot и сохраняет в `global.__cutscene_checkpoints` (ds_map).
+
+**Параметры:**
+- `checkpoint_id` (string) — уникальный ID. Не может быть пустым.
+- `include_actors` (bool) — сохранить `actor_map`
+- `include_player` (bool) — сохранить `obj_player`
+- `include_camera` (bool) — сохранить позицию камеры
+- `include_music` (bool) — сохранить текущий трек
+- `include_globals` (array) — список имён глобальных переменных
+- `include_instances` (array) — список ID инстансов
+
+### ActionRestoreState
+Восстанавливает snapshot по `checkpoint_id`.
+
+**Параметры:**
+- `checkpoint_id` (string)
+- `cleanup_transients` (bool) — уничтожить актёров, созданные после checkpoint
+- `restore_camera` (bool)
+- `restore_music` (bool)
+- `on_missing` (string) — `"warn"`, `"ignore"`, `"fail"`
+
+!!! warning "Лимит checkpoint-ов"
+    Максимум **10** checkpoint-ов в памяти (`__CUTSCENE_MAX_CHECKPOINTS`). При превышении — авто-очистка самого старого (LRU по `timestamp_frames`).
+
+!!! warning "Cleanup при завершении катсцены"
+    При `finish_cutscene()` вся память checkpoint-ов очищается (`ds_map_clear`).
 
 ## Room Entry Check
 Механизм `scr_room_entry_check()` автоматически воссоздает объекты при повторном входе в комнату, если соответствующие флаги были установлены в катсцене. Это обеспечивает "постоянство" изменений.

@@ -15,11 +15,11 @@ tags:
 |-----------|------|------|
 | Поток | синий | Start, End, Wait |
 | Движение | фиолетовый | Move, Follow Path, Set Position, Move Relative, Set Position Relative, Jump, Halt |
-| Актёры | фиолетовый | Actor Create, Actor Destroy |
-| Визуал | фиолетовый | Animate, Set Animation Frame, Set Facing, Set Depth, Auto Facing, Auto Walk, Flip, Spin, Shake Object, Set Visible, Emote, Set Emotion |
-| Диалог | розовый | Dialogue, Wait for Dialogue |
-| Камера | зелёный | Camera Pan, Camera Pan To Object, Camera Center, Camera Track, Camera Track Until Stop, Camera Shake, Tween, Tween Camera, Set Property, Fade In, Fade Out |
-| Логика | оранжевый | Parallel Start, Parallel Join, Branch, Run Function, Instant Mode, Mark Node, Wait Until |
+| Актёры | фиолетовый | Actor Create, Actor Destroy, Attach To Target, Detach |
+| Визуал | фиолетовый | Animate, Set Animation Frame, Set Facing, Set Depth, Auto Facing, Auto Walk, Flip, Spin, Shake Object, Set Visible, Emote |
+| Диалог | розовый | Dialogue, Wait for Dialogue, Set Dialogue Speed, Wait Typing, Dialogue Control, Set Portrait Next, Set Portrait Now, Clear Dialogue |
+| Камера | зелёный | Camera Pan, Camera Pan To Object, Camera Center, Camera Track, Camera Track Until Stop, Camera Shake, Tween, Tween Camera (legacy), Set Property, Fade In, Fade Out |
+| Логика | оранжевый | Parallel Start, Parallel Join, Branch, Run Function, Instant Mode, Mark Node, Wait Until, Partial Control, Wait for Interact, Set Flag, Set Plot, Spawn Entity, Destroy Entity, Schedule Action, Checkpoint State, Restore State |
 | Звук | бирюзовый | Play SFX, Play Music, Stop Music, Music Volume, Music Duck, Music Unduck, Music Pitch, Music Pause, Music Resume |
 
 ## Поток (Flow)
@@ -117,10 +117,33 @@ tags:
 | actor_name | Уникальный ID для ссылок в других нодах |
 | x, y | Позиция спавна |
 | actor_sprite | Ассет спрайта или объекта |
-| copy_target | Источник для копирования свойств (scale, depth) |
+| copy_target | Источник для копирования свойств (scale, depth) (опционально) |
 
 ### Actor Destroy
 Удаление инстанса из мира.
+
+### Attach To Target
+Привязка актёра к другому объекту (следование за родителем).
+
+| Параметр | Описание |
+|----------|----------|
+| target_ref | Ключ актёра, который будет следовать |
+| parent_ref | Ключ родительского актёра |
+| offset_x, offset_y | Смещение относительно родителя |
+| follow_facing | `true` — копировать направление взгляда родителя |
+| follow_scale | `true` — копировать масштаб родителя |
+| follow_depth | `true` — копировать глубину родителя |
+| duration_seconds | Время перехода (0 — мгновенно) |
+| detach_on_cutscene_end | `true` — отсоединить при завершении катсцены |
+
+### Detach
+Отсоединение актёра от родительского объекта.
+
+| Параметр | Описание |
+|----------|----------|
+| target_ref | Ключ актёра |
+| keep_world_position | `true` — сохранить мировую позицию |
+| destroy_after_detach | `true` — уничтожить после отсоединения |
 
 ## Визуал (Visual)
 
@@ -176,6 +199,15 @@ tags:
 | target | Ключ актёра или `player` |
 | flipped | `true` — смотреть влево через отрицательный `image_xscale` |
 
+### Spin
+Вращение актёра вокруг своей оси.
+
+| Параметр | Описание |
+|----------|----------|
+| target | Ключ актёра или `player` |
+| speed | Скорость вращения |
+| seconds | Длительность |
+
 ### Shake Object
 Эффект дрожания актёра (удары, эмоции).
 
@@ -201,15 +233,13 @@ tags:
 | scale | Масштаб иконки |
 | wait | `true` — блокировать очередь до исчезновения эмоции |
 
-### Set Emotion
-Установка эмоционального состояния актёра.
+### Set Visible
+Управление видимостью актёра.
 
 | Параметр | Описание |
 |----------|----------|
 | target | Ключ актёра или `player` |
-| emotion | `default`, `neutral`, `angry`, `sad`, `scared`, `happy`, `confused` |
-| apply_to_sprite | `true` — применить к спрайту актёра |
-| apply_to_portrait | `true` — применить к диалоговому портрету |
+| visible | `true` / `false` |
 
 ## Диалог (Dialogue)
 
@@ -227,6 +257,44 @@ tags:
 | Параметр | Описание |
 |----------|----------|
 | dialogue_controller | Instance ref диалогового контроллера (опционально; пусто — активный textbox)
+
+### Set Dialogue Speed
+Установка скорости печати текста в диалоге.
+
+| Параметр | Описание |
+|----------|----------|
+| speed | Символов в секунду |
+
+### Wait Typing
+Ожидание завершения анимации печати текущего диалога.
+
+### Dialogue Control
+Управление поведением диалогового окна.
+
+| Параметр | Описание |
+|----------|----------|
+| prevent_skip | `true` — запретить пропуск текста игроком |
+| stay_open | `true` — окно остаётся открытым после окончания реплики |
+| auto_advance | `true` — автоматический переход к следующей реплике |
+
+### Set Portrait Next
+Установка эмоции портрета для следующей реплики.
+
+| Параметр | Описание |
+|----------|----------|
+| target | Ключ актёра или `player` |
+| emotion | `neutral`, `angry`, `sad`, `scared`, `happy`, `confused`, `surprised` |
+
+### Set Portrait Now
+Мгновенная смена эмоции портрета текущего диалога.
+
+| Параметр | Описание |
+|----------|----------|
+| target | Ключ актёра или `player` |
+| emotion | `neutral`, `angry`, `sad`, `scared`, `happy`, `confused`, `surprised` |
+
+### Clear Dialogue
+Принудительная очистка текущего диалогового окна.
 
 ## Камера (Camera)
 
@@ -319,12 +387,21 @@ tags:
 | value | Значение; JSON-строка парсится перед export |
 
 
-### Fade In / Out
-Управление общим затемнением экрана.
+### Fade In
+Плавное появление экрана из затемнения.
 
 | Параметр | Описание |
 |----------|----------|
 | seconds | Длительность |
+| color | Цвет затемнения (`black`, `white`, hex) |
+
+### Fade Out
+Плавное затемнение экрана.
+
+| Параметр | Описание |
+|----------|----------|
+| seconds | Длительность |
+| color | Цвет затемнения (`black`, `white`, hex) |
 
 ## Логика (Logic)
 
@@ -393,7 +470,7 @@ tags:
 | key | Опциональный ключ для ссылок в этой катсцене |
 | x, y | Координаты спавна |
 | depth | Глубина отрисовки |
-| persistent | Если `true`, объект не удалится при смене комнаты |
+| persistent | `true` — объект не удалится при смене комнаты |
 
 ### Destroy Entity
 Удаление объекта или NPC.
@@ -430,6 +507,41 @@ tags:
 
 !!! note "Проверка условия"
     Нода опрашивает `condition_var` каждый кадр. Как только значение совпадает с `condition_equals`, выполнение продолжается. При `timeout_seconds` > 0 сцена продолжится по истечении времени даже если условие не выполнено.
+
+### Schedule Action
+Отложенное выполнение вложенного действия через заданное время.
+
+| Параметр | Описание |
+|----------|----------|
+| delay_seconds | Задержка в секундах |
+| action_type | Тип вложенного действия: `play_sfx`, `emote`, `flip`, `set_visible`, `set_facing`, `camera_shake`, `halt`, `run_function` |
+| action_params | Параметры вложенного действия (JSON-объект) |
+| blocking | `true` — ждать завершения вложенного действия |
+| tag | Метка для отладки (опционально) |
+
+### Checkpoint State
+Сохранение текущего состояния катсцены для последующего восстановления.
+
+| Параметр | Описание |
+|----------|----------|
+| checkpoint_id | Уникальный ID чекпоинта |
+| include_actors | `true` — сохранить состояние актёров |
+| include_player | `true` — сохранить состояние игрока |
+| include_camera | `true` — сохранить состояние камеры |
+| include_music | `true` — сохранить состояние музыки |
+| include_globals | JSON-массив имён глобальных переменных для сохранения |
+| include_instances | JSON-массив ID инстансов для сохранения |
+
+### Restore State
+Восстановление ранее сохранённого состояния катсцены.
+
+| Параметр | Описание |
+|----------|----------|
+| checkpoint_id | ID чекпоинта |
+| cleanup_transients | `true` — очистить временные объекты |
+| restore_camera | `true` — восстановить камеру |
+| restore_music | `true` — восстановить музыку |
+| on_missing | Поведение при отсутствии чекпоинта: `warn`, `ignore`, `fail` |
 
 ## Звук (Audio)
 

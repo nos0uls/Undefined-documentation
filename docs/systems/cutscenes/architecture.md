@@ -54,14 +54,15 @@ tags:
 
 | Нода | Блокирует очередь | Примечание |
 |------|-------------------|------------|
-| `play_music` | Нет | Выполняется мгновенно, фейд обрабатывается `obj_music_ctrl` |
-| `stop_music` | Нет | Запускает fade-out в фоне |
-| `music_volume` | Нет | Плавное изменение громкости в фоне |
-| `music_duck` | Нет | Относительное приглушение в фоне |
-| `music_unduck` | Нет | Восстановление громкости в фоне |
-| `move_relative` | Да | Ожидает достижения целевого смещения |
+| `play_music` | Нет | `ActionMusicPlay` — инициирует команду в `obj_music_ctrl` |
+| `stop_music` | Нет | `ActionMusicStop` — запускает fade-out в фоне |
+| `music_volume` | Нет | `ActionMusicVolume` — плавное изменение громкости |
+| `music_duck` | Нет | `ActionMusicDuck` — относительное приглушение |
+| `music_unduck` | Нет | `ActionMusicUnduck` — восстановление громкости |
+| `move_relative` | Да | `ActionMoveRelative` — ожидает достижения целевого смещения |
 | `set_position_relative` | Нет | Применяет смещение в один кадр |
 | `wait_until` | Да | Генерирует `guard_global`, который управляет потоком через внутренний механизм runtime |
+| `destroy_entity` / `actor_destroy` | Нет | `ActionDestroy` — защита от уничтожения `obj_player` |
 
 !!! note
     Музыкальные ноды не блокируют очередь катсцены — они лишь инициируют команду в `obj_music_ctrl`, а фейды обрабатываются независимо в Step событии контроллера.

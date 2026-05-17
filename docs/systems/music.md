@@ -31,7 +31,7 @@ obj_music_ctrl.Draw_64
 | `scr_music_init` | Глобалы и все API функции | Системы / Sounds \| Music |
 | `scr_global_music_update_current` | Fade-in текущего + intro→loop | Системы / Sounds \| Music |
 | `scr_global_music_fade_previous` | Fade-out предыдущего трека | Системы / Sounds \| Music |
-| `scr_cutscene_music` | Cutscene action классы и обёртки | Системы / Sounds \| Music |
+| `scr_cutscene_music` | Cutscene action классы (`ActionMusicPlay`, `ActionMusicStop`, `ActionMusicVolume`, `ActionMusicDuck`, `ActionMusicUnduck`) | Системы / Sounds \| Music |
 | `scr_SFXPlay` | Воспроизведение SFX | Системы / Sounds \| Music |
 | `scr_menu_volume_guard` | Auto-duck громкости в меню | Системы / Sounds \| Music |
 | `obj_music_ctrl` | Persistent контроллер (Step + Draw GUI) | N0souls_music |

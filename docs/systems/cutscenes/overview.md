@@ -19,9 +19,14 @@ tags:
 - `global.active_cutscene_id` — строковый `cutscene_id` активной катсцены.
 
 ## Возможности
-- Управление музыкой внутри катсцены: смена треков, громкость, pitch, duck/unduck, пауза и возобновление.
+- Управление музыкой внутри катсцены: смена треков, громкость, pitch, duck/unduck, пауза и возобновление (`ActionMusicPlay`, `ActionMusicStop`, `ActionMusicVolume`, `ActionMusicDuck`, `ActionMusicUnduck`).
 - Относительное позиционирование актёров: `move_relative` и `set_position_relative` для сдвига от текущей позиции.
 - Условное ожидание: `wait_until` — ожидание, пока `global`-переменная примет нужное значение (синтаксический сахар над `guard_global`).
+- Checkpoint / Restore: сохранение и восстановление состояния катсцены (`checkpoint_state`, `restore_state`).
+- Частичный контроль: `partial_control` и `wait_for_interact` для интерактивных катсцен.
+- Привязка объектов: `attach_to_target` с поддержкой `depth_mode = "attached"`.
+- Защита игрока: `ActionDestroy` не уничтожает `obj_player`.
+- Cleanup при досрочном выходе: `finish_cutscene()` вызывает `cleanup()` для всех action'ов.
 
 ## Разделы документации
 

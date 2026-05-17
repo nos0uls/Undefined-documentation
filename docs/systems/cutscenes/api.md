@@ -64,9 +64,45 @@ tags:
 | `set_position` | `target`, `x`, `y` | переносит актёра и обновляет `target_x`, `target_y` |
 | `set_property` | `kind`, `target`, `property`, `value` | записывает произвольное свойство instance или камеры |
 | `tween` | `target`, `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет числовое свойство instance |
-| `tween_camera` | `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет `x` или `y` камеры |
+| `tween_camera` | `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет `x` или `y` камеры (legacy, рекомендуется `tween` с `kind=camera`) |
+| `attach_to_target` | `target_ref`, `parent_ref`, `offset_x`, `offset_y`, `follow_facing`, `follow_scale`, `follow_depth`, `duration_seconds`, `detach_on_cutscene_end` | привязывает актёра к родителю |
+| `detach` | `target_ref`, `keep_world_position`, `destroy_after_detach` | отсоединяет актёра от родителя |
+| `spin` | `target`, `speed`, `seconds` | вращает актёра |
+| `set_visible` | `target`, `visible` | управляет видимостью актёра |
+| `schedule_action` | `delay_seconds`, `action`, `blocking`, `tag` | отложенное выполнение вложенного действия |
+| `checkpoint_state` | `checkpoint_id`, `include_actors`, `include_player`, `include_camera`, `include_music`, `include_globals`, `include_instances` | сохранение состояния катсцены |
+| `restore_state` | `checkpoint_id`, `cleanup_transients`, `restore_camera`, `restore_music`, `on_missing` | восстановление состояния катсцены |
+| `set_flag` | `key`, `value` | установка глобального флага |
+| `set_plot` | `value` | изменение `global.plot` |
+| `spawn_entity` | `object`, `key`, `x`, `y`, `depth`, `persistent` | создание объекта в мире |
+| `destroy_entity` | `target` | удаление объекта |
+| `partial_control` | `control_type`, `whitelist` | частичный контроль игрока |
+| `wait_for_interact` | `target`, `timeout`, `timeout_action` | ожидание взаимодействия |
+| `set_dialogue_speed` | `speed` | скорость печати текста |
+| `wait_typing` | — | ожидание завершения анимации печати |
+| `dialogue_control` | `prevent_skip`, `stay_open`, `auto_advance` | управление поведением диалога |
+| `set_portrait_next` | `target`, `emotion` | установка портрета для следующей реплики |
+| `set_portrait_now` | `target`, `emotion` | мгновенная смена портрета |
+| `clear_dialogue` | — | очистка диалогового окна |
+| `set_depth` | `target` (string), `depth` (real) | `ActionSetDepth` — устанавливает depth и переключает `depth_mode` в `manual` |
+| `spin` | `target` (string), `speed` (real), `seconds` (real) | `ActionSpin` — вращает актёра |
+| `set_visible` | `target` (string), `visible` (bool) | `ActionSetProperty` — управляет видимостью |
 
 `direction` принимает `left`, `right`, `up`, `down` или числовое значение из `global.DIR`.
+
+### Базовые классы
+
+Для устранения дублирования кода созданы базовые Action-классы:
+
+| Базовый класс | Наследники | Общая логика |
+|---------------|------------|-------------|
+| `ActionMoveBase` | `ActionMove`, `ActionMoveRelative` | tween-based перемещение, коллизия, `move_active` |
+| `ActionCameraPanBase` | `ActionCameraPan`, `ActionCameraPanSpeed` | расчёт целевых координат, tween-система |
+| `ActionCameraTrackBase` | `ActionCameraTrack`, `ActionCameraTrackUntilStop` | слежение за целью, `offset_x/y`, `resolver` |
+| `ActionShakeBase` | `ActionCameraShake`, `ActionShakeObject` | амплитуда, частота, decay |
+
+!!! note "ActionCameraPanSpeed"
+    `ActionCameraPanSpeed` использует linear easing и перемещает камеру на фиксированное расстояние за кадр. Зарегистрирован в `cutscene_action_factory`.
 
 ### Нормализация имен
 Неканонические имена автоматически приводятся к каноническим:
@@ -95,17 +131,22 @@ tags:
 
 **GML-эквиваленты**
 
-- `cutscene_music_play(snd_asset, fade_sec = 0.5)` → `ActionMusicPlay`
-- `cutscene_music_stop(fade_sec = 1.0)` → `ActionMusicStop`
-- `cutscene_music_volume(vol, fade_sec = 0.5)` → `ActionMusicVolume`
-- `cutscene_music_duck(multiplier = 0.3, fade_sec = 0.3)` → `ActionMusicDuck`
-- `cutscene_music_unduck(fade_sec = 0.3)` → `ActionMusicUnduck`
-- `cutscene_music_pitch(pitch)` → `ActionMusicPitch`
-- `cutscene_music_pause()` → `ActionMusicPause`
-- `cutscene_music_resume()` → `ActionMusicResume`
+| Функция | Action-класс | Описание |
+|---------|-------------|----------|
+| `cutscene_music_play(snd_asset, fade_sec = 0.5)` | `ActionMusicPlay` | Смена трека |
+| `cutscene_music_stop(fade_sec = 1.0)` | `ActionMusicStop` | Остановка с затуханием |
+| `cutscene_music_volume(vol, fade_sec = 0.5)` | `ActionMusicVolume` | Плавное изменение громкости |
+| `cutscene_music_duck(multiplier = 0.3, fade_sec = 0.3)` | `ActionMusicDuck` | Относительное приглушение |
+| `cutscene_music_unduck(fade_sec = 0.3)` | `ActionMusicUnduck` | Снятие duck |
+| `cutscene_music_pitch(pitch)` | `ActionMusicPitch` | Установка pitch |
+| `cutscene_music_pause()` | `ActionMusicPause` | Пауза |
+| `cutscene_music_resume()` | `ActionMusicResume` | Возобновление |
 
 !!! note "Кроссфейд и немедленный старт"
     Если `fade <= 0`, `play_music` вызывает `global.play_music_immediate()`. При `fade > 0` — `global.play_music_fade()`.
+
+!!! note "Action-классы музыки"
+    Все музыкальные action-классы реализованы как отдельные классы в `scr_cutscene_classes.gml`. Они не блокируют очередь катсцены — инициируют команду в `obj_music_ctrl`, а фейды обрабатываются независимо.
 
 ## Относительное позиционирование
 

@@ -98,6 +98,25 @@ if (scr_input_down("right")) { /* клавиша вправо зажата */ }
 if (scr_input_pressed("confirm")) { /* подтверждение */ }
 ```
 
+## Коллизия
+
+### scr_collision_resolve
+
+Разрешает коллизию движения с тремя группами solid-объектов: `obj_collider`, `par_decor`, `par_interactable`. Заменяет устаревший `collision(obj_collider)`.
+
+```gml
+// Внутри scr_player_movement
+scr_collision_resolve();
+x += xspd;
+y += yspd;
+```
+
+Используется при:
+- обычном движении игрока
+- скольжении вдоль стены (facing update)
+- спавн-проверке (выталкивание при застревании)
+- `scr_global_transition_safety` (защита при смене комнаты)
+
 ### scr_input_repeater
 
 Авто-повтор: первое нажатие сразу, затем повтор через `delay` мс, далее каждые `interval` мс.

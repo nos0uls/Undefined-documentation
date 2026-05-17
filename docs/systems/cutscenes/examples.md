@@ -39,12 +39,12 @@ tags:
     JSON-файл содержит декларативное описание:
 
     - `move`, `wait`, `dialogue`, `parallel`
-
-    - действия камеры (`camera_pan`, `camera_track`, `camera_shake`)
-
-    - `actor_create`, `set_facing`, `animate`
-
+    - действия камеры (`camera_pan`, `camera_pan_speed`, `camera_track`, `camera_shake`)
+    - `actor_create`, `set_facing`, `animate`, `spin`, `set_visible`
     - `fade_in`, `fade_out`, `play_sfx`
+    - музыка (`play_music`, `stop_music`, `music_volume`, `music_duck`)
+    - логика (`branch`, `wait_until`, `checkpoint_state`, `restore_state`)
+    - взаимодействие (`wait_for_interact`, `partial_control`)
 
 
 

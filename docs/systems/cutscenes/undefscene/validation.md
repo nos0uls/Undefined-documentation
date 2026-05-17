@@ -21,6 +21,13 @@ tags:
 - **Изолированная нода**: блок не соединен с общей цепочкой.
 - **Множественные выходы**: обычная нода имеет >1 исходящей связи (используйте `Branch`).
 - **Таймаут**: задержка или тряска с нулевой длительностью.
+- **Actor Create без спрайта**: не указан `actor_sprite` и `copy_target`.
+- **Branch без false-ветки**: только true-ветка, false может быть забыта.
+- **Tween без target**: для `kind=instance` обязателен `target`.
+- **Set Property без значения**: поле `value` пустое.
+- **Run Function без имени**: поле `function` пустое или битый JSON в `args`.
+- **Schedule Action**: битый JSON в `action_params` или отрицательная задержка.
+- **Music Pitch**: значение вне диапазона 0.5–2.0.
 
 ## Интеграция с проектом
 При подключенном `.yyp` редактор дополнительно проверяет:
@@ -35,9 +42,24 @@ tags:
 
 | Нода | Проверка | Уровень | Блокировка экспорта |
 |------|----------|---------|---------------------|
-| `play_music` | Поле `sound` заполнено | Error | Да |
+| `play_music` | Поле `sound` заполнено | Warn | Нет |
+| `play_sfx` | Поле `sound` заполнено | Warn | Нет |
 | `wait_until` | Поле `condition_var` заполнено | Error | Да |
 | `wait_until` | `timeout_seconds == 0` | Warn | Нет — потенциально бесконечное ожидание |
+| `wait_until` | `timeout_seconds < 0` | Warn | Нет |
+| `tween` | `target` заполнен (для `kind=instance`) | Warn | Нет |
+| `tween` | `prop` / `end_value` заполнены | Warn | Нет |
+| `set_property` | `target` заполнен (для `kind=instance`) | Warn | Нет |
+| `set_property` | `property` / `value` заполнены | Warn | Нет |
+| `run_function` | Имя функции не пустое | Warn | Нет |
+| `run_function` | `args` — валидный JSON-массив | Warn | Нет |
+| `schedule_action` | `delay_seconds >= 0` | Warn | Нет |
+| `schedule_action` | `action_params` — валидный JSON-объект | Tip | Нет |
+| `music_pitch` | Значение `pitch` > 0 и конечно | Warn | Нет |
+| `music_pitch` | Значение `pitch` вне 0.5–2.0 | Tip | Нет |
+| `actor_create` | Указан `actor_sprite` или `copy_target` | Warn | Нет |
+| `branch` | Нет false-ветки | Tip | Нет |
+| `mark_node` | Дубликаты имён меток | Warn | Нет |
 
 ---
 

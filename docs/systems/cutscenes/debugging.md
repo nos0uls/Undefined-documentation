@@ -24,6 +24,17 @@ tags:
     - Визуализирует путь до целевой точки (`target_x`, `target_y`) с цветовой индикацией старта (lime) и конца (red).
     - Оптимизировано: отрисовка путей теперь корректно очищается после завершения перемещения.
 
+### Досрочный выход (ESC/X)
+При нажатии `back` (`ESC`/`X`) `finish_cutscene()` вызывает `cleanup()` для:
+- текущего выполняющегося action'а
+- всех оставшихся action'ов в очереди
+- всех `background_actions`
+- всех `scheduled_actions`
+- очистку `global.__cutscene_attachments` (auto-detach при `detach_on_cutscene_end`)
+- очистку `global.__cutscene_checkpoints`
+
+Это исправляет баг, при котором `move_active` оставался `true` после выхода из катсцены, блокируя управление игроком.
+
 ## World-debug (Draw)
 В `obj_cutsceneManager/Draw_0.gml` добавлена отрисовка в world‑координатах (только когда `debug_enabled = true`).
 
