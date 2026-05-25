@@ -55,6 +55,8 @@ tags:
 | `run_function` | `args` — валидный JSON-массив | Warn | Нет |
 | `schedule_action` | `delay_seconds >= 0` | Warn | Нет |
 | `schedule_action` | `action_params` — валидный JSON-объект | Tip | Нет |
+| `checkpoint_state` | `include_globals` — валидная JSON-строка массива | Warn | Нет |
+| `checkpoint_state` | `include_instances` — валидная JSON-строка массива | Warn | Нет |
 | `music_pitch` | Значение `pitch` > 0 и конечно | Warn | Нет |
 | `music_pitch` | Значение `pitch` вне 0.5–2.0 | Tip | Нет |
 | `actor_create` | Указан `actor_sprite` или `copy_target` | Warn | Нет |

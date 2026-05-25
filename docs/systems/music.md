@@ -65,6 +65,11 @@ obj_music_ctrl.Draw_64
     | `global.music_layer2_asset` | sound/noone | Asset второго слоя |
     | `global.music_layer_intensity` | real (0..1) | Текущая интенсивность (0=calm, 1=battle) |
     | `global.music_layer_intensity_target` | real (0..1) | Целевая интенсивность |
+| `global.music_intro_layered_mode` | bool | true = intro перейдёт в layered loop |
+| `global.music_intro_layered_calm_asset` | sound/noone | Asset calm-трека после intro |
+| `global.music_intro_layered_battle_asset` | sound/noone | Asset battle-трека после intro |
+| `global.music_intro_layered_calm_inst` | real | Instance calm после перехода |
+| `global.music_intro_layered_battle_inst` | real | Instance battle после перехода |
 
 ---
 
@@ -123,6 +128,13 @@ global.set_music_volume_fade(0.3, 0.5); // тише за 0.5 секунды
 
 ```gml
 global.play_music_intro_loop(music_boss_intro, music_boss_loop, 0.5);
+```
+
+#### `global.play_music_intro_layered(intro_asset, calm_asset, battle_asset, fade_sec, start_intensity)`
+Играет intro один раз, затем автоматически переключается на layered loop (calm + battle).
+
+```gml
+global.play_music_intro_layered(music_boss_intro, music_boss_calm, music_boss_battle, 0.5, 0);
 ```
 
 #### `global.duck_music(multiplier, fade_sec)`
@@ -184,7 +196,35 @@ global.stop_layered_music(2.0);
 !!! tip "Когда использовать Layer 2"
     - **Исследование vs Бой**: один трек, две версии (спокойная + напряжённая)
     - **Динамический саундтрек**: плавный переход между настроениями без перебивания
-    - **НЕ для**: разных треков (используйте обычный `play_music` с кроссфейдом)
+    - **НЕ для**: разных треков (используйте обычный `play_music`
+
+### Music Phase Manager API
+
+#### `global.play_music_phase_sequence(phases, fade_sec)`
+Запускает фазовую последовательность музыки через `MusicPhaseManager`.
+
+```gml
+var _phases = [
+    { intro: music_boss_intro, calm: music_phase1_calm, battle: music_phase1_battle, intensity: 0, fade: 0.5 },
+    { calm: music_phase2_calm, battle: music_phase2_battle, intensity: 0.5, fade: 1.0 },
+    { calm: music_phase3_calm, battle: music_phase3_battle, intensity: 1.0, fade: 2.0 }
+];
+global.play_music_phase_sequence(_phases, 0.5);
+```
+
+#### `global.music_phase_manager.next(fade_sec)` / `global.music_phase_manager.set_intensity(intensity, fade_sec)`
+Программное управление фазами в runtime.
+
+```gml
+// Переход к следующей фазе
+global.music_phase_manager.next(1.0);
+
+// Сменить интенсивность текущей фазы
+global.music_phase_manager.set_intensity(0.8, 2.0);
+```
+
+#### `global.music_phase_manager.stop(fade_sec)`
+Останавливает фазовую последовательность с фейдом. с кроссфейдом)
 
 ---
 

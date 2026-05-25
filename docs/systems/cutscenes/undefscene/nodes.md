@@ -20,7 +20,7 @@ tags:
 | Диалог | розовый | Dialogue, Wait for Dialogue, Set Dialogue Speed, Wait Typing, Dialogue Control, Set Portrait Next, Set Portrait Now, Clear Dialogue |
 | Камера | зелёный | Camera Pan, Camera Pan To Object, Camera Center, Camera Track, Camera Track Until Stop, Camera Shake, Tween, Tween Camera (legacy), Set Property, Fade In, Fade Out |
 | Логика | оранжевый | Parallel Start, Parallel Join, Branch, Run Function, Instant Mode, Mark Node, Wait Until, Partial Control, Wait for Interact, Set Flag, Set Plot, Spawn Entity, Destroy Entity, Schedule Action, Checkpoint State, Restore State |
-| Звук | бирюзовый | Play SFX, Play Music, Stop Music, Music Volume, Music Duck, Music Unduck, Music Pitch, Music Pause, Music Resume |
+| Звук | бирюзовый | Play SFX, Play Music, Stop Music, Music Volume, Music Duck, Music Unduck, Music Pitch, Music Pause, Music Resume, Play Boss Music, Stop Boss Music, Boss Music Phase, Play Music Intro, Play Intro Layered, Crossfade Music |
 
 ## Поток (Flow)
 
@@ -529,8 +529,8 @@ tags:
 | include_player | `true` — сохранить состояние игрока |
 | include_camera | `true` — сохранить состояние камеры |
 | include_music | `true` — сохранить состояние музыки |
-| include_globals | JSON-массив имён глобальных переменных для сохранения |
-| include_instances | JSON-массив ID инстансов для сохранения |
+| include_globals | JSON-строка массива имён глобальных переменных: `["global.lives", "global.score"]` |
+| include_instances | JSON-строка массива ID инстансов: `["inst_1", "inst_2"]` |
 
 ### Restore State
 Восстановление ранее сохранённого состояния катсцены.
@@ -599,12 +599,12 @@ tags:
 |----------|----------|
 | fade | Длительность fade-in в секундах |
 
-### Music Pitch
-Изменение скорости воспроизведения фоновой музыки.
+### Music Pitch (Playback Speed)
+Изменение скорости воспроизведения фоновой музыки (playback rate).
 
 | Параметр | Описание |
 |----------|----------|
-| pitch | Множитель скорости, шаг 0.1, по умолчанию 1 |
+| pitch | Множитель скорости. `1.0` = нормальная скорость. Шаг 0.1 |
 
 !!! warning "Высокие значения"
     Значения `pitch` выше 1.5 могут привести к артефактам сжатия в зависимости от кодека исходного файла.
@@ -614,6 +614,71 @@ tags:
 
 ### Music Resume
 Возобновление воспроизведения фоновой музыки с места остановки.
+
+### Play Boss Music
+Запуск двух треков одновременно: спокойной (calm) и боевой (battle) версий. Интенсивность по умолчанию = 0 (слышно только calm).
+
+| Параметр | Описание |
+|----------|----------|
+| calm | Спокойный трек (asset name) |
+| battle | Боевой трек (asset name) |
+| fade | Длительность fade-in в секундах |
+
+!!! tip "Boss fight"
+    Используй `Play Boss Music` в начале боя, а затем `Crossfade Music` для плавного перехода от calm к battle по мере нарастания напряжения.
+
+### Stop Boss Music
+Остановка layered-музыки (calm + battle) с фейдом.
+
+| Параметр | Описание |
+|----------|----------|
+| fade | Длительность fade-out в секундах |
+
+### Boss Music Phase
+Запуск фазовой последовательности музыки через `MusicPhaseManager`. Каждая фаза — структура с параметрами `intro`, `calm`, `battle`, `intensity`, `fade`.
+
+| Параметр | Описание |
+|----------|----------|
+| phases | JSON-массив фаз: `[{"intro":"snd_intro","calm":"snd_calm","battle":"snd_battle","intensity":0,"fade":0.5}]` |
+| fade | Дефолтный fade между фазами (сек) |
+
+!!! note "Формат фазы"
+    - `intro` (string, опционально) — одноразовый intro-трек перед началом фазы
+    - `calm` (string, обязательно) — спокойный трек
+    - `battle` (string, опционально) — боевой трек
+    - `intensity` (real, 0..1) — начальная интенсивность слоёв
+    - `fade` (real) — время кроссфейда для этой фазы
+
+### Play Music Intro
+Воспроизведение intro один раз, затем автоматический переход на loop-трек.
+
+| Параметр | Описание |
+|----------|----------|
+| intro | Intro-трек (одноразовый) |
+| loop | Loop-трек (зацикленный) |
+| fade | Длительность fade-in в секундах |
+
+### Play Intro Layered
+Intro один раз, затем автоматический переход на layered loop (calm + battle).
+
+| Параметр | Описание |
+|----------|----------|
+| intro | Intro-трек (одноразовый) |
+| calm | Спокойный loop-трек |
+| battle | Боевой loop-трек (опционально) |
+| fade | Длительность fade-in в секундах |
+| start_intensity | Начальная интенсивность (0 = только calm, 1 = только battle) |
+
+### Crossfade Music
+Изменение соотношения громкости calm/battle слоёв без смены трека.
+
+| Параметр | Описание |
+|----------|----------|
+| intensity | Интенсивность battle-слоя (0..1). 0 = только calm, 1 = только battle |
+| fade | Длительность перехода в секундах |
+
+!!! tip "Динамический саундтрек"
+    Используй несколько нод `Crossfade Music` с разной `intensity` для создания эмоциональной дуги в сцене: 0.0 (спокойствие) → 0.3 (намёк на угрозу) → 0.8 (конфликт) → 1.0 (катарсис).
 
 ## Мета (Meta)
 

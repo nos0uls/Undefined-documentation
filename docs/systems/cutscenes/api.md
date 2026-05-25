@@ -70,7 +70,7 @@ tags:
 | `spin` | `target`, `speed`, `seconds` | вращает актёра |
 | `set_visible` | `target`, `visible` | управляет видимостью актёра |
 | `schedule_action` | `delay_seconds`, `action`, `blocking`, `tag` | отложенное выполнение вложенного действия |
-| `checkpoint_state` | `checkpoint_id`, `include_actors`, `include_player`, `include_camera`, `include_music`, `include_globals`, `include_instances` | сохранение состояния катсцены |
+| `checkpoint_state` | `checkpoint_id`, `include_actors`, `include_player`, `include_camera`, `include_music`, `include_globals` (JSON-строка), `include_instances` (JSON-строка) | сохранение состояния катсцены |
 | `restore_state` | `checkpoint_id`, `cleanup_transients`, `restore_camera`, `restore_music`, `on_missing` | восстановление состояния катсцены |
 | `set_flag` | `key`, `value` | установка глобального флага |
 | `set_plot` | `value` | изменение `global.plot` |
@@ -89,6 +89,37 @@ tags:
 | `set_visible` | `target` (string), `visible` (bool) | `ActionSetProperty` — управляет видимостью |
 
 `direction` принимает `left`, `right`, `up`, `down` или числовое значение из `global.DIR`.
+
+### `checkpoint_state` — формат полей
+
+Поля `include_globals` и `include_instances` передаются как **JSON-строки**, а не массивы. Runtime парсит их через `json_parse`.
+
+```json title="Пример checkpoint_state"
+{
+  "type": "checkpoint_state",
+  "checkpoint_id": "save_1",
+  "include_actors": true,
+  "include_globals": "[\"global.lives\", \"global.score\"]",
+  "include_instances": "[\"inst_1\", \"inst_2\"]"
+}
+```
+
+### `parallel` — формат веток
+
+Каждый элемент массива `actions` — это либо один action-объект, либо массив объектов (sequence). Пустые ветки допустимы и игнорируются.
+
+```json title="Пример parallel"
+{
+  "type": "parallel",
+  "actions": [
+    { "type": "move", "target": "player", "x": 100, "y": 200, "speed_px_sec": 120 },
+    [
+      { "type": "wait", "seconds": 0.5 },
+      { "type": "camera_shake", "seconds": 1, "magnitude": 4 }
+    ]
+  ]
+}
+```
 
 ### Базовые классы
 
@@ -125,9 +156,15 @@ tags:
 | `music_volume` | `volume` (real, 0..1), `fade` (real, sec) | `ActionMusicVolume` — плавное изменение громкости |
 | `music_duck` | `multiplier` (real, 0..1), `fade` (real, sec) | `ActionMusicDuck` — относительное приглушение |
 | `music_unduck` | `fade` (real, sec) | `ActionMusicUnduck` — снятие duck |
-| `music_pitch` | `pitch` (real) | `ActionMusicPitch` — установка pitch |
+| `music_pitch` | `pitch` (real) | `ActionMusicPitch` — установка скорости воспроизведения (playback rate). `1.0` = нормальная скорость |
 | `music_pause` | — | `ActionMusicPause` — пауза |
 | `music_resume` | — | `ActionMusicResume` — возобновление |
+| `play_boss_music` | `calm` (string), `battle` (string), `fade` (real, sec) | `ActionMusicPlayLayered` — запуск calm + battle |
+| `stop_boss_music` | `fade` (real, sec) | `ActionMusicStop` — остановка с затуханием |
+| `boss_music_phase` | `phases` (JSON array), `fade` (real, sec) | `ActionMusicPhaseSequence` — фазовая последовательность |
+| `play_music_intro` | `intro` (string), `loop` (string), `fade` (real, sec) | `ActionMusicIntroLoop` — intro + loop |
+| `play_music_intro_layered` | `intro` (string), `calm` (string), `battle` (string), `fade` (real, sec), `start_intensity` (real, 0..1) | `ActionMusicIntroLayered` — intro + layered loop |
+| `crossfade_music` | `intensity` (real, 0..1), `fade` (real, sec) | `ActionMusicSetIntensity` — смена соотношения calm/battle |
 
 **GML-эквиваленты**
 
@@ -138,9 +175,14 @@ tags:
 | `cutscene_music_volume(vol, fade_sec = 0.5)` | `ActionMusicVolume` | Плавное изменение громкости |
 | `cutscene_music_duck(multiplier = 0.3, fade_sec = 0.3)` | `ActionMusicDuck` | Относительное приглушение |
 | `cutscene_music_unduck(fade_sec = 0.3)` | `ActionMusicUnduck` | Снятие duck |
-| `cutscene_music_pitch(pitch)` | `ActionMusicPitch` | Установка pitch |
+| `cutscene_music_pitch(pitch)` | `ActionMusicPitch` | Установка скорости воспроизведения. `1.0` = нормальная скорость |
 | `cutscene_music_pause()` | `ActionMusicPause` | Пауза |
 | `cutscene_music_resume()` | `ActionMusicResume` | Возобновление |
+| `cutscene_music_layered(calm_asset, battle_asset, fade_sec = 0.5)` | `ActionMusicPlayLayered` | Запуск calm + battle |
+| `cutscene_music_intensity(intensity, fade_sec = 1.0)` | `ActionMusicSetIntensity` | Смена интенсивности |
+| `cutscene_music_intro_loop(intro_asset, loop_asset, fade_sec = 0.5)` | `ActionMusicIntroLoop` | Intro + loop |
+| `cutscene_music_intro_layered(intro_asset, calm_asset, battle_asset, fade_sec = 0.5, start_intensity = 0)` | `ActionMusicIntroLayered` | Intro + layered loop |
+| `cutscene_music_phase_sequence(phases, fade_sec = 0.5)` | `ActionMusicPhaseSequence` | Фазовая последовательность |
 
 !!! note "Кроссфейд и немедленный старт"
     Если `fade <= 0`, `play_music` вызывает `global.play_music_immediate()`. При `fade > 0` — `global.play_music_fade()`.
