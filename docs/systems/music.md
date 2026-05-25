@@ -65,11 +65,30 @@ obj_music_ctrl.Draw_64
     | `global.music_layer2_asset` | sound/noone | Asset второго слоя |
     | `global.music_layer_intensity` | real (0..1) | Текущая интенсивность (0=calm, 1=battle) |
     | `global.music_layer_intensity_target` | real (0..1) | Целевая интенсивность |
-| `global.music_intro_layered_mode` | bool | true = intro перейдёт в layered loop |
-| `global.music_intro_layered_calm_asset` | sound/noone | Asset calm-трека после intro |
-| `global.music_intro_layered_battle_asset` | sound/noone | Asset battle-трека после intro |
-| `global.music_intro_layered_calm_inst` | real | Instance calm после перехода |
-| `global.music_intro_layered_battle_inst` | real | Instance battle после перехода |
+    | `global.music_intro_layered_mode` | bool | true = intro перейдёт в layered loop |
+    | `global.music_intro_layered_calm_asset` | sound/noone | Asset calm-трека после intro |
+    | `global.music_intro_layered_battle_asset` | sound/noone | Asset battle-трека после intro |
+    | `global.music_intro_layered_calm_inst` | real | Instance calm после перехода |
+    | `global.music_intro_layered_battle_inst` | real | Instance battle после перехода |
+    | `global.music_volume_override` | real | -1 = использовать settings_volume, >=0 = ручная громкость |
+    | `global.music_prev_volume` | real | Текущая громкость предыдущего трека |
+    | `global.music_prev_fade_duration` | real | Длительность затухания предыдущего трека (сек) |
+    | `global.music_prev_fade_timer` | real | Оставшееся время затухания предыдущего трека |
+    | `global.music_prev_fade_from` | real | Стартовая громкость затухания предыдущего трека |
+    | `global.music_prev_layer2_instance` | real | Instance предыдущего battle-слоя |
+    | `global.music_prev_layer2_volume` | real | Громкость предыдущего battle-слоя |
+    | `global.music_prev_layer2_fade_from` | real | Стартовая громкость затухания battle-слоя |
+    | `global.music_intro_layered_fade` | real | Длительность фейда после intro |
+    | `global.music_intro_layered_intensity` | real | Стартовая интенсивность после intro |
+    | `global.music_crossfade_lead` | real | Время опережения кроссфейда (сек) |
+    | `global.music_duck_fade_duration` | real | Длительность перехода duck (сек) |
+    | `global.music_duck_fade_timer` | real | Оставшееся время перехода duck |
+    | `global.music_duck_fade_from` | real | Стартовый множитель duck |
+    | `global.music_layer_fade_duration` | real | Длительность перехода интенсивности (сек) |
+    | `global.music_layer_fade_timer` | real | Оставшееся время перехода интенсивности |
+    | `global.music_layer_fade_from` | real | Стартовая интенсивность перехода |
+    | `global.__menu_volume_depth` | real | Глубина стека auto-duck меню |
+    | `global.__menu_volume_prev` | real | Предыдущее значение громкости меню |
 
 ---
 

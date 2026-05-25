@@ -20,7 +20,7 @@ tags:
 | JSON type | Поля | Поведение |
 |-----------|------|-----------|
 | `camera_pan` | `x`, `y`, `seconds` | Двигает view к верхнему левому углу камеры |
-| `camera_pan_speed` | `x`, `y`, `speed` | Двигает view со скоростью (linear easing) |
+| `camera_pan_speed` | `x`, `y`, `seconds` | Двигает view со скоростью (linear easing) |
 | `camera_pan_obj` | `target`, `seconds` | Двигает view к актёру или `player` |
 | `camera_center` | `x`, `y` | Ставит центр камеры в точку |
 

@@ -108,7 +108,7 @@ tags:
 !!! tip "Portrait 'летает'?"
     Если portrait позиционируется не внутри textbox — проверяй этот файл первым делом.
 
-### `objects/obj_face/Step_0.gml`
+### `objects/obj_face/Step_2.gml`
 
 Runtime-логика выбора portrait sprite.
 

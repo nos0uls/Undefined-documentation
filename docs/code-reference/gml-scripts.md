@@ -124,23 +124,23 @@ y += yspd;
 ```gml
 /// @param {string} action
 /// @param {real} [delay] — задержка перед повтором (мс, по умолчанию 200)
-/// @param {real} [interval] — интервал повтора (мс, по умолчанию 60)
+/// @param {real} [interval] — интервал повтора (мс, по умолчанию 120)
 if (scr_input_repeater("down")) { select_index++; }
 ```
 
 ### scr_input_rebind_slot
 
-Переназначает конкретный слот клавиши. Защищает дефолтные клавиши от перезаписи.
+Переназначает клавишу для действия. Защищает дефолтные клавиши от перезаписи.
 
 ```gml
 /// @param {string} action
-/// @param {real} slotIndex — 1 (основная) или 2 (альтернативная)
+/// @param {real} slotIndex — зарезервирован (всегда пишет в основной слот)
 /// @param {real} new_key
 /// @param {struct} [target_settings] — по умолчанию global.player_settings
 scr_input_rebind_slot("confirm", 1, ord("Z")); // (1)!
 ```
 
-1. Защищает дефолтные клавиши (`Z`, `Enter`, `Esc`) от перезаписи — вернёт `false`, если попытка изменить защищённый слот.
+1. Защищает дефолтные клавиши (`Z`, `Enter`, `Esc`) от перезаписи — вернёт `false`, если попытка изменить защищённый слот. Параметр `slotIndex` зарезервирован для совместимости; функция всегда записывает в основной слот.
 
 ## Направление ↔ Спрайт (scr_player_facing)
 
@@ -178,6 +178,11 @@ facing_direction = scr_facing_for_sprite(sprite_index); // (1)!
 
 Обновление спрайтов направления и анимации ходьбы. Не работает во время катсцены.
 
+```gml
+/// @param {bool} ui_blocking — если true, спрайт не меняется и анимация останавливается
+scr_player_animation(ui_blocking);
+```
+
 ### scr_player_facing
 
 Синхронизирует `facing_direction` из текущего `sprite_index`. Не работает во время катсцены.
@@ -194,6 +199,40 @@ scr_player_facing();
 ### scr_player_debug_ghost
 
 Режим призрака: проход через стены, включается/выключается в дебаг-режиме.
+
+### scr_player_process_mutually_exclusive_inputs
+
+Обрабатывает взаимоисключающие клавиши движения (up/down, left/right). При одновременном нажатии противоположных клавиш использует приоритет последней нажатой.
+
+```gml
+/// @param {bool} up — нажата клавиша вверх
+/// @param {bool} down — нажата клавиша вниз
+/// @param {bool} left — нажата клавиша влево
+/// @param {bool} right — нажата клавиша вправо
+/// @return {struct} структура с полями up, down, left, right (bool)
+var anim_inputs = scr_player_process_mutually_exclusive_inputs(up_key, down_key, left_key, right_key);
+```
+
+### scr_player_marker_update
+
+Обновляет позицию маркера взаимодействия (`obj_pointMarker`) в зависимости от направления взгляда игрока.
+
+```gml
+/// @function scr_player_marker_update()
+scr_player_marker_update();
+```
+
+## Input Rebind
+
+### scr_input_rebind
+
+Переназначает клавишу: удаляет её из всех действий, затем добавляет к указанному. Использует `scr_input_rebind_slot` под капотом.
+
+```gml
+/// @param {string} action
+/// @param {real} new_key
+scr_input_rebind("confirm", ord("X"));
+```
 
 ## Сохранение и загрузка
 

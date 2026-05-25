@@ -19,7 +19,7 @@ tags:
 | Условие | Описание |
 |---------|----------|
 | `global.settings_closing` | Меню настроек закрывается (временная блокировка) |
-| `global.active_cutscene_id != ""` | Идёт катсцена |
+| `global.cutscene_active` | Идёт катсцена |
 | `global.cutscene_camera_override == true` | Камера захвачена катсценой |
 | `instance_exists(textboxTest_scribble)` | Открыт диалог |
 | `instance_exists(obj_settingsManager)` | Открыты настройки |
@@ -59,7 +59,7 @@ if (!scr_checkUIBlocking()) {
 #### Конфигурация ширины (`__col_wrap`)
 Ширина текста ограничивается в зависимости от количества колонок:
 - **1 опция**: 80% ширины (`inner_width * 0.8`)
-- **2 опции**: 36% ширины (`inner_width * 0.36`)
+- **2 опции**: 42% ширины (`inner_width * 0.42`)
 - **3 опции**: 28% ширины (`inner_width * 0.28`)
 - **4 опции**: 18% ширины для каждой (`inner_width * 0.18`), используются индивидуальные параметры `__col_wrap_4`.
 

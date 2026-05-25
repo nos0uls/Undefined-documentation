@@ -15,11 +15,11 @@ tags:
 |-----------|------|------|
 | Поток | синий | Start, End, Wait |
 | Движение | фиолетовый | Move, Follow Path, Set Position, Move Relative, Set Position Relative, Jump, Halt |
-| Актёры | фиолетовый | Actor Create, Actor Destroy, Attach To Target, Detach |
+| Актёры | фиолетовый | Actor Create, Actor Destroy, Attach To Target, Detach, Lerp Property, Set Emotion |
 | Визуал | фиолетовый | Animate, Set Animation Frame, Set Facing, Set Depth, Auto Facing, Auto Walk, Flip, Spin, Shake Object, Set Visible, Emote |
 | Диалог | розовый | Dialogue, Wait for Dialogue, Set Dialogue Speed, Wait Typing, Dialogue Control, Set Portrait Next, Set Portrait Now, Clear Dialogue |
-| Камера | зелёный | Camera Pan, Camera Pan To Object, Camera Center, Camera Track, Camera Track Until Stop, Camera Shake, Tween, Tween Camera (legacy), Set Property, Fade In, Fade Out |
-| Логика | оранжевый | Parallel Start, Parallel Join, Branch, Run Function, Instant Mode, Mark Node, Wait Until, Partial Control, Wait for Interact, Set Flag, Set Plot, Spawn Entity, Destroy Entity, Schedule Action, Checkpoint State, Restore State |
+| Камера | зелёный | Camera Pan, Camera Pan To Object, Camera Pan (Speed), Camera Center, Camera Track, Camera Track Until Stop, Camera Shake, Tween, Tween Camera (legacy), Set Property, Fade In, Fade Out |
+| Логика | оранжевый | Parallel Start, Parallel Join, Branch, Run Function, Instant Mode, Mark Node, Guard Global, Wait Until, Partial Control, Wait for Interact, Set Flag, Set Plot, Spawn Entity, Destroy Entity, Schedule Action, Checkpoint State, Restore State |
 | Звук | бирюзовый | Play SFX, Play Music, Stop Music, Music Volume, Music Duck, Music Unduck, Music Pitch, Music Pause, Music Resume, Play Boss Music, Stop Boss Music, Boss Music Phase, Play Music Intro, Play Intro Layered, Crossfade Music |
 
 ## Поток (Flow)
@@ -145,6 +145,26 @@ tags:
 | keep_world_position | `true` — сохранить мировую позицию |
 | destroy_after_detach | `true` — уничтожить после отсоединения |
 
+
+### Lerp Property
+Плавная интерполяция свойства актёра через `lerp`. Изменение происходит каждый кадр, пока свойство не достигнет целевого значения.
+
+| Параметр | Описание |
+|----------|----------|
+| target | Ключ актёра или `player` |
+| property | Свойство: `x`, `y`, `image_xscale`, `image_yscale`, `image_angle`, `image_alpha`, `depth` |
+| to_value | Целевое значение |
+| factor | Фактор интерполяции (0..1). 0.1 — медленно, 0.9 — быстро |
+
+### Set Emotion
+Установка эмоционального состояния актёра. Влияет на отображаемый спрайт и портрет в диалоге.
+
+| Параметр | Описание |
+|----------|----------|
+| target | Ключ актёра или `player` |
+| emotion | Эмоция: `neutral`, `happy`, `sad`, `angry`, `surprised`, `custom` |
+| blend | Цветовая подмешка: `c_white`, `c_red`, `c_blue`, `c_green`, `c_yellow` |
+
 ## Визуал (Visual)
 
 ### Animate
@@ -190,6 +210,15 @@ tags:
 |----------|----------|
 | target | Ключ актёра или `player` |
 | enabled | `true` — включить `auto_walk`, `false` — выключить |
+
+
+### Set Depth
+Установка глубины (depth) актёра и переключение режима на `manual`.
+
+| Параметр | Описание |
+|----------|----------|
+| target | Ключ актёра или `player` |
+| depth | Значение глубины |
 
 ### Flip
 Горизонтальное отражение актёра.
@@ -313,6 +342,17 @@ tags:
 |----------|----------|
 | target | Ключ актёра или `player` |
 | seconds | Длительность перемещения |
+
+
+### Camera Pan (Speed)
+Плавное перемещение камеры к координатам с фиксированной скоростью.
+
+| Параметр | Описание |
+|----------|----------|
+| x | Целевая координата X |
+| y | Целевая координата Y |
+| speed | Скорость в px/sec |
+| smooth | `true` — сглаженное движение |
 
 ### Camera Center
 Мгновенная установка камеры в точку.
@@ -445,6 +485,22 @@ tags:
 
 !!! tip "Автоподстановка (Autocomplete)"
     Большинство строковых полей (ассеты спрайтов, Yarn‑файлы, имена нод, флаги и метки) поддерживают автоподстановку. Начните вводить текст, чтобы увидеть список доступных ресурсов из проекта. Выпадающий список автоматически подстраивается под тип поля.
+
+
+### Guard Global
+Условное ожидание на основе значения глобальной переменной. Блокирует выполнение, пока условие не выполнится или не истечёт таймаут.
+
+| Параметр | Описание |
+|----------|----------|
+| var | Имя глобальной переменной |
+| equals | Ожидаемое значение |
+| if_false | Действие при ложном условии: `skip`, `wait_until_true` |
+| actions | Вложенные действия (JSON) |
+| stop_when | Условие остановки: `none`, `timeout`, `var_equals`, `node_reached` |
+| end_var | Переменная для проверки остановки |
+| end_equals | Ожидаемое значение для остановки |
+| end_node | Имя ноды для остановки |
+| end_timeout | Таймаут остановки (секунды) |
 
 ### Set Flag
 Установка значения глобального флага.
@@ -679,19 +735,6 @@ Intro один раз, затем автоматический переход н
 
 !!! tip "Динамический саундтрек"
     Используй несколько нод `Crossfade Music` с разной `intensity` для создания эмоциональной дуги в сцене: 0.0 (спокойствие) → 0.3 (намёк на угрозу) → 0.8 (конфликт) → 1.0 (катарсис).
-
-## Мета (Meta)
-
-### Director Note
-Редактор-only заметка режиссёра. Не экспортируется в JSON и не влияет на runtime.
-
-| Параметр | Описание |
-|----------|----------|
-| note_text | Текст заметки |
-| category | Категория: `acting`, `camera`, `sound`, `todo`, `warning` |
-| pinned | `true` — заметка закреплена |
-
----
 
 ## См. также
 

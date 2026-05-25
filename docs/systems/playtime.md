@@ -14,7 +14,7 @@ tags:
 Два показателя:
 
 - **Время сейва** (`global.__save_playtime_seconds`) — накапливается в `obj_globalManager.Step_0` через `delta_time`, сохраняется внутри каждого слота.
-- **Общее время** (`global.__no_shower_seconds`) — сумма за все сессии и сейвы, хранится в `game_state.dat`.
+- **Общее время** (`global.__total_playtime_seconds`) — сумма за все сессии и сейвы, хранится в `game_state.dat`.
 
 ## Отображение
 

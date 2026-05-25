@@ -52,7 +52,7 @@ tags:
 | Type | Поля | Результат в движке |
 |------|------|--------------------|
 | `camera_pan` | `x`, `y`, `seconds` | `ActionCameraPan` двигает view к координатам |
-| `camera_pan_obj` | `target`, `seconds` | `ActionCameraPanToObj` двигает view к актёру |
+| `camera_pan_obj` | `target`, `seconds` | `ActionCameraPanToObj` двигает view к актёру с clamp к границам комнаты |
 | `camera_center` | `x`, `y` | `ActionCameraCenter` мгновенно центрирует камеру |
 | `camera_track` | `target`, `seconds`, `offset_x`, `offset_y` | `ActionCameraTrack` следует за целью |
 | `camera_track_until_stop` | `target`, `offset_x`, `offset_y` | `ActionCameraTrackUntilStop` следует до остановки |
@@ -84,9 +84,14 @@ tags:
 | `set_portrait_next` | `target`, `emotion` | установка портрета для следующей реплики |
 | `set_portrait_now` | `target`, `emotion` | мгновенная смена портрета |
 | `clear_dialogue` | — | очистка диалогового окна |
-| `set_depth` | `target` (string), `depth` (real) | `ActionSetDepth` — устанавливает depth и переключает `depth_mode` в `manual` |
-| `spin` | `target` (string), `speed` (real), `seconds` (real) | `ActionSpin` — вращает актёра |
-| `set_visible` | `target` (string), `visible` (bool) | `ActionSetProperty` — управляет видимостью |
+| `fade_in` | `seconds`, `color` | `ActionFadeIn` — затухание из чёрного (по умолчанию `color = c_black`) |
+| `fade_out` | `seconds`, `color` | `ActionFadeOut` — затемнение до чёрного (по умолчанию `color = c_black`) |
+| `play_sfx` | `sound`, `volume`, `pitch` | `ActionPlaySFX` — проигрывание звукового эффекта |
+| `emote` | `target`, `sprite`, `seconds`, `offset_x`, `offset_y`, `scale`, `wait` | `ActionEmote` — показ эмоции над персонажем |
+| `flip` | `target`, `flipped` | отражение спрайта по горизонтали (`image_xscale`) |
+| `jump` | `target`, `x`, `y`, `seconds`, `height`, `easing` | `ActionJump` — прыжок к координатам с дугой |
+| `halt` | `target` | `ActionHalt` — остановка движения актёра |
+| `camera_pan_speed` | `x`, `y`, `seconds` | `ActionCameraPanSpeed` — панорамирование со скоростью (linear easing) |
 
 `direction` принимает `left`, `right`, `up`, `down` или числовое значение из `global.DIR`.
 
@@ -209,10 +214,10 @@ tags:
 
 | Type | Поля | Результат в движке |
 |------|------|--------------------|
-| `wait_until` | `condition_var` (string), `condition_equals` (string), `timeout_seconds` (real) | `ActionGuardGlobal` с `if_false: "wait_until_true"` |
+| `wait_until` | `condition_var` (string), `condition_equals` (string), `timeout_seconds` (real) | ждёт, пока глобальная переменная станет равна значению |
 
 !!! info "Синтаксический сахар"
-    `wait_until` не имеет отдельного Action-класса. При компиляции JSON нода превращается в `guard_global` с `if_false: "wait_until_true"` и пустым `actions`. В GML это эквивалентно `new ActionGuardGlobal(var_name, equals, [], "wait_until_true", "none", "", "", "", 0)` (при `timeout_seconds = 0`). Таймаут конвертируется во фреймы и передаётся в `end_timeout_frames`.
+    `wait_until` не имеет отдельного Action-класса. При загрузке JSON он превращается в `guard_global` с `if_false: "wait_until_true"` и пустым списком действий. Катсцена приостанавливается до выполнения условия или истечения таймаута.
 
 ---
 
