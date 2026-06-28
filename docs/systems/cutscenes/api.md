@@ -92,6 +92,8 @@ tags:
 | `jump` | `target`, `x`, `y`, `seconds`, `height`, `easing` | `ActionJump` — прыжок к координатам с дугой |
 | `halt` | `target` | `ActionHalt` — остановка движения актёра |
 | `camera_pan_speed` | `x`, `y`, `seconds` | `ActionCameraPanSpeed` — панорамирование со скоростью (linear easing) |
+| `branch` | `condition` (string), `true_actions` (array), `false_actions` (array) | `ActionBranch` — ветвление по результату функции/скрипта |
+| `guard_global` | `var` (string), `equals` (any), `if_false` (`skip` or `wait_until_true`), `actions` (array), `stop_when` (`none`, `timeout`, `global_var`, `node_reached`), `end_var` (string), `end_equals` (any), `end_node` (string), `end_timeout` (real) | `ActionGuardGlobal` — условный блок или ожидание глобальной переменной |
 
 `direction` принимает `left`, `right`, `up`, `down` или числовое значение из `global.DIR`.
 
@@ -151,6 +153,96 @@ tags:
 
 !!! note "Таймаут диалогов"
     Если `chatterbox` не отвечает более 600 кадров (~20 сек), экшен завершается принудительно во избежание зависания сцены.
+
+## Dialogue Control
+
+`dialogue_control` управляет поведением активного диалогового окна (`textboxTest_scribble`). Флаги применяются к текущему контроллеру и сохраняются в `obj_cutsceneManager` для новых диалогов.
+
+| Поле | Тип | Описание |
+|------|-----|----------|
+| `prevent_skip` | bool | `true` — блокирует `confirm` для скипа печати текста. Подтверждение всё ещё продвигает допечатанную реплику. |
+| `stay_open` | bool | `true` — `textboxTest_scribble` не уничтожается при `ChatterboxIsStopped`. Окно остаётся открытым до явного `clear_dialogue`. |
+| `auto_advance` | bool | `true` — каждый кадр автоматически вызывает `confirm`, диалог проходит самостоятельно. |
+
+```json title="Пример dialogue_control"
+{
+  "type": "dialogue_control",
+  "prevent_skip": true,
+  "stay_open": false,
+  "auto_advance": false
+}
+```
+
+!!! warning "stay_open и ActionWaitForDialogue"
+    При `stay_open = true` `ActionWaitForDialogue` считает диалог активным, пока окно не закрыто. Закрывайте такой диалог вручную через `clear_dialogue`.
+
+## Branch и Guard Global
+
+### Branch
+
+`branch` выполняет **одну** из двух веток в зависимости от результата `condition`.
+
+- `condition` — имя GML-скрипта, функции, метода или callable-переменной. **Не выражение**.
+- Возвращаемое значение приводится к `bool`.
+- Ветка вставляется в `action_queue` менеджера и выполняется последовательно.
+
+```json title="Пример branch"
+{
+  "type": "branch",
+  "condition": "scr_check_player_has_key",
+  "true_actions": [
+    { "type": "dialogue", "file": "npc.yarn", "node": "HasKey" }
+  ],
+  "false_actions": [
+    { "type": "dialogue", "file": "npc.yarn", "node": "NoKey" }
+  ]
+}
+```
+
+### Guard Global
+
+`guard_global` — условный блок. Режим `if_false` определяет поведение при ложном условии:
+
+- `skip` (по умолчанию) — пропускает `actions`, если условие ложно.
+- `wait_until_true` — приостанавливает катсцену и ждёт, пока `global[var] == equals`.
+
+При `wait_until_true` можно задать `stop_when` — условие прекращения ожидания без выполнения `actions`:
+
+| `stop_when` | Описание |
+|-------------|----------|
+| `none` | Ждать бесконечно (по умолчанию). |
+| `timeout` | Прервать ожидание через `end_timeout` секунд. |
+| `global_var` | Прервать, когда `global[end_var] == end_equals`. |
+| `node_reached` | Прервать, когда катсцена достигнет ноды `end_node` через `mark_node`. |
+
+```json title="Пример guard_global: wait_until_true с timeout"
+{
+  "type": "guard_global",
+  "var": "global.door_opened",
+  "equals": true,
+  "if_false": "wait_until_true",
+  "stop_when": "timeout",
+  "end_timeout": 5.0,
+  "actions": [
+    { "type": "dialogue", "file": "npc.yarn", "node": "DoorOpened" }
+  ]
+}
+```
+
+```json title="Пример guard_global: skip"
+{
+  "type": "guard_global",
+  "var": "global.has_key",
+  "equals": true,
+  "if_false": "skip",
+  "actions": [
+    { "type": "dialogue", "file": "npc.yarn", "node": "HasKey" }
+  ]
+}
+```
+
+!!! warning "set_flag vs guard_global"
+    `set_flag` пишет в `global.flag[$ key]`. `guard_global` читает прямую глобальную переменную `global[var]`. Для guard используйте `run_function` с `variable_global_set` или аналогичный скрипт, если нужно работать с `global.flag`.
 
 ## Музыка в катсценах
 
