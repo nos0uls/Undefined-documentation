@@ -9,3 +9,5 @@
 *[FPS]: Frames Per Second
 *[JSON]: JavaScript Object Notation
 *[Yarn]: Yarn Spinner dialogue format
+*[RVE]: Room Visual Editor
+*[API]: Application Programming Interface

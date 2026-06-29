@@ -49,19 +49,38 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
 
 ### Инвентарь и статы
 
-Инициализируются в конце `obj_Init.Create`:
+Инициализируются в конце `obj_Init.Create` через `scr_inventory_init`:
 
 ??? note "Переменные инвентаря и статов"
     | Переменная | Тип | Назначение |
     |------------|-----|------------|
-    | `global.item[0..7]` | real | Содержимое слотов инвентаря (значения определяются `script_items()`). |
-    | `global.item_count` | real | Количество предметов (обновляется `script_items()`). |
-    | `global.SetArmor` | real | ID экипированной брони. |
-    | `global.SetWeapon` | real | ID экипированного оружия. |
-    | `global.max_itemskip` | real | Макс. пропуск предметов. |
+    | `global.inventory` | array | Массив из 8 слотов предметов. `undefined` означает пустой слот. |
+    | `global.equipped_weapon` | struct | Ссылка на экипированный `WeaponItem` из `global.inventory`. |
+    | `global.equipped_armor` | struct | Ссылка на экипированный `ArmorItem` из `global.inventory`. |
     | `global.stat_hp / maxhp / atk / def / lv / gold / xp` | real | Базовые статы персонажа. |
     | `global.stat_prevlv` | real | Предыдущий уровень (для анимации). |
     | `global.name` | string | Имя персонажа (default: `"CHARA"`). |
+
+### Emote-система
+
+??? note "Переменные emote-системы"
+    | Переменная | Тип | Назначение |
+    |------------|-----|------------|
+    | `global.global_emote_system` | struct | Объект-контейнер с полем `active_emotes` — массивом активных эмоций. |
+    | `global.global_emote_system.active_emotes` | array | Список структур эмоций с полями `target`, `sprite`, `frames_left`, `offset_x`, `offset_y`. |
+
+### Debug-флаги
+
+??? note "Переменные debug-режима"
+    | Переменная | Тип | Назначение |
+    |------------|-----|------------|
+    | `global.debug` | bool | Глобальный флаг debug-режима. Включается через F12 x5 или настройки. |
+    | `global.debug_show_info` | bool | Overlay FPS, координат, имени комнаты (F1). |
+    | `global.debug_show_colliders` | bool | Отрисовка коллайдеров (F2). |
+    | `global.debug_show_hitbox` | bool | Отрисовка хитбокса игрока и маркера (F3). |
+    | `global.debug_show_music` | bool | Overlay музыкальной отладки (F9). |
+    | `global.__debug_activation_count` | real | Счётчик нажатий F12 для активации debug. |
+    | `global.__debug_activation_timer` | real | Таймер 2 секунд для серии нажатий F12. |
 
 ### Диалог Face-система
 
@@ -116,6 +135,24 @@ global.show_notification = function(_text) {
 *   **Меню**: `scr_global_reset_settings_flag()`, `scr_callMenuInit()`.
 *   **Полноэкранный режим**: `scr_global_toggle_fullscreen()` (клавиша Q).
 *   **Безопасность перехода**: `scr_global_transition_safety()`.
+
+### Состояние переходов между комнатами
+
+| Переменная | Тип | Назначение |
+|------------|-----|------------|
+| `global.__transition_safety_frames` | real | Таймер безопасности после перехода (16 кадров). |
+| `global.__service_menu_rooms` | array | Список служебных комнат, исключаемых из игровых переходов. |
+| `global.is_menu_room(room)` | function | Проверяет, относится ли комната к служебным. |
+| `global.__next_spawn_x/y/facing` | undefined | Принудительные координаты и направление спавна после загрузки или перехода. |
+
+### Save slot metadata
+
+| Переменная | Тип | Назначение |
+|------------|-----|------------|
+| `global.__save_slot_names` | array | `["save1", "save2", "save3"]`. |
+| `global.__save_slot_metadata_cache` | struct | Кэш `x`, `y`, `facing`, `room`, `playtime`, `exists` для каждого слота. Читается один раз на старте. |
+| `global.current_save_slot` | string | Текущий активный слот. |
+| `global.last_played_save_slot` | string | Последний использованный слот (из `game_state.dat`). |
 
 !!! warning "Музыка не здесь"
     `global.play_music()`, `global.play_music_fade()`, `global.play_music_immediate()` и все music-глобалы создаются в `scr_music_init()` (вызывается из `obj_Init`). Актуальные фейды обновляет `obj_music_ctrl.Step` каждый кадр. `obj_globalManager` НЕ управляет музыкой напрямую.

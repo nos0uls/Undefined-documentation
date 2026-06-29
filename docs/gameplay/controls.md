@@ -46,3 +46,4 @@ tags:
 - [Геймплей: механики](mechanics.md) — перемещение, взаимодействие, катсцены
 - [Система ввода](../systems/input.md) — `scr_input_pressed()`, `scr_input_repeater()`, rebind
 - [Система музыки](../systems/music.md) — debug overlay (F9)
+- [Debug-инструменты](../systems/debug-tools.md) — подробное описание всех debug-функций

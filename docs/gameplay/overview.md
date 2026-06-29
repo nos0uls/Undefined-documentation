@@ -38,6 +38,11 @@ tags:
     `scr_interaction()`, `obj_pointMarker`, Yarn-диалоги.
     [:material-arrow-right: Подробнее](../systems/interaction.md)
 
+-   :material-movie-open: **Undefscene**
+    ---
+    Визуальный редактор катсцен: Room Visual Editor, Tutorial, Templates.
+    [:material-arrow-right: Подробнее](../systems/cutscenes/undefscene/overview.md)
+
 </div>
 
 ## Ключевая идея

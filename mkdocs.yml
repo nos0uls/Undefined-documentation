@@ -28,6 +28,12 @@ nav:
       - Музыка: systems/music.md
       - Портреты диалога: systems/dialogue-portraits.md
       - Playtime: systems/playtime.md
+      - Инвентарь: systems/inventory.md
+      - Эмоции: systems/emote.md
+      - Система сохранений: systems/save-system.md
+      - Debug-инструменты: systems/debug-tools.md
+      - Переходы между комнатами: systems/room-transitions.md
+      - NPC и диалоги: systems/npc-dialogue.md
       - Катсцены:
           - Обзор: systems/cutscenes/overview.md
           - Архитектура: systems/cutscenes/architecture.md
@@ -49,6 +55,8 @@ nav:
       - Проверки перед экспортом: systems/cutscenes/undefscene/validation.md
       - FAQ: systems/cutscenes/undefscene/faq.md
       - Глоссарий: systems/cutscenes/undefscene/glossary.md
+      - Room Visual Editor: systems/cutscenes/undefscene/room-visual-editor.md
+      - Tutorial: systems/cutscenes/undefscene/tutorial.md
   - Глоссарий: glossary.md
   - Теги: tags.md
   - Геймплей:
@@ -69,13 +77,19 @@ theme:
     - navigation.expand
     - navigation.top
     - navigation.tracking
+    - navigation.prune
+    - navigation.indexes
+    - navigation.footer
+    - toc.follow
     - search.highlight
     - search.share
     - search.suggest
     - content.code.copy
     - content.code.annotate
+    - content.code.select
     - content.tooltips
     - content.action.edit
+    - content.tabs.link
   palette:
     - scheme: slate       # по умолчанию тёмная тема
       primary: blue grey
@@ -162,8 +176,47 @@ plugins:
       enable_git_follow: false
   - minify:
       minify_html: true
-  - tags
-
+  - tags:
+      tags_allowed:
+        - actors
+        - audio
+        - camera
+        - code-reference
+        - controls
+        - cutscene-api
+        - cutscenes
+        - debug
+        - dialogue
+        - editor
+        - emote
+        - events
+        - functions
+        - gameplay
+        - getting-started
+        - glossary
+        - how-to
+        - init
+        - input
+        - inventory
+        - mechanics
+        - music
+        - nodes
+        - npc-dialogue
+        - persistent-objects
+        - project-structure
+        - room-transitions
+        - rooms
+        - runtime
+        - save
+        - scripts
+        - setup
+        - ui
+        - ui-blocking
+        - undefscene
+        - yarn
+  - typeset
+  - social:
+      cards: !ENV [MKDOCS_SOCIAL_CARDS, false]
 extra:
   social:
     - icon: fontawesome/brands/github

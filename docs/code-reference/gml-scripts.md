@@ -291,11 +291,68 @@ global.show_notification("Settings saved!");
 if (global.is_menu_room(room)) { /* играть music_menu */ }
 ```
 
+## Система сохранений
+
+| Скрипт | Описание |
+|--------|----------|
+| `scr_saveLoad` | Загружает текущий save-слот: позицию, комнату, инвентарь, флаги, plot, entity state. |
+| `scr_saveSave` | Сохраняет текущее состояние в слот `global.current_save_slot`. |
+| `scr_defaultLoad` | Устанавливает стартовую позицию и переходит в начальную комнату. |
+| `scr_resetGameToDefault` | Удаляет все сейвы, настройки и `game_state.dat`, сбрасывает глобалы и закрывает игру. |
+| `scr_global_quick_save` | Быстрое сохранение в текущий слот (F7). |
+
+## Переходы между комнатами
+
+| Скрипт | Описание |
+|--------|----------|
+| `scr_room_fade_update` | Обновляет fade-переход в `obj_changingRoomsController`. |
+| `scr_global_transition_safety` | Выталкивает игрока из коллайдеров после перехода и снимает ghost mode. |
+| `scr_global_on_room_change` | Сбрасывает уведомления, переключает музыку, включает защитный ghost mode. |
+| `scr_get_next_game_room` | Возвращает следующую/предыдущую игровую комнату, пропуская служебные. |
+
+## Emote-система
+
+| Скрипт | Описание |
+|--------|----------|
+| `scr_emote_show` | Обёртка для показа эмоции над объектом. |
+| `scr_emote_hide` | Обёртка для скрытия эмоций (для цели или всех). |
+| `scr_parse_emote` | Парсит speaker-строку Yarn в структуру actor/emotion/display_name. |
+
+## Инвентарь
+
+| Скрипт | Описание |
+|--------|----------|
+| `scr_inventory_init` | Создаёт 8-слотовый `global.inventory` и стартовую экипировку. |
+| `constructorsForInventory` | Конструкторы `Item`, `WeaponItem`, `ArmorItem`, `FoodItem` и сериализация. |
+| `script_items` | Фабрика `item_database` и регистрация кастомных предметов. |
+
+## NPC и диалоги
+
+| Скрипт | Описание |
+|--------|----------|
+| `scr_interaction` | Единая точка входа взаимодействия с объектами и NPC. |
+| `interactionWithNPCsOrObjects` | Legacy-обёртка над `scr_interaction` (bbox). |
+| `interactionWithMainCast` | Legacy-обёртка над `scr_interaction` (mask). |
+| `scr_npc_pick_dialogue` | Заглушка. В текущей версии не используется. |
+| `readDialogue` | Создаёт текстбокс и запускает Yarn-диалог. |
+
+## Entity State
+
+| Скрипт | Описание |
+|--------|----------|
+| `scr_entity_state` | Работа с `global.entity_state` — сохранение и восстановление состояния сущностей. |
+
 ---
 
 ## См. также
 
 - [Система ввода](../systems/input.md) — `scr_input_pressed()`, `scr_input_down()`, `scr_input_repeater()`, `scr_buildInputMap()`
+- [Система сохранений](../systems/save-system.md) — `scr_saveLoad`, `scr_saveSave`
+- [Система эмоций](../systems/emote.md) — `scr_emote_show`, `scr_parse_emote`
+- [Инвентарь](../systems/inventory.md) — `scr_inventory_init`, `constructorsForInventory`
+- [NPC и диалоги](../systems/npc-dialogue.md) — `scr_interaction`, `readDialogue`
+- [Переходы между комнатами](../systems/room-transitions.md) — `scr_room_fade_update`, `scr_global_on_room_change`
+- [Debug-инструменты](../systems/debug-tools.md) — `scr_global_debug_hotkeys`, `scr_player_debug_ghost`
 - [Глобальное состояние](../architecture/global-state.md) — `global.game_state`, `global.player_settings`, `global.show_notification`, `global.is_menu_room()`
 - [Система музыки](../systems/music.md) — `global.play_music()`, `global.play_music_immediate()`, `scr_music_init()`
 - [События объектов](events.md) — `Create`, `Step`, `Draw_64`, `GlobalRoomCreationCode`

@@ -65,4 +65,5 @@ scr_interaction("npc_dialogue.yarn", "StartNode");
 
 - [Карта тонкой настройки UI](ui-tuning-map.md) — `obj_pointMarker`, debug draw (F3)
 - [Система ввода](input.md) — `scr_input_pressed("confirm")`, UI blocking
+- [NPC и диалоги](npc-dialogue.md) — `readDialogue`, Yarn-интеграция
 - [Диалоговые портреты](dialogue-portraits.md) — `textboxTest_scribble`, Yarn формат
