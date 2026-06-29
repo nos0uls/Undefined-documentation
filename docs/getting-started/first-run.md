@@ -35,6 +35,6 @@ tags:
 
 ## См. также
 
-- [Установка и настройка](setup.md) — клонирование, зависимости, `mkdocs serve`
+- [Установка и настройка](setup.md) — клонирование, зависимости, стандарты разработки
 - [Структура проекта](project-structure.md) — основные папки, объекты, скрипты
 - [Архитектура: инициализация](../architecture/initialization.md) — `rm_init`, `obj_Init`, `GlobalRoomCreationCode`

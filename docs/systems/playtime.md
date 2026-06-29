@@ -59,4 +59,5 @@ var _text = scr_format_playtime(global.__save_playtime_seconds);
 ## См. также
 
 - [Инициализация и Runtime](../architecture/initialization.md) — `obj_Init`, `obj_globalManager`
-- `scr_saveSave` / `scr_saveLoad` — чтение и запись времени в сейв
+- [Система сохранений](save-system.md) — `scr_saveSave`, `scr_saveLoad` — чтение и запись времени в сейв
+- [GML скрипты](../code-reference/gml-scripts.md) — `scr_format_playtime`

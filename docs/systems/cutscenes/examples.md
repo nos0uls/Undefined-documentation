@@ -1,14 +1,8 @@
 ---
-
 tags:
-
   - cutscenes
-
   - cutscene-api
-
 ---
-
-
 
 # Катсцены: Примеры
 

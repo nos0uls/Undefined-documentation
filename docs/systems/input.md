@@ -111,4 +111,3 @@ if (scr_input_down("back")) {
 - [Архитектура: объекты](../architecture/objects.md) — `obj_Init`, `obj_globalManager`
 - [Глобальное состояние](../architecture/global-state.md) — `global.input_map`
 - [Геймплей: управление](../gameplay/controls.md) — привязки клавиш по умолчанию
-```

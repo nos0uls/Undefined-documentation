@@ -22,8 +22,8 @@ hide:
 
 -   :material-cog: **Системы**
     ---
-    Подробное описание ввода, диалогов, катсцен и интерфейса.
-    [:material-arrow-right: Systems](systems/cutscenes/overview.md)
+    Подробное описание ввода, взаимодействия, музыки, сохранений, инвентаря и катсцен.
+    [:material-arrow-right: Systems](systems/input.md)
 
 -   :material-code-tags: **Справочник**
     ---
