@@ -86,41 +86,63 @@
 Инвентарь игрока. 8 слотов, экипировка оружия и брони. Хранится в `global.inventory`.
 [Подробнее](systems/inventory.md)
 
+---
+
 ## Emote
 Визуальная эмоция (иконка/анимация) над объектом или персонажем. Управляется `global.global_emote_system`.
 [Подробнее](systems/emote.md)
+
+---
 
 ## Save Slot
 Слот сохранения (`save1`, `save2`, `save3`). Метаданные кэшируются в `global.__save_slot_metadata_cache`.
 [Подробнее](systems/save-system.md)
 
+---
+
 ## Room Transition
 Смена игровой комнаты с fade-эффектом. Управляется `obj_changingRoomsController` и `scr_room_fade_update`.
 [Подробнее](systems/room-transitions.md)
+
+---
 
 ## NPC Dialogue
 Диалог с неигровым персонажем или объектом. Запускается через `scr_interaction` / `readDialogue` и Yarn.
 [Подробнее](systems/npc-dialogue.md)
 
+---
+
 ## Debug Mode
 Режим отладки, включаемый через `F12 × 5`. Предоставляет оверлеи, ghost mode и быстрые команды.
 [Подробнее](systems/debug-tools.md)
 
+---
+
 ## Dev Spawn
 Быстрый спавн игрока в выбранной комнате через экран `obj_devLoader`. Координаты задаются в `global.__dev_spawn_*`.
+
+---
 
 ## Room Fade
 Fade-эффект (затемнение/осветление) при переходе между комнатами. Управляется `scr_room_fade_update`.
 
+---
+
 ## Entity State
 Состояние сущностей мира (интерактивных объектов, дверей и т.д.), сохраняемое и восстанавливаемое через `global.entity_state`.
+
+---
 
 ## Point Marker
 `obj_pointMarker` — невидимый объект перед игроком, определяющий цель взаимодействия.
 
+---
+
 ## Undefscene
 Визуальный редактор катсцен. Экспортирует катсцены как JSON. 
 [Подробнее](systems/cutscenes/undefscene/overview.md)
+
+---
 
 ## Yarn
 Язык разметки диалогов.

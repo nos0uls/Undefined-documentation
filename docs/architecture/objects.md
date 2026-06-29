@@ -27,7 +27,6 @@ tags:
 | `obj_collider` | Нет | **Базовый коллайдер**. Наследует `par_entity` → `par_depth`. Объекты, блокирующие движение. |
 | `obj_pointMarker` | Нет | **Невидимый маркер взаимодействия**. Создается при спавне игрока. depth = -9999. Отрисовывается только в debug-режиме (F3). Используется `interactionWithNPCsOrObjects()` для определения цели взаимодействия. |
 | `obj_save` | Нет | **Интерактивный сейвпоинт в мире**. При взаимодействии запускает Yarn-диалог, заданный в `dialogue_filename` и `dialogue_node`. После диалога выполняет сохранение через `obj_saveManager`. |
-| `obj_saveManager` | Нет | **Экран выбора сохранения / DEV-LOAD**. Режимы `load` и `save`. 3 слота + dev-load опция (при `global.debug == true` и `player_settings.devload_focus == true`). Читает метаданные из `global.__save_slot_metadata_cache` (быстрый путь) или с диска (fallback). |
 | `obj_devLoader` | Нет | **UI-экран dev-load**. Показывает список всех игровых комнат, исключая служебные. При выборе комнаты устанавливает `global.__dev_spawn` и выполняет `room_goto` в центр комнаты. |
 | `obj_changingRoomsController` | Нет | **Контроллер fade-перехода**. В Step вызывает `scr_room_fade_update`, выполняет `room_goto`, перемещает игрока и отвечает за `fadeLevel` / `eyesGlow`. |
 | `objRoomChanger` | Нет | **Триггер смены комнаты**. Задаёт целевую комнату и координаты. При касании игрока создаёт `obj_changingRoomsController` и уничтожается. |
