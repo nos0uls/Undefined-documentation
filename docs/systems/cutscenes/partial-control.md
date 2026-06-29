@@ -26,6 +26,7 @@ tags:
 - `target`: объект, с которым ожидается взаимодействие (actor key или object)
 - `timeout`: таймаут в секундах (0 = безлимитно)
 - `timeout_action`: поведение при таймауте - `"continue"` (продолжить ветку, по умолчанию) или `"abort_parallel"` (прервать parallel)
+- `interact_action`: поведение при взаимодействии - `"continue"` (продолжить, по умолчанию) или `"abort_parallel"` (прервать parallel)
 
 **Работа в parallel ветках:**
 Механизм использует очередь `global.__interacted_targets` (массив) вместо флага. Каждое взаимодействие добавляет ID объекта в очередь. `ActionWaitForInteract` ищет свой target в этой очереди и удаляет его при совпадении. Это безопасно для parallel веток — несколько `wait_for_interact` могут ждать разные цели одновременно без race condition.

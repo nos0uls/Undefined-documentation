@@ -7,6 +7,10 @@ repo_name: nos0uls/Undefined-documentation
 repo_url: https://github.com/nos0uls/Undefined-documentation
 edit_uri: edit/main/docs/
 
+not_in_nav: |
+  404.md
+  _snippets/abbr.md
+
 nav:
   - Главная: index.md
   - Начало работы:
@@ -174,6 +178,7 @@ plugins:
       type: datetime
       locale: ru
       enable_git_follow: false
+      fallback_to_build_date: true
   - minify:
       minify_html: true
   - tags:

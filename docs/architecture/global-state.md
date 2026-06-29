@@ -23,9 +23,13 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
         obj_settingsManager,
         obj_menu,
         obj_saveManager,
-        obj_inGameMenu
+        obj_inGameMenu,
+        obj_p3r_title,
+        obj_p3r_pause,
+        obj_p3r_settings
     ];
     // ... + global.settings_closing + active_cutscene_id / cutscene_camera_override
+    // ... + obj_sound_test (is_open check)
 }
 ```
 
@@ -39,6 +43,10 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
 | `instance_exists(obj_menu)` | Открыто главное меню |
 | `instance_exists(obj_saveManager)` | Открыт экран сейвов |
 | `instance_exists(obj_inGameMenu)` | Открыто in-game меню |
+| `instance_exists(obj_p3r_title)` | Открыт P3R title |
+| `instance_exists(obj_p3r_pause)` | Открыт P3R pause |
+| `instance_exists(obj_p3r_settings)` | Открыты P3R settings |
+| `instance_exists(obj_sound_test)` + `is_open` | Открыт GUI теста звука |
 
 ### Комнаты и сейвы
 
@@ -82,6 +90,16 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
     | `global.__debug_activation_count` | real | Счётчик нажатий F12 для активации debug. |
     | `global.__debug_activation_timer` | real | Таймер 2 секунд для серии нажатий F12. |
 
+### Сюжет и прогресс
+
+??? note "Переменные сюжета и состояния мира"
+    | Переменная | Тип | Назначение |
+    |------------|-----|------------|
+    | `global.flag` | struct | Произвольные флаги сюжета (устанавливаются через `ActionSetFlag`). |
+    | `global.plot` | real | Числовый прогресс сюжета (устанавливается через `ActionSetPlot`). |
+    | `global.entity_state` | struct | Реестр состояния NPC, дверей, сундуков по ключу `"room_name:entity_id"`. Сериализуется в save-файл. |
+    | `global.room_flags` | struct | Пост-катсценные изменения мира: ключ — имя комнаты, значение — список объектов. |
+
 ### Диалог Face-система
 
 ??? note "Переменные face-системы"
@@ -94,6 +112,16 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
     | `global.current_sprite` | sprite | Текущий спрайт портрета. |
     | `global.current_voice` | sound | Звук голоса (default: `snd_text_ch1`). |
     | `global.voice_speed` | real | Скорость голоса (default: `1`). |
+
+### Камера
+
+??? note "Переменные камеры"
+    | Переменная | Тип | Назначение |
+    |------------|-----|------------|
+    | `global.camera_x` | real | X-координата viewport (обновляется каждый кадр в `obj_globalManager.Step_2`). |
+    | `global.camera_y` | real | Y-координата viewport. |
+    | `global.camera_w` | real | Ширина viewport. |
+    | `global.camera_h` | real | Высота viewport. |
 
 ### DEV-LOAD и спаун
 
@@ -165,7 +193,8 @@ global.show_notification = function(_text) {
 По умолчанию состояние выглядит так (`scr_game_state_default`):
 ```json
 {
-    "last_played_save_slot": "save1"
+    "last_played_save_slot": "save1",
+    "total_playtime_seconds": 0
 }
 ```
 

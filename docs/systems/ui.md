@@ -19,13 +19,17 @@ tags:
 | Условие | Описание |
 |---------|----------|
 | `global.settings_closing` | Меню настроек закрывается (временная блокировка) |
-| `global.cutscene_active` | Идёт катсцена |
+| `global.active_cutscene_id != ""` | Идёт катсцена |
 | `global.cutscene_camera_override == true` | Камера захвачена катсценой |
 | `instance_exists(textboxTest_scribble)` | Открыт диалог |
 | `instance_exists(obj_settingsManager)` | Открыты настройки |
 | `instance_exists(obj_menu)` | Открыто главное меню |
 | `instance_exists(obj_saveManager)` | Открыт экран сейвов |
 | `instance_exists(obj_inGameMenu)` | Открыто in-game меню |
+| `instance_exists(obj_p3r_title)` | Открыт P3R title |
+| `instance_exists(obj_p3r_pause)` | Открыт P3R pause |
+| `instance_exists(obj_p3r_settings)` | Открыты P3R settings |
+| `instance_exists(obj_sound_test)` + `is_open` | Открыт GUI теста звука |
 
 ### Функция
 
@@ -43,7 +47,7 @@ if (!scr_checkUIBlocking()) {
 
 ### Как это работает в объектах
 
-Объекты меню (`obj_menu`, `obj_settingsManager`, `obj_saveManager`) не регистрируются явно — их существование проверяется напрямую в `scr_checkUIBlocking`. Игрок и NPC вызывают эту функцию перед обработкой движения и взаимодействия.
+Объекты меню (`obj_menu`, `obj_settingsManager`, `obj_saveManager`, `obj_p3r_*`) не регистрируются явно — их существование проверяется напрямую в `scr_checkUIBlocking`. Игрок и NPC вызывают эту функцию перед обработкой движения и взаимодействия. `obj_sound_test` проверяется через флаг `is_open`.
 
 
 

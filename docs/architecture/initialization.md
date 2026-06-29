@@ -39,7 +39,8 @@ sequenceDiagram
         O_Init->>O_Init: scr_music_init() + cutscene_register_chatterbox_functions()
         O_Init->>O_Music: instance_create(obj_music_ctrl)
         O_Init->>O_Init: global.show_notification definition
-        O_Init->>O_Init: Инвентарь + статы + диалог face-система
+        O_Init->>O_Init: global.flag / global.plot / global.entity_state
+        O_Init->>O_Init: scr_inventory_init() — инвентарь, статы, face-система
         O_Init->>O_Init: First-launch window sizing (если нужно)
         O_Init->>O_Global: instance_create(obj_globalManager)
     end
@@ -67,11 +68,12 @@ sequenceDiagram
 | 12 | **Chatterbox интеграция** | `cutscene_register_chatterbox_functions()` | Регистрирует все `c_*` команды катсцен как Yarn-функции (`c_walk`, `c_dialogue`, `c_fadein` и т.д.). |
 | 13 | **Уведомления** | — | Определяется `global.show_notification(text)` — пишет в `obj_globalManager.notification_*`. |
 | 14 | **Первый запуск** | — | Если `player_settings.dat` не существовал — подгоняем размер окна под экран и центрируем. |
-| 15 | **Инвентарь и статы** | `script_items()` | `global.item[0..7]`, `global.item_count`, `global.SetArmor/Weapon`, `global.stat_hp/maxhp/atk/def/lv/gold/xp`, `global.name`. |
-| 16 | **Диалог face-система** | — | `global.current_actor`, `global.current_emote`, `global.is_talking`, `global.talk_index`, `global.current_sprite`, `global.current_voice`, `global.voice_speed`. |
-| 17 | **Создание менеджеров** | — | `obj_globalManager` создаётся в конце init-фазы. |
-| 18 | **Переход в меню** | `room_goto(rm_roomMenu)` | Если мы в `rm_init`. |
-| 19 | **Музыка меню** | `global.play_music(music_menu)` | Запускается из `obj_menu.Create`, а не из `obj_Init`. |
+| 15 | **Сюжет и прогресс** | — | `global.flag = {}` (флаги сюжета, устанавливаются через `ActionSetFlag`), `global.plot = 0` (числовой прогресс, через `ActionSetPlot`). |
+| 16 | **Реестр состояния сущностей** | — | `global.entity_state = {}` — хранит состояние NPC, дверей, сундуков по ключу `"room_name:entity_id"`. Сериализуется в save-файл. |
+| 17 | **Инвентарь и статы** | `scr_inventory_init()` | `global.inventory` (array из 8 слотов, `undefined` = пусто), `global.equipped_weapon`, `global.equipped_armor`, `global.stat_hp/maxhp/atk/def/lv/prevlv/gold/xp`, `global.name`. Также камера и dialogue face-система. |
+| 18 | **Создание менеджеров** | — | `obj_globalManager` создаётся в конце init-фазы. |
+| 19 | **Переход в меню** | `room_goto(rm_roomMenu)` | Если мы в `rm_init`. |
+| 20 | **Музыка меню** | `global.play_music(music_menu)` | Запускается из `obj_menu.Create`, а не из `obj_Init`. |
 
 ## Роли объектов
 
@@ -79,7 +81,7 @@ sequenceDiagram
 - **Тип**: Singleton, Persistent.
 - **Ответственность**: холодный старт и подготовка **всех** глобальных данных до начала обычного gameplay.
 - **Жизненный цикл**: создаётся в `rm_init`, защищён от дублей (`global.__init_done`) и нужен для корректного старта даже при нестандартном запуске.
-- **Что инициализирует**: константы, аудио-дефолты, окно-дефолты, `game_state`, `player_settings`, input map, UI sfx, DEV-LOAD переменные, кэш сейвов, музыкальную систему, Chatterbox-функции катсцен, уведомления, инвентарь, статы, диалог face-систему.
+- **Что инициализирует**: константы, аудио-дефолты, окно-дефолты, `game_state`, `player_settings`, input map, UI sfx, DEV-LOAD переменные, кэш сейвов, музыкальную систему, Chatterbox-функции катсцен, уведомления, `room_flags`, `flag`, `plot`, `entity_state`, инвентарь, статы, камеру, диалог face-систему.
 
 ### `obj_globalManager`
 - **Тип**: Singleton, Persistent.

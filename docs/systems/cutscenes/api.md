@@ -65,8 +65,8 @@ tags:
 | `set_property` | `kind`, `target`, `property`, `value` | записывает произвольное свойство instance или камеры |
 | `tween` | `target`, `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет числовое свойство instance |
 | `tween_camera` | `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет `x` или `y` камеры (legacy, рекомендуется `tween` с `kind=camera`) |
-| `attach_to_target` | `target_ref`, `parent_ref`, `offset_x`, `offset_y`, `follow_facing`, `follow_scale`, `follow_depth`, `duration_seconds`, `detach_on_cutscene_end` | привязывает актёра к родителю |
-| `detach` | `target_ref`, `keep_world_position`, `destroy_after_detach` | отсоединяет актёра от родителя |
+| `attach_to_target` | `target`, `parent_ref`, `offset_x`, `offset_y`, `follow_facing`, `follow_scale`, `follow_depth`, `duration_seconds`, `detach_on_cutscene_end` | привязывает актёра к родителю (`target_ref` — legacy алиас) |
+| `detach` | `target`, `destroy_after_detach` | отсоединяет актёра от родителя (`target_ref` — legacy алиас) |
 | `spin` | `target`, `speed`, `seconds` | вращает актёра |
 | `set_visible` | `target`, `visible` | управляет видимостью актёра |
 | `schedule_action` | `delay_seconds`, `action`, `blocking`, `tag` | отложенное выполнение вложенного действия |
@@ -77,7 +77,7 @@ tags:
 | `spawn_entity` | `object`, `key`, `x`, `y`, `depth`, `persistent` | создание объекта в мире |
 | `destroy_entity` | `target` | удаление объекта |
 | `partial_control` | `control_type`, `whitelist` | частичный контроль игрока |
-| `wait_for_interact` | `target`, `timeout`, `timeout_action` | ожидание взаимодействия |
+| `wait_for_interact` | `target`, `timeout`, `timeout_action`, `interact_action` | ожидание взаимодействия |
 | `set_dialogue_speed` | `speed` | скорость печати текста |
 | `wait_typing` | — | ожидание завершения анимации печати |
 | `dialogue_control` | `prevent_skip`, `stay_open`, `auto_advance` | управление поведением диалога |

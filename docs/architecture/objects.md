@@ -30,6 +30,29 @@ tags:
 | `obj_devLoader` | Нет | **UI-экран dev-load**. Показывает список всех игровых комнат, исключая служебные. При выборе комнаты устанавливает `global.__dev_spawn` и выполняет `room_goto` в центр комнаты. |
 | `obj_changingRoomsController` | Нет | **Контроллер fade-перехода**. В Step вызывает `scr_room_fade_update`, выполняет `room_goto`, перемещает игрока и отвечает за `fadeLevel` / `eyesGlow`. |
 | `objRoomChanger` | Нет | **Триггер смены комнаты**. Задаёт целевую комнату и координаты. При касании игрока создаёт `obj_changingRoomsController` и уничтожается. |
+| `obj_cutsceneManager` | Да | **Центральный контроллер катсцен**. Persistent. Управляет `action_queue`, `actor_map`, `actor_specs`. Выполняет экшены из очереди, обрабатывает параллельные ветки, управляет partial control. Room Start/End — очищает мёртвые ссылки. |
+| `textboxTest_scribble` | Нет | **Диалоговое окно**. Использует Scribble для отрисовки текста и Chatterbox для логики Yarn-диалогов. Обрабатывает опции выбора, портреты, голоса. |
+| `obj_face` | Нет | **Портрет диалога**. Отрисовывает спрайт-портрет говорящего персонажа в текстбоксе. Управляется через `global.current_actor` / `global.current_emote`. |
+| `obj_sound_test` | Нет | **GUI теста звука**. Имеет флаг `is_open`. Блокирует ввод через `scr_checkUIBlocking` при открытом GUI. |
+| `obj_p3r_title` | Нет | **P3R title screen**. Блокирует ввод через `scr_checkUIBlocking`. |
+| `obj_p3r_pause` | Нет | **P3R pause menu**. Блокирует ввод через `scr_checkUIBlocking`. |
+| `obj_p3r_settings` | Нет | **P3R settings**. Блокирует ввод через `scr_checkUIBlocking`. |
+| `obj_p3r_background` | Нет | Фоновый объект P3R-стиля меню. |
+| `obj_p3r_transition` | Нет | Переход между P3R-экранами. |
+| `obj_p3r_background_1` | Нет | Дополнительный фоновый объект P3R. |
+| `obj_anim` | Нет | Объект анимации. |
+| `obj_asher` | Нет | NPC Ашер. Наследует `obj_actor`. |
+| `obj_bench` | Нет | Интерактивный объект (скамейка). Наследует `par_interactable`. |
+| `obj_dummy` | Нет | Тестовый объект. |
+| `obj_kachela` | Нет | Игровой объект (качеля). |
+| `obj_lantern` | Нет | Декорация (фонарь). Наследует `par_decor`. |
+| `obj_sheepFountain` | Нет | Игровой объект (фонтан). |
+| `obj_sign` | Нет | Интерактивный объект (знак). Наследует `par_interactable`. |
+| `obj_slopeCollider` | Нет | Коллайдер для склонов. Наследует `par_entity`. |
+| `obj_tree1` / `obj_tree2` | Нет | Декорации (деревья). Наследуют `par_decor`. |
+| `obj_visualObject` | Нет | Визуальный объект (без коллизии). |
+| `obj_menuBGSpriteChanger` | Нет | Смена спрайта фона меню. |
+| `obj_menuTest` / `obj_cutsceneTest` / `obj_dialoguetest` | Нет | Тестовые объекты для отладки. |
 
 ## Детали по объектам
 
@@ -53,4 +76,5 @@ tags:
 - [Комнаты](rooms.md) — `rm_init`, `global.rooms_by_name`
 - [Система ввода](../systems/input.md) — `scr_buildInputMap()`
 - [Система музыки](../systems/music.md) — `obj_music_ctrl`
-- [Катсцены: обзор](../systems/cutscenes/overview.md) — runtime катсцен
+- [Катсцены: обзор](../systems/cutscenes/overview.md) — runtime катсцен, `obj_cutsceneManager`
+- [Диалоговые портреты](../systems/dialogue-portraits.md) — `textboxTest_scribble`, `obj_face`

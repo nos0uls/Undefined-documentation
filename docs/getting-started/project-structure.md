@@ -21,6 +21,11 @@ tags:
     *   `obj_inGameMenu`: Внутриигровое меню (Inventory, Status, Settings).
     *   `obj_devLoader`: UI-экран dev-load для быстрого перехода между комнатами.
     *   `obj_changingRoomsController`: Контроллер fade-перехода между комнатами.
+    *   `obj_cutsceneManager`: Центральный контроллер катсцен (persistent). Управляет очередью экшенов, актёрами, partial control.
+    *   `textboxTest_scribble`: Диалоговое окно (Scribble + Chatterbox).
+    *   `obj_face`: Портрет диалога (renderer).
+    *   `obj_p3r_title` / `obj_p3r_pause` / `obj_p3r_settings`: P3R-стиль меню (title, pause, settings).
+    *   `obj_sound_test`: GUI теста звука.
 *   **Игровые объекты**:
     *   `obj_player`: Объект игрока. Движение, коллизии, взаимодействие.
     *   `obj_actor`: Базовый объект для NPC и персонажей катсцен.

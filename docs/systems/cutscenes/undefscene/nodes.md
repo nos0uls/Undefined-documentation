@@ -13,11 +13,11 @@ tags:
 
 | Категория | Цвет | Ноды |
 |-----------|------|------|
-| Поток | синий | Start, End, Wait |
-| Движение | фиолетовый | Move, Follow Path, Set Position, Move Relative, Set Position Relative, Jump, Halt |
+| Поток | синий | Start, End, Wait, Room Change |
+| Движение | фиолетовый | Move, Follow Path, Set Position, Move Relative, Set Position Relative, Move Relative Direction, Move Direct, Jump, Halt |
 | Актёры | фиолетовый | Actor Create, Actor Destroy, Attach To Target, Detach, Lerp Property, Set Emotion |
 | Визуал | фиолетовый | Animate, Set Animation Frame, Set Facing, Set Depth, Auto Facing, Auto Walk, Flip, Spin, Shake Object, Set Visible, Emote |
-| Диалог | розовый | Dialogue, Wait for Dialogue, Set Dialogue Speed, Wait Typing, Dialogue Control, Set Portrait Next, Set Portrait Now, Clear Dialogue |
+| Диалог | розовый | Dialogue, Wait for Dialogue, Wait Talk, Set Dialogue Speed, Wait Typing, Dialogue Control, Set Portrait Next, Set Portrait Now, Clear Dialogue |
 | Камера | зелёный | Camera Pan, Camera Pan To Object, Camera Pan (Speed), Camera Center, Camera Track, Camera Track Until Stop, Camera Shake, Tween, Tween Camera (legacy), Set Property, Fade In, Fade Out |
 | Логика | оранжевый | Parallel Start, Parallel Join, Branch, Run Function, Instant Mode, Mark Node, Guard Global, Wait Until, Partial Control, Wait for Interact, Set Flag, Set Plot, Spawn Entity, Destroy Entity, Schedule Action, Checkpoint State, Restore State |
 | Звук | бирюзовый | Play SFX, Play Music, Stop Music, Music Volume, Music Duck, Music Unduck, Music Pitch, Music Pause, Music Resume, Play Boss Music, Stop Boss Music, Boss Music Phase, Play Music Intro, Play Intro Layered, Crossfade Music |
@@ -39,6 +39,16 @@ tags:
 
 !!! tip "Wait на ребре"
     Используйте двойной клик по линии связи для установки задержки без отдельной ноды `Wait`.
+
+### Room Change
+Переход в другую комнату с сохранением позиций актёров.
+
+| Параметр | Описание |
+|----------|----------|
+| room | Имя комнаты (например, `rm_test`) |
+| player_x | Координата X игрока в новой комнате |
+| player_y | Координата Y игрока в новой комнате |
+| actors | JSON-объект позиций актёров: `{"npc1":{"x":100,"y":200}}` |
 
 ## Движение (Movement)
 
@@ -79,6 +89,28 @@ tags:
 | target | Ключ актёра или `player` |
 | dx | Смещение по X от текущей позиции |
 | dy | Смещение по Y от текущей позиции |
+
+### Move Relative Direction
+Перемещение актёра в заданном направлении на определённое время.
+
+| Параметр | Описание |
+|----------|----------|
+| target | Ключ актёра или `player` |
+| direction | `left`, `right`, `up` или `down` |
+| speed_px_sec | Скорость в px/sec |
+| seconds | Длительность движения |
+| collision | `true` — учитывать стены и препятствия |
+
+### Move Direct
+Перемещение актёра в точку с заданной скоростью или за определённое количество кадров.
+
+| Параметр | Описание |
+|----------|----------|
+| target | Ключ актёра или `player` |
+| x, y | Целевые координаты |
+| value | Скорость (px/sec) или количество кадров |
+| use_speed | `true` — режим скорости, `false` — режим кадров |
+| collision | `true` — учитывать стены и препятствия |
 
 ### Follow Path
 Движение по маршруту из нескольких точек.
@@ -127,7 +159,7 @@ tags:
 
 | Параметр | Описание |
 |----------|----------|
-| target_ref | Ключ актёра, который будет следовать |
+| target | Ключ актёра, который будет следовать |
 | parent_ref | Ключ родительского актёра |
 | offset_x, offset_y | Смещение относительно родителя |
 | follow_facing | `true` — копировать направление взгляда родителя |
@@ -141,8 +173,7 @@ tags:
 
 | Параметр | Описание |
 |----------|----------|
-| target_ref | Ключ актёра |
-| keep_world_position | `true` — сохранить мировую позицию |
+| target | Ключ актёра |
 | destroy_after_detach | `true` — уничтожить после отсоединения |
 
 
@@ -279,13 +310,21 @@ tags:
 |----------|----------|
 | file | Путь к `.yarn` файлу |
 | node | Имя стартового узла |
+| block_queue | `true` — блокировать очередь катсцены до завершения диалога |
 
 ### Wait for Dialogue
 Ожидание завершения текущего активного диалога.
 
 | Параметр | Описание |
 |----------|----------|
-| dialogue_controller | Instance ref диалогового контроллера (опционально; пусто — активный textbox)
+| dialogue_controller | Instance ref диалогового контроллера (опционально; пусто — активный textbox) |
+
+### Wait Talk
+Ожидание завершения печати текста и перехода к следующей реплике.
+
+| Параметр | Описание |
+|----------|----------|
+| dialogue_controller | Instance ref диалогового контроллера (опционально; пусто — активный textbox) |
 
 ### Set Dialogue Speed
 Установка скорости печати текста в диалоге.
@@ -405,7 +444,7 @@ tags:
 | prop | Имя числового свойства |
 | end_value | Конечное значение; при export становится `to_value` |
 | start_value_override | Стартовое значение (опционально); при export становится `from_value` |
-| duration_frames | Длительность в секундах |
+| seconds | Длительность в секундах |
 | ease_name | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
 
 ### Tween Camera
@@ -416,7 +455,7 @@ tags:
 | property | `x`, `y`, `view_x`, `view_y`, `camera_x` или `camera_y` |
 | to_value | Конечное значение |
 | from_value | Стартовое значение |
-| duration_frames | Длительность в секундах |
+| seconds | Длительность в секундах |
 | ease_name | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
 
 ### Set Property
@@ -556,7 +595,8 @@ tags:
 |----------|----------|
 | target | Цель взаимодействия |
 | timeout | Макс. время ожидания в секундах (0 = бесконечно) |
-| timeout_action | Действие при таймауте: `continue` или `skip` |
+| timeout_action | Действие при таймауте: `continue` или `abort_parallel` |
+| interact_action | Действие при взаимодействии: `continue` или `abort_parallel` |
 
 ### Wait Until
 Ожидание выполнения условия или истечения таймаута.

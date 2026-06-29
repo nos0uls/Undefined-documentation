@@ -48,7 +48,7 @@ graph TD
 1.  **Централизованная Инициализация**: Все глобальные переменные объявляются в одном месте (`obj_Init`).
 2.  **Менеджеры-Одиночки**: Системы (катсцены, сохранения, настройки) управляются через объекты-менеджеры, существующие в единственном экземпляре.
 3.  **Data-Driven Диалоги**: Весь текст и ветвления диалогов вынесены в файлы `.yarn` и не зашиты в код.
-4. **UI Blocking**: Блокировка ввода через `scr_checkUIBlocking()` — проверяет существование ключевых UI-объектов (`obj_menu`, `obj_settingsManager`, `textboxTest_scribble`, `obj_inGameMenu`, `obj_saveManager`), а также флаги катсцены и `global.settings_closing`. Это не полноценный стек, а hardcoded список, который гарантирует что игрок не сможет ходить, пока открыто меню или идёт катсцена.
+4. **UI Blocking**: Блокировка ввода через `scr_checkUIBlocking()` — проверяет существование ключевых UI-объектов (`textboxTest_scribble`, `obj_settingsManager`, `obj_menu`, `obj_saveManager`, `obj_inGameMenu`, `obj_p3r_title`, `obj_p3r_pause`, `obj_p3r_settings`, `obj_sound_test`), а также флаги `global.settings_closing`, `global.active_cutscene_id` и `global.cutscene_camera_override`. Это не полноценный стек, а hardcoded список, который гарантирует что игрок не сможет ходить, пока открыто меню или идёт катсцена.
 
 ## Структура Папок
 
