@@ -36,8 +36,8 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
 | Источник блокировки | Условие |
 |---------------------|---------|
 | `global.settings_closing` | Меню настроек закрывается |
-| `global.active_cutscene_id != ""` | Идёт катсцена |
-| `global.cutscene_camera_override == true` | Камера захвачена катсценой |
+| `global.active_cutscene_id != ""` | Идёт катсцена (если `include_cutscene == true`) |
+| `global.cutscene_camera_override == true` | Камера захвачена катсценой (если `include_cutscene == true`) |
 | `instance_exists(textboxTest_scribble)` | Открыт диалог |
 | `instance_exists(obj_settingsManager)` | Открыты настройки |
 | `instance_exists(obj_menu)` | Открыто главное меню |

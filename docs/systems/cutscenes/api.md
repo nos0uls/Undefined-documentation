@@ -23,6 +23,9 @@ tags:
 - `c_play()`: запуск выполнения.
 - `c_end()`: принудительное завершение.
 
+!!! note "Список не исчерпывающий"
+    Полный набор `c_*` команд включает `c_move`, `c_follow_path`, `c_walk`, `c_walkdirect`, `c_walkdirect_speed`, `c_actor_create`, `c_actor_destroy`, `c_animate`, `c_sprite`, `c_run`, `c_parallel`, `c_branch`, `c_camera_track`, `c_camera_track_until_stop`, `c_camera_center`, `c_tween`, `c_tween_camera`, `c_fadein`, `c_fadeout`, `c_sfx`, `c_soundplay`, `c_emote`, `c_jump`, `c_halt`, `c_flip`, `c_spin`, `c_shakeobj`, `c_visible`, `c_instant`, `c_var_instance`, `c_var_lerp_instance`, `c_lerp`, `c_move_group`, `c_walk_group`, `c_var_group`, `c_tween_group` и др. См. `scripts/c_cmd/c_cmd.gml` и отдельные `scripts/c_*/`.
+
 ### Основные команды
 - `c_speaker(name)`: установка имени говорящего.
 - `c_setxy(target, x, y)`: телепортация актёра.
@@ -37,6 +40,9 @@ tags:
 
 ## Action-API (`cutscene_*`)
 Прямое создание структур Action-struct.
+
+!!! note "Список не исчерпывающий"
+    Полный набор wrapper-функций находится в `scripts/cutscene_add/cutscene_add.gml` и `scripts/scr_cutscene_music/scr_cutscene_music.gml`: `cutscene_move`, `cutscene_setxy`, `cutscene_animate`, `cutscene_set_animation_frame`, `cutscene_set_facing`, `cutscene_set_depth`, `cutscene_auto_facing`, `cutscene_auto_walk`, `cutscene_dialogue`, `cutscene_wait_for_dialogue`, `cutscene_set_dialogue_speed`, `cutscene_wait_typing`, `cutscene_dialogue_control`, `cutscene_set_portrait_next`, `cutscene_set_portrait_now`, `cutscene_clear_dialogue`, `cutscene_parallel`, `cutscene_tween`, `cutscene_tween_camera`, `cutscene_fade_in`, `cutscene_fade_out`, `cutscene_play_sfx`, `cutscene_emote`, `cutscene_jump`, `cutscene_halt`, `cutscene_flip`, `cutscene_spin`, `cutscene_shake_object`, `cutscene_set_visible`, `cutscene_set_instant`, `cutscene_set_property`, `cutscene_music_*` и др.
 
 - `cutscene_move(target, x, y, speed)`: перемещение.
 - `cutscene_animate(target, sprite, ...)`: смена анимации.
@@ -63,8 +69,8 @@ tags:
 | `set_depth` | `target`, `depth` | записывает `depth` |
 | `set_position` | `target`, `x`, `y` | переносит актёра и обновляет `target_x`, `target_y` |
 | `set_property` | `kind`, `target`, `property`, `value` | записывает произвольное свойство instance или камеры |
-| `tween` | `target`, `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет числовое свойство instance |
-| `tween_camera` | `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет `x` или `y` камеры (legacy, рекомендуется `tween` с `kind=camera`) |
+| `tween` | `target`, `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет числовое свойство instance. **Всегда** использует `kind="instance"`; поле `kind` в JSON игнорируется фабрикой. |
+| `tween_camera` | `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет числовое свойство камеры (`kind="camera"`). Для камеры используйте именно `tween_camera`, а не `tween` |
 | `attach_to_target` | `target`, `parent_ref`, `offset_x`, `offset_y`, `follow_facing`, `follow_scale`, `follow_depth`, `duration_seconds`, `detach_on_cutscene_end` | привязывает актёра к родителю (`target_ref` — legacy алиас) |
 | `detach` | `target`, `destroy_after_detach` | отсоединяет актёра от родителя (`target_ref` — legacy алиас) |
 | `spin` | `target`, `speed`, `seconds` | вращает актёра |

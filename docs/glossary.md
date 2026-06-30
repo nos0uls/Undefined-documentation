@@ -12,12 +12,12 @@ tags:
 [Подробнее](systems/cutscenes/actors.md)
 
 ## Action Queue
-Очередь действий катсцены: массив структур `{ action, params, blocking, actor }`, выполняемых по порядку.
+Очередь действий катсцены: массив объектов (экземпляров конструкторов `CutsceneAction` и его наследников), выполняемых `obj_cutsceneManager` по порядку. Каждый объект имеет методы `start()` → `update()` → `cleanup()` и поле `is_blocking`, определяющее, ждёт ли очередь завершения действия.
 [Подробнее](systems/cutscenes/architecture.md)
 
 ## Blocking
 
-Свойство действия катсцены: если `blocking == true`, менеджер ждёт завершения действия перед переходом к следующему. См. также **UI Blocking**.
+Свойство действия катсцены: если `is_blocking == true`, менеджер ждёт завершения действия (возврата `true` из `update()`) перед переходом к следующему. См. также **UI Blocking**.
 
 ---
 
@@ -37,7 +37,7 @@ tags:
 
 ## Face System
 
-Система эмоций лиц персонажей: каждый актёр имеет таблицу `face_sprites` — mapping `emotion → sprite`.
+Система портретов персонажей. Глобальная функция `map_emotions()` сопоставляет пару `actor/emotion` ресурсам портрета (`mouth_closed`, `mouth_open`, `sound`, `idle_sprite`). Объект `obj_face` читает полученный state и отображает спрайт в UI.
 
 См. также: [Диалоги и портреты](systems/dialogue-portraits.md)
 

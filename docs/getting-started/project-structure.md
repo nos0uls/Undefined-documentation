@@ -34,7 +34,8 @@ tags:
     *   `objRoomChanger`: Триггер смены комнаты.
 *   **Родительские объекты** (иерархия):
     *   `par_depth` → `par_actor` → `obj_player` / `obj_actor`
-    *   `par_depth` → `par_decor` / `par_interactable` / `par_entity` → `obj_collider`
+    *   `par_depth` → `par_decor` / `par_interactable`
+    *   `par_entity` (без родителя) → `obj_collider`
 
 ### 2. Скрипты (Scripts)
 Скрипты сгруппированы по функционалу.

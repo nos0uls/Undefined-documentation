@@ -30,7 +30,7 @@ Debug-спавн игрока выполняется через `global.__dev_sp
 
 | Клавиша | Действие |
 |---------|----------|
-| `F12` x5 | Активировать/подтвердить debug-режим. |
+| `F12` x5 | Активировать debug-режим. |
 | `F1` | Toggle `debug_show_info` — FPS, depth, имя комнаты, координаты игрока. |
 | `F2` | Toggle `debug_show_colliders` — отрисовка `obj_collider` (красный) и `par_interactable` (жёлтый). |
 | `F3` | Toggle `debug_show_hitbox` — хитбокс игрока и маркер взаимодействия. |

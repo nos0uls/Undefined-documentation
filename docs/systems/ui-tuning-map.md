@@ -151,7 +151,7 @@ Runtime-логика выбора portrait sprite.
     | Переменная | Описание |
     |------------|----------|
     | `dialogue_x`, `dialogue_y` | Позиция instance textbox при создании |
-    | `instance_create_depth(..., textboxTest_scribble)` | Точка создания dialogue controller |
+    | `instance_create_layer(..., textboxTest_scribble)` | Точка создания dialogue controller |
 
 !!! info "Не GUI layout"
     Это входная точка для понимания, **откуда** стартует диалог, а не основной GUI layout.
@@ -251,9 +251,10 @@ Runtime-логика выбора portrait sprite.
 
 | Объект | Yarn file | Node |
 |--------|-----------|------|
-| `objects/obj_asher/Step_0.gml` | `testDialogue.yarn` | `Bench` |
-| `objects/obj_bench/Step_0.gml` | — | — |
-| `objects/obj_sheepFountain/Step_0.gml` | — | — |
+| `objects/obj_asher/Step_0.gml` | `testDialogue.yarn` | `Cutscene-Bridge-Demo` |
+| `objects/obj_bench/Step_0.gml` | `testDialogueBlue.yarn` | `Blue` |
+| `objects/obj_sheepFountain/Step_0.gml` | `fountain.yarn` | `RM_002: FOUNTAIN` |
+| `objects/obj_dialoguetest/Step_0.gml` | `testChoices.yarn` | `testChoices` |
 
 ## Быстрый маршрут по задачам
 

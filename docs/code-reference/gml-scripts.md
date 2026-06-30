@@ -180,7 +180,8 @@ facing_direction = scr_facing_for_sprite(sprite_index); // (1)!
 
 ```gml
 /// @param {bool} ui_blocking — если true, спрайт не меняется и анимация останавливается
-scr_player_animation(ui_blocking);
+/// @param {struct} movement_inputs — структура {up, down, left, right} из `scr_player_movement`
+scr_player_animation(ui_blocking, movement_inputs);
 ```
 
 ### scr_player_facing

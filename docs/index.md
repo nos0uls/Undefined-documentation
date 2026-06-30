@@ -30,6 +30,16 @@ hide:
     Техническая база: скрипты, функции и события GameMaker.
     [:material-arrow-right: Code Reference](code-reference/gml-scripts.md)
 
+-   :material-gamepad-variant: **Геймплей**
+    ---
+    Управление, механики и поведение игрока в мире.
+    [:material-arrow-right: Gameplay](gameplay/overview.md)
+
+-   :material-monitor-edit: **Редактор (Undefscene)**
+    ---
+    Визуальный редактор катсцен: ноды, экспорт и workflow.
+    [:material-arrow-right: Undefscene](systems/cutscenes/undefscene/overview.md)
+
 -   :material-book-open-variant: **Глоссарий**
     ---
     Определения терминов: акторы, очереди, блокировки.

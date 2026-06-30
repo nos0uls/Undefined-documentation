@@ -63,10 +63,12 @@ room_goto(scr_get_next_game_room(1));
 
 ### Обработка смены комнаты
 
-```gml title="scr_global_on_room_change"
-// Вызов при Room Start
-global.__transition_safety_frames = 16;
-scr_global_on_room_change(prev_room, room);
+```gml title="obj_globalManager.Step_0 — poll room change"
+// Сравнение room != current_room выполняется в Step, не в событии Room Start
+if (room != current_room) {
+    scr_global_on_room_change(current_room, room);
+    current_room = room;
+}
 ```
 
 ## Troubleshooting

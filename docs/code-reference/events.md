@@ -17,7 +17,7 @@ tags:
 - **Key Press / Key Release**: обработка однократных нажатий (debug hotkeys).
 - **Draw / Draw GUI**: рендеринг игрового мира и интерфейса.
 - **Draw_64**: оверлей в GUI-координатах (debug info, коллайдеры, хитбокс, уведомления).
-- **Room Start**: логика при входе в комнату (DEV-LOAD спавн, `scr_global_on_room_change`).
+- **Room Start**: логика при входе в комнату (например, `obj_cutsceneManager` чистит `actor_map` и восстанавливает актёров после перехода).
 - **Room End**: очистка при выходе из комнаты.
 - **Clean Up / Destroy**: освобождение памяти и ссылок.
 - **Room Creation Code**: инициализация на уровне комнаты.
@@ -26,15 +26,15 @@ tags:
 ## Использование в проекте
 
 - `obj_Init/Create`: первичный холодный старт систем.
-- `obj_globalManager/Step`: поддержка рантайм-состояния.
-- `obj_globalManager/Draw_64`: debug-оверлеи, уведомления, эмоции, runtime катсцен.
+- `obj_globalManager/Step`: рантайм-поддержка: обработка смены комнат (`scr_global_on_room_change`), debug-хоткеи, DEV-LOAD спаун (`scr_global_handle_dev_spawn`), логика уведомлений, `emote_step()`, `cutscene_runtime_step()`, playtime, вызов in-game меню.
+- `obj_globalManager/Draw_64`: отрисовка уведомлений, debug-оверлеев (F1–F3), `emote_draw_gui()`, `cutscene_runtime_draw_gui()`.
 - `obj_player/Step`: движение и взаимодействие.
 - `obj_player/Create`: создание `obj_pointMarker` и применение spawn-оверрайдов.
 - `obj_cutsceneManager/Step`: выполнение очереди экшенов катсцены.
 - `obj_saveManager/Step`: UI-навигация по save-слотам.
 - `obj_changingRoomsController/Step`: обновление fade-перехода.
 - `objRoomChanger/Collision`: запуск перехода в другую комнату.
-- `Room Start`: вызов `scr_global_on_room_change` и `scr_global_handle_dev_spawn`.
+- `obj_globalManager/Step` (poll): смена комнаты и DEV-LOAD спаун обрабатываются каждый кадр через сравнение `room != current_room`, а не в событии Room Start.
 
 ## Связанные документы
 

@@ -11,16 +11,16 @@ tags:
 
 ## Категории нод
 
-| Категория | Цвет | Ноды |
-|-----------|------|------|
-| Поток | синий | Start, End, Wait, Room Change |
-| Движение | фиолетовый | Move, Follow Path, Set Position, Move Relative, Set Position Relative, Move Relative Direction, Move Direct, Jump, Halt |
-| Актёры | фиолетовый | Actor Create, Actor Destroy, Attach To Target, Detach, Lerp Property, Set Emotion |
-| Визуал | фиолетовый | Animate, Set Animation Frame, Set Facing, Set Depth, Auto Facing, Auto Walk, Flip, Spin, Shake Object, Set Visible, Emote |
-| Диалог | розовый | Dialogue, Wait for Dialogue, Wait Talk, Set Dialogue Speed, Wait Typing, Dialogue Control, Set Portrait Next, Set Portrait Now, Clear Dialogue |
-| Камера | зелёный | Camera Pan, Camera Pan To Object, Camera Pan (Speed), Camera Center, Camera Track, Camera Track Until Stop, Camera Shake, Tween, Tween Camera (legacy), Set Property, Fade In, Fade Out |
-| Логика | оранжевый | Parallel Start, Parallel Join, Branch, Run Function, Instant Mode, Mark Node, Guard Global, Wait Until, Partial Control, Wait for Interact, Set Flag, Set Plot, Spawn Entity, Destroy Entity, Schedule Action, Checkpoint State, Restore State |
-| Звук | бирюзовый | Play SFX, Play Music, Stop Music, Music Volume, Music Duck, Music Unduck, Music Pitch, Music Pause, Music Resume, Play Boss Music, Stop Boss Music, Boss Music Phase, Play Music Intro, Play Intro Layered, Crossfade Music |
+| Категория | Цвет | Ноды | Количество |
+|-----------|------|------|------------|
+| Поток | синий | Start, End, Wait, Halt | 4 |
+| Движение | фиолетовый | Move, Follow Path, Set Position, Move Relative, Set Position Relative, Move Relative Direction, Move Direct, Jump | 8 |
+| Актёры | фиолетовый | Actor Create, Actor Destroy, Attach To Target, Detach, Lerp Property, Set Emotion | 6 |
+| Визуал | фиолетовый | Animate, Set Animation Frame, Set Facing, Set Depth, Auto Facing, Auto Walk, Flip, Spin, Shake Object, Emote, Set Visible, Fade In, Fade Out, Instant Mode | 14 |
+| Диалог | розовый | Dialogue, Wait for Dialogue, Set Dialogue Speed, Wait Typing, Dialogue Control, Set Portrait Next, Set Portrait Now, Clear Dialogue | 8 |
+| Камера | зелёный | Camera Pan, Camera Pan To Object, Camera Pan (Speed), Camera Center, Camera Track, Camera Track Until Stop, Camera Shake, Tween Camera (legacy) | 8 |
+| Логика | оранжевый | Room Change, Parallel Start, Parallel Join, Branch, Run Function, Mark Node, Guard Global, Wait Until, Partial Control, Wait for Interact, Set Flag, Set Plot, Spawn Entity, Destroy Entity, Schedule Action, Checkpoint State, Restore State, Tween, Set Property | 19 |
+| Звук | бирюзовый | Play SFX, Play Music, Stop Music, Music Volume, Music Duck, Music Unduck, Music Pitch, Music Pause, Music Resume, Play Boss Music, Stop Boss Music, Boss Music Phase, Play Music Intro, Play Intro Layered, Crossfade Music | 15 |
 
 ## Поток (Flow)
 
@@ -40,15 +40,11 @@ tags:
 !!! tip "Wait на ребре"
     Используйте двойной клик по линии связи для установки задержки без отдельной ноды `Wait`.
 
-### Room Change
-Переход в другую комнату с сохранением позиций актёров.
+### Halt
+Принудительная остановка всех действий актёра.
 
-| Параметр | Описание |
-|----------|----------|
-| room | Имя комнаты (например, `rm_test`) |
-| player_x | Координата X игрока в новой комнате |
-| player_y | Координата Y игрока в новой комнате |
-| actors | JSON-объект позиций актёров: `{"npc1":{"x":100,"y":200}}` |
+!!! warning "Блокировка"
+    Halt блокирует очередь выполнения катсцены для данной ветки.
 
 ## Движение (Movement)
 
@@ -133,11 +129,6 @@ tags:
 | seconds | Длительность |
 | height | Максимальная высота дуги |
 | easing | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
-
-### Halt
-Принудительная остановка всех действий актёра.
-!!! warning "Блокировка"
-    Halt блокирует очередь выполнения катсцены для данной ветки.
 
 ## Актёры (Actor)
 
@@ -301,6 +292,29 @@ tags:
 | target | Ключ актёра или `player` |
 | visible | `true` / `false` |
 
+### Instant Mode
+Режим мгновенного выполнения (0 кадров) всех последующих нод.
+
+| Параметр | Описание |
+|----------|----------|
+| enabled | `true` — включить instant-режим, `false` — выключить |
+
+### Fade In
+Плавное появление экрана из затемнения.
+
+| Параметр | Описание |
+|----------|----------|
+| seconds | Длительность |
+| color | Цвет затемнения (`black`, `white`, hex) |
+
+### Fade Out
+Плавное затемнение экрана.
+
+| Параметр | Описание |
+|----------|----------|
+| seconds | Длительность |
+| color | Цвет затемнения (`black`, `white`, hex) |
+
 ## Диалог (Dialogue)
 
 ### Dialogue
@@ -319,12 +333,8 @@ tags:
 |----------|----------|
 | dialogue_controller | Instance ref диалогового контроллера (опционально; пусто — активный textbox) |
 
-### Wait Talk
-Ожидание завершения печати текста и перехода к следующей реплике.
-
-| Параметр | Описание |
-|----------|----------|
-| dialogue_controller | Instance ref диалогового контроллера (опционально; пусто — активный textbox) |
+!!! note "Wait Talk"
+    В редакторе `wait_talk` является алиасом для `wait_for_dialogue`; в экспорте используется `wait_for_dialogue`.
 
 ### Set Dialogue Speed
 Установка скорости печати текста в диалоге.
@@ -434,19 +444,6 @@ tags:
 | decay | `true` — амплитуда затухает со временем |
 | frequency | Частота тряски (кадров на цикл) |
 
-### Tween
-Плавная интерполяция числового свойства актёра.
-
-| Параметр | Описание |
-|----------|----------|
-| kind | `instance` или `camera` |
-| target | Ключ актёра или `player`; не нужен для `camera` |
-| prop | Имя числового свойства |
-| end_value | Конечное значение; при export становится `to_value` |
-| start_value_override | Стартовое значение (опционально); при export становится `from_value` |
-| seconds | Длительность в секундах |
-| ease_name | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
-
 ### Tween Camera
 Плавная интерполяция свойства камеры.
 
@@ -455,6 +452,31 @@ tags:
 | property | `x`, `y`, `view_x`, `view_y`, `camera_x` или `camera_y` |
 | to_value | Конечное значение |
 | from_value | Стартовое значение |
+| seconds | Длительность в секундах |
+| ease_name | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
+
+## Логика (Logic)
+
+### Room Change
+Переход в другую комнату с сохранением позиций актёров.
+
+| Параметр | Описание |
+|----------|----------|
+| room | Имя комнаты (например, `rm_test`) |
+| player_x | Координата X игрока в новой комнате |
+| player_y | Координата Y игрока в новой комнате |
+| actors | JSON-объект позиций актёров: `{"npc1":{"x":100,"y":200}}` |
+
+### Tween
+Плавная интерполяция числового свойства актёра или камеры.
+
+| Параметр | Описание |
+|----------|----------|
+| kind | `instance` или `camera` |
+| target | Ключ актёра или `player`; не нужен для `camera` |
+| prop | Имя числового свойства |
+| end_value | Конечное значение; при export становится `to_value` |
+| start_value_override | Стартовое значение (опционально); при export становится `from_value` |
 | seconds | Длительность в секундах |
 | ease_name | `linear`, `ease_in`, `ease_out`, `ease_in_out` |
 
@@ -467,25 +489,6 @@ tags:
 | target | Ключ актёра или `player`; не нужен для `camera` |
 | property | Имя свойства |
 | value | Значение; JSON-строка парсится перед export |
-
-
-### Fade In
-Плавное появление экрана из затемнения.
-
-| Параметр | Описание |
-|----------|----------|
-| seconds | Длительность |
-| color | Цвет затемнения (`black`, `white`, hex) |
-
-### Fade Out
-Плавное затемнение экрана.
-
-| Параметр | Описание |
-|----------|----------|
-| seconds | Длительность |
-| color | Цвет затемнения (`black`, `white`, hex) |
-
-## Логика (Logic)
 
 ### Parallel Start / Join
 Разветвление очереди на несколько параллельных потоков и их последующее слияние.
@@ -510,13 +513,6 @@ tags:
 |----------|----------|
 | function | Имя GML-функции или скрипта |
 | args | JSON-массив аргументов; при export становится `arguments` |
-
-### Instant Mode
-Режим мгновенного выполнения (0 кадров) всех последующих нод.
-
-| Параметр | Описание |
-|----------|----------|
-| enabled | `true` — включить instant-режим, `false` — выключить |
 
 ### Mark Node
 Создаёт именованную метку в очереди действий. Используется как цель для прыжков (`Jump`) или условий ожидания.

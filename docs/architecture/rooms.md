@@ -13,7 +13,7 @@ tags:
     | `rm_init` | **Точка входа**. Пустая комната, где создаётся `obj_Init`. Сразу переключает на `rm_roomMenu` через `room_goto()`. |
     | `rm_roomMenu` | **Главное меню**. Содержит `obj_menu`. Запускает музыку меню (`global.play_music(music_menu)`). |
     | `rm_savesSelect` | Экран выбора сохранения. Содержит `obj_saveManager`. Использует кэш метаданных `global.__save_slot_metadata_cache` для быстрого отображения слотов без дискового I/O. |
-    | `rm_settings` | **Меню настроек** (отдельная комната). Содержит `obj_settingsManager`. Не overlay — полноценная комната. |
+    | `rm_settings` | **Меню настроек** (отдельная комната). Содержит `obj_settingsManager`. Тот же объект используется и в overlay-режиме из `obj_inGameMenu`. |
     | `rm_devLoad` | **DEV-LOAD**. Техническая комната для быстрого перехода на уровни при разработке. Доступна из меню выбора сейвов при `global.debug == true` и `player_settings.devload_focus == true`. |
     | `rm_*` | Игровые уровни (школа, город и т.д.). Каждый уровень может содержать `obj_player`, NPC, триггеры перехода (`objRoomChanger`). |
 

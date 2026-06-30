@@ -344,7 +344,7 @@ cutscene_add(manager, cutscene_music_stop(2.0));
 
 | Клавиша | Действие | Условие |
 |---------|----------|---------|
-| F12 × 5 | Включить/выключить debug mode | В любой момент |
+| F12 × 5 | Активировать debug mode | В любой момент |
 | F9 | Toggle music overlay | Требуется debug mode |
 
 ---

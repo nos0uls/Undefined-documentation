@@ -24,7 +24,7 @@ tags:
 - Условное ожидание: `wait_until` — ожидание, пока `global`-переменная примет нужное значение (синтаксический сахар над `guard_global`).
 - Checkpoint / Restore: сохранение и восстановление состояния катсцены (`checkpoint_state`, `restore_state`).
 - Частичный контроль: `partial_control` и `wait_for_interact` для интерактивных катсцен.
-- Привязка объектов: `attach_to_target` с поддержкой `depth_mode = "attached"`.
+- Привязка объектов: `attach_to_target` с поддержкой `follow_depth` и авто-detach при завершении катсцены.
 - Защита игрока: `ActionDestroy` не уничтожает `obj_player`.
 - Cleanup при досрочном выходе: `finish_cutscene()` вызывает `cleanup()` для всех action'ов.
 

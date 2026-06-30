@@ -181,3 +181,6 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 /.windsurf
+
+# Audit work files
+audit-progress.md

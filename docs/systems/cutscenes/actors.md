@@ -31,19 +31,21 @@ graph TD
     par_actor --> obj_player[obj_player]
 ```
 
-- `par_depth` — управляет Z-сортировкой через `depth_mode` (`auto`, `manual`, `static`, `attached`).
+- `par_depth` — управляет Z-сортировкой через `depth_mode` (`auto`, `manual`), `is_static` и `attached_target`/`depth_offset`.
 - `par_actor` — добавляет tween-based movement system (`move_active`, `target_x/y`).
 
-## Глубина (`depth_mode`)
+## Глубина
 
-| Режим | Поведение | Когда использовать |
-|-------|-----------|-------------------|
-| `auto` | `depth = -y` каждый кадр | Движущиеся актёры (по умолчанию) |
-| `manual` | Глубина задаётся внешним кодом | Катсцены, скрипты |
-| `static` | Глубина заморожена при спавне | Декорации |
-| `attached` | Копируется из `attached_target + depth_offset` | Прикреплённые объекты |
+Реальная иерархия приоритетов в `par_depth/Step_0` не сводится к одному полю `depth_mode`:
 
-`ActionSetDepth(target, depth)` переключает `depth_mode` в `manual` перед установкой значения.
+| Механизм | Поле | Поведение | Когда использовать |
+|----------|------|-----------|-------------------|
+| `auto` | `depth_mode = "auto"` (по умолчанию) | `depth = -y` каждый кадр | Движущиеся актёры |
+| `manual` | `depth_mode = "manual"` | Глубина задаётся внешним кодом | Катсцены, скрипты |
+| `static` | `is_static = true` | Глубина заморожена при спавне | Декорации |
+| `attached` | `attached_target` + `depth_offset` | Копируется из цели + смещение | Прикреплённые объекты (runtime override) |
+
+`ActionSetDepth(target, depth)` переключает `depth_mode` в `manual` перед установкой значения. `is_static` и `attached_target` управляются отдельно.
 
 ## Групповые операции (`ActionGroup`)
 Применение экшена к массиву целей:
