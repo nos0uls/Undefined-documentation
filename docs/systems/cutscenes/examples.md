@@ -65,5 +65,5 @@ tags:
 - [Архитектура](architecture.md) — JSON-загрузка, `cutscene_load_json()`
 - [API](api.md) — `cutscene_add`, Action-классы
 - [Игрок в катсцене](player_in_cutscene.md) — блокировка движения, camera override
-- [Актёры](actors.md) — `cutscene_actor_create`, `ActionActorCreate`
+- [Актёры](actors.md) — `actor_create`, `ActionActorCreate`
 

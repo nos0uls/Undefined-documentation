@@ -139,7 +139,7 @@ Runtime-логика выбора portrait sprite.
 |---------|------------|
 | `apply_current_dialogue_state()` | Обновление actor/emotion/sprite/sound |
 | `update_talk_animation_state()` | Логика открытия/закрытия рта |
-| `global.current_actor/emote/sprite` | Синхронизация глобального состояния |
+| `global.current_sprite`, `global.current_voice` | Синхронизация глобального состояния (зеркала `current_actor`/`current_emote` удалены — данные живут в полях textbox) |
 
 ## Dialogue entry
 
@@ -200,11 +200,13 @@ Runtime-логика выбора portrait sprite.
 
 ### `scripts/interactionWithNPCsOrObjects/interactionWithNPCsOrObjects.gml`
 
-Проверка взаимодействия через marker.
+Файл содержит рабочую функцию `scr_interaction` — проверку взаимодействия через marker. Одноимённая функция `interactionWithNPCsOrObjects()` и `interactionWithMainCast()` — мёртвые заглушки (0 вызовов, помечены `DELETE_CANDIDATE`).
 
-- Проверка существования `obj_pointMarker`
-- `place_meeting(...)` или `point_in_rectangle(...)`
-- Вызов `readDialogue(_scriptToReadFrom, _node)`
+- Нажатие `confirm` через `scr_input_pressed`
+- Проверка `marker_id` у `global.obj_player` и флага `is_interactable`
+- `scr_checkUIBlocking(false, false)` + гейты `partial_control` активной катсцены
+- `position_meeting(...)` (по маске) или `point_in_rectangle(...)` (bbox) по точке маркера
+- Регистрация цели в `global.__interacted_targets` и вызов `readDialogue(_scriptToReadFrom, _node)`
 
 ## Debug overlay
 

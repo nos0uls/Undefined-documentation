@@ -18,8 +18,7 @@ tags:
 
 | Условие | Описание |
 |---------|----------|
-| `global.settings_closing` | Меню настроек закрывается (временная блокировка) |
-| `global.active_cutscene_id != ""` | Идёт катсцена |
+| `global.cutscene_active == true` | Идёт катсцена |
 | `global.cutscene_camera_override == true` | Камера захвачена катсценой |
 | `instance_exists(textboxTest_scribble)` | Открыт диалог |
 | `instance_exists(obj_settingsManager)` | Открыты настройки |
@@ -29,6 +28,7 @@ tags:
 | `instance_exists(obj_p3r_title)` | Открыт P3R title |
 | `instance_exists(obj_p3r_pause)` | Открыт P3R pause |
 | `instance_exists(obj_p3r_settings)` | Открыты P3R settings |
+| `instance_exists(obj_changingRoomsController)` | Идёт переход между комнатами |
 | `instance_exists(obj_sound_test)` + `is_open` | Открыт GUI теста звука |
 
 ### Функция
@@ -36,7 +36,10 @@ tags:
 #### `scr_checkUIBlocking(exclude_self = false, include_cutscene = true)`
 Проверяет, заблокирован ли ввод из-за открытых UI элементов.
 *   `exclude_self`: если `true`, исключает текущий объект из проверки (полезно для самого меню, чтобы оно работало).
-*   `include_cutscene`: если `true`, катсцены и `cutscene_camera_override` тоже блокируют ввод.
+*   `include_cutscene`: если `true`, `global.cutscene_active` и `cutscene_camera_override` тоже блокируют ввод.
+
+!!! note "Кэширование"
+    Результат кэшируется в пределах кадра в `global.__ui_blocking_cache` / `__ui_blocking_cache_no_cutscene`; dirty-флаги `__ui_blocking_dirty*` каждый Step выставляет `obj_globalManager`. Вызовы с `exclude_self == true` не кэшируются.
 
 ```gml
 // В коде игрока

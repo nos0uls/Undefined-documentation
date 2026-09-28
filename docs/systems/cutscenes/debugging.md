@@ -9,9 +9,9 @@ tags:
 В `obj_cutsceneManager` есть debug overlay в `Draw_64.gml`.
 
 ### Как включить
-- У менеджера есть поле `debug_enabled`.
-- В тестовой катсцене пример:
-  - `mgr.debug_enabled = true;`
+Overlay рисуется только при **двух** условиях:
+- `global.debug == true` — мастер-выключатель проекта (F12×5 или настройки);
+- у менеджера поле `debug_enabled = true` (per-instance флаг, в тестовой катсцене: `mgr.debug_enabled = true;`).
 
 ### Что показывает overlay
 - ID катсцены (`cutscene_id`)
@@ -36,7 +36,7 @@ tags:
 Это исправляет баг, при котором `move_active` оставался `true` после выхода из катсцены, блокируя управление игроком.
 
 ## World-debug (Draw)
-В `obj_cutsceneManager/Draw_0.gml` добавлена отрисовка в world‑координатах (только когда `debug_enabled = true`).
+В `obj_cutsceneManager/Draw_0.gml` отрисовка в world‑координатах (только когда `debug_enabled == true` **и** `global.debug == true`).
 
 Что рисуется:
 - линия пути от текущей позиции к целевой (`target_x/target_y`)

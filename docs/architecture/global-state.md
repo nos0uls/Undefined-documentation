@@ -26,17 +26,17 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
         obj_inGameMenu,
         obj_p3r_title,
         obj_p3r_pause,
-        obj_p3r_settings
+        obj_p3r_settings,
+        obj_changingRoomsController
     ];
-    // ... + global.settings_closing + active_cutscene_id / cutscene_camera_override
+    // ... + cutscene_active / cutscene_camera_override
     // ... + obj_sound_test (is_open check)
 }
 ```
 
 | Источник блокировки | Условие |
 |---------------------|---------|
-| `global.settings_closing` | Меню настроек закрывается |
-| `global.active_cutscene_id != ""` | Идёт катсцена (если `include_cutscene == true`) |
+| `global.cutscene_active == true` | Идёт катсцена (если `include_cutscene == true`) |
 | `global.cutscene_camera_override == true` | Камера захвачена катсценой (если `include_cutscene == true`) |
 | `instance_exists(textboxTest_scribble)` | Открыт диалог |
 | `instance_exists(obj_settingsManager)` | Открыты настройки |
@@ -46,11 +46,12 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
 | `instance_exists(obj_p3r_title)` | Открыт P3R title |
 | `instance_exists(obj_p3r_pause)` | Открыт P3R pause |
 | `instance_exists(obj_p3r_settings)` | Открыты P3R settings |
+| `instance_exists(obj_changingRoomsController)` | Идёт переход между комнатами |
 | `instance_exists(obj_sound_test)` + `is_open` | Открыт GUI теста звука |
 
 ### Комнаты и сейвы
 
-*   **`global.rooms_by_name`** — `ds_map`, заполняется в цикле `room_first .. room_last`. Загружает комнаты по строковому имени (`scr_roomFromName`).
+*   **`global.rooms_by_name`** — `struct` (`{ "rm_name": room_id }`), заполняется в цикле `room_first .. room_last`. Используется для списка комнат DEV-LOAD; одиночный lookup по имени делает `scr_roomFromName` через `asset_get_index` и от карты не зависит.
 *   **`global.__service_menu_rooms`** — массив строк: `["rm_roomMenu", "rm_savesSelect", "rm_settings", "rm_devLoad"]`.
 *   **`global.is_menu_room(room)`** — функция. Проверяет, входит ли комната в список service-меню.
 *   **`global.__save_slot_metadata_cache`** — структура (`{}`), кэширует x/y/facing/room для `save1..save3` на старте. Убирает дисковый I/O при первом открытии меню выбора.
@@ -65,9 +66,8 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
     | `global.inventory` | array | Массив из 8 слотов предметов. `undefined` означает пустой слот. |
     | `global.equipped_weapon` | struct | Ссылка на экипированный `WeaponItem` из `global.inventory`. |
     | `global.equipped_armor` | struct | Ссылка на экипированный `ArmorItem` из `global.inventory`. |
-    | `global.stat_hp / maxhp / atk / def / lv / gold / xp` | real | Базовые статы персонажа. |
-    | `global.stat_prevlv` | real | Предыдущий уровень (для анимации). |
-    | `global.name` | string | Имя персонажа (default: `"CHARA"`). |
+    | `global.stat_hp / maxhp / atk / def / lv / gold` | real | Базовые статы персонажа. |
+    | `global.player_name` | string | Имя персонажа для меню STAT (default: `"CHARA"`). |
 
 ### Emote-система
 
@@ -97,21 +97,19 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
     |------------|-----|------------|
     | `global.flag` | struct | Произвольные флаги сюжета (устанавливаются через `ActionSetFlag`). |
     | `global.plot` | real | Числовый прогресс сюжета (устанавливается через `ActionSetPlot`). |
-    | `global.entity_state` | struct | Реестр состояния NPC, дверей, сундуков по ключу `"room_name:entity_id"`. Сериализуется в save-файл. |
-    | `global.room_flags` | struct | Пост-катсценные изменения мира: ключ — имя комнаты, значение — список объектов. |
+    | `global.entity_state` | struct | Реестр состояния NPC, дверей, сундуков по ключу `"room_name:entity_id"`. Сериализуется в save-файл. Инфраструктура есть (`scr_entity_state_*`, restore в `par_interactable`), но контентных писателей пока нет — реестр фактически пуст. |
+    | `global.room_flags` | struct | Зарезервировано: пост-катсценные изменения мира. Подсистема мертва — писателей нет, `scr_room_entry_check()` зачищена до заглушки. |
 
 ### Диалог Face-система
 
 ??? note "Переменные face-системы"
     | Переменная | Тип | Назначение |
     |------------|-----|------------|
-    | `global.current_actor` | instance | Кто говорит в данный момент (default: `obj_player`). |
-    | `global.current_emote` | string | Текущий эмоут для портрета (default: `"default"`). |
-    | `global.is_talking` | real | Флаг активного диалога. |
-    | `global.talk_index` | real | Индекс текущей реплики. |
-    | `global.current_sprite` | sprite | Текущий спрайт портрета. |
+    | `global.current_sprite` | sprite | Текущий спрайт портрета (пишет `textboxTest_scribble`/`obj_face`, читает Draw_64 окна диалога). |
     | `global.current_voice` | sound | Звук голоса (default: `snd_text_ch1`). |
-    | `global.voice_speed` | real | Скорость голоса (default: `1`). |
+
+!!! note "Удалённые зеркала"
+    `global.current_actor`, `global.current_emote`, `global.current_display_name`, `global.is_talking`, `global.talk_index` и `global.voice_speed` удалены: живые данные диалога живут в полях `textboxTest_scribble` (actor/emotion через `scr_parse_emote`), а глобалам остаются только `current_sprite` и `current_voice`.
 
 ### Камера
 
@@ -120,8 +118,9 @@ function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
     |------------|-----|------------|
     | `global.camera_x` | real | X-координата viewport (обновляется каждый кадр в `obj_globalManager.Step_2`). |
     | `global.camera_y` | real | Y-координата viewport. |
-    | `global.camera_w` | real | Ширина viewport. |
-    | `global.camera_h` | real | Высота viewport. |
+
+!!! note "camera_w / camera_h удалены"
+    `global.camera_w` и `global.camera_h` больше не обновляются: их никто не читал, а размеры view в рантайме не меняются.
 
 ### DEV-LOAD и спаун
 
@@ -160,7 +159,7 @@ global.show_notification = function(_text) {
 *   **Уведомления**: `notification_active`, `notification_text`, `notification_timer`, `notification_duration`.
 *   **DEV-LOAD**: `scr_global_handle_dev_spawn()`.
 *   **Катсцены runtime**: `cutscene_runtime_tweens`, `emotes`, `shakes`, `spins`, `jumps`, `fade`.
-*   **Меню**: `scr_global_reset_settings_flag()`, `scr_callMenuInit()`.
+*   **Меню**: `scr_callMenuInit()`.
 *   **Полноэкранный режим**: `scr_global_toggle_fullscreen()` (клавиша Q).
 *   **Безопасность перехода**: `scr_global_transition_safety()`.
 
@@ -232,4 +231,4 @@ global.show_notification = function(_text) {
 - [Объекты системы](objects.md) — `obj_Init`, `obj_globalManager`, `obj_music_ctrl`
 - [Система ввода](../systems/input.md) — `global.input_map`, `global.player_settings`
 - [Система музыки](../systems/music.md) — `global.play_music()`
-- [Диалоговые портреты](../systems/dialogue-portraits.md) — `global.current_actor`, `global.current_emote`
+- [Диалоговые портреты](../systems/dialogue-portraits.md) — `global.current_sprite`, `global.current_voice`

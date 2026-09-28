@@ -331,9 +331,9 @@ if (global.is_menu_room(room)) { /* играть music_menu */ }
 
 | Скрипт | Описание |
 |--------|----------|
-| `scr_interaction` | Единая точка входа взаимодействия с объектами и NPC. |
-| `interactionWithNPCsOrObjects` | Legacy-обёртка над `scr_interaction` (bbox). |
-| `interactionWithMainCast` | Legacy-обёртка над `scr_interaction` (mask). |
+| `scr_interaction` | Единая точка входа взаимодействия с объектами и NPC. Определена в файле `scripts/interactionWithNPCsOrObjects/`. |
+| `interactionWithNPCsOrObjects` | Мёртвая заглушка (`DELETE_CANDIDATE`, тело зачищено). |
+| `interactionWithMainCast` | Мёртвая заглушка (`DELETE_CANDIDATE`, тело зачищено). |
 | `scr_npc_pick_dialogue` | Заглушка. В текущей версии не используется. |
 | `readDialogue` | Создаёт текстбокс и запускает Yarn-диалог. |
 

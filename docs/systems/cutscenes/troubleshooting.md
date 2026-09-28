@@ -7,7 +7,7 @@ tags:
 
 ## Камера не двигается
 **Причина**: Активирован `global.cutscene_camera_override`, блокирующий следование за игроком.
-**Решение**: Добавьте экшен камеры `cutscene_camera_track` или `c_panobj`.
+**Решение**: Добавьте экшен камеры `camera_track` или `camera_pan_obj` (JSON; из кода — `new ActionCameraTrack(...)`).
 
 ## Катсцена зависла
 **Причина**: Один из экшенов не возвращает `true` в `update()`.
@@ -37,9 +37,9 @@ tags:
 **Причина**: Рекурсивная локальная функция в `Draw_64` `obj_cutsceneManager` не инициализировалась до вызова.
 **Решение**: Debug overlay переписан на итеративный обход стека. Обновите движок до версии с итеративным `__dbg_collect_active`.
 
-## `cutscene_wait` работает слишком быстро/медленно
+## `c_wait` / `wait` работает слишком быстро/медленно
 **Причина**: Путаница между секундами и кадрами.
-**Решение**: Все GML-функции `wait` принимают время в **кадрах**. В JSON-файлах время указывается в **секундах**.
+**Решение**: GML-команда `c_wait` и Action-классы принимают время в **кадрах**. В JSON-файлах время указывается в **секундах** и конвертируется по `settings.fps`.
 
 ---
 
@@ -47,7 +47,7 @@ tags:
 
 - [Обзор катсцен](overview.md) — `obj_cutsceneManager`, `action_queue`, `global.cutscene_camera_override`
 - [Архитектура](architecture.md) — `actor_map`, `resolve_target`, жизненный цикл
-- [Актёры](actors.md) — `cutscene_actor_create`, `ActionActorCreate`
-- [Камера](camera.md) — `cutscene_camera_pan`, `cutscene_camera_track`
+- [Актёры](actors.md) — `actor_create`, `ActionActorCreate`
+- [Камера](camera.md) — `camera_pan`, `camera_track`
 - [API](api.md) — `cutscene_add`, Action-классы
 - [Игрок в катсцене](player_in_cutscene.md) — блокировка движения, camera override

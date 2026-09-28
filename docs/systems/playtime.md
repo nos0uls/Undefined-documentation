@@ -16,9 +16,11 @@ tags:
 - **Время сейва** (`global.__save_playtime_seconds`) — накапливается в `obj_globalManager.Step_0` через `delta_time`, сохраняется внутри каждого слота.
 - **Общее время** (`global.__total_playtime_seconds`) — сумма за все сессии и сейвы, хранится в `game_state.dat`.
 
+При завершении игры общее время персистит `obj_globalManager.Other_3` (Game End): значение копируется в `global.game_state.total_playtime_seconds` и пишется через `scr_game_state_save`. При `global.clean_state == true` (полный сброс через `scr_resetGameToDefault`) сохранение пропускается — иначе Game End воскрешал бы только что удалённый `game_state.dat`.
+
 ## Отображение
 
-- **Меню сейвов** (`obj_saveManager.Draw_0`) — строка `H:MM:SS` под каждым существующим слотом (только если время > 0).
+- **Меню сейвов** (`obj_saveManager.Draw_64`) — строка `H:MM:SS` под каждым существующим слотом (только если время > 0).
 - **Настройки → Разное** — readonly-пункт *"show me how many hours have passed since i showered"* показывает общее время при нажатии (`obj_settingsManager`).
 
 ## Настройки отрисовки
@@ -53,8 +55,9 @@ var _text = scr_format_playtime(global.__save_playtime_seconds);
 | `scripts/scr_saveSave/scr_saveSave.gml` | Запись `playtime_seconds` в сейв |
 | `scripts/scr_saveLoad/scr_saveLoad.gml` | Чтение `playtime_seconds` из сейва |
 | `scripts/scr_game_state/scr_game_state.gml` | `total_playtime_seconds` в `game_state` |
-| `objects/obj_saveManager/Draw_0.gml` | Отрисовка времени в меню сейвов |
+| `objects/obj_saveManager/Draw_64.gml` | Отрисовка времени в меню сейвов (Draw_0 зачищен — логика перенесена в Draw GUI) |
 | `objects/obj_settingsManager/Draw_64.gml` | Отрисовка общего времени в настройках |
+| `objects/obj_globalManager/Other_3.gml` | Game End: запись `total_playtime_seconds` в `game_state.dat` (пропуск при `clean_state`) |
 
 ## См. также
 

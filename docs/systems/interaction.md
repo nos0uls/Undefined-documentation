@@ -35,16 +35,16 @@ scr_interaction("npc_dialogue.yarn", "StartNode");
 ```
 
 ### Совместимость
-Старые функции-обёртки вызывают `scr_interaction` внутри:
+Старые функции-обёртки **мёртвы**: тела зачищены до заглушек (`DELETE_CANDIDATE`, 0 вызовов). Рабочий путь — только `scr_interaction` (она определена в файле `scripts/interactionWithNPCsOrObjects/interactionWithNPCsOrObjects.gml`).
 
-| Функция | Что делает | Проверка |
-|---------|-----------|----------|
-| `interactionWithNPCsOrObjects(script, node)` | `scr_interaction(script, node, false)` | `bbox` (точнее для мелких объектов) |
-| `interactionWithMainCast(script, node)` | `scr_interaction(script, node, true)` | `place_meeting` (маска, для персонажей) |
+| Функция | Статус | Былое поведение |
+|---------|--------|------------------|
+| `interactionWithNPCsOrObjects(script, node)` | Заглушка (не вызывать) | `scr_interaction(script, node, false)` |
+| `interactionWithMainCast(script, node)` | Заглушка (не вызывать) | `scr_interaction(script, node, true)` |
 
 !!! tip "Когда что использовать"
-    *   **NPC и объекты** (`interactionWithNPCsOrObjects`) — `bbox` подходит для стен, знаков, предметов.
-    *   **MainCast / персонажи** (`interactionWithMainCast`) — `place_meeting` нужен для точной проверки маски персонажа.
+    *   **NPC и объекты** — `scr_interaction(script, node)` или `scr_interaction(script, node, false)`: `point_in_rectangle` по `bbox` маркера (подходит для стен, знаков, предметов).
+    *   **MainCast / персонажи** — `scr_interaction(script, node, true)`: `position_meeting` по маске для точной проверки.
 
 ## Маркер Игрока (`obj_pointMarker`)
 Это невидимый объект, который всегда висит перед лицом игрока на небольшом расстоянии. Именно он определяет, с чем мы взаимодействуем.

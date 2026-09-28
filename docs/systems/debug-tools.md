@@ -12,7 +12,7 @@ tags:
 
 Debug-режим управляется глобальным флагом `global.debug`. Он включается через секретную комбинацию F12 (5 нажатий за 2 секунды) или через настройки `global.player_settings.debug_enabled`. После активации становятся доступны горячие клавиши F1–F9, dev-load из `obj_saveManager` и ручное управление флагами через `scr_toggle_debug_flag`.
 
-Debug-спавн игрока выполняется через `global.__dev_spawn` и `global.__dev_spawn_*`. `scr_global_handle_dev_spawn` создаёт `obj_player` в центре комнаты или в заданных координатах. Этот механизм используется при загрузке сейва, переходах F5/F6 и dev-load.
+Debug-спавн игрока выполняется через `global.__dev_spawn` и `global.__dev_spawn_*`. `scr_global_handle_dev_spawn` в первую очередь **перемещает существующего** `obj_player` в центр комнаты или в заданные координаты; новый инстанс создаётся только если игрока в комнате нет. Этот механизм используется при загрузке сейва, переходах F5/F6 и dev-load.
 
 ## Архитектура / API
 
@@ -24,7 +24,7 @@ Debug-спавн игрока выполняется через `global.__dev_sp
 | `scr_global_debug_hotkeys` | Горячие клавиши F1–F6 и F9. Работают только при `global.debug == true`. |
 | `scr_toggle_debug_flag` | Переключает bool-флаг на `obj_player` и синхронизирует его с `global`. |
 | `scr_player_debug_ghost` | Переключает `ghost_mode` игрока по F8. |
-| `scr_global_handle_dev_spawn` | Создаёт игрока по dev-координатам, используется после `room_goto`. |
+| `scr_global_handle_dev_spawn` | Переставляет существующего игрока на dev-координаты (создаёт нового только как fallback), используется после `room_goto`. |
 
 ### Горячие клавиши
 

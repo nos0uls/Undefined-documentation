@@ -57,7 +57,7 @@ obj_music_ctrl.Draw_64
     | `global.music_paused` | bool | Пауза |
     | `global.music_default_fade` | real | Дефолтный фейд (0.5 сек) |
     | `global.music_default_game_track` | sound | Трек по умолчанию для игровых комнат |
-    | `global.room_music_override` | ds_map | room_id → sound для комнат с особой музыкой |
+    | `global.room_music_override` | undefined | Зарезервированное имя: override-таблица room→track удалена (писателей не было), глобал выставлен в `undefined` |
     | `global.music_duck_multiplier` | real (0..1) | Текущий множитель приглушения (1.0 = без duck) |
     | `global.music_duck_target` | real (0..1) | Целевой множитель duck |
     | `global.music_layered_mode` | bool | true = играют два трека (Layer 2) |
@@ -68,8 +68,6 @@ obj_music_ctrl.Draw_64
     | `global.music_intro_layered_mode` | bool | true = intro перейдёт в layered loop |
     | `global.music_intro_layered_calm_asset` | sound/noone | Asset calm-трека после intro |
     | `global.music_intro_layered_battle_asset` | sound/noone | Asset battle-трека после intro |
-    | `global.music_intro_layered_calm_inst` | real | Instance calm после перехода |
-    | `global.music_intro_layered_battle_inst` | real | Instance battle после перехода |
     | `global.music_volume_override` | real | -1 = использовать settings_volume, >=0 = ручная громкость |
     | `global.music_prev_volume` | real | Текущая громкость предыдущего трека |
     | `global.music_prev_fade_duration` | real | Длительность затухания предыдущего трека (сек) |
@@ -78,9 +76,11 @@ obj_music_ctrl.Draw_64
     | `global.music_prev_layer2_instance` | real | Instance предыдущего battle-слоя |
     | `global.music_prev_layer2_volume` | real | Громкость предыдущего battle-слоя |
     | `global.music_prev_layer2_fade_from` | real | Стартовая громкость затухания battle-слоя |
-    | `global.music_intro_layered_fade` | real | Длительность фейда после intro |
     | `global.music_intro_layered_intensity` | real | Стартовая интенсивность после intro |
     | `global.music_crossfade_lead` | real | Время опережения кроссфейда (сек) |
+    | `global.music_phase_fade_default` | real | Дефолтный фейд перехода между фазами (сек) |
+    | `global.music_phase_stop_fade` | real | Дефолтный фейд остановки фазовой последовательности (сек) |
+    | `global.music_autorestart_fade` | real | Фейд авто-рестарта при возврате громкости из 0 (сек) |
     | `global.music_duck_fade_duration` | real | Длительность перехода duck (сек) |
     | `global.music_duck_fade_timer` | real | Оставшееся время перехода duck |
     | `global.music_duck_fade_from` | real | Стартовый множитель duck |
@@ -251,19 +251,20 @@ global.music_phase_manager.set_intensity(0.8, 2.0);
 
 ### Как работает
 
+Выбор трека выполняет `scr_global_on_room_change` (из `obj_globalManager.Step_0`):
+
 1. **Меню-комнаты** (из `global.__service_menu_rooms`) → всегда `music_menu`
-2. **Override** (из `global.room_music_override`) → если комната есть в таблице, используется её трек
-3. **По умолчанию** → `global.music_default_game_track` (сейчас `music_SchoolRoutine`)
+2. **Игровые комнаты** → `global.music_default_game_track` (сейчас `music_SchoolRoutine`)
+
+Переход границы «меню ↔ игра» — мгновенный (`play_music_immediate`), внутри одной зоны — плавный кроссфейд (`play_music`).
+
+!!! warning "Override-таблица удалена"
+    `global.room_music_override` больше не является `ds_map` — глобал выставлен в `undefined` как зарезервированное имя. За всё время существования у таблицы не было ни одного писателя, поэтому её удалили: `ds_map_add` на неё вызывать нельзя.
 
 ### Как добавить музыку в комнату
 
-В `scr_music_init()` найдите секцию `Room-to-Track mapping` и добавьте:
-
-```gml
-ds_map_add(global.room_music_override, rm_boss_room, music_boss_theme);
-```
-
-Чтобы сменить дефолтный трек для всех игровых комнат:
+- Для особого трека комнаты вызовите `global.play_music()` / `global.play_music_fade()` из кода комнаты или используйте JSON-экшен `play_music` в катсцене.
+- Чтобы сменить дефолтный трек для всех игровых комнат:
 
 ```gml
 global.music_default_game_track = music_new_default;
@@ -273,35 +274,29 @@ global.music_default_game_track = music_new_default;
 
 ## Cutscene-команды
 
-Для управления музыкой из катсцен доступны wrapper-функции, возвращающие `CutsceneAction`:
+Из wrapper-функций `cutscene_music_*` живыми остались только три — они возвращают `CutsceneAction`:
 
 | Функция | Описание |
 |---------|---------|
-| `cutscene_music_play(snd, fade)` | Смена трека с фейдом (default 0.5) |
-| `cutscene_music_stop(fade)` | Остановка (default 1.0) |
-| `cutscene_music_volume(vol, fade)` | Изменение громкости |
 | `cutscene_music_pitch(pitch)` | Изменение pitch |
 | `cutscene_music_pause()` | Пауза |
 | `cutscene_music_resume()` | Снять паузу |
-| `cutscene_music_intro_loop(intro, loop, fade)` | Intro + Loop |
-| `cutscene_music_duck(multiplier, fade)` | Относительное приглушение (default 0.3) |
-| `cutscene_music_unduck(fade)` | Снять приглушение (default 0.3) |
-| `cutscene_music_layered(calm, battle, fade)` | Запустить Layer 2 (два трека) (default 0.5) |
-| `cutscene_music_intensity(intensity, fade)` | Изменить интенсивность слоёв (default 1.0) |
+
+Остальные shorthand-обёртки удалены как мёртвые: из кода создавайте Action-классы напрямую (`new ActionMusicPlay(...)`, `new ActionMusicStop(...)`, `new ActionMusicVolume(...)`, `new ActionMusicDuck(...)`, `new ActionMusicUnduck(...)`, `new ActionMusicPlayLayered(...)`, `new ActionMusicSetIntensity(...)`, `new ActionMusicIntroLoop(...)`, `new ActionMusicIntroLayered(...)`, `new ActionMusicPhaseSequence(...)` — см. `scripts/scr_cutscene_music/scr_cutscene_music.gml`), а из JSON используйте типы `play_music`, `stop_music`, `music_volume`, `music_duck`, `music_unduck`, `music_pitch`, `music_pause`, `music_resume`, `play_boss_music`, `stop_boss_music`, `boss_music_phase`, `play_music_intro`, `play_music_intro_layered`, `crossfade_music` (см. [API катсцен](cutscenes/api.md#музыка-в-катсценах)).
 
 ### Пример использования в катсцене
 
 ```gml
-cutscene_add(manager, cutscene_music_play(music_dramatic, 1.0));
-cutscene_add(manager, cutscene_dialogue("story.yarn", "dramatic_scene"));
-cutscene_add(manager, cutscene_music_stop(2.0));
+cutscene_add(manager, new ActionMusicPlay(music_dramatic, 1.0));
+cutscene_add(manager, new ActionDialogue("story.yarn", "dramatic_scene"));
+cutscene_add(manager, new ActionMusicStop(2.0));
 ```
 
 ---
 
 ## Ноды Undefscene
 
-В редакторе **Undefscene** управление музыкой доступно через отдельные ноды категории **Звук**. Каждая нода соответствует `cutscene_music_*` обёртке и настраивается в Inspector без написания кода.
+В редакторе **Undefscene** управление музыкой доступно через отдельные ноды категории **Звук**. Каждая нода соответствует JSON-экшену (`play_music`, `stop_music`, `music_volume`, `music_duck`, `music_unduck`, `music_pitch`, `music_pause`, `music_resume`) и настраивается в Inspector без написания кода.
 
 | Нода | Описание | Параметры в Inspector |
 |------|----------|----------------------|
@@ -372,13 +367,13 @@ cutscene_add(manager, cutscene_music_stop(2.0));
 ### Добавление нового трека
 
 1. Импортировать OGG в GameMaker (Sound asset)
-2. Добавить override в `scr_music_init()` если нужна привязка к комнате
-3. Или использовать `global.play_music()` / cutscene-команду напрямую
+2. Для привязки к комнате вызвать `global.play_music()` из кода комнаты или JSON-экшен `play_music` в катсцене
+3. Для смены дефолтного трека игровых комнат — `global.music_default_game_track` в `scr_music_init()`
 
 ---
 
 ## См. также
 
 - [Архитектура: инициализация](../architecture/initialization.md) — где создаётся `obj_music_ctrl`
-- [Катсцены: API](cutscenes/api.md) — `cutscene_music_*` команды
+- [Катсцены: API](cutscenes/api.md) — музыкальные JSON-экшены и Action-классы
 - [Справочник: GML скрипты](../code-reference/gml-scripts.md) — `global.play_music` и другие

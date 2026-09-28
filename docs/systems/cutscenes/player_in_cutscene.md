@@ -13,7 +13,7 @@ tags:
 `obj_player` наследует `par_actor` → `par_depth` и использует `scr_collision_resolve()` для коллизии с `obj_collider`, `par_decor`, `par_interactable`.
 
 ## Состояние камеры
-Флаг `global.cutscene_camera_override = true` отключает стандартное центрирование камеры на игроке в `Step_2`. Для слежения за игроком во время сцены необходимо явно добавить экшен `cutscene_camera_track`.
+Флаг `global.cutscene_camera_override = true` отключает стандартное центрирование камеры на игроке в `Step_2`. Для слежения за игроком во время сцены необходимо явно добавить экшен `camera_track` (JSON) или `new ActionCameraTrack(...)`.
 
 ## Конфликты анимаций
 Во время активной сцены скрипты автоматической анимации игрока (`scr_player_animation`) игнорируются, передавая полный контроль над спрайтами экшенам `animate` и `set_facing`.

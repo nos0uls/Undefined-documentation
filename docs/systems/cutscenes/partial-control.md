@@ -15,9 +15,11 @@ tags:
 
 | Тип | Движение | Взаимодействие | Описание |
 |-----|----------|----------------|-----------|
-| **0** | :material-cancel: | :material-cancel: | Полная блокировка (стандарт) |
-| **1** | :material-check: | Whitelist | Свободное движение, взаимодействие только с разрешенными объектами |
-| **2** | :material-check: | :material-check: | Полная свобода, катсцена работает в фоне |
+| **0** (`LOCKED`) | :material-cancel: | :material-cancel: | Полная блокировка (стандарт) |
+| **1** (`WHITELIST`) | :material-cancel: | Whitelist | Через input API пропускается только действие `confirm`; фильтр допустимых объектов (`partial_control_whitelist`) применяет `scr_interaction`. Движение и прочий ввод остаются заблокированными |
+| **2** (`FREE`) | :material-check: | :material-check: | Полная свобода, катсцена работает в фоне |
+
+Enum `INTERACT_PARTIAL_CONTROL` объявлен в `scripts/interactionWithNPCsOrObjects/interactionWithNPCsOrObjects.gml`. Мусорный `control_type` из JSON (3, -1, ...) трактуется как «заблокировано» с одноразовым WARNING в логе.
 
 ## Ожидание взаимодействия (`wait_for_interact`)
 Приостанавливает выполнение очереди до тех пор, пока игрок не провзаимодействует с указанным объектом. Часто используется в связке с `partial_control type 1`.
@@ -43,7 +45,7 @@ tags:
 Система сохранения и восстановления состояния катсцены.
 
 ### ActionCheckpointState
-Создаёт snapshot и сохраняет в `global.__cutscene_checkpoints` (ds_map).
+Создаёт snapshot и сохраняет в `global.__cutscene_checkpoints` (struct).
 
 **Параметры:**
 - `checkpoint_id` (string) — уникальный ID. Не может быть пустым.
@@ -68,10 +70,11 @@ tags:
     Максимум **10** checkpoint-ов в памяти (`__CUTSCENE_MAX_CHECKPOINTS`). При превышении — авто-очистка самого старого (LRU по `timestamp_frames`).
 
 !!! warning "Cleanup при завершении катсцены"
-    При `finish_cutscene()` вся память checkpoint-ов очищается (`ds_map_clear`).
+    При `finish_cutscene()` вся память checkpoint-ов очищается (реассайн `global.__cutscene_checkpoints = {}`).
 
 ## Room Entry Check
-Механизм `scr_room_entry_check()` автоматически воссоздает объекты при повторном входе в комнату, если соответствующие флаги были установлены в катсцене. Это обеспечивает "постоянство" изменений.
+!!! warning "Подсистема мертва"
+    `scr_room_entry_check()` вызывается из `obj_globalManager.Step_0` при смене комнаты, но её тело зачищено до заглушки (`DELETE_CANDIDATE`): единственные писатели `global.room_flags` присваивают пустой struct, записей для спавна не создаётся. Автоматического воссоздания объектов по `room_flags` в текущей версии нет.
 
 ## См. также
 

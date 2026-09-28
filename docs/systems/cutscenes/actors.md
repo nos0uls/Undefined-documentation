@@ -12,7 +12,8 @@ tags:
 - `actor_map`: структура сопоставления `key -> instance`.
 - Итерация через `variable_struct_get_names(actor_map)`.
 
-## Создание актёров (`cutscene_actor_create`)
+## Создание актёров (`actor_create` / `ActionActorCreate`)
+Создание актёра выполняется через JSON-экшен `actor_create` или напрямую `new ActionActorCreate(name, x, y, sprite_or_obj)` (wrapper `cutscene_actor_create` — заглушка, не вызывать).
 - `key`: строковый идентификатор.
 - `sprite_or_object`: ассет спрайта или объекта.
 - `copy_from_object`: опциональный источник для копирования свойств (scale, blend, facing). **Depth не копируется** — проект использует isometric sorting (`depth = -y`).
@@ -48,11 +49,7 @@ graph TD
 `ActionSetDepth(target, depth)` переключает `depth_mode` в `manual` перед установкой значения. `is_static` и `attached_target` управляются отдельно.
 
 ## Групповые операции (`ActionGroup`)
-Применение экшена к массиву целей:
-- `c_move_group`: групповое перемещение.
-- `c_walk_group`: групповая ходьба.
-- `c_var_group`: массовая установка свойств.
-- `c_tween_group`: массовая анимация параметров.
+Применение экшена к массиву целей — через `new ActionGroup(targets, context, generator_fn)` (команды `c_move_group`/`c_walk_group`/`c_var_group`/`c_tween_group` в проекте отсутствуют).
 
 ## Рекомендации
 - Используйте **instance id** для надежности в сложных сценах.
@@ -64,5 +61,5 @@ graph TD
 
 - [Обзор катсцен](overview.md) — `obj_cutsceneManager`, `action_queue`
 - [Архитектура](architecture.md) — `actor_map`, `resolve_target`
-- [API](api.md) — `cutscene_actor_create`, `ActionActorCreate`
+- [API](api.md) — `actor_create`, `ActionActorCreate`
 - [Камера](camera.md) — `ActionCameraTrack` для слежения за актёрами

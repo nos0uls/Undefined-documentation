@@ -21,9 +21,9 @@ tags:
 | Скрипт | Описание |
 |--------|----------|
 | `scr_interaction` | Единая проверка взаимодействия. Принимает `_scriptToReadFrom`, `_node`, `_use_mask_check`. Проверяет `obj_pointMarker`, `scr_checkUIBlocking`, `partial control` и вызывает `readDialogue`. |
-| `interactionWithNPCsOrObjects` | Legacy-обёртка над `scr_interaction` с `_use_mask_check = false`. |
-| `interactionWithMainCast` | Legacy-обёртка над `scr_interaction` с `_use_mask_check = true`. |
-| `readDialogue` | Создаёт `textboxTest_scribble` в координатах камеры, передаёт `dialogue_filename` и `dialogue_node`, блокирует `obj_player.can_move`. |
+| `interactionWithNPCsOrObjects` | Мёртвая legacy-заглушка (`DELETE_CANDIDATE`). Рабочая функция `scr_interaction` определена в том же файле. |
+| `interactionWithMainCast` | Мёртвая legacy-заглушка (`DELETE_CANDIDATE`). Проверку по маске даёт `scr_interaction(..., true)`. |
+| `readDialogue` | Создаёт `textboxTest_scribble` (окно рисуется через Draw GUI — мировые координаты не используются, инстанс создаётся в (0,0)), передаёт `dialogue_filename` и `dialogue_node`. `can_move` игрока не трогает: textbox сам входит в список UI-блокеров. |
 | `scr_npc_pick_dialogue` | Заглушка. В текущей версии не используется. |
 | `scr_parse_emote` | Парсит speaker-строку Yarn формата `DisplayName [code:emotion]: Text` и возвращает actor, emotion, display_name, ресурсы портрета. |
 
@@ -57,9 +57,9 @@ scr_interaction("testDialogue.yarn", "Cutscene-Bridge-Demo");
 
 ### Проверка через маску (Main Cast)
 
-```gml title="interactionWithMainCast"
-interactionWithMainCast("main_cast.yarn", "intro");
-// внутри вызывает scr_interaction(..., true)
+```gml title="Проверка по маске"
+scr_interaction("main_cast.yarn", "intro", true);
+// true = position_meeting по маске вместо point_in_rectangle по bbox
 ```
 
 ### Парсинг строки Yarn

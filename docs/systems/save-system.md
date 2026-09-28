@@ -22,7 +22,7 @@ tags:
 | Скрипт | Описание |
 |--------|----------|
 | `scr_saveSave` | Записывает текущий слот `global.current_save_slot`. Сохраняет позицию, комнату, playtime, инвентарь, индексы экипировки, `global.flag`, `global.plot`, `global.entity_state`. |
-| `scr_saveLoad` | Читает текущий слот, парсит JSON-блоки, восстанавливает инвентарь и экипировку, переходит в комнату и создаёт игрока через dev-spawn. |
+| `scr_saveLoad` | Читает текущий слот, проверяет версию схемы (сейвы новее `SAVE_FORMAT_VERSION` отклоняются), парсит JSON-блоки, восстанавливает инвентарь и экипировку, сбрасывает runtime-состояние сессии (катсцена через `finish_cutscene`, очередь взаимодействий, `room_flags`, диалоговые флаги), переходит в комнату и создаёт игрока через dev-spawn. |
 | `scr_defaultLoad` | Загружает дефолтную стартовую позицию (`rm_uphill_school`, 377, 187, facing down). |
 | `scr_resetGameToDefault` | Удаляет все сейвы, настройки и `game_state.dat`, сбрасывает настройки и закрывает игру. |
 | `scr_global_quick_save` | Быстрое сохранение в текущий слот по клавише F7. |
@@ -31,7 +31,7 @@ tags:
 
 | Объект | Описание |
 |--------|----------|
-| `obj_saveManager` | UI-менеджер экрана выбора/сохранения слотов. Поддерживает режимы `load` и `save`, удаление слота, dev-load в debug-режиме. |
+| `obj_saveManager` | UI-менеджер экрана выбора/сохранения слотов. Режимы задаются enum `SAVEMENU_MODE` (`LOAD`/`SAVE`, объявлен в `scr_saveLoad`), удаление слота, dev-load в debug-режиме. |
 | `obj_save` | Интерактивный объект-сейвпоинт в мире. При взаимодействии запускает Yarn-диалог, заданный в `dialogue_filename` и `dialogue_node`. |
 
 ### Формат save-файла
@@ -48,7 +48,20 @@ tags:
 | 8 | Индекс экипированной брони | `2` |
 | 9 | JSON флагов | `{ "met_asher": true }` |
 | 10 | `plot` | `1` |
-| 11 | JSON `entity_state` | `{ "obj_sign_1234": { ... } }` |
+| 11 | JSON `entity_state` | `{ "rm_uphill_school:door_1": { ... } }` |
+| 12 | JSON статов игрока (`global.stat_*`) | `{ "hp": 20, "maxhp": 20, "atk": 10, "def": 10, "lv": 1, "gold": 0, "name": "HUMAN" }` |
+| 13 | JSON состояния Chatterbox | `ChatterboxVariablesExport()` строка |
+| 14 | версия схемы | `3` |
+
+Строка версии — всегда последняя в файле (`#macro SAVE_FORMAT_VERSION` в `scr_saveSave`). Формат строго append-only: новые поля добавляются только перед строкой версии, вставку в середину позиционные читатели (`obj_Init`, `load_save_metadata`) не переживают. Сейвы без строки версии трактуются как легаси v1; сейвы v2 (12 строк) корректно мигрируют на v3 с дефолтными статами; сейв с версией выше поддерживаемой отклоняется с ошибкой в логе.
+
+### Ограничения `entity_state`
+
+`global.entity_state` — инфраструктура без контентных писателей: `scr_entity_state_set` и `__entity_state_save` (`par_interactable`) существуют, но ни одна комната не задаёт `entity_id`, и метод сохранения никто не вызывает. У инстансов без `entity_id` используется fallback `"entity_" + string(id)` — он нестабилен между заходами в комнату (instance id переиспользуются), поэтому на практике реестр в реальной игре остаётся пустым, а строка 11 в сейве сериализует `{}`.
+
+### Персист `game_state.dat` при выходе
+
+При завершении игры `obj_globalManager.Other_3` (Game End) копирует `global.__total_playtime_seconds` в `global.game_state.total_playtime_seconds` и пишет файл через `scr_game_state_save`. Guard `global.clean_state == true` пропускает запись: `scr_resetGameToDefault` уже удалил `game_state.dat`, и без этой проверки Game End воскрешал бы файл сразу после wipe.
 
 ## Примеры
 

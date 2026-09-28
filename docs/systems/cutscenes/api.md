@@ -13,7 +13,7 @@ tags:
 - **`target_ref`**: instance id или строковый ключ актёра.
 - **Единицы**: Builder-API использует **кадры** (длительность) и **px/frame** (скорость).
 - **JSON**: использует **секунды** и **px/sec** (конвертируются при загрузке).
-- **Звук**: управляется через `obj_music_ctrl`, катсцены вызывают его через `c_run` или `global.play_music`.
+- **Звук**: управляется через `obj_music_ctrl`, катсцены вызывают его через музыкальные Action-классы (`ActionMusicPlay` и др.) или `global.play_music*`.
 
 ## Builder-API (`c_*`)
 Построение очереди через активный менеджер без передачи ссылки на него в каждый вызов.
@@ -23,8 +23,11 @@ tags:
 - `c_play()`: запуск выполнения.
 - `c_end()`: принудительное завершение.
 
-!!! note "Список не исчерпывающий"
-    Полный набор `c_*` команд включает `c_move`, `c_follow_path`, `c_walk`, `c_walkdirect`, `c_walkdirect_speed`, `c_actor_create`, `c_actor_destroy`, `c_animate`, `c_sprite`, `c_run`, `c_parallel`, `c_branch`, `c_camera_track`, `c_camera_track_until_stop`, `c_camera_center`, `c_tween`, `c_tween_camera`, `c_fadein`, `c_fadeout`, `c_sfx`, `c_soundplay`, `c_emote`, `c_jump`, `c_halt`, `c_flip`, `c_spin`, `c_shakeobj`, `c_visible`, `c_instant`, `c_var_instance`, `c_var_lerp_instance`, `c_lerp`, `c_move_group`, `c_walk_group`, `c_var_group`, `c_tween_group` и др. См. `scripts/c_cmd/c_cmd.gml` и отдельные `scripts/c_*/`.
+!!! note "Живые команды"
+    Реально существующие `c_*` команды (все определены в `scripts/c_cmd/c_cmd.gml` и отдельных `scripts/c_*/`): `c_begin`, `c_play`, `c_play_json`, `c_end`, `c_wait`, `c_waittalk`, `c_setxy`, `c_facing`, `c_speaker`, `c_depth`, `c_autofacing`, `c_autowalk`, `c_dialogue`, `c_animate`, `c_sprite`, `c_tween`, `c_tween_camera`, `c_fadein`, `c_fadeout`, `c_sfx`, `c_soundplay`, `c_emote`, `c_jump`, `c_halt`, `c_flip`, `c_spin`, `c_shakeobj`, `c_visible`, `c_instant`, `c_walk`, `c_walkdirect`, `c_walkdirect_speed`, `c_var_instance`, `c_var_lerp_instance`, `c_var_lerp_to_instance`, `c_lerp`.
+
+!!! warning "Заглушки (не вызывать)"
+    Команды-заглушки с пустым телом и пометкой `DELETE_CANDIDATE`: `c_pan`, `c_panobj`, `c_panspeed`, `c_pan_wait`, `c_shake`, `c_instance`, `c_delaycmd`, `c_delaywalk`, `c_cmd_x`. Имен `c_move`, `c_follow_path`, `c_actor_create`, `c_actor_destroy`, `c_parallel`, `c_branch`, `c_camera_track`, `c_camera_track_until_stop`, `c_camera_center`, `c_run`, `c_move_group`, `c_walk_group`, `c_var_group`, `c_tween_group` в проекте нет — для parallel/branch/камеры используйте JSON-экшены или Action-классы напрямую.
 
 ### Основные команды
 - `c_speaker(name)`: установка имени говорящего.
@@ -34,26 +37,34 @@ tags:
 - `c_wait(frames)`: задержка выполнения.
 
 ### Камера
-- `c_pan(x, y, frames)`: плавное перемещение.
-- `c_panobj(target, frames)`: слежение за объектом.
-- `c_shake(frames, magnitude)`: эффект тряски.
+- `c_tween_camera(property, to_value, frames, easing, from_value)`: плавное изменение числового свойства камеры.
+- Остальные камерные `c_*` команды удалены (заглушки) — в JSON используйте `camera_pan`, `camera_pan_obj`, `camera_center`, `camera_track`, `camera_track_until_stop`, `camera_shake`.
 
 ## Action-API (`cutscene_*`)
-Прямое создание структур Action-struct.
+Прямое создание структур Action-struct и управление менеджером.
 
-!!! note "Список не исчерпывающий"
-    Полный набор wrapper-функций находится в `scripts/cutscene_add/cutscene_add.gml` и `scripts/scr_cutscene_music/scr_cutscene_music.gml`: `cutscene_move`, `cutscene_setxy`, `cutscene_animate`, `cutscene_set_animation_frame`, `cutscene_set_facing`, `cutscene_set_depth`, `cutscene_auto_facing`, `cutscene_auto_walk`, `cutscene_dialogue`, `cutscene_wait_for_dialogue`, `cutscene_set_dialogue_speed`, `cutscene_wait_typing`, `cutscene_dialogue_control`, `cutscene_set_portrait_next`, `cutscene_set_portrait_now`, `cutscene_clear_dialogue`, `cutscene_parallel`, `cutscene_tween`, `cutscene_tween_camera`, `cutscene_fade_in`, `cutscene_fade_out`, `cutscene_play_sfx`, `cutscene_emote`, `cutscene_jump`, `cutscene_halt`, `cutscene_flip`, `cutscene_spin`, `cutscene_shake_object`, `cutscene_set_visible`, `cutscene_set_instant`, `cutscene_set_property`, `cutscene_music_*` и др.
+Живые wrapper-функции:
 
-- `cutscene_move(target, x, y, speed)`: перемещение.
-- `cutscene_animate(target, sprite, ...)`: смена анимации.
-- `cutscene_dialogue(file, node)`: запуск Yarn-диалога.
-- `cutscene_parallel(actions)`: параллельное выполнение.
-- `cutscene_tween(target, property, ...)`: плавная анимация свойств.
+- `cutscene_add(manager, action)` — добавляет Action-struct в очередь менеджера (`scripts/cutscene_add`).
+- `cutscene_branch(condition_func, true_actions, false_actions)` — возвращает `ActionBranch`.
+- `cutscene_set_facing(target_ref, direction)` — возвращает `ActionSetFacing`.
+- `cutscene_music_pitch(pitch)` / `cutscene_music_pause()` / `cutscene_music_resume()` — возвращают музыкальные Action-классы (`scripts/scr_cutscene_music`).
+- `cutscene_play_json(path)` / `cutscene_stop_active()` / `cutscene_is_active()` / `cutscene_dialogue_is_active()` — управление JSON-катсценой (определены в `scripts/c_cmd/c_cmd.gml`).
+- `cutscene_load_json(path)` / `cutscene_load_engine_settings()` — загрузка сцены и настроек движка.
+
+!!! warning "Обёртки-заглушки и удалённые имена"
+    Часть shorthand-обёрток зачищена до заглушек (`DELETE_CANDIDATE`, пустые тела — ресурсы на месте, но вызывать их бессмысленно): `cutscene_move`, `cutscene_set_xy`, `cutscene_animate`, `cutscene_set_depth`, `cutscene_auto_facing_toggle`, `cutscene_auto_walk_toggle`, `cutscene_dialogue`, `cutscene_parallel`, `cutscene_camera_center`, `cutscene_camera_pan`, `cutscene_camera_shake`, `cutscene_camera_track`, `cutscene_actor_create`, `cutscene_actor_destroy`, `cutscene_follow_path`, `cutscene_run_function`, `cutscene_wait`.
+
+    Следующие имена удалены из проекта полностью (ресурсов нет): `cutscene_set_dialogue_speed`, `cutscene_wait_typing`, `cutscene_dialogue_control`, `cutscene_wait_for_dialogue`, `cutscene_set_portrait_next`, `cutscene_set_portrait_now`, `cutscene_clear_dialogue`, `cutscene_tween`, `cutscene_tween_camera`, `cutscene_set_animation_frame`, `cutscene_fade_in`, `cutscene_fade_out`, `cutscene_play_sfx`, `cutscene_emote`, `cutscene_jump`, `cutscene_halt`, `cutscene_flip`, `cutscene_spin`, `cutscene_shake_object`, `cutscene_set_visible`, `cutscene_set_instant`, `cutscene_set_property` и мёртвые `cutscene_music_*` (кроме pitch/pause/resume).
+
+    Вместо обёрток создавайте Action-классы напрямую (`new ActionMove(...)`, `new ActionDialogue(...)`, `new ActionMusicPlay(...)` и т.д.) или используйте JSON-экшены — фабрика `cutscene_action_factory` конструирует их через `new`.
 
 ## JSON и Фабрика Экшенов
 `cutscene_load_json(path)` загружает декларативные описания сцен.
 
 ### JSON actions
+
+Основные типы (выборочно — полный список типов смотрите в `f[$ ...]`-таблице `cutscene_action_factory.gml`):
 
 | Type | Поля | Результат в движке |
 |------|------|--------------------|
@@ -69,21 +80,22 @@ tags:
 | `set_depth` | `target`, `depth` | записывает `depth` |
 | `set_position` | `target`, `x`, `y` | переносит актёра и обновляет `target_x`, `target_y` |
 | `set_property` | `kind`, `target`, `property`, `value` | записывает произвольное свойство instance или камеры |
-| `tween` | `target`, `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет числовое свойство instance. **Всегда** использует `kind="instance"`; поле `kind` в JSON игнорируется фабрикой. |
+| `tween` | `target`, `property`, `to_value`, `from_value`, `seconds`, `easing`, `kind` | плавно меняет числовое свойство instance. Фабрика читает `kind` (`"instance"` по умолчанию); `kind:"camera"` работает без `target` — для камеры предпочтителен отдельный `tween_camera` |
 | `tween_camera` | `property`, `to_value`, `from_value`, `seconds`, `easing` | плавно меняет числовое свойство камеры (`kind="camera"`). Для камеры используйте именно `tween_camera`, а не `tween` |
-| `attach_to_target` | `target`, `parent_ref`, `offset_x`, `offset_y`, `follow_facing`, `follow_scale`, `follow_depth`, `duration_seconds`, `detach_on_cutscene_end` | привязывает актёра к родителю (`target_ref` — legacy алиас) |
+| `attach_to_target` | `target`, `parent`, `offset_x`, `offset_y`, `follow_facing`, `follow_scale`, `follow_depth`, `duration_seconds`, `detach_on_cutscene_end` | привязывает актёра к родителю (`parent_ref` — fallback-алиас для `parent`) |
 | `detach` | `target`, `destroy_after_detach` | отсоединяет актёра от родителя (`target_ref` — legacy алиас) |
 | `spin` | `target`, `speed`, `seconds` | вращает актёра |
 | `set_visible` | `target`, `visible` | управляет видимостью актёра |
 | `schedule_action` | `delay_seconds`, `action`, `blocking`, `tag` | отложенное выполнение вложенного действия |
-| `checkpoint_state` | `checkpoint_id`, `include_actors`, `include_player`, `include_camera`, `include_music`, `include_globals` (JSON-строка), `include_instances` (JSON-строка) | сохранение состояния катсцены |
+| `checkpoint_state` | `checkpoint_id`, `include_actors`, `include_player`, `include_camera`, `include_music`, `include_globals` (массив или JSON-строка), `include_instances` (массив или JSON-строка) | сохранение состояния катсцены |
 | `restore_state` | `checkpoint_id`, `cleanup_transients`, `restore_camera`, `restore_music`, `on_missing` | восстановление состояния катсцены |
 | `set_flag` | `key`, `value` | установка глобального флага |
 | `set_plot` | `value` | изменение `global.plot` |
 | `spawn_entity` | `object`, `key`, `x`, `y`, `depth`, `persistent` | создание объекта в мире |
 | `destroy_entity` | `target` | удаление объекта |
-| `partial_control` | `control_type`, `whitelist` | частичный контроль игрока |
+| `partial_control` | `control_type`, `whitelist` | частичный контроль игрока (см. ниже) |
 | `wait_for_interact` | `target`, `timeout`, `timeout_action`, `interact_action` | ожидание взаимодействия |
+| `room_change` | `room` (string), `player_x`, `player_y`, `actors` (object: ключ → `{x,y}` или `[x,y]`) | `ActionRoomChange` — блокирующая смена комнаты с фейдом |
 | `set_dialogue_speed` | `speed` | скорость печати текста |
 | `wait_typing` | — | ожидание завершения анимации печати |
 | `dialogue_control` | `prevent_skip`, `stay_open`, `auto_advance` | управление поведением диалога |
@@ -99,13 +111,67 @@ tags:
 | `halt` | `target` | `ActionHalt` — остановка движения актёра |
 | `camera_pan_speed` | `x`, `y`, `seconds` | `ActionCameraPanSpeed` — панорамирование со скоростью (linear easing) |
 | `branch` | `condition` (string), `true_actions` (array), `false_actions` (array) | `ActionBranch` — ветвление по результату функции/скрипта |
+| `branch_flag` | `key` (string), `operator` (string), `value` (any), `true_actions` (array), `false_actions` (array) | `ActionBranchFlag` — ветвление по значению флага/состояния (см. ниже) |
 | `guard_global` | `var` (string), `equals` (any), `if_false` (`skip` or `wait_until_true`), `actions` (array), `stop_when` (`none`, `timeout`, `global_var`, `node_reached`), `end_var` (string), `end_equals` (any), `end_node` (string), `end_timeout` (real) | `ActionGuardGlobal` — условный блок или ожидание глобальной переменной |
 
 `direction` принимает `left`, `right`, `up`, `down` или числовое значение из `global.DIR`.
 
+### Загрузчик и формат файла
+
+`cutscene_load_json(path)` читает файл целиком через `buffer_load`/`buffer_read`, срезает UTF-8 BOM (сигнатура `EF BB BF`) и нормализует префиксы `./` и `datafiles/` в начале пути (в рантайме каталога `datafiles/` нет — Included Files лежат в корне рабочей директории). Парсинг — нативный `json_parse`: корень обязан быть объектом (struct), `actions` — массивом; вложенные объекты приходят как `struct`/`array`, ручной `destroy` не нужен.
+
+Служебные элементы списка: `{"type": "start", "debug": true}` включает отладку катсцены (не является действием), `{"type": "end"}` завершает список — действия после него не выполняются. `settings.fps` валидируется в диапазоне 1..240; при отсутствии/невалидности берётся `default_fps` из настроек движка.
+
+Настройки движка загружает `cutscene_load_engine_settings()` из единственного канонического файла `cutscenes/cutscene_engine_settings.json` (в проекте — `datafiles/cutscenes/cutscene_engine_settings.json`; корневой дубль удалён). Функция кэширует результат в `static` и возвращает struct «только для чтения»; принудительное перечитывание — через `_force_reload = true`.
+
+### `branch_flag`
+
+Ветвление по значению флага или состояния мира. `key` без точки читается из `global.flag[key]`; ключ с точкой резолвится через общий резолвер `__cutscene_resolve_state_value`:
+
+| Форма ключа | Источник |
+|-------------|----------|
+| `"met_asher"` | `global.flag["met_asher"]` |
+| `"flag.x"` / `"flags.x"` | `global.flag[$ "x"]` |
+| `"stat.hp"` / `"stats.hp"` | `global.stat_hp` |
+| `"entity_state.rm:eid"` / `"entity.rm:eid"` | запись `global.entity_state["rm:eid"]` |
+| `"entity_state.rm:eid.field"` | поле `field` записи сущности |
+| `"struct_name.field"` | `global[$ struct_name][$ field]` |
+| `"global.name"` (любой) | префикс `global.` срезается |
+
+| `operator` | Семантика |
+|------------|-----------|
+| `==`, `!=` | Сравнение через `__cutscene_compare_values` (толерантно к строкам/булям из JSON) |
+| `>`, `<`, `>=`, `<=` | Числовое сравнение (оба операнда приводятся к real) |
+| `exists` | Ключ/путь существует и значение не `undefined` |
+| `!exists` | Ключа нет или значение `undefined` |
+
+Неизвестный оператор деградирует до `==` с WARNING в логе. Ветки `true_actions`/`false_actions` — массивы вложенных action-объектов; выбранная ветка вставляется в очередь после текущего действия.
+
+```json title="Пример branch_flag"
+{
+  "type": "branch_flag",
+  "key": "flag.met_asher",
+  "operator": "==",
+  "value": true,
+  "true_actions": [ { "type": "dialogue", "file": "asher.yarn", "node": "Met" } ],
+  "false_actions": [ { "type": "dialogue", "file": "asher.yarn", "node": "FirstMeet" } ]
+}
+```
+
+### `room_change`
+
+Блокирующая смена комнаты: создаёт `obj_changingRoomsController` с фейдом, `update()` завершается после затухания. `room`, `player_x`, `player_y` обязательны; `actors` — необязательный объект позиций актёров.
+
+!!! warning "Переход в текущую комнату"
+    `room_change` в текущую комнату — no-op: контроллер затухает без `room_goto`, action пишет WARNING «same-room завершение без перехода» и сбрасывает сохранённые параметры. Телепортации игрока и перезапуска комнаты не происходит.
+
+### `partial_control`
+
+`control_type` — enum `INTERACT_PARTIAL_CONTROL`: `0` LOCKED (стандарт), `1` WHITELIST, `2` FREE. При `1` через input API во время катсцены пропускается только действие `confirm` — `wait_for_interact` без него становился бы софтлоком; конкретные допустимые объекты проверяет `scr_interaction` по `whitelist` (массив строк-ключей актёров). Тип `2` сохраняет семантику полной свободы. Подробности — в [Частичный контроль](partial-control.md).
+
 ### `checkpoint_state` — формат полей
 
-Поля `include_globals` и `include_instances` передаются как **JSON-строки**, а не массивы. Runtime парсит их через `json_parse`.
+Поля `include_globals` и `include_instances` принимают **и обычный JSON-массив, и legacy-строку с JSON внутри** — фабрика берёт значение через `get_value` и разбирает строку через `json_parse`.
 
 ```json title="Пример checkpoint_state"
 {
@@ -158,7 +224,7 @@ tags:
 - `autowalk` → `auto_walk`
 
 !!! note "Таймаут диалогов"
-    Если `chatterbox` не отвечает более 600 кадров (~20 сек), экшен завершается принудительно во избежание зависания сцены.
+    Если `chatterbox` не отвечает более 600 кадров (~10 сек при 60 fps), экшен завершается принудительно во избежание зависания сцены.
 
 ## Dialogue Control
 
@@ -207,10 +273,10 @@ tags:
 
 ### Guard Global
 
-`guard_global` — условный блок. Режим `if_false` определяет поведение при ложном условии:
+`guard_global` — условный блок. Поля `var` и `end_var` поддерживают ту же dot-нотацию, что и `key` в `branch_flag` (`flag.x`, `stat.hp`, `entity_state.rm:eid[.field]`, `struct_name.field`; префикс `global.` срезается). Режим `if_false` определяет поведение при ложном условии:
 
 - `skip` (по умолчанию) — пропускает `actions`, если условие ложно.
-- `wait_until_true` — приостанавливает катсцену и ждёт, пока `global[var] == equals`.
+- `wait_until_true` — приостанавливает катсцену и ждёт, пока условие станет истинным.
 
 При `wait_until_true` можно задать `stop_when` — условие прекращения ожидания без выполнения `actions`:
 
@@ -247,8 +313,8 @@ tags:
 }
 ```
 
-!!! warning "set_flag vs guard_global"
-    `set_flag` пишет в `global.flag[$ key]`. `guard_global` читает прямую глобальную переменную `global[var]`. Для guard используйте `run_function` с `variable_global_set` или аналогичный скрипт, если нужно работать с `global.flag`.
+!!! note "set_flag vs guard_global"
+    `set_flag` пишет в `global.flag[$ key]` (аргумент `key` — без точек). `guard_global` читает переменную через резолвер состояния: для флага сюжета используйте путь `"flag.<key>"`, например `"var": "flag.met_asher"`.
 
 ## Музыка в катсценах
 
@@ -271,27 +337,26 @@ tags:
 
 **GML-эквиваленты**
 
-| Функция | Action-класс | Описание |
-|---------|-------------|----------|
-| `cutscene_music_play(snd_asset, fade_sec = 0.5)` | `ActionMusicPlay` | Смена трека |
-| `cutscene_music_stop(fade_sec = 1.0)` | `ActionMusicStop` | Остановка с затуханием |
-| `cutscene_music_volume(vol, fade_sec = 0.5)` | `ActionMusicVolume` | Плавное изменение громкости |
-| `cutscene_music_duck(multiplier = 0.3, fade_sec = 0.3)` | `ActionMusicDuck` | Относительное приглушение |
-| `cutscene_music_unduck(fade_sec = 0.3)` | `ActionMusicUnduck` | Снятие duck |
-| `cutscene_music_pitch(pitch)` | `ActionMusicPitch` | Установка скорости воспроизведения. `1.0` = нормальная скорость |
-| `cutscene_music_pause()` | `ActionMusicPause` | Пауза |
-| `cutscene_music_resume()` | `ActionMusicResume` | Возобновление |
-| `cutscene_music_layered(calm_asset, battle_asset, fade_sec = 0.5)` | `ActionMusicPlayLayered` | Запуск calm + battle |
-| `cutscene_music_intensity(intensity, fade_sec = 1.0)` | `ActionMusicSetIntensity` | Смена интенсивности |
-| `cutscene_music_intro_loop(intro_asset, loop_asset, fade_sec = 0.5)` | `ActionMusicIntroLoop` | Intro + loop |
-| `cutscene_music_intro_layered(intro_asset, calm_asset, battle_asset, fade_sec = 0.5, start_intensity = 0)` | `ActionMusicIntroLayered` | Intro + layered loop |
-| `cutscene_music_phase_sequence(phases, fade_sec = 0.5)` | `ActionMusicPhaseSequence` | Фазовая последовательность |
+Живыми wrapper-функциями остались только `cutscene_music_pitch(pitch)`, `cutscene_music_pause()` и `cutscene_music_resume()` — они возвращают `ActionMusicPitch`/`ActionMusicPause`/`ActionMusicResume`. Остальные shorthand-обёртки удалены: из кода создавайте Action-классы напрямую через `new` (фабрика JSON-экшенов делает то же самое):
+
+| Вызов | Описание |
+|-------|----------|
+| `new ActionMusicPlay(snd_asset, fade_sec, volume = 1.0)` | Смена трека |
+| `new ActionMusicStop(fade_sec)` | Остановка с затуханием |
+| `new ActionMusicVolume(vol, fade_sec)` | Плавное изменение громкости |
+| `new ActionMusicDuck(multiplier, fade_sec)` | Относительное приглушение |
+| `new ActionMusicUnduck(fade_sec)` | Снятие duck |
+| `new ActionMusicPlayLayered(calm_asset, battle_asset, fade_sec)` | Запуск calm + battle |
+| `new ActionMusicSetIntensity(intensity, fade_sec)` | Смена интенсивности |
+| `new ActionMusicIntroLoop(intro_asset, loop_asset, fade_sec)` | Intro + loop |
+| `new ActionMusicIntroLayered(intro_asset, calm_asset, battle_asset, fade_sec, start_intensity)` | Intro + layered loop |
+| `new ActionMusicPhaseSequence(phases, fade_sec)` | Фазовая последовательность |
 
 !!! note "Кроссфейд и немедленный старт"
     Если `fade <= 0`, `play_music` вызывает `global.play_music_immediate()`. При `fade > 0` — `global.play_music_fade()`.
 
 !!! note "Action-классы музыки"
-    Все музыкальные action-классы реализованы как отдельные классы в `scr_cutscene_classes.gml`. Они не блокируют очередь катсцены — инициируют команду в `obj_music_ctrl`, а фейды обрабатываются независимо.
+    Все музыкальные action-классы реализованы в `scripts/scr_cutscene_music/scr_cutscene_music.gml`. Они не блокируют очередь катсцены — инициируют команду в `obj_music_ctrl`, а фейды обрабатываются независимо.
 
 ## Относительное позиционирование
 
@@ -314,8 +379,8 @@ tags:
 |------|------|--------------------|
 | `wait_until` | `condition_var` (string), `condition_equals` (string), `timeout_seconds` (real) | ждёт, пока глобальная переменная станет равна значению |
 
-!!! info "Синтаксический сахар"
-    `wait_until` не имеет отдельного Action-класса. При загрузке JSON он превращается в `guard_global` с `if_false: "wait_until_true"` и пустым списком действий. Катсцена приостанавливается до выполнения условия или истечения таймаута.
+!!! warning "Только в редакторе Undefscene"
+    `wait_until` — синтаксический сахар **уровня редактора**: компилятор Undefscene превращает ноду в `guard_global` с `if_false: "wait_until_true"`. Runtime-фабрика `cutscene_action_factory` тип `wait_until` **не регистрирует** — рукописный JSON с `"type": "wait_until"` будет отброшен как неизвестный. Вручную пишите `guard_global` с `if_false: "wait_until_true"` и нужным `stop_when`.
 
 ---
 
