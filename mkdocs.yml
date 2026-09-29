@@ -5,72 +5,67 @@ site_description: Официальная документация проекта
 
 repo_name: nos0uls/Undefined-documentation
 repo_url: https://github.com/nos0uls/Undefined-documentation
-edit_uri: edit/main/docs/
+docs_dir: docs_new
+edit_uri: edit/main/docs_new/
 
 not_in_nav: |
   404.md
   _snippets/abbr.md
 
+exclude_docs: |
+  _meta/*
+
 nav:
   - Главная: index.md
   - Начало работы:
-      - Установка и Настройка: getting-started/setup.md
-      - Структура Проекта: getting-started/project-structure.md
-      - Первый Запуск: getting-started/first-run.md
-      - Синтаксис Markdown: getting-started/syntax.md
+      - Установка и настройка: getting-started/setup.md
+      - Сборка из командной строки: getting-started/build.md
+      - Структура проекта: getting-started/project-structure.md
+      - Конвенции кода: getting-started/conventions.md
   - Архитектура:
       - Обзор: architecture/overview.md
       - Инициализация: architecture/initialization.md
-      - Глобальное Состояние: architecture/global-state.md
-      - Объекты: architecture/objects.md
+      - Иерархия объектов: architecture/object-hierarchy.md
+      - Глобальное состояние: architecture/global-state.md
       - Комнаты: architecture/rooms.md
+      - Форматы данных: architecture/data-formats.md
   - Системы:
       - Ввод (Input): systems/input.md
-      - Взаимодействие: systems/interaction.md
-      - Интерфейс (UI): systems/ui.md
-      - Карта тонкой настройки UI: systems/ui-tuning-map.md
-      - Музыка: systems/music.md
-      - Портреты диалога: systems/dialogue-portraits.md
-      - Playtime: systems/playtime.md
-      - Инвентарь: systems/inventory.md
-      - Эмоции: systems/emote.md
-      - Система сохранений: systems/save-system.md
-      - Debug-инструменты: systems/debug-tools.md
+      - Игрок (obj_player): systems/player.md
       - Переходы между комнатами: systems/room-transitions.md
-      - NPC и диалоги: systems/npc-dialogue.md
-      - Катсцены:
-          - Обзор: systems/cutscenes/overview.md
-          - Архитектура: systems/cutscenes/architecture.md
-          - API: systems/cutscenes/api.md
-          - Актёры: systems/cutscenes/actors.md
-          - Камера: systems/cutscenes/camera.md
-          - Игрок в катсцене: systems/cutscenes/player_in_cutscene.md
-          - Отладка: systems/cutscenes/debugging.md
-          - Примеры: systems/cutscenes/examples.md
-          - Troubleshooting: systems/cutscenes/troubleshooting.md
-          - Partial Control: systems/cutscenes/partial-control.md
+      - Диалоги: systems/dialogue.md
+      - Взаимодействие: systems/interaction.md
+      - Инвентарь и статы: systems/inventory-and-stats.md
+      - Система сохранений: systems/save-system.md
+      - Музыка и звук: systems/music.md
+      - UI и меню: systems/ui-and-menus.md
+      - Отладка и тестирование: systems/debug-and-testing.md
+  - Катсцены:
+      - Обзор: cutscenes/overview.md
+      - Архитектура менеджера: cutscenes/architecture.md
+      - JSON-действия: cutscenes/json-actions.md
+      - Классы действий (Action*): cutscenes/action-classes.md
+      - GML DSL (c_* и cutscene_*): cutscenes/gml-dsl.md
+      - Частичный контроль: cutscenes/partial-control.md
+      - Актёры и камера: cutscenes/actors-and-camera.md
+      - Рецепты: cutscenes/cookbook.md
   - Редактор (Undefscene):
-      - Обзор: systems/cutscenes/undefscene/overview.md
-      - Справочник нод: systems/cutscenes/undefscene/nodes.md
-      - How-to: systems/cutscenes/undefscene/how-to.md
-      - Интерфейс: systems/cutscenes/undefscene/ui.md
-      - Создание катсцены: systems/cutscenes/undefscene/workflow.md
-      - Сохранение и экспорт: systems/cutscenes/undefscene/formats.md
-      - Проверки перед экспортом: systems/cutscenes/undefscene/validation.md
-      - FAQ: systems/cutscenes/undefscene/faq.md
-      - Глоссарий: systems/cutscenes/undefscene/glossary.md
-      - Room Visual Editor: systems/cutscenes/undefscene/room-visual-editor.md
-      - Tutorial: systems/cutscenes/undefscene/tutorial.md
-  - Глоссарий: glossary.md
+      - Обзор: undefscene/overview.md
+      - Tutorial: undefscene/tutorial.md
+      - How-to: undefscene/how-to.md
+      - Workflow: undefscene/workflow.md
+      - Интерфейс: undefscene/ui.md
+      - Справочник нод: undefscene/nodes.md
+      - Room Visual Editor: undefscene/room-visual-editor.md
+      - Сохранение и экспорт: undefscene/formats.md
+      - Проверки и ошибки: undefscene/validation.md
+      - FAQ: undefscene/faq.md
+      - Глоссарий: undefscene/glossary.md
+  - Справочник:
+      - GML скрипты: reference/gml-scripts.md
+      - Объекты и события: reference/objects-and-events.md
+      - Глоссарий: reference/glossary.md
   - Теги: tags.md
-  - Геймплей:
-      - Обзор: gameplay/overview.md
-      - Управление: gameplay/controls.md
-      - Механики: gameplay/mechanics.md
-  - Справочник кода:
-      - GML скрипты: code-reference/gml-scripts.md
-      - События объектов: code-reference/events.md
-      - Функции: code-reference/functions.md
 
 theme:
   name: material
@@ -184,41 +179,54 @@ plugins:
   - tags:
       tags_allowed:
         - actors
+        - architecture
         - audio
+        - build
         - camera
-        - code-reference
+        - collision
         - controls
+        - conventions
         - cutscene-api
+        - cutscene-json
         - cutscenes
+        - data-formats
         - debug
+        - depth
         - dialogue
         - editor
         - emote
         - events
-        - functions
+        - faq
+        - gamepad
         - gameplay
         - getting-started
+        - globals
         - glossary
+        - gml
         - how-to
-        - init
+        - initialization
         - input
+        - interaction
         - inventory
-        - mechanics
+        - menu
+        - movement
         - music
         - nodes
-        - npc-dialogue
-        - persistent-objects
-        - project-structure
-        - room-transitions
+        - npc
+        - objects
+        - partial-control
+        - persistence
+        - player
+        - reference
         - rooms
-        - runtime
-        - save
-        - scripts
-        - setup
+        - room-transitions
+        - save-system
+        - settings
+        - stats
+        - testing
+        - troubleshooting
         - ui
-        - ui-blocking
         - undefscene
-        - yarn
   - typeset
   - social:
       cards: !ENV [MKDOCS_SOCIAL_CARDS, false]

@@ -1,0 +1,60 @@
+# input_actions.txt — действия ввода и дефолтные бинды
+# Источники: scripts/scr_inputApi/scr_inputApi.gml,
+#            scripts/scr_settingsManager/scr_settingsManager.gml,
+#            objects/obj_Init/Create_0.gml
+
+== Единый список действий ==
+scr_input_actions_list() — scripts/scr_inputApi/scr_inputApi.gml:27-29
+    return ["up","down","left","right","run","confirm","back","menu","delete"];
+
+Всего действий: 9
+  up, down, left, right, run, confirm, back, menu, delete
+
+Потребители списка (читают перечень отсюда):
+  scripts/scr_inputApi/scr_inputApi.gml:489
+  scripts/scr_settingsManager/scr_settingsManager.gml:410 (scr_resetInputToDefault)
+  scripts/scr_settingsManager/scr_settingsManager.gml:444 (scr_buildInputMap)
+
+== Слоты ==
+На каждое действие два слота: input_<action>1 (основная), input_<action>2 (дополнительная).
+-1 = слот пуст. Допустимые коды клавиш: целые 2..255
+(scr_input_normalize_key, scripts/scr_inputApi/scr_inputApi.gml:41-47;
+ vk_lshift/vk_rshift сводятся к vk_shift).
+Контракт input_map — только vk-коды клавиатуры, геймпад в него не входит
+(комментарий scripts/scr_inputApi/scr_inputApi.gml:3-6).
+
+== Дефолтные бинды ==
+global.default_settings — scripts/scr_settingsManager/scr_settingsManager.gml:11-48
+
+| Действие | Слот 1    | Слот 2    | Строки .gml |
+|----------|-----------|-----------|-------------|
+| up       | vk_up     | -1        | 24-25       |
+| down     | vk_down   | -1        | 26-27       |
+| left     | vk_left   | -1        | 28-29       |
+| right    | vk_right  | -1        | 30-31       |
+| confirm  | ord("Z")  | vk_enter  | 34-35       |
+| run      | vk_shift  | -1        | 36-37       |
+| back     | ord("X")  | vk_shift  | 42-43       |
+| menu     | ord("C")  | vk_escape | 44-45       |
+| delete   | ord("B")  | -1        | 46-47       |
+
+== Инициализация ==
+objects/obj_Init/Create_0.gml:
+  :85  global.player_settings = scr_loadSettings();
+  :87  scr_applySettings(global.player_settings);   // внутри: global.input_map = scr_buildInputMap(settings) (scr_settingsManager.gml:336)
+  :94  global.input_map = scr_buildInputMap(global.player_settings);
+  :97  global.input_repeater_defaults = { delay: 200, interval: 120 };
+  :98  global.__input_repeat_state = {};
+  :99-100 global.__gamepad_axis_prev / __gamepad_axis_pressed = { up,down,left,right : false }
+
+scr_buildInputMap — scripts/scr_settingsManager/scr_settingsManager.gml:442-456:
+  для каждого действия a: m[$ a] = [scr_input_normalize_key(input_a1), scr_input_normalize_key(input_a2)]
+
+Сброс биндов: scr_resetInputToDefault — scr_settingsManager.gml:407-420
+  (копирует input_<a>1/2 из global.default_settings по списку scr_input_actions_list).
+
+== Алиасы групп (partial_control whitelist) ==
+scr_input__partial_control_allows — scripts/scr_inputApi/scr_inputApi.gml:123-137 (строки 133-134)
+  "move"     -> up, down, left, right, run
+  "interact" -> confirm
+  пустой allowed_actions -> только "confirm" (legacy-дефолт)

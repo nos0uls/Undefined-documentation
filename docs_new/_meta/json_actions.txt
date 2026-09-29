@@ -1,0 +1,96 @@
+# json_actions.txt — типы JSON-экшенов cutscene_action_factory.gml
+# Для каждого ключа f[$ "type"]: номер строки и читаемые поля.
+# Поля вида 'phases[].x'/'actors[].x' — чтения из вложенных struct.
+
+source: scripts/cutscene_action_factory/cutscene_action_factory.gml (1245 lines)
+dispatch: поле 'type' -> __cutscene_json_normalize_action_type -> global.__cutscene_action_factory[$ type]
+          (__cutscene_json_action_from_struct, scripts/cutscene_load_json/cutscene_load_json.gml:199-221)
+legacy-алиасы типов (normalize, cutscene_load_json.gml:223-235):
+  shakeobj->shake_object, visible->set_visible, instant_mode->set_instant,
+  waittalk/wait_talk->wait_for_dialogue, depth->set_depth, facing->set_facing,
+  autofacing->auto_facing, autowalk->auto_walk
+
+Всего ключей f[$ ...]: 82
+
+wait                         line 6     fields: frames|seconds|duration|time (via __cutscene_json_get_frames)
+move                         line 13    fields: target|target_ref (via __cutscene_json_get_target), x, y, speed_px_sec, speed, collision
+actor_create                 line 30    fields: key, actor_key, actor_name, x, y, sprite_or_object, actor_sprite, copy_from, copy_target
+actor_destroy                line 47    fields: target|target_ref (via __cutscene_json_get_target)
+destroy_entity               line 52    -> alias of 'actor_destroy'
+destroy                      line 53    -> alias of 'actor_destroy'
+follow_path                  line 55    fields: target|target_ref (via __cutscene_json_get_target), points, points (via __cutscene_json_points_to_array: {x,y}|[x,y]), speed_px_sec, collision, autofacing
+run_function                 line 74    fields: function, function_name, fn, args
+mark_node                    line 144   fields: name
+goto                         line 149   fields: target
+dialogue                     line 157   fields: file, node, block_queue, auto_advance
+wait_for_dialogue            line 166   fields: dialogue_controller
+set_dialogue_speed           line 174   fields: speed
+wait_typing                  line 179   fields: (нет)
+dialogue_control             line 183   fields: prevent_skip, stay_open, auto_advance
+set_portrait_next            line 190   fields: target|target_ref (via __cutscene_json_get_target), emotion
+set_portrait_now             line 197   fields: target|target_ref (via __cutscene_json_get_target), emotion
+clear_dialogue               line 204   fields: (нет)
+camera_track                 line 208   fields: target|target_ref (via __cutscene_json_get_target), seconds|duration|time (via __cutscene_json_get_seconds), offset_x, offset_y
+camera_track_until_stop      line 218   fields: target|target_ref (via __cutscene_json_get_target), offset_x, offset_y
+camera_center                line 226   fields: x, y
+camera_pan                   line 234   fields: x, y, seconds|duration|time (via __cutscene_json_get_seconds)
+camera_pan_speed             line 245   fields: speed, speed_px_sec, x, y, seconds|duration|time (via __cutscene_json_get_seconds)
+camera_pan_obj               line 264   fields: target|target_ref (via __cutscene_json_get_target), seconds|duration|time (via __cutscene_json_get_seconds)
+parallel                     line 272   fields: actions
+branch                       line 298   fields: condition, true_actions, false_actions
+branch_flag                  line 335   fields: key, operator, value, true_actions, false_actions
+set_position                 line 368   fields: target|target_ref (via __cutscene_json_get_target), x, y
+move_relative                line 378   fields: target|target_ref (via __cutscene_json_get_target), dx, dy, speed_px_sec, collision
+move_relative_direction      line 391   fields: target|target_ref (via __cutscene_json_get_target), direction, speed_px_sec, seconds|duration|time (via __cutscene_json_get_seconds), collision
+move_direct                  line 405   fields: target|target_ref (via __cutscene_json_get_target), x, y, value, use_speed, seconds|duration|time (via __cutscene_json_get_seconds), frames, collision
+set_position_relative        line 431   fields: target|target_ref (via __cutscene_json_get_target), dx, dy
+set_depth                    line 440   fields: target|target_ref (via __cutscene_json_get_target), depth
+set_property                 line 456   fields: kind, target|target_ref (via __cutscene_json_get_target), property, value
+auto_facing                  line 466   fields: target|target_ref (via __cutscene_json_get_target), enabled
+auto_walk                    line 473   fields: target|target_ref (via __cutscene_json_get_target), enabled
+set_facing                   line 480   fields: target|target_ref (via __cutscene_json_get_target), direction, direction (via __cutscene_json_parse_direction: right/left/up/down|r/l/u/d|num)
+animate                      line 496   fields: target|target_ref (via __cutscene_json_get_target), sprite, image_index, image_speed
+set_animation_frame          line 511   fields: target|target_ref (via __cutscene_json_get_target), image_index, image_speed, pause
+tween                        line 523   fields: kind, target|target_ref (via __cutscene_json_get_target), property, prop, to_value, end_value, frames, seconds|duration|time (via __cutscene_json_get_seconds), duration_frames, easing, ease_name, from_value, start_value_override
+lerp                         line 560   fields: target|target_ref (via __cutscene_json_get_target), property, prop, to_value, end_value, factor, threshold
+tween_camera                 line 582   fields: property, prop, to_value, end_value, frames, seconds|duration|time (via __cutscene_json_get_seconds), duration_frames, easing, ease_name, from_value, start_value_override
+camera_shake                 line 617   fields: seconds|duration|time (via __cutscene_json_get_seconds), magnitude, magnitude_x, magnitude_y, decay, frequency
+fade_in                      line 628   fields: seconds|duration|time (via __cutscene_json_get_seconds), color
+fade_out                     line 635   fields: seconds|duration|time (via __cutscene_json_get_seconds), color
+play_sfx                     line 642   fields: sound, volume, pitch
+play_music                   line 655   fields: sound, track, fade, fade_in_seconds, volume, persist_room_change
+stop_music                   line 684   fields: fade, fade_out_seconds
+music_volume                 line 692   fields: volume, fade
+music_duck                   line 700   fields: multiplier, fade
+music_unduck                 line 708   fields: fade
+music_pitch                  line 715   fields: pitch
+music_pause                  line 722   fields: (нет)
+music_resume                 line 728   fields: (нет)
+play_boss_music              line 734   fields: calm, calm_asset, battle, battle_asset, fade
+stop_boss_music              line 762   fields: fade
+boss_music_phase             line 772   fields: phases, phases[].intro, phases[].calm, phases[].battle, phases[].intensity, phases[].fade, fade
+play_music_intro             line 833   fields: intro, sound, loop, track, fade
+play_music_intro_layered     line 862   fields: intro, calm, battle, fade, start_intensity
+crossfade_music              line 899   fields: intensity, fade
+show_emote                   line 906   fields: target|target_ref (via __cutscene_json_get_target), sprite, seconds|duration|time (via __cutscene_json_get_seconds), offset_x, offset_y, scale, wait
+emote                        line 918   -> alias of 'show_emote'
+set_emotion                  line 920   fields: target|target_ref (via __cutscene_json_get_target), emotion, apply_to_sprite, apply_to_portrait
+jump                         line 929   fields: target|target_ref (via __cutscene_json_get_target), x, y, seconds|duration|time (via __cutscene_json_get_seconds), height, easing
+halt                         line 942   fields: target|target_ref (via __cutscene_json_get_target)
+flip                         line 948   fields: target|target_ref (via __cutscene_json_get_target), flipped
+spin                         line 955   fields: target|target_ref (via __cutscene_json_get_target), speed, frames|seconds|duration|time (via __cutscene_json_get_frames)
+shake_object                 line 964   fields: target|target_ref (via __cutscene_json_get_target), frames|seconds|duration|time (via __cutscene_json_get_frames), magnitude, magnitude_x, magnitude_y, decay, frequency
+set_visible                  line 977   fields: target|target_ref (via __cutscene_json_get_target), visible
+set_instant                  line 984   fields: enabled
+partial_control              line 991   fields: control_type, whitelist, allowed_actions
+wait_for_interact            line 1028  fields: target|target_ref (via __cutscene_json_get_target), timeout, timeout_action, interact_action
+set_flag                     line 1040  fields: key, value
+set_plot                     line 1047  fields: value
+spawn_entity                 line 1052  fields: object, actor_sprite, x, y, key, actor_name, depth, persistent
+schedule_action              line 1082  fields: delay_seconds, blocking, tag, action
+attach_to_target             line 1100  fields: target|target_ref (via __cutscene_json_get_target), parent, parent_ref, offset_x, offset_y, follow_facing, follow_scale, follow_depth, duration_seconds, detach_on_cutscene_end
+detach                       line 1120  fields: target|target_ref (via __cutscene_json_get_target), destroy_after_detach, keep_world_position
+guard_global                 line 1133  fields: var, equals, if_false, actions, stop_when, end_var, end_equals, end_node, end_timeout
+checkpoint_state             line 1159  fields: checkpoint_id, include_actors, include_player, include_camera, include_music, include_globals, include_instances
+restore_state                line 1183  fields: checkpoint_id, cleanup_transients, restore_camera, restore_music, on_missing
+room_change                  line 1200  fields: room, player_x, player_y, actors, actors[].x, actors[].y

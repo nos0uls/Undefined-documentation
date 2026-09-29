@@ -1,0 +1,2343 @@
+# scripts.txt — инвентарь scripts/**/*.gml
+# Для каждого файла: строки 'function ...', '/// @function', '/// @description', '/// @desc'
+# с номерами строк (grep -n).
+# Файлов с объявлениями: 351; объявлений 'function': 888
+
+=== scripts/ChatterboxAddFindReplace/ChatterboxAddFindReplace.gml ===
+     8: function ChatterboxAddFindReplace(_old, _new)
+
+=== scripts/ChatterboxAddFunction/ChatterboxAddFunction.gml ===
+    29: function ChatterboxAddFunction(_name, _in_function)
+
+=== scripts/ChatterboxContinue/ChatterboxContinue.gml ===
+     9: function ChatterboxContinue(_chatterbox, _name = "")
+
+=== scripts/ChatterboxCreate/ChatterboxCreate.gml ===
+    17: function ChatterboxCreate()
+    36: function __ChatterboxClass(_filename, _singleton, _local_scope) constructor
+
+=== scripts/ChatterboxFastForward/ChatterboxFastForward.gml ===
+     6: function ChatterboxFastForward(_chatterbox)
+
+=== scripts/ChatterboxGetAllContentString/ChatterboxGetAllContentString.gml ===
+     8: function ChatterboxGetAllContentString(_chatterbox, _separator = "\n")
+
+=== scripts/ChatterboxGetContent/ChatterboxGetContent.gml ===
+     7: function ChatterboxGetContent(_chatterbox, _index)
+
+=== scripts/ChatterboxGetContentArray/ChatterboxGetContentArray.gml ===
+    14: function ChatterboxGetContentArray(_chatterbox)
+
+=== scripts/ChatterboxGetContentCount/ChatterboxGetContentCount.gml ===
+     6: function ChatterboxGetContentCount(_chatterbox)
+
+=== scripts/ChatterboxGetContentMetadata/ChatterboxGetContentMetadata.gml ===
+     7: function ChatterboxGetContentMetadata(_chatterbox, _index)
+
+=== scripts/ChatterboxGetContentSpeaker/ChatterboxGetContentSpeaker.gml ===
+     8: function ChatterboxGetContentSpeaker(_chatterbox, _index, _default = "")
+
+=== scripts/ChatterboxGetContentSpeakerData/ChatterboxGetContentSpeakerData.gml ===
+     8: function ChatterboxGetContentSpeakerData(_chatterbox, _index, _default = "")
+
+=== scripts/ChatterboxGetContentSpeech/ChatterboxGetContentSpeech.gml ===
+     8: function ChatterboxGetContentSpeech(_chatterbox, _index, _default = "")
+
+=== scripts/ChatterboxGetCurrent/ChatterboxGetCurrent.gml ===
+     6: function ChatterboxGetCurrent(_chatterbox)
+
+=== scripts/ChatterboxGetCurrentMetadata/ChatterboxGetCurrentMetadata.gml ===
+     6: function ChatterboxGetCurrentMetadata(_chatterbox)
+
+=== scripts/ChatterboxGetCurrentSource/ChatterboxGetCurrentSource.gml ===
+     6: function ChatterboxGetCurrentSource(_chatterbox)
+
+=== scripts/ChatterboxGetOption/ChatterboxGetOption.gml ===
+     7: function ChatterboxGetOption(_chatterbox, _index)
+
+=== scripts/ChatterboxGetOptionArray/ChatterboxGetOptionArray.gml ===
+    15: function ChatterboxGetOptionArray(_chatterbox)
+
+=== scripts/ChatterboxGetOptionChosen/ChatterboxGetOptionChosen.gml ===
+     7: function ChatterboxGetOptionChosen(_chatterbox, _index)
+
+=== scripts/ChatterboxGetOptionConditionBool/ChatterboxGetOptionConditionBool.gml ===
+     7: function ChatterboxGetOptionConditionBool(_chatterbox, _index)
+
+=== scripts/ChatterboxGetOptionCount/ChatterboxGetOptionCount.gml ===
+     6: function ChatterboxGetOptionCount(_chatterbox)
+
+=== scripts/ChatterboxGetOptionMetadata/ChatterboxGetOptionMetadata.gml ===
+     7: function ChatterboxGetOptionMetadata(_chatterbox, _index)
+
+=== scripts/ChatterboxGetOptionSpeaker/ChatterboxGetOptionSpeaker.gml ===
+     9: function ChatterboxGetOptionSpeaker(_chatterbox, _index, _default = "")
+
+=== scripts/ChatterboxGetOptionSpeakerData/ChatterboxGetOptionSpeakerData.gml ===
+     9: function ChatterboxGetOptionSpeakerData(_chatterbox, _index, _default = "")
+
+=== scripts/ChatterboxGetOptionSpeech/ChatterboxGetOptionSpeech.gml ===
+     9: function ChatterboxGetOptionSpeech(_chatterbox, _index, _default = "")
+
+=== scripts/ChatterboxGetPrevious/ChatterboxGetPrevious.gml ===
+     7: function ChatterboxGetPrevious(_chatterbox)
+
+=== scripts/ChatterboxGetSourceNodeArray/ChatterboxGetSourceNodeArray.gml ===
+     7: function ChatterboxGetSourceNodeArray(_aliasName)
+
+=== scripts/ChatterboxGetVisited/ChatterboxGetVisited.gml ===
+     5: function ChatterboxGetVisited(_node_title, _filename)
+
+=== scripts/ChatterboxHop/ChatterboxHop.gml ===
+     9: function ChatterboxHop(_chatterbox, _title, _filename = undefined)
+
+=== scripts/ChatterboxHopBack/ChatterboxHopBack.gml ===
+     7: function ChatterboxHopBack(_chatterbox)
+
+=== scripts/ChatterboxIsLoaded/ChatterboxIsLoaded.gml ===
+     6: function ChatterboxIsLoaded(_aliasName)
+
+=== scripts/ChatterboxIsStopped/ChatterboxIsStopped.gml ===
+     6: function ChatterboxIsStopped(_chatterbox)
+
+=== scripts/ChatterboxIsWaiting/ChatterboxIsWaiting.gml ===
+     8: function ChatterboxIsWaiting(_chatterbox)
+
+=== scripts/ChatterboxJump/ChatterboxJump.gml ===
+     9: function ChatterboxJump(_chatterbox, _title, _filename = undefined)
+
+=== scripts/ChatterboxJumpBack/ChatterboxJumpBack.gml ===
+     7: function ChatterboxJumpBack(_chatterbox)
+
+=== scripts/ChatterboxLoadFromBuffer/ChatterboxLoadFromBuffer.gml ===
+     8: function ChatterboxLoadFromBuffer(_aliasName, _buffer)
+
+=== scripts/ChatterboxLoadFromFile/ChatterboxLoadFromFile.gml ===
+     8: function ChatterboxLoadFromFile(_path, _aliasName = _path)
+
+=== scripts/ChatterboxLoadFromString/ChatterboxLoadFromString.gml ===
+     8: function ChatterboxLoadFromString(_aliasName, _string)
+
+=== scripts/ChatterboxLocalizationBuild/ChatterboxLocalizationBuild.gml ===
+    16: function ChatterboxLocalizationBuild(_chatter_path_array, _csv_path_array)
+
+=== scripts/ChatterboxLocalizationClear/ChatterboxLocalizationClear.gml ===
+     6: function ChatterboxLocalizationClear()
+
+=== scripts/ChatterboxLocalizationLoad/ChatterboxLocalizationLoad.gml ===
+    10: function ChatterboxLocalizationLoad(_path)
+
+=== scripts/ChatterboxNodeChangeCallback/ChatterboxNodeChangeCallback.gml ===
+    14: function ChatterboxNodeChangeCallback(_function)
+
+=== scripts/ChatterboxSelect/ChatterboxSelect.gml ===
+     9: function ChatterboxSelect(_chatterbox, _index)
+
+=== scripts/ChatterboxSourceGetNodeMetadata/ChatterboxSourceGetNodeMetadata.gml ===
+     7: function ChatterboxSourceGetNodeMetadata(_aliasName, _nodeTitle)
+
+=== scripts/ChatterboxSourceGetNodeTitles/ChatterboxSourceGetNodeTitles.gml ===
+     6: function ChatterboxSourceGetNodeTitles(_aliasName)
+
+=== scripts/ChatterboxSourceGetTags/ChatterboxSourceGetTags.gml ===
+     6: function ChatterboxSourceGetTags(_aliasName)
+
+=== scripts/ChatterboxSourceNodeCount/ChatterboxSourceNodeCount.gml ===
+     6: function ChatterboxSourceNodeCount(_aliasName)
+
+=== scripts/ChatterboxSourceNodeExists/ChatterboxSourceNodeExists.gml ===
+     7: function ChatterboxSourceNodeExists(_aliasName, _nodeTitle)
+
+=== scripts/ChatterboxStop/ChatterboxStop.gml ===
+     6: function ChatterboxStop(_chatterbox)
+
+=== scripts/ChatterboxUnload/ChatterboxUnload.gml ===
+     6: function ChatterboxUnload(_aliasName)
+
+=== scripts/ChatterboxVariableDefault/ChatterboxVariableDefault.gml ===
+     8: function ChatterboxVariableDefault(_name, _value)
+
+=== scripts/ChatterboxVariableGet/ChatterboxVariableGet.gml ===
+    10: function ChatterboxVariableGet()
+
+=== scripts/ChatterboxVariableReset/ChatterboxVariableReset.gml ===
+     4: function ChatterboxVariableReset(_name)
+
+=== scripts/ChatterboxVariableSet/ChatterboxVariableSet.gml ===
+     9: function ChatterboxVariableSet(_name, _value)
+
+=== scripts/ChatterboxVariableSetCallback/ChatterboxVariableSetCallback.gml ===
+    13: function ChatterboxVariableSetCallback(_function)
+
+=== scripts/ChatterboxVariableSetConstant/ChatterboxVariableSetConstant.gml ===
+     9: function ChatterboxVariableSetConstant(_name, _value)
+
+=== scripts/ChatterboxVariablesClearVisited/ChatterboxVariablesClearVisited.gml ===
+     8: function ChatterboxVariablesClearVisited(_node, _filename)
+
+=== scripts/ChatterboxVariablesClearVisitedAll/ChatterboxVariablesClearVisitedAll.gml ===
+     5: function ChatterboxVariablesClearVisitedAll()
+
+=== scripts/ChatterboxVariablesExport/ChatterboxVariablesExport.gml ===
+     4: function ChatterboxVariablesExport()
+
+=== scripts/ChatterboxVariablesFind/ChatterboxVariablesFind.gml ===
+    13: function ChatterboxVariablesFind(_substring, _mode, _case_sensitive)
+
+=== scripts/ChatterboxVariablesImport/ChatterboxVariablesImport.gml ===
+     7: function ChatterboxVariablesImport(_string)
+
+=== scripts/ChatterboxVariablesResetAll/ChatterboxVariablesResetAll.gml ===
+     2: function ChatterboxVariablesResetAll()
+
+=== scripts/ChatterboxWait/ChatterboxWait.gml ===
+     7: function ChatterboxWait(_chatterbox, _name = "")
+
+=== scripts/IsChatterbox/IsChatterbox.gml ===
+     6: function IsChatterbox(_value)
+
+=== scripts/TGMX_0_MainTweens/TGMX_0_MainTweens.gml ===
+    15: /// @description Tween a property between start/destination values (auto-destroyed)
+    26: function TweenFire()
+   103: /// @function TweenCreate( target, [ease, mode, delta, delay, dur, prop, start, dest, ...] )
+   104: /// @description Creates a tween to be started with TweenPlay*() (not auto-destroyed)
+   115: function TweenCreate()
+   196: /// @description	Plays a tween previously created with TweenCreate()
+   207: function TweenPlay()
+   293: /// @function TweenPlayDelay( tween[s], delay )
+   294: /// @description Plays tween[s] defined with TweenCreate*() after a set delay
+   297: function TweenPlayDelay(_t, _delay)
+   317: /// @function TweenMore( tween, target, ease, mode, delta, delay, dur, prop, start, dest, ... )
+   318: /// @description Allows for chaining of tweens by adding a tween to be fired after the indicated tween finishes
+   330: function TweenMore()
+   428: /// @function TweenScript( target, delta, dur, script, [arg0, ...] )
+   429: /// @description Schedules a script to be executed after a set duration of time
+   435: function TweenScript(_target, _delta, _dur, _script)
+   495: /// @function TweenMoreScript( tween, target, delta, dur, script, [arg0, ...])
+   496: /// @description Allows for the chaining of script scheduling
+   503: function TweenMoreScript()
+   574: /// @function TweenDefine( tween, ease, mode, delta, delay, dur, prop, start, dest, [...] )
+   575: /// @description			Redefines a tween
+   586: function TweenDefine()
+
+=== scripts/TGMX_1_EasyTweens/TGMX_1_EasyTweens.gml ===
+    10: /// @function TweenEasyUseDelta( [use_seconds?] )
+    11: /// @description Toggle between using step or delta/seconds timing for "Easy Tweens"
+    13: function TweenEasyUseDelta(_use_seconds)
+    28: /// @function TweenEasyMove( x1, y1, x2, y2, delay, duration, ease, [mode] )
+    29: /// @description Eases x|y position over a duration of time
+    38: function TweenEasyMove(_x1, _y1, _x2, _y2, _delay, _duration, _ease, _mode=0)
+    63: /// @function TweenEasyScale( x1, y1, x2, y2, delay, duration, ease, [mode] )
+    64: /// @description Eases image x|y scale over a duration of time
+    73: function TweenEasyScale(_x1, _y1, _x2, _y2, _delay, _duration, _ease, _mode=0)
+    98: /// @function TweenEasyRotate( angle1, angle2, delay, duration, ease, [mode] )
+    99: /// @description Eases image angle over a duration of time
+   106: function TweenEasyRotate(_angle1, _angle2, _delay, _duration, _ease, _mode=0)
+   131: /// @function TweenEasyFade( alpha1, alpha2, delay, duration, ease, [mode] )
+   132: /// @description Eases image alpha over a duration of time
+   139: function TweenEasyFade(_alpha1, _alpha2, _delay, _duration, _ease, _mode=0)
+   164: /// @function TweenEasyBlend( col1, col2, delay, duration, ease, [mode] )
+   165: /// @description Eases image blend over a duration of time
+   172: function TweenEasyBlend(_col1, _col2, _delay, _duration, _ease, _mode=0)
+   197: /// @function TweenEasyImage( index1, index2, delay, duration, ease, [mode] )
+   198: /// @description Eases image index over a duration of time
+   205: function TweenEasyImage(_index1, _index2, _delay, _duration, _ease, _mode=0)
+   230: /// @function TweenEasyTurn( dir1, dir2, delay, duration, ease, [mode] )
+   231: /// @description Eases direction over a duration of time
+   238: function TweenEasyTurn(_dir1, _dir2, _delay, _duration, _ease, _mode=0)
+   263: /// @function TweenEasySpeed( spd1, spd2, delay, duration, ease, [mode] )
+   264: /// @description Eases speed over a duration of time
+   271: function TweenEasySpeed(_spd1, _spd2, _delay, _duration, _ease, _mode=0)
+   296: /// @function TweenEasySpeedHV( hspd1, vspd1, hspd2, vspd2, delay, duration, ease, [mode] )
+   297: /// @description Eases hspeed and vspeed over a duration of time
+   306: function TweenEasySpeedHV(_hspd1, _vspd1, _hspd2, _vspd2, _delay, _duration, _ease, _mode=0)
+   331: /// @function TweenEasyPath( path, absolute, delay, duration, ease, [mode] )
+   332: /// @description Eases position using a path resource over a duration of time
+   339: function TweenEasyPath(_path, _absolute, _delay, _duration, _ease, _mode=0)
+
+=== scripts/TGMX_2_EaseFunctions/TGMX_2_EaseFunctions.gml ===
+     9: /// @function Ease( value1, value2, amount, ease )
+    10: /// @description Interpolates two values by a given amount using specified ease algorithm
+    15: function Ease(_value1, _value2, _amount, _ease)
+    47: /// @function EaseToString( name, ease|curve|channel, [channel] )
+    48: /// @description Assigns usable "string" name to a ease function or animation curve
+    52: function EaseToString(_name, _ease, _channel=0)
+    97: /// @function EaseToCurve( ease, [num_points], [force] )
+   101: function EaseToCurve(_ease, _num_points=120, _force=false)
+   162: function EaseLinear(_time, _start, _change, _duration)
+   174: function EaseInQuad(_time, _start, _change, _duration)
+   183: function EaseOutQuad(_time, _start, _change, _duration)
+   192: function EaseInOutQuad(_time, _start, _change, _duration)
+   206: function EaseInCubic(_time, _start, _change, _duration)
+   215: function EaseOutCubic(_time, _start, _change, _duration)
+   224: function EaseInOutCubic(_time, _start, _change, _duration)
+   238: function EaseInQuart(_time, _start, _change, _duration)
+   247: function EaseOutQuart(_time, _start, _change, _duration)
+   257: function EaseInOutQuart(_time, _start, _change, _duration)
+   271: function EaseInQuint(_time, _start, _change, _duration)
+   280: function EaseOutQuint(_time, _start, _change, _duration)
+   289: function EaseInOutQuint(_time, _start, _change, _duration)
+   303: function EaseInSine(_time, _start, _change, _duration)
+   312: function EaseOutSine(_time, _start, _change, _duration)
+   321: function EaseInOutSine(_time, _start, _change, _duration)
+   333: function EaseInCirc(_time, _start, _change, _duration)
+   342: function EaseOutCirc(_time, _start, _change, _duration)
+   352: function EaseInOutCirc(_time, _start, _change, _duration)
+   366: function EaseInExpo(_time, _start, _change, _duration)
+   375: function EaseOutExpo(_time, _start, _change, _duration)
+   384: function EaseInOutExpo(_time, _start, _change, _duration)
+   400: function EaseInBack(_time, _start, _change, _duration)
+   411: function EaseOutBack(_time, _start, _change, _duration)
+   422: function EaseInOutBack(_time, _start, _change, _duration)
+   443: function EaseInBackSoft(_time, _start, _change, _duration)
+   454: function EaseInBackSofter(_time, _start, _change, _duration)
+   465: function EaseOutBackSoft(_time, _start, _change, _duration)
+   477: function EaseOutBackSofter(_time, _start, _change, _duration)
+   489: function EaseInOutBackSoft(_time, _start, _change, _duration)
+   510: function EaseInOutBackSofter(_time, _start, _change, _duration)
+   534: function EaseInBounce(_time, _start, _change, _duration)
+   543: function EaseOutBounce(_time, _start, _change, _duration)
+   574: function EaseInOutBounce(_time, _start, _change, _duration)
+   587: function EaseInElastic(_time, _start, _change, _duration)
+   617: function EaseOutElastic(_time, _start, _change, _duration)
+   647: function EaseInOutElastic(_time, _start, _change, _duration)
+   676: function TGMX_2_EaseFunctions()
+
+=== scripts/TGMX_3_EventCallbacks/TGMX_3_EventCallbacks.gml ===
+    16: /// @function TweenAddCallback( tween, event, target, func|user, [arg0, ...] );
+    17: /// @description Adds function or user event to be called on specified tween event
+    24: function TweenAddCallback(_tweenID, _event, _target, _func)
+   148: /// @function TweenAddCallbackUser( tween, event, target, user_event )
+   149: /// @description Adds user event to be called at specified tween event
+   154: function TweenAddCallbackUser(_tweenID, _event, _target, _user)
+   160: /// @function TweenCallbackEnable( callback, enable )
+   161: /// @description Enables/disables specified callbacks
+   164: function TweenCallbackEnable(_callback, _enable)
+   173: /// @function TweenCallbackInvalidate( callback )
+   174: /// @description Removes callback from its associated tween event
+   176: function TweenCallbackInvalidate(_callback)
+   197: /// @function TweenCallbackIsEnabled( callback )
+   198: /// @description Checks if callback is enabled
+   200: function TweenCallbackIsEnabled(_callback)
+   211: /// @function TweenCallbackIsValid( callback )
+   212: /// @description Checks if callback id is valid
+   214: function TweenCallbackIsValid(_callback)
+   236: /// @function TweenEventClear( tween[s], event )
+   237: /// @description Invalidates all callbacks associated with tween event
+   240: function TweenEventClear(_t, _event)
+   289: /// @function TweenEventEnable( tween[s], event, enable? )
+   290: /// @description Enables/disables specified tween event
+   294: function TweenEventEnable(_t, _event, _enable)
+   338: /// @function TweenEventIsEnabled( tween, event )
+   339: /// @description Checks if tween event is enabled
+   342: function TweenEventIsEnabled(_t, _event)
+
+=== scripts/TGMX_4_TweenState/TGMX_4_TweenState.gml ===
+    32: /// @function TweenExists( tween )
+    33: /// @description Checks if tween exists
+    35: function TweenExists(_t)
+    85: /// @function TweenIsActive( tween )
+    88: function TweenIsActive()
+   108: /// @function TweenIsPlaying( [tween] )
+   109: /// @description Checks if tween is playing
+   111: function TweenIsPlaying()
+   131: /// @function TweenIsPaused( tween )
+   132: /// @description Checks if tween is paused
+   134: function TweenIsPaused()
+   154: /// @function TweenIsResting( tween )
+   155: /// @description Checks if tween is resting
+   157: function TweenIsResting()
+   182: /// @function TweenJustStarted( tween )
+   183: /// @description Checks if tween just started playing in current step
+   185: function TweenJustStarted(_t)
+   193: /// @function TweenJustFinished( tween )
+   194: /// @description Checks to see if the tween just finished in current step
+   196: function TweenJustFinished(_t)
+   204: /// @function TweenJustStopped( tween )
+   205: ///	@description Checks if tween just stopped in current step
+   207: function TweenJustStopped(_t)
+   215: /// @function TweenJustPaused( tween )
+   216: /// @description Checks if tween was just paused in current step
+   218: function TweenJustPaused(_t)
+   226: /// @function TweenJustResumed( tween )
+   227: /// @description Checks if tween was just resumed in current step
+   229: function TweenJustResumed(_t)
+   237: /// @function TweenJustRested( tween )
+   238: /// @description Checks if tween started to rest in current step
+   240: function TweenJustRested(_t)
+   248: /// @function TweenJustContinued( tween )
+   249: /// @description Checks if tween just continued in current step
+   251: function TweenJustContinued(_t)
+   259: /// @function TweenStop( tweens[s] )
+   260: /// @description Stops selected tweens[s]
+   262: function TweenStop(_t)
+   295: /// @function TweenPause( tween[s] )
+   296: /// @description Pauses selected tweens[s]
+   298: function TweenPause(_t)
+   326: /// @function TweenResume( tween[s] )
+   327: /// @description Resumes selected tweens[s]
+   329: function TweenResume(_t)
+   359: /// @function TweenReverse( tween[s] )
+   360: /// @description Reverses selected tween[s]
+   362: function TweenReverse(_t)
+   386: /// @description Finishes selected tween{s}
+   391: function TweenFinish(_t, _callEvent=true, _finishDelay=true, _callDelayEvent=true)
+   494: /// @function TweenFinishDelay( tween[s], [call_event?] )
+   495: /// @description Finishes delay for selected tweens[s]
+   498: function TweenFinishDelay(_t, _callEvent=true)
+   530: /// @function TweenDestroy( tween[s] )
+   531: /// @description Manually destroys selected tweens[s]
+   533: function TweenDestroy(_t)
+   590: /// @function TweenDestroyWhenDone( tween[s], [destroy?], [kill_target?] )
+   591: /// @description Forces tween to be destroyed when finished or stopped
+   595: function TweenDestroyWhenDone(_t, _destroy=1, _kill_target=0)
+
+=== scripts/TGMX_5_TweenGetSet/TGMX_5_TweenGetSet.gml ===
+    17: /// @function TweenGroupGetTimeScale( group )
+    19: function TweenGroupGetTimeScale(_group)
+    32: /// @function TweenGroupSetTimeScale( group, time_scale )
+    35: function TweenGroupSetTimeScale(_group, _timescale)
+    52: /// @function TweenDefaultGet( "data_label" )
+    53: /// @description gets the default base values for newly created tweens
+    55: function TweenDefaultGet(_data_label)
+    64: /// @function TweenDefaultSet( "data_label", _value, [...] )
+    65: /// @description sets the default base values for newly created tweens
+    70: function TweenDefaultSet(_label)
+    86: /// @function TweenGet( tween, "data_label" )
+    87: /// @description returns the data values for a tween
+    90: function TweenGet(_t, _data_label)
+   346: /// @description Sets specified data values for selected tween[s]
+   351: function TweenSet(_t, _data_label)
+
+=== scripts/TGMX_6_TweenTools/TGMX_6_TweenTools.gml ===
+    10: /// @function TweensIncludeDeactivated( include? )
+    11: /// @description Include tweens with deactivated targets? Used by Tweens() function. Default: false
+    13: function TweensIncludeDeactivated(_include)
+    20: /// @function TweenCalc( tween, [amount] )
+    21: /// @description Returns a calculated value using a tweens current state
+    25: function TweenCalc(_t)
+   105: /// @function TweenStep( tween[s], amount )
+   106: /// @description Steps a paused tween forward or backward by a set amount
+   109: function TweenStep(_t, _amount=1)
+   193: /// @function TweensFetch( tweens )
+   195: /// @description Returns an array of selected tweens
+   196: function TweensFetch(_tStruct=all)
+
+=== scripts/TGMX_7_Properties/TGMX_7_Properties.gml ===
+     8: /// @function TPFunc( target, name, setter, [getter] )
+    13: function TPFunc(_target, _name, _setter)
+    43: /// @function TPFuncShared( name, setter, getter )
+    47: function TPFuncShared(_name, _setter, _getter=undefined)
+    62: /// @function TPFuncSharedNormal( name, setter, [getter] )
+    66: function TPFuncSharedNormal(_name, _setter)
+    91: /// @function TPModify( property, func, [args] )
+    97: /// @function TPCeil( property )
+    99: function TPCeil(_property) { return [TPCeil, _property, undefined, undefined, undefined, undefined, undefined]; }
+   101: /// @function TPFloor( property )
+   103: function TPFloor(_property) { return [TPFloor, _property, undefined, undefined, undefined, undefined, undefined]; }
+   105: /// @function TPRound( property )
+   107: function TPRound(_property) { return [TPRound, _property, undefined, undefined, undefined, undefined, undefined]; }
+   109: /// @function TPSnap( property, snap )
+   112: function TPSnap(_property, _snap) { return [TPSnap, _property, undefined, undefined, undefined, undefined, undefined, _snap]; }
+   114: /// @function TPShake( property, amount )
+   117: function TPShake(_property, _amount) { return [TPShake, _property, undefined, undefined, undefined, undefined, undefined, _amount]; }
+   126: /// @function TPArray( array, index );
+   129: function TPArray(_array, _index) { return [TPArray, _array, _index]; }
+   131: /// @function TPGrid( grid, x, y )
+   135: function TPGrid(_grid, _x, _y)	{ return [TPGrid, _grid, _x, _y]; }
+   137: /// @function TPList( list, index )
+   140: function TPList(_list, _index) { return [TPList, _list, _index]; }
+   142: /// @function TPMap( map, key )
+   145: function TPMap(_map, _key) { return [TPMap, _map, _key]; }
+   152: /// @function TPTarget( target, name )
+   156: function TPTarget(_target, _name)
+   185: /// @function TPCol( name )
+   187: function TPCol(_property) { return [TPCol, _property, undefined, undefined, undefined, undefined, undefined]; }
+   189: /// @function TPPath( path, absolute? )
+   192: function TPPath(_path, _absolute) { return [TPPath, _path, _absolute]; }
+   194: /// @function TPPathExt( path, x, y )
+   198: function TPPathExt(_path, _x, _y) { return [TPPath, _path, _x, _y]; } _=TPPathExt;
+   200: /// @function TPUser( user_event )
+   203: function TPUser(_user_event)
+   219: function TGMX_PROCESS_PROPERTY_MODIFIER(_value, _target, _data, _tween)
+   342: function TGMX_7_Properties()
+   826: function TGMX_Variable_Get(_target, _variable, _caller, _caller_other)
+
+=== scripts/TGMX_8_SystemUtilities/TGMX_8_SystemUtilities.gml ===
+    12: /// @function TweenSystemGet( data_label )
+    13: /// @description Return value for selected tweening system property
+    15: function TweenSystemGet(_data_label)
+    85: /// @function TweenSystemSet( data_label, value )
+    86: /// @description Set value for specified tweening system property
+    89: function TweenSystemSet(_data_label, _value)
+   152: /// @function TweenSystemFlushDestroyed()
+   153: /// @description Override memory manager to immediately clear destroyed tweens
+   154: function TweenSystemFlushDestroyed()
+   165: /// @function TweenSystemClear( room )
+   166: /// @description Clear tweens in inactive persistent room[s]
+   168: function TweenSystemClearRoom(_room)
+
+=== scripts/TGMX_Experimental/TGMX_Experimental.gml ===
+    16: /// @function TPTrack(property, start, track_target, track_variable)
+    17: function TPTrack(_property, _start, _track_target, _track_variable)
+
+=== scripts/TGMX_System/TGMX_System.gml ===
+   107: /// @function TGMX_Begin()
+   108: /// @description TGMX ADMIN: Initialization
+   109: function TGMX_Begin()
+   412: /// @function TGMX_Cleanup()
+   413: /// @description TGMX ADMIN: Clean up system
+   414: function TGMX_Cleanup()
+   477: /// @function SharedTweener()
+   478: /// @description Manages Shared Tweener creation/retrieval
+   479: function SharedTweener()
+   498: /// @function TGMX_FetchTween( tween_id )
+   499: /// @description TGMX ADMIN: Retrieves raw tween array from tween id
+   502: function TGMX_FetchTween(_tID)
+   546: /// @function TGMX_TargetExists( target )
+   547: /// @description TGMX ADMIN: Checks to see if a tween's target is still valid
+   550: function TGMX_TargetExists(_target)
+   585: /// @function TGMX_StringStrip( string, [offset] )
+   586: /// @description Lowers strings and removes underscores -- uses cache
+   589: function TGMX_StringStrip(_string, _offset=0)
+   623: /// @function TGMX_Tween( script, args, [tween_id] )
+   624: /// @description TGMX ADMIN: Base function for creating and playing tweens
+   628: function TGMX_Tween(_script, _args, _tID)
+  1310: /// @function TGMX_TweenPreprocess( tween_array )
+  1311: /// @description TGMX ADMIN: Prepares a tween's data to be useable
+  1313: function TGMX_TweenPreprocess(_t)
+  1885: /// @function TGMX_TweenProcess( tween_array, time, data, target )
+  1886: /// @description TGMX ADMIN: Processes tween algorithm and updates properties
+  1891: function TGMX_TweenProcess(_t, _time, _d, _target)
+  2025: /// @function TGMX_ExecuteEvent( tween_array, event_type )
+  2026: /// @description TGMX_ADMIN: Executes a tween's event callbacks
+  2029: function TGMX_ExecuteEvent(_t, _eventType)
+  2132: /// @function TGMX_TweensExecute( tweens, script, [args0, ...] )
+  2133: /// @description TGMX ADMIN: Iterates over selected tweens and performs specified function for each
+  2137: function TGMX_TweensExecute(_tStruct, _script)
+  2377: /// @function TGMX_TweensExecuteBool( tweens, script, [args0, ...] )
+  2378: /// @description TGMX ADMIN: Iterates over selected tweens and returns true if any condition for tween is true
+  2382: function TGMX_TweensExecuteBool(_tStruct, _script)
+  2657: function TGMX_TweenBoundsSwap(_t)
+  2736: function TGMX_TweenHasReachedBounds(_t, _target, _time, _timeScaleDelta)
+
+=== scripts/__ChatterboxArrayCopyPart/__ChatterboxArrayCopyPart.gml ===
+     7: function __ChatterboxArrayCopyPart(_array, _index, _count)
+
+=== scripts/__ChatterboxArrayToString/__ChatterboxArrayToString.gml ===
+     5: function __ChatterboxArrayToString(_array)
+
+=== scripts/__ChatterboxBufferBatch/__ChatterboxBufferBatch.gml ===
+    24: function __ChatterboxBufferBatch() constructor
+
+=== scripts/__ChatterboxClassBodySubstring/__ChatterboxClassBodySubstring.gml ===
+     2: function __ChatterboxClassBodySubstring(_text, _type, _line, _indent, _buffer_start, _buffer_end) constructor
+
+=== scripts/__ChatterboxClassInstruction/__ChatterboxClassInstruction.gml ===
+     5: function __ChatterboxClassInstruction(_type, _line, _indent) constructor
+    21: function __ChatterboxInstructionAdd(_parent, _child)
+
+=== scripts/__ChatterboxClassLine/__ChatterboxClassLine.gml ===
+     2: function __ChatterboxClassLine() constructor
+
+=== scripts/__ChatterboxClassNode/__ChatterboxClassNode.gml ===
+    10: function __ChatterboxClassNode(_filename, _node_metadata, _compile, _buffer, _buffer_start, _buffer_end) constructor
+
+=== scripts/__ChatterboxClassSource/__ChatterboxClassSource.gml ===
+     6: function __ChatterboxClassSource(_filename, _buffer, _compile) constructor
+   123: function __ChatterboxParseChatterScript(_buffer)
+
+=== scripts/__ChatterboxClassText/__ChatterboxClassText.gml ===
+     4: function __ChatterboxClassText(_string) constructor
+
+=== scripts/__ChatterboxCompile/__ChatterboxCompile.gml ===
+     6: function __ChatterboxCompile(_in_substring_array, _root_instruction, _hash_prefix)
+
+=== scripts/__ChatterboxCompilerRemoveWhitespace/__ChatterboxCompilerRemoveWhitespace.gml ===
+     6: function __ChatterboxCompilerRemoveWhitespace(_string, _leading)
+
+=== scripts/__ChatterboxContentExtractSpeaker/__ChatterboxContentExtractSpeaker.gml ===
+     3: function __ChatterboxContentExtractSpeaker(_string, _default = "")
+
+=== scripts/__ChatterboxContentExtractSpeakerData/__ChatterboxContentExtractSpeakerData.gml ===
+     3: function __ChatterboxContentExtractSpeakerData(_string, _default = "")
+
+=== scripts/__ChatterboxContentExtractSpeech/__ChatterboxContentExtractSpeech.gml ===
+     3: function __ChatterboxContentExtractSpeech(_string, _default)
+
+=== scripts/__ChatterboxError/__ChatterboxError.gml ===
+     5: function __ChatterboxError()
+
+=== scripts/__ChatterboxEscapeForCSV/__ChatterboxEscapeForCSV.gml ===
+     2: function __ChatterboxEscapeForCSV(_string)
+
+=== scripts/__ChatterboxEvaluate/__ChatterboxEvaluate.gml ===
+     8: function __ChatterboxEvaluate(_local_scope, _filename, _expression, _behaviour, _optionUUID)
+
+=== scripts/__ChatterboxExpressionFuncs/__ChatterboxExpressionFuncs.gml ===
+     5: function __ChatterboxParseExpression(_string, _alt_direction_syntax)
+   373: function __ChatterboxCompileExpression(_source_array)
+   545: function __chatterboxTokenIsSymbol(_token, _ignore_close_paren)
+
+=== scripts/__ChatterboxGenerateIndent/__ChatterboxGenerateIndent.gml ===
+     5: function __ChatterboxGenerateIndent(_size)
+
+=== scripts/__ChatterboxLocalizationLoadIntoMap/__ChatterboxLocalizationLoadIntoMap.gml ===
+     2: function __ChatterboxLocalizationLoadIntoMap(_path, _map, _read_hash = false)
+
+=== scripts/__ChatterboxMetadataStringIsLineHash/__ChatterboxMetadataStringIsLineHash.gml ===
+     2: function __ChatterboxMetadataStringIsLineHash(_string)
+
+=== scripts/__ChatterboxReadUTF8Char/__ChatterboxReadUTF8Char.gml ===
+     5: function __ChatterboxReadUTF8Char(_buffer)
+
+=== scripts/__ChatterboxReadableValue/__ChatterboxReadableValue.gml ===
+     3: function __ChatterboxReadableValue(_value)
+
+=== scripts/__ChatterboxReplaceBackslashes/__ChatterboxReplaceBackslashes.gml ===
+     3: function __ChatterboxReplaceBackslashes(_aliasName)
+
+=== scripts/__ChatterboxSplitBody/__ChatterboxSplitBody.gml ===
+     7: function __ChatterboxSplitBody(_source_buffer, _source_buffer_start, _source_buffer_end, _apply_string_replacement)
+
+=== scripts/__ChatterboxString/__ChatterboxString.gml ===
+     5: function __ChatterboxString(_value)
+
+=== scripts/__ChatterboxStringLimit/__ChatterboxStringLimit.gml ===
+     3: function __ChatterboxStringLimit(_string, _max_length)
+
+=== scripts/__ChatterboxStripLeadingWhitespace/__ChatterboxStripLeadingWhitespace.gml ===
+     3: function __ChatterboxStripLeadingWhitespace(_string)
+
+=== scripts/__ChatterboxStripOuterWhitespace/__ChatterboxStripOuterWhitespace.gml ===
+     3: function __ChatterboxStripOuterWhitespace(_string)
+
+=== scripts/__ChatterboxStripTrailingWhitespace/__ChatterboxStripTrailingWhitespace.gml ===
+     3: function __ChatterboxStripTrailingWhitespace(_string)
+
+=== scripts/__ChatterboxSystem/__ChatterboxSystem.gml ===
+     4: function __ChatterboxSystem()
+
+=== scripts/__ChatterboxTrace/__ChatterboxTrace.gml ===
+     5: function __ChatterboxTrace()
+
+=== scripts/__ChatterboxUnescapeString/__ChatterboxUnescapeString.gml ===
+     3: function __ChatterboxUnescapeString(_in_string)
+
+=== scripts/__ChatterboxVM/__ChatterboxVM.gml ===
+     2: function __ChatterboxVM()
+    48: function __ChatterboxVMInner(_instruction)
+   559: function __ChatterboxSplitGoto(_string)
+
+=== scripts/__ChatterboxVariableSetInternal/__ChatterboxVariableSetInternal.gml ===
+     6: function __ChatterboxVariableSetInternal(_name, _value)
+
+=== scripts/__ChatterboxVerifyDatatypes/__ChatterboxVerifyDatatypes.gml ===
+     3: function __ChatterboxVerifyDatatypes(_a, _b)
+
+=== scripts/__ChatterboxXORShift32Random/__ChatterboxXORShift32Random.gml ===
+     3: function __ChatterboxXORShiftRandom()
+
+=== scripts/__scribble_class_element/__scribble_class_element.gml ===
+     5: function __scribble_class_element(_string, _unique_id) constructor
+
+=== scripts/__scribble_class_event/__scribble_class_event.gml ===
+     2: function __scribble_class_event(_name, _data) constructor
+
+=== scripts/__scribble_class_font/__scribble_class_font.gml ===
+     8: function __scribble_class_font(_name, _glyph_count, _render_type, _from_bundle) constructor
+
+=== scripts/__scribble_class_generator_state/__scribble_class_generator_state.gml ===
+     3: function __scribble_class_generator_state() constructor
+
+=== scripts/__scribble_class_material/__scribble_class_material.gml ===
+    11: function __scribble_class_material(_key, _font_name, _texture_index_or_pointer, _render_type, _sdf_pxrange, _sdf_thickness_offset, _bilinear) constructor
+
+=== scripts/__scribble_class_model/__scribble_class_model.gml ===
+     5: function __scribble_class_model(_element, _model_cache_name) constructor
+
+=== scripts/__scribble_class_null_element/__scribble_class_null_element.gml ===
+     2: function __scribble_class_null_element() constructor
+
+=== scripts/__scribble_class_page/__scribble_class_page.gml ===
+     2: function __scribble_class_page() constructor
+
+=== scripts/__scribble_class_typist/__scribble_class_typist.gml ===
+     4: function __scribble_class_typist(_per_line) constructor
+
+=== scripts/__scribble_config_colours/__scribble_config_colours.gml ===
+     9: function __scribble_config_colours()
+
+=== scripts/__scribble_font_add_all_from_bundle/__scribble_font_add_all_from_bundle.gml ===
+     3: function __scribble_font_add_all_from_bundle()
+
+=== scripts/__scribble_font_add_from_bundle/__scribble_font_add_from_bundle.gml ===
+     5: function __scribble_font_add_from_bundle(_font)
+
+=== scripts/__scribble_font_add_from_info/__scribble_font_add_from_info.gml ===
+     9: function __scribble_font_add_from_info(_name, _texture_uvs, _font_info, _is_krutidev, _from_bundle)
+
+=== scripts/__scribble_font_add_sprite/__scribble_font_add_sprite.gml ===
+     7: function __scribble_font_add_sprite(_sprite, _first, _proportional, _separation)
+    14: function __scribble_font_add_sprite_ext(_sprite, _mapstring, _proportional, _separation)
+    21: function __scribble_font_add_sprite_common(_sprite, _spritefont, _proportional, _separation)
+
+=== scripts/__scribble_gen_10_write_vbuffs/__scribble_gen_10_write_vbuffs.gml ===
+    65: function __scribble_gen_10_write_vbuffs()
+
+=== scripts/__scribble_gen_11_set_padding_flags/__scribble_gen_11_set_padding_flags.gml ===
+     2: function __scribble_gen_11_set_padding_flags()
+
+=== scripts/__scribble_gen_1_model_limits_and_bezier_curves/__scribble_gen_1_model_limits_and_bezier_curves.gml ===
+     2: function __scribble_gen_1_model_limits_and_bezier_curves()
+
+=== scripts/__scribble_gen_2_parser/__scribble_gen_2_parser.gml ===
+    98: function __scribble_gen_2_parser()
+
+=== scripts/__scribble_gen_3_devanagari/__scribble_gen_3_devanagari.gml ===
+    12: function __scribble_gen_3_devanagari()
+   404: function __scribble_debug_krutidev(_glyph_grid)
+
+=== scripts/__scribble_gen_4_build_words/__scribble_gen_4_build_words.gml ===
+    43: function __scribble_gen_4_build_words()
+
+=== scripts/__scribble_gen_5_finalize_bidi/__scribble_gen_5_finalize_bidi.gml ===
+     2: function __scribble_gen_5_finalize_bidi()
+
+=== scripts/__scribble_gen_6_build_lines/__scribble_gen_6_build_lines.gml ===
+    59: function __scribble_gen_6_build_lines()
+
+=== scripts/__scribble_gen_7_build_pages/__scribble_gen_7_build_pages.gml ===
+    54: function __scribble_gen_7_build_pages()
+
+=== scripts/__scribble_gen_8_position_glyphs/__scribble_gen_8_position_glyphs.gml ===
+     2: function __scribble_gen_8_position_glyphs()
+
+=== scripts/__scribble_gen_9_build_vbuff_grids/__scribble_gen_9_build_vbuff_grids.gml ===
+     3: function __scribble_gen_9_build_vbuff_grids()
+
+=== scripts/__scribble_get_material/__scribble_get_material.gml ===
+    10: function __scribble_get_material(_font_name, _texture_index_or_pointer, _render_type, _sdf_pxrange, _sdf_thickness_offset, _bilinear)
+
+=== scripts/__scribble_glyph_data_initialize/__scribble_glyph_data_initialize.gml ===
+     3: function __scribble_glyph_data_initialize()
+
+=== scripts/__scribble_krutidev_lookup_map_initialize/__scribble_krutidev_lookup_map_initialize.gml ===
+     3: function __scribble_krutidev_lookup_map_initialize()
+
+=== scripts/__scribble_krutidev_matra_lookup_map_initialize/__scribble_krutidev_matra_lookup_map_initialize.gml ===
+     3: function __scribble_krutidev_matra_lookup_map_initialize()
+
+=== scripts/__scribble_make_material_key/__scribble_make_material_key.gml ===
+     9: function __scribble_make_material_key(_texture_index_or_pointer, _render_type, _sdf_pxrange, _sdf_thickness_offset, _bilinear)
+
+=== scripts/__scribble_misc_functions/__scribble_misc_functions.gml ===
+     3: function __scribble_trace()
+    25: function __scribble_loud()
+    48: function __scribble_error()
+    63: function __scribble_get_font_data(_name)
+    82: function __scribble_process_colour(_value)
+   101: function __scribble_random()
+   108: function __scribble_array_find_index(_array, _value)
+   120: function __scribble_asset_is_krutidev(_asset, _asset_type)
+   134: function __scribble_buffer_read_unicode(_buffer)
+   160: function __scribble_buffer_peek_unicode(_buffer, _offset)
+   186: function __scribble_buffer_write_unicode(_buffer, _value)
+   212: function __scribble_image_speed_get(_sprite)
+   217: function __scribble_matrix_inverse(_matrix)
+
+=== scripts/__scribble_no_preprocessing/__scribble_no_preprocessing.gml ===
+     3: function __scribble_no_preprocessing(_string)
+
+=== scripts/__scribble_parse_sound_array_string/__scribble_parse_sound_array_string.gml ===
+     3: function __scribble_parse_sound_array_string(_string)
+
+=== scripts/__scribble_play_sound/__scribble_play_sound.gml ===
+     7: function __scribble_play_sound(_asset, _gain, _pitch)
+
+=== scripts/__scribble_sprite_get_material/__scribble_sprite_get_material.gml ===
+     6: function __scribble_sprite_get_material(_sprite, _image)
+
+=== scripts/__scribble_sprite_get_texture_index/__scribble_sprite_get_texture_index.gml ===
+     6: function __scribble_sprite_get_texture_index(_sprite, _image)
+
+=== scripts/__scribble_surface_get_material/__scribble_surface_get_material.gml ===
+     5: function __scribble_surface_get_material(_surface)
+
+=== scripts/__scribble_system/__scribble_system.gml ===
+    11: function __scribble_initialize()
+
+=== scripts/__scribble_texture_get_material/__scribble_texture_get_material.gml ===
+     5: function __scribble_texture_get_material(_texture_index)
+
+=== scripts/__scribble_tick/__scribble_tick.gml ===
+     2: function __scribble_tick()
+
+=== scripts/actor_display_name/actor_display_name.gml ===
+     1: /// @function actor_display_name(_actor_key)
+     2: /// @desc Возвращает человекочитаемое имя для actor code (для nameplate в textbox).
+     7: function actor_display_name(_actor_key) {
+
+=== scripts/c_autofacing/c_autofacing.gml ===
+     1: function c_autofacing(_target, _enabled) {
+
+=== scripts/c_autowalk/c_autowalk.gml ===
+     1: function c_autowalk(_target, _enabled) {
+
+=== scripts/c_begin/c_begin.gml ===
+     1: function c_begin(_id = "") {
+
+=== scripts/c_cmd/c_cmd.gml ===
+     1: function __get_active_mgr() {
+     9: function __cutscene_builder_add(_action) {
+    17: function __cutscene_selected_actor() {
+    26: function __cutscene_cmd_target_missing(_target) {
+    40: function __cutscene_cmd_require_target(_cmd_name, _target) {
+    48: function __cutscene_bridge_real(_value, _default = 0) {
+    68: /// @description В отличие от __cutscene_bridge_real никогда не подставляет
+    74: function __cutscene_bridge_real_opt(_value) {
+    91: function __cutscene_bridge_color(_value, _default = c_black) {
+   114: function cutscene_play_json(_path) {
+   122: function c_play_json(_path) {
+   126: function cutscene_stop_active() {
+   133: function cutscene_is_active() {
+   137: function cutscene_dialogue_is_active() {
+   141: function cutscene_register_chatterbox_functions() {
+   215: function c_dialogue(_file, _node = undefined) {
+   219: function c_animate(_target, _sprite, _image_index = undefined, _image_speed = undefined) {
+   224: function c_tween(_target, _property, _to_value, _frames, _easing = undefined, _from_value = undefined, _kind = "instance") {
+   230: function c_tween_camera(_property, _to_value, _frames, _easing = undefined, _from_value = undefined) {
+   234: function c_fadein(_frames, _color = undefined) {
+   238: function c_fadeout(_frames, _color = undefined) {
+   242: function c_sfx(_sound_or_key, _volume = undefined, _pitch = undefined) {
+   250: function c_emote(_target, _sprite = undefined, _frames = undefined, _offset_x = undefined, _offset_y = undefined, _scale = undefined) {
+   255: function c_jump(_target, _x, _y, _frames, _height = undefined, _easing = undefined) {
+   260: function c_halt(_target = undefined) {
+   268: function c_flip(_target, _flipped = undefined) {
+   277: function c_spin(_target, _speed, _frames = undefined) {
+   282: function c_shakeobj(_target = undefined, _frames = undefined, _magnitude = undefined) {
+   290: function c_visible(_target, _visible = undefined) {
+   299: function c_instant(_enabled = undefined) {
+   303: function c_walk(_target, _dir, _speed, _frames, _use_collision = undefined) {
+   308: function c_walkdirect(_target, _x, _y, _frames, _use_collision = undefined) {
+   313: function c_walkdirect_speed(_target, _x, _y, _speed, _use_collision = undefined) {
+   318: function c_waittalk() {
+   322: function c_sprite(_target, _sprite, _image_index = undefined, _image_speed = undefined) {
+   327: function c_soundplay(_sound_or_key, _volume = undefined, _pitch = undefined) {
+   331: function c_var_instance(_target, _property, _value) {
+   336: function c_var_lerp_instance(_target, _property, _from, _to, _frames, _easing = undefined) {
+   341: function c_lerp(_target, _property, _from, _to, _frames, _easing = undefined) {
+   346: function c_var_lerp_to_instance(_target, _property, _to, _frames, _easing = undefined) {
+
+=== scripts/c_cmd_x/c_cmd_x.gml ===
+     5: function c_cmd_x(arg0, arg1, arg2, arg3, arg4, arg5, arg6) {}
+
+=== scripts/c_delaycmd/c_delaycmd.gml ===
+     4: function c_delaycmd(_target, _delay_frames, _inner_cmd, _arg0) {}
+
+=== scripts/c_delaywalk/c_delaywalk.gml ===
+     4: function c_delaywalk(_target, _delay_frames, _dir, _speed, _frames) {}
+
+=== scripts/c_depth/c_depth.gml ===
+     1: /// @function c_depth(_target, _depth)
+     2: /// @desc DSL-команда «depth»: задаёт цели глубину и переводит её в
+     7: function c_depth(_target, _depth) {
+
+=== scripts/c_end/c_end.gml ===
+     1: /// @function c_end(_mgr)
+     2: /// @desc Завершает сессию катсцены. Порядок целей: явный менеджер → build-менеджер (отмена недособранной сцены) → активная катсцена (остановка играющей, как cutscene_stop_active).
+     4: function c_end(_mgr = noone) {
+
+=== scripts/c_facing/c_facing.gml ===
+     1: function c_facing(_target, _dir) {
+
+=== scripts/c_instance/c_instance.gml ===
+     4: function c_instance(_key, _x, _y) {}
+
+=== scripts/c_pan/c_pan.gml ===
+     5: function c_pan(_x, _y, _frames) {}
+
+=== scripts/c_pan_wait/c_pan_wait.gml ===
+     4: function c_pan_wait(arg0, arg1, arg2) {}
+
+=== scripts/c_panobj/c_panobj.gml ===
+     4: function c_panobj(_target, _frames) {}
+
+=== scripts/c_panspeed/c_panspeed.gml ===
+     4: function c_panspeed(_x, _y, _frames) {}
+
+=== scripts/c_play/c_play.gml ===
+     1: function c_play(_mgr = noone) {
+
+=== scripts/c_setxy/c_setxy.gml ===
+     1: function c_setxy(_target, _x, _y) {
+
+=== scripts/c_shake/c_shake.gml ===
+     6: function c_shake(_frames = undefined, _magnitude = undefined) {}
+
+=== scripts/c_speaker/c_speaker.gml ===
+     1: function c_speaker(_speaker_name) {
+
+=== scripts/c_wait/c_wait.gml ===
+     1: function c_wait(_frames) {
+
+=== scripts/constructorsForInventory/constructorsForInventory.gml ===
+     5: function Item(_name, _description = "An Item") constructor {
+    26: function WeaponItem(_name, _damage = 20, _description = "A Weapon") : Item(_name, _description) constructor {
+    49: function ArmorItem(_name, _defense = 9, _description = "Armor") : Item(_name, _description) constructor {
+    73: function FoodItem(_name, _amount = 1, _heal = 10, _description = "Some food") : Item(_name, _description) constructor {
+   109: function item_deserialize(_data) {
+   139: function inventory_serialize(_inv_array) {
+   155: function inventory_deserialize(_json_array) {
+
+=== scripts/cutscene_action_factory/cutscene_action_factory.gml ===
+     1: function cutscene_init_action_factory() {
+
+=== scripts/cutscene_actor_create/cutscene_actor_create.gml ===
+     5: function cutscene_actor_create(_target_key, _x, _y, _sprite_or_obj = undefined, _copy_from = undefined) {}
+
+=== scripts/cutscene_actor_destroy/cutscene_actor_destroy.gml ===
+     5: function cutscene_actor_destroy(_target_ref) {}
+
+=== scripts/cutscene_add/cutscene_add.gml ===
+     1: /// @function cutscene_add(_mgr, _action)
+     2: /// @desc Добавляет action-структуру в очередь менеджера катсцен. Reject-пути (нет менеджера, не-struct) логируются только при global.debug — публичный API не спамит консоль в релизе.
+     6: function cutscene_add(_mgr, _action) {
+    32: function cutscene_tween(_target, _property, _to_value, _frames, _easing = undefined, _from_value = undefined, _kind = undefined) {}
+    33: function cutscene_fade_in(_frames, _color = undefined) {}
+    34: function cutscene_fade_out(_frames, _color = undefined) {}
+    35: function cutscene_play_sfx(_sound_or_key, _volume = undefined, _pitch = undefined) {}
+    36: function cutscene_emote(_target, _sprite = undefined, _frames = undefined, _offset_x = undefined, _offset_y = undefined, _scale = undefined) {}
+    37: function cutscene_jump(_target, _x, _y, _frames, _height = undefined, _easing = undefined) {}
+    38: function cutscene_halt(_target) {}
+    39: function cutscene_flip(_target, _flipped = undefined) {}
+    40: function cutscene_spin(_target, _speed, _frames = undefined) {}
+    41: function cutscene_shake_object(_target, _frames = undefined, _magnitude = undefined) {}
+    42: function cutscene_set_visible(_target, _visible = undefined) {}
+    43: function cutscene_set_instant(_enabled = undefined) {}
+    44: function cutscene_wait_for_dialogue(_dialogue_controller = undefined) {}
+    45: function cutscene_set_property(_target, _property, _value, _kind = undefined) {}
+
+=== scripts/cutscene_animate/cutscene_animate.gml ===
+     5: function cutscene_animate(_target_ref, _sprite, _image_index_set = undefined, _image_speed_set = undefined) {}
+
+=== scripts/cutscene_auto_facing_toggle/cutscene_auto_facing_toggle.gml ===
+     5: function cutscene_auto_facing_toggle(_target_ref, _enabled) {}
+
+=== scripts/cutscene_auto_walk_toggle/cutscene_auto_walk_toggle.gml ===
+     9: function cutscene_auto_walk_toggle(_target_ref, _enabled) {}
+
+=== scripts/cutscene_branch/cutscene_branch.gml ===
+     1: /// @function cutscene_branch(condition_func, true_actions, false_actions)
+     2: /// @desc Return an ActionBranch struct
+     6: function cutscene_branch(_condition_func, _true_actions, _false_actions = []) {
+
+=== scripts/cutscene_camera_center/cutscene_camera_center.gml ===
+     5: function cutscene_camera_center(_center_x, _center_y) {}
+
+=== scripts/cutscene_camera_pan/cutscene_camera_pan.gml ===
+     5: function cutscene_camera_pan(_view_x, _view_y, _frames) {}
+
+=== scripts/cutscene_camera_shake/cutscene_camera_shake.gml ===
+     5: function cutscene_camera_shake(_frames, _magnitude = 4) {}
+
+=== scripts/cutscene_camera_track/cutscene_camera_track.gml ===
+     5: function cutscene_camera_track(_target_ref, _frames, _offset_x = 0, _offset_y = 0) {}
+
+=== scripts/cutscene_dialogue/cutscene_dialogue.gml ===
+     5: function cutscene_dialogue(_filename, _node) {}
+
+=== scripts/cutscene_follow_path/cutscene_follow_path.gml ===
+     5: function cutscene_follow_path(_target_ref, _points, _speed = 2, _collision = false) {}
+
+=== scripts/cutscene_load_engine_settings/cutscene_load_engine_settings.gml ===
+     2: /// @description Возвращает закэшированный struct — контракт «только чтение»:
+    12: function cutscene_load_engine_settings(_force_reload = false) {
+   105: function __cutscene_default_engine_settings() {
+   126: function __cutscene_parse_engine_settings(_map) {
+   186: function __cutscene_json_get_string_array(_map, _key, _default = []) {
+
+=== scripts/cutscene_load_json/cutscene_load_json.gml ===
+     7: function cutscene_load_json(_path) {
+   199: function __cutscene_json_action_from_struct(_mgr, _map, _fps) {
+   223: function __cutscene_json_normalize_action_type(_type) {
+   241: function __cutscene_json_parse_direction(_val) {
+   282: function __cutscene_json_get_string(_map, _key, _default = "") {
+   298: function __cutscene_json_get_real(_map, _key, _default = 0) {
+   323: /// @description Тот же разбор, что у __cutscene_json_get_real (строки-числа
+   332: function __cutscene_json_get_real_opt(_map, _key) {
+   359: function __cutscene_json_get_bool(_map, _key, _default = false) {
+   381: function __cutscene_json_get_value(_map, _key, _default = undefined) {
+   388: function __cutscene_json_get_frames(_map, _fps, _default = 0) {
+   406: function __cutscene_json_get_color(_map, _key, _default = c_black) {
+   455: function __cutscene_json_get_target(_map) {
+   471: function __cutscene_json_get_seconds(_map, _default = 0) {
+   483: function __cutscene_json_points_to_array(_data) {
+   532: function __cutscene_json_seconds_to_frames(_seconds, _fps) {
+
+=== scripts/cutscene_move/cutscene_move.gml ===
+     5: function cutscene_move(_target_ref, _x, _y, _speed = 1, _collision = false) {}
+
+=== scripts/cutscene_parallel/cutscene_parallel.gml ===
+     5: function cutscene_parallel(_actions_array) {}
+
+=== scripts/cutscene_run_function/cutscene_run_function.gml ===
+     5: function cutscene_run_function(_func, _args = []) {}
+
+=== scripts/cutscene_set_depth/cutscene_set_depth.gml ===
+     5: function cutscene_set_depth(_target_ref, _depth) {}
+
+=== scripts/cutscene_set_facing/cutscene_set_facing.gml ===
+     1: /// @function cutscene_set_facing(target_ref, direction)
+     2: /// @desc Возвращает действие, которое мгновенно разворачивает актёра
+     7: function cutscene_set_facing(_target_ref, _direction) {
+
+=== scripts/cutscene_set_xy/cutscene_set_xy.gml ===
+     5: function cutscene_set_xy(_target_ref, _x, _y) {}
+
+=== scripts/cutscene_wait/cutscene_wait.gml ===
+     5: function cutscene_wait(_seconds) {}
+
+=== scripts/draw_text_scribble/draw_text_scribble.gml ===
+    23: function draw_text_scribble(_x, _y, _string, _reveal = undefined)
+
+=== scripts/draw_text_scribble_ext/draw_text_scribble_ext.gml ===
+    20: function draw_text_scribble_ext(_x, _y, _string, _width, _reveal = undefined)
+
+=== scripts/interactionWithMainCast/interactionWithMainCast.gml ===
+     5: /// @function interactionWithMainCast(_scriptToReadFrom, _node)
+     8: function interactionWithMainCast(_scriptToReadFrom, _node) {
+
+=== scripts/interactionWithNPCsOrObjects/interactionWithNPCsOrObjects.gml ===
+    14: /// @function scr_interaction(_scriptToReadFrom, _node, _use_mask_check)
+    15: /// @description Единая проверка взаимодействия с объектом через маркер перед игроком.
+    20: function scr_interaction(_scriptToReadFrom, _node, _use_mask_check = false) {
+   117: /// @function interactionWithNPCsOrObjects(_scriptToReadFrom, _node)
+   120: function interactionWithNPCsOrObjects(_scriptToReadFrom, _node) {
+
+=== scripts/map_emotions/map_emotions.gml ===
+     1: /// @function map_emotions(_actor, _emotion)
+     2: /// @description Возвращает ресурсы портрета и звука для actor/emotion.
+     6: function map_emotions(_actor, _emotion){
+
+=== scripts/playableCharacterInfo/playableCharacterInfo.gml ===
+    10: function playableCharacterInfo(_name = "Chara", _lv = 20, _hp = 99, _money = 20) constructor {
+
+=== scripts/readDialogue/readDialogue.gml ===
+     1: /// @function readDialogue(_filename, _nodename)
+     2: /// @description Открывает диалоговое окно: создаёт textboxTest_scribble и передаёт ему
+     8: function readDialogue(_filename, _nodename) {
+
+=== scripts/scr_SFXPlay/scr_SFXPlay.gml ===
+     1: /// @function scr_play_sfx(sound_or_key, [volume], [pitch], [fallback_sound])
+     2: /// @desc Проигрывает UI-звук с учётом громкости SFX из настроек (global.__sfx_volume).
+    11: function scr_play_sfx(_sound_or_key, _volume = 1, _pitch = 1, _fallback_sound = undefined) {
+    54: /// @function scr_SFXPlay(action, [volume], [pitch])
+    55: /// @desc Legacy-алиас (имя вне snake_case сохранено ради ~70 точек вызова) —
+    61: function scr_SFXPlay(_action, _volume = 1, _pitch = 1) {
+
+=== scripts/scr_anim/scr_anim.gml ===
+     1: /// @function scr_anim(_sprite, _framespeed)
+     2: /// @description Создаёт obj_anim в точке вызывающего инстанса и активирует его:
+     9: function scr_anim(_sprite, _framespeed) {
+
+=== scripts/scr_callMenuInit/scr_callMenuInit.gml ===
+     1: /// @function scr_callMenuInit()
+     2: /// @desc Обработка клавиши меню в игре. Открывает игровое меню при нажатии клавиши меню, если нет UI-блокеров.
+     4: function scr_callMenuInit() {
+
+=== scripts/scr_checkItemSkip/scr_checkItemSkip.gml ===
+     4: /// @function scr_checkItemSkip()
+     5: /// @desc Считает пустые слоты инвентаря (предметы, которые можно пропустить/пропустить).
+     8: function scr_checkItemSkip() {
+
+=== scripts/scr_checkPlayerFacing/scr_checkPlayerFacing.gml ===
+     1: /// @function scr_checkPlayerFacing(_target_x, _target_y)
+     2: /// @description Проверяет, смотрит ли игрок в сторону заданной точки.
+     8: function scr_checkPlayerFacing(_target_x, _target_y) {
+
+=== scripts/scr_checkUIBlocking/scr_checkUIBlocking.gml ===
+     1: /// @function scr_checkUIBlocking(exclude_self, include_cutscene)
+     2: /// @description Проверяет, заблокирован ли ввод из-за открытых UI элементов.
+    15: function scr_checkUIBlocking(exclude_self = false, include_cutscene = true) {
+    41: /// @function scr_ui_objects_list()
+    42: /// @desc Единый список UI-объектов проекта. Используется в двух местах:
+    51: function scr_ui_objects_list() {
+    65: /// @function scr_checkUIBlocking_raw(exclude_self, include_cutscene)
+    66: /// @description Полный пересчёт UI-блокировки без кэша. Вызывается из scr_checkUIBlocking.
+    70: function scr_checkUIBlocking_raw(exclude_self = false, include_cutscene = true) {
+
+=== scripts/scr_collision_resolve/scr_collision_resolve.gml ===
+     7: function scr_collision_resolve() {
+
+=== scripts/scr_constants/scr_constants.gml ===
+     6: /// @function scr_constants()
+     7: /// @description Инициализирует глобальные константы направлений и состояний меню настроек.
+    13: function scr_constants() {
+
+=== scripts/scr_cutscene_animate/scr_cutscene_animate.gml ===
+     4: function Script312(){
+
+=== scripts/scr_cutscene_classes/scr_cutscene_classes.gml ===
+     1: /// @desc Cutscene action classes (Command pattern)
+    64: function CutsceneAction() constructor {
+    72: function __cutscene_get_resolver(_manager) {
+    86: function __cutscene_resolve_target_ref(_resolver, _target) {
+    93: function __cutscene_resolve_target(_manager, _target) {
+    98: /// @function __cutscene_warn_unresolved(_action_name, _role, _target)
+    99: /// @desc Логирует нерезолвнутую цель действия. Замена молчаливому
+   107: function __cutscene_warn_unresolved(_action_name, _role, _target) {
+   111: /// @function __cutscene_validate_mode(_value, _allowed, _fallback, _owner, _param)
+   112: /// @desc Валидирует строковый режим по списку допустимых значений.
+   122: function __cutscene_validate_mode(_value, _allowed, _fallback, _owner, _param) {
+   139: /// @function __cutscene_parallel_push(_manager, _parallel)
+   140: /// @desc Регистрирует ActionParallel как активную группу (стек вложенных parallel).
+   143: function __cutscene_parallel_push(_manager, _parallel) {
+   151: /// @function __cutscene_parallel_pop(_manager)
+   152: /// @desc Снимает верхнюю parallel-группу со стека.
+   154: function __cutscene_parallel_pop(_manager) {
+   162: /// @function __cutscene_parallel_splice(_parallel, _branch_index, _actions)
+   163: /// @desc Вставляет действия в продолжение конкретной ветки parallel-группы.
+   175: function __cutscene_parallel_splice(_parallel, _branch_index, _actions) {
+   217: /// @function __cutscene_parallel_request_abort(_manager)
+   218: /// @desc Помечает ближайшую (внутреннюю) parallel-группу на прерывание.
+   221: function __cutscene_parallel_request_abort(_manager) {
+   236: function __cutscene_resolve_targets(_manager, _target) {
+   294: /// @function __cutscene_resolve_copy_source(_manager, _copy_target)
+   295: /// @description Нормализует copy_target до реального instance id, чтобы ActionActorCreate не вызывал instance_exists() на строке.
+   299: function __cutscene_resolve_copy_source(_manager, _copy_target) {
+   312: function __cutscene_is_instant(_manager) {
+   321: function __cutscene_get_global_manager() {
+   326: /// @function __cutscene_runtime_owner_id()
+   327: /// @desc Возвращает id активной катсцены — это нужно, чтобы каждый runtime-эффект знал,
+   330: function __cutscene_runtime_owner_id() {
+   336: function __cutscene_normalize_direction(_dir) {
+   358: function __cutscene_direction_angle(_dir) {
+   367: function __cutscene_angle_to_direction(_angle) {
+   378: function __cutscene_actor_apply_facing(_inst, _dir) {
+   410: /// @function __cutscene_move_step(_actor, _tx, _ty, _spd, _use_collision, _apply_move_state)
+   411: /// @description Выполняет один шаг движения актёра к цели. Возвращает true если достиг цели.
+   421: function __cutscene_move_step(_actor, _tx, _ty, _spd, _use_collision, _apply_move_state = true) {
+   500: /// @function __cutscene_move_cleanup(_actor)
+   501: /// @description Очищает состояние движения актёра после завершения.
+   503: function __cutscene_move_cleanup(_actor) {
+   524: /// @function __cutscene_sync_move_target(_inst)
+   525: /// @desc Подтягивает target_x/target_y актёра к его текущей позиции.
+   529: function __cutscene_sync_move_target(_inst) {
+   535: /// @function __cutscene_attachments_remove_by_target(_target_inst)
+   536: /// @description Удаляет запись attachment из global.__cutscene_attachments по target_inst.
+   538: function __cutscene_attachments_remove_by_target(_target_inst) {
+   563: /// @function __cutscene_find_active_textbox()
+   564: /// @desc Выбирает наиболее «живое» диалоговое окно среди textboxTest_scribble.
+   572: function __cutscene_find_active_textbox() {
+   607: function __cutscene_dialogue_is_active(_dialogue_controller = noone) {
+   626: /// @function __cutscene_find_dialogue_ctrl(_manager)
+   627: /// @desc Возвращает живой контроллер диалогового окна: сначала
+   634: function __cutscene_find_dialogue_ctrl(_manager) {
+   641: /// @function __cutscene_normalize_yarn_path(_file)
+   642: /// @desc Нормализует путь к yarn-файлу для Chatterbox: "\\" → "/", срезает
+   647: function __cutscene_normalize_yarn_path(_file) {
+   660: function __cutscene_ease_value(_t, _easing) {
+   679: function __cutscene_runtime_get_value(_kind, _target, _property) {
+   705: function __cutscene_runtime_set_value(_kind, _target, _property, _value) {
+   733: /// @function __cutscene_snapshot_instance(_inst)
+   734: /// @description Создаёт snapshot состояния инстанса (позиция, спрайт, трансформация).
+   737: function __cutscene_snapshot_instance(_inst) {
+   770: /// @function __cutscene_create_snapshot(_manager, _config)
+   771: /// @description Создаёт полный snapshot состояния катсцены (актёры, камера, музыка, глобальные переменные).
+   775: function __cutscene_create_snapshot(_manager, _config) {
+   911: /// @function __cutscene_cleanup_transients(_manager, _snapshot)
+   912: /// @description Удаляет временные объекты, созданные после checkpoint (актеры, не существовавшие в snapshot).
+   916: function __cutscene_cleanup_transients(_manager, _snapshot = undefined) {
+   941: /// @function __cutscene_apply_instance_snapshot(_inst, _data, _with_move)
+   942: /// @desc Применяет к инстансу визуальные поля из snapshot-записи
+   950: function __cutscene_apply_instance_snapshot(_inst, _data, _with_move = true) {
+   989: /// @function __cutscene_restore_actor_states(_actor_map, _actors_snap)
+   990: /// @desc Восстанавливает состояния актёров actor_map из snapshot-секции actors.
+   993: function __cutscene_restore_actor_states(_actor_map, _actors_snap) {
+  1001: /// @function __cutscene_restore_camera_state(_cam_data)
+  1002: /// @desc Возвращает view-позицию камеры и global.camera_x/y по snapshot-секции camera.
+  1004: function __cutscene_restore_camera_state(_cam_data) {
+  1011: /// @function __cutscene_restore_music_state(_music_data)
+  1012: /// @desc Восстанавливает трек и громкость из snapshot-секции music
+  1015: function __cutscene_restore_music_state(_music_data) {
+  1075: /// @function __cutscene_restore_global_states(_globals)
+  1076: /// @desc Восстанавливает глобальные переменные из snapshot-секции globals
+  1079: function __cutscene_restore_global_states(_globals) {
+  1102: /// @function __cutscene_restore_instance_states(_instances)
+  1103: /// @desc Восстанавливает зарегистрированные в snapshot инстансы по имени объекта.
+  1106: function __cutscene_restore_instance_states(_instances) {
+  1119: function cutscene_runtime_tween_to(_target, _property, _to_value, _frames, _easing = __CUTSCENE_EASE_LINEAR, _from_value = undefined, _kind = __CUTSCENE_KIND_INSTANCE) {
+  1156: function cutscene_runtime_fade_to(_alpha, _frames, _color = c_black) {
+  1212: /// @function cutscene_runtime_resolve_emote_sprite(_sprite)
+  1213: /// @desc Резолвит спрайт эмоции в asset-индекс: строка ищется по имени ресурса,
+  1219: function cutscene_runtime_resolve_emote_sprite(_sprite = undefined) {
+  1252: /// @function cutscene_runtime_show_emote(_target, _sprite, _duration, _offset_x, _offset_y, _scale)
+  1253: /// @desc Показывает эмоцию через глобальную emote system, не завязанную на
+  1265: function cutscene_runtime_show_emote(_target, _sprite = undefined, _duration = __CUTSCENE_EMOTE_DURATION, _offset_x = 0, _offset_y = __CUTSCENE_EMOTE_OFFSET_Y, _scale = 1) {
+  1271: function cutscene_runtime_play_sfx(_sound_or_key, _volume = 1, _pitch = 1) {
+  1275: function cutscene_runtime_set_visible(_target, _visible) {
+  1281: function cutscene_runtime_flip_x(_target, _flipped) {
+  1289: function cutscene_runtime_halt(_target) {
+  1301: /// @function __cutscene_make_shake_entry(_kind, _target, _frames, _magnitude, _magnitude_x, _magnitude_y, _decay, _frequency)
+  1302: /// @desc Собирает запись shake-эффекта — общий конструктор для object- и
+  1314: function __cutscene_make_shake_entry(_kind, _target, _frames, _magnitude, _magnitude_x, _magnitude_y, _decay, _frequency) {
+  1335: function cutscene_runtime_shake_object(_target, _frames = 20, _magnitude = 4, _magnitude_x = undefined, _magnitude_y = undefined, _decay = false, _frequency = 1) {
+  1343: function cutscene_runtime_shake_camera(_frames = 20, _magnitude = 4, _magnitude_x = undefined, _magnitude_y = undefined, _decay = false, _frequency = 1) {
+  1351: function cutscene_runtime_spin_object(_target, _speed, _frames = __CUTSCENE_DEFAULT_EFFECT_FRAMES) {
+  1367: function cutscene_runtime_jump_to(_target, _x, _y, _frames, _height = __CUTSCENE_JUMP_HEIGHT, _easing = __CUTSCENE_EASE_LINEAR) {
+  1409: function cutscene_runtime_ensure_state() {
+  1433: function __cutscene_runtime_remove_at(_array, _index, _item) {
+  1442: /// @function cutscene_runtime_cleanup_owner(_owner)
+  1443: /// @desc Принудительно деактивирует все runtime-эффекты, созданные катсценой _owner
+  1448: function cutscene_runtime_cleanup_owner(_owner) {
+  1486: /// @function __cutscene_runtime_rollback_owner_shakes(_owner)
+  1487: /// @desc Синхронно снимает применённое смещение с целей шейков владельца и обнуляет
+  1493: function __cutscene_runtime_rollback_owner_shakes(_owner) {
+  1518: function cutscene_runtime_step() {
+  1726: /// @function cutscene_runtime_draw_gui(_camx, _camy, _scale, _offset_x, _offset_y)
+  1727: /// @desc Рисует fade-оверлей катсцены в Draw GUI (вызывается из
+  1736: function cutscene_runtime_draw_gui(_camx, _camy, _scale, _offset_x, _offset_y) {
+  1753: function ActionWait(frames) : CutsceneAction() constructor {
+  1770: function ActionMarkNode(_name) : CutsceneAction() constructor {
+  1802: function ActionGoToNode(_target_name) : CutsceneAction() constructor {
+  1875: function ActionSequence(actions_array) : CutsceneAction() constructor {
+  1988: function ActionFollowPath(target_ref, points_array, speed, _use_collision = false, auto_facing = true) : CutsceneAction() constructor {
+  2109: function ActionActorCreate(name, x, y, sprite_or_obj) : CutsceneAction() constructor {
+  2206: /// @function ActionMoveBase(_target, _speed, _use_collision)
+  2207: /// @desc Базовый класс для движения актёра. Содержит общую логику для ActionMove и ActionMoveRelative.
+  2211: function ActionMoveBase(_target, _speed, _use_collision = false) : CutsceneAction() constructor {
+  2220:     /// @desc Вычисляет целевые координаты (переопределяется в наследниках)
+  2306: function ActionMove(target_ref, _target_x, _target_y, speed, use_collision = false) : ActionMoveBase(target_ref, speed, use_collision) constructor {
+  2318: function ActionMoveRelativeDirection(target_ref, direction_ref, speed, frames, _use_collision = false) : CutsceneAction() constructor {
+  2387: function ActionMoveDirect(target_ref, _target_x, _target_y, frames_or_speed, use_speed = false, _use_collision = false) : CutsceneAction() constructor {
+  2428: function ActionAnimate(target_ref, _sprite, image_index_set = undefined, image_speed_set = undefined) : CutsceneAction() constructor {
+  2465: /// @function ActionSetAnimationFrame(target_ref, _image_index, _image_speed, _pause)
+  2466: /// @description Устанавливает конкретный кадр анимации и скорость для актёра, не меняя его спрайт.
+  2472: function ActionSetAnimationFrame(target_ref, _image_index, _image_speed, _pause) : CutsceneAction() constructor {
+  2479:     /// @function start(manager)
+  2480:     /// @description Применяет image_index и image_speed к разрешённому актёру.
+  2497:     /// @function update(manager)
+  2498:     /// @description Действие мгновенное — сразу возвращает true.
+  2505: function ActionDialogue(_dialogue_file, _node_title = undefined, _block_queue = true, _auto_advance = false) : CutsceneAction() constructor {
+  2634: /// @function ActionRunFunction(func_ref, arg_array)
+  2635: /// @description Вызывает произвольную функцию в момент старта действия.
+  2644: function ActionRunFunction(_func_ref, arg_array = []) : CutsceneAction() constructor {
+  2679: /// @function ActionSetFacing(target_ref, direction)
+  2680: /// @description Мгновенно разворачивает актёра: спрайт движения + facing_direction.
+  2686: function ActionSetFacing(target_ref, direction) : CutsceneAction() constructor {
+  2701: function ActionWaitForDialogue(dialogue_controller_ref = undefined) : CutsceneAction() constructor {
+  2738: /// @function ActionSetDialogueSpeed(speed)
+  2739: /// @description Устанавливает скорость печати текста в диалоговом окне.
+  2741: function ActionSetDialogueSpeed(speed) : CutsceneAction() constructor {
+  2765: /// @function ActionWaitTyping()
+  2766: /// @description Ждет завершения печати текста в диалоговом окне.
+  2767: function ActionWaitTyping() : CutsceneAction() constructor {
+  2783: /// @function ActionDialogueControl(prevent_skip, stay_open, auto_advance)
+  2784: /// @description Устанавливает флаги управления поведением диалогового окна.
+  2788: function ActionDialogueControl(prevent_skip, stay_open, auto_advance) : CutsceneAction() constructor {
+  2811: /// @function ActionSetPortraitNext(target, emotion)
+  2812: /// @description Устанавливает эмоцию портрета для следующей реплики.
+  2815: function ActionSetPortraitNext(target, emotion) : CutsceneAction() constructor {
+  2843: /// @function ActionSetPortraitNow(target, emotion)
+  2844: /// @description Немедленно устанавливает эмоцию портрета в obj_face.
+  2847: function ActionSetPortraitNow(target, emotion) : CutsceneAction() constructor {
+  2895: /// @function ActionClearDialogue()
+  2896: /// @description Уничтожает активное диалоговое окно.
+  2897: function ActionClearDialogue() : CutsceneAction() constructor {
+  2921: function ActionSetProperty(target_ref, _property_name, value, _target_kind = __CUTSCENE_KIND_INSTANCE) : CutsceneAction() constructor {
+  2941: function ActionSetDepth(target_ref, depth_value) : CutsceneAction() constructor {
+  2961: /// @function ActionMoveRelative(_target, _dx, _dy, _speed_pf, _use_collision)
+  2962: /// @desc Cutscene action: двигает актёра от текущей позиции на offset (_dx, _dy).
+  2969: function ActionMoveRelative(_target, _dx, _dy, _speed_pf, _use_collision = false) : ActionMoveBase(_target, _speed_pf, _use_collision) constructor {
+  2982: function ActionSetXY(target_ref, _x, _y) : CutsceneAction() constructor {
+  3002: /// @function ActionSetPositionRelative(_target, _dx, _dy)
+  3003: /// @desc Cutscene action: мгновенно сдвигает актёра на (_dx, _dy) от текущей позиции.
+  3007: function ActionSetPositionRelative(_target, _dx, _dy) : CutsceneAction() constructor {
+  3028: function ActionSetInstantMode(enabled = true) : CutsceneAction() constructor {
+  3037: function ActionHalt(target_ref) : CutsceneAction() constructor {
+  3051: /// @function ActionFlip(target_ref, flipped)
+  3052: /// @desc Переворачивает спрайт актора по горизонтали через image_xscale.
+  3055: function ActionFlip(target_ref, flipped) : CutsceneAction() constructor {
+  3072: function ActionSpin(target_ref, speed, frames = __CUTSCENE_DEFAULT_EFFECT_FRAMES) : CutsceneAction() constructor {
+  3099: /// @function ActionShakeBase(_frames, _magnitude, _magnitude_x, _magnitude_y, _decay, _frequency)
+  3100: /// @desc Базовый класс для shake эффектов. Содержит общую логику для ActionShakeObject и ActionCameraShake.
+  3107: function ActionShakeBase(_frames, _magnitude = 4, _magnitude_x = undefined, _magnitude_y = undefined, _decay = false, _frequency = 1) : CutsceneAction() constructor {
+  3117:     /// @desc Запускает shake эффект (переопределяется в наследниках)
+  3137: function ActionShakeObject(target_ref, frames = 20, _magnitude = 4, _magnitude_x = undefined, _magnitude_y = undefined, _decay = false, _frequency = 1) : ActionShakeBase(frames, _magnitude, _magnitude_x, _magnitude_y, _decay, _frequency) constructor {
+  3155: function ActionPlaySFX(_sound_or_key, _volume = 1, _pitch = 1) : CutsceneAction() constructor {
+  3166: /// @function ActionEmote(target_ref, _sprite, _duration, _offset_x, _offset_y, _scale, _wait_for_finish)
+  3167: /// @description Команда катсцены для показа эмоции над персонажем.
+  3175: function ActionEmote(target_ref, _sprite = undefined, _duration = __CUTSCENE_EMOTE_DURATION, _offset_x = 0, _offset_y = __CUTSCENE_EMOTE_OFFSET_Y, _scale = 1, _wait_for_finish = false) : CutsceneAction() constructor {
+  3210: /// @function ActionSetEmotion(target_ref, emotion, apply_to_sprite, apply_to_portrait)
+  3211: /// @description Команда катсцены для установки emotional state актёру.
+  3216: function ActionSetEmotion(target_ref, emotion = "default", apply_to_sprite = true, apply_to_portrait = true) : CutsceneAction() constructor {
+  3263: function ActionFadeTo(target_alpha, frames, color = c_black) : CutsceneAction() constructor {
+  3311: function ActionFadeIn(frames, color = c_black) : ActionFadeTo(0, frames, color) constructor {
+  3315: function ActionFadeOut(frames, color = c_black) : ActionFadeTo(1, frames, color) constructor {
+  3319: function ActionTween(target_ref, _property_name, to_value, frames, easing = __CUTSCENE_EASE_LINEAR, from_value = undefined, _target_kind = __CUTSCENE_KIND_INSTANCE) : CutsceneAction() constructor {
+  3349: /// @function ActionLerp(target_ref, _property_name, to_value, factor, threshold, _target_kind)
+  3350: /// @desc Пошаговое линейное приближение (lerp) свойства объекта или камеры к целевому значению.
+  3352: function ActionLerp(target_ref, _property_name, to_value, factor = 0.1, threshold = 0.5, _target_kind = __CUTSCENE_KIND_INSTANCE) : CutsceneAction() constructor {
+  3396: function ActionJump(target_ref, _x, _y, frames, height = __CUTSCENE_JUMP_HEIGHT, easing = __CUTSCENE_EASE_LINEAR) : CutsceneAction() constructor {
+  3422: function ActionCameraShake(frames = __CUTSCENE_DEFAULT_EFFECT_FRAMES, _magnitude = 4, _magnitude_x = undefined, _magnitude_y = undefined, _decay = false, _frequency = 1) : ActionShakeBase(frames, _magnitude, _magnitude_x, _magnitude_y, _decay, _frequency) constructor {
+  3447: /// @function ActionGroup(_targets, _context, _generator_fn)
+  3448: /// @description Создаёт параллельное действие по генератору для каждой цели.
+  3454: function ActionGroup(_targets, _context, _generator_fn) : CutsceneAction() constructor {
+  3496: function ActionParallel(actions_array) : CutsceneAction() constructor {
+  3614: function ActionScheduleAction(delay_seconds, inner_action, blocking, tag) : CutsceneAction() constructor {
+  3703: function __cutscene_update_attachments() {
+  3749: /// @function ActionAttachToTarget(target_ref, parent_ref, _offset_x, _offset_y, follow_facing, follow_scale, follow_depth, duration_seconds, detach_on_cutscene_end)
+  3750: /// @description Прикрепляет актёра к родителю с заданным offset. При duration=0 — мгновенно, иначе твинит позицию.
+  3760: function ActionAttachToTarget(target_ref, parent_ref, _offset_x, _offset_y, follow_facing, follow_scale, follow_depth, duration_seconds, detach_on_cutscene_end) : CutsceneAction() constructor {
+  3917: /// @function ActionDetach(target_ref, destroy_after_detach)
+  3918: /// @description Отвязывает актёра от родителя и опционально уничтожает его.
+  3921: function ActionDetach(target_ref, destroy_after_detach) : CutsceneAction() constructor {
+  3945: function ActionBranch(condition_func, true_actions, false_actions) : CutsceneAction() constructor {
+  3984: /// @function ActionBranchFlag(flag_key, operator, expected_val, true_actions, false_actions)
+  3985: /// @desc Ветвление катсцены на основе значения в global.flag[flag_key].
+  3988: function ActionBranchFlag(flag_key, operator, expected_val, true_actions, false_actions) : CutsceneAction() constructor {
+  4058: /// @function __cutscene_resolve_state_value(var_path)
+  4059: /// @desc Разрешает значение переменной состояния мира по имени или dot-пути.
+  4067: function __cutscene_resolve_state_value(var_path) {
+  4129: /// @function __cutscene_compare_values(actual, expected)
+  4130: /// @desc Сравнивает значения состояния с толерантностью к строкам/числам/bool из JSON.
+  4131: function __cutscene_compare_values(actual, expected) {
+  4185: function ActionGuardGlobal(var_name, equals_value, inner_actions, _if_false, _stop_when, _end_var, _end_equals, _end_node, _end_timeout_frames) : CutsceneAction() constructor {
+  4300: function ActionCameraCenter(_center_x, _center_y) : CutsceneAction() constructor {
+  4322: /// @function ActionCameraPanBase(_frames)
+  4323: /// @desc Базовый класс для панорамирования камеры. Содержит общую логику для ActionCameraPan и ActionCameraPanSpeed.
+  4325: function ActionCameraPanBase(_frames) : CutsceneAction() constructor {
+  4331:     /// @desc Вычисляет целевые координаты и тип ослабления (переопределяется в наследниках)
+  4374: function ActionCameraPan(view_x, view_y, frames) : ActionCameraPanBase(frames) constructor {
+  4385: function ActionCameraPanSpeed(_speed_x, _speed_y, frames) : ActionCameraPanBase(frames) constructor {
+  4399: function ActionCameraPanToObj(_target, frames) : CutsceneAction() constructor {
+  4452: /// @function ActionCameraTrackBase(_target, _offset_x, _offset_y)
+  4453: /// @desc Базовый класс для отслеживания цели камерой. Содержит общую логику для ActionCameraTrack и ActionCameraTrackUntilStop.
+  4457: function ActionCameraTrackBase(_target, _offset_x = 0, _offset_y = 0) : CutsceneAction() constructor {
+  4496:     /// @desc Проверяет, следует ли завершить отслеживание (переопределяется в наследниках)
+  4503: function ActionCameraTrack(target_ref, frames, offset_x = 0, offset_y = 0) : ActionCameraTrackBase(target_ref, offset_x, offset_y) constructor {
+  4513: function ActionCameraTrackUntilStop(target_ref, offset_x = 0, offset_y = 0) : ActionCameraTrackBase(target_ref, offset_x, offset_y) constructor {
+  4536: function ActionWaitForInteract(target_ref, timeout_frames = 0, timeout_action = __CUTSCENE_ON_EVENT_CONTINUE, interact_action = __CUTSCENE_ON_EVENT_CONTINUE) : CutsceneAction() constructor {
+  4608: function ActionSetFlag(key, value) : CutsceneAction() constructor {
+  4626: function ActionSetPlot(value) : CutsceneAction() constructor {
+  4637: function ActionSpawnEntity(object_name, x, y, key, depth_val, persistent_flag) : CutsceneAction() constructor {
+  4681: /// @function ActionDestroy(target_ref)
+  4682: /// @desc Уничтожает объект с защитой от уничтожения игрока. Объединённый класс для ActionActorDestroy и ActionDestroyEntity.
+  4684: function ActionDestroy(target_ref) : CutsceneAction() constructor {
+  4716: function ActionRoomChange(target_room_ref, px, py, actor_pos_struct) : CutsceneAction() constructor {
+  4813: function ActionPartialControl(_control_type, whitelist_array, allowed_actions_array = undefined) : CutsceneAction() constructor {
+  4846: /// @function __cutscene_cleanup_old_checkpoints()
+  4847: /// @description Удаляет старые checkpoint-ы при превышении лимита (LRU).
+  4848: function __cutscene_cleanup_old_checkpoints() {
+  4876: /// @function ActionCheckpointState(_checkpoint_id, _config)
+  4877: /// @description Создаёт snapshot состояния катсцены и сохраняет его в global registry.
+  4880: function ActionCheckpointState(_checkpoint_id, _config) : CutsceneAction() constructor {
+  4932: /// @function ActionRestoreState(_checkpoint_id, _options)
+  4933: /// @description Восстанавливает состояние из checkpoint.
+  4936: function ActionRestoreState(_checkpoint_id, _options) : CutsceneAction() constructor {
+  5024: function __cutscene_room_entry_spawn(_entry) {
+  5027: /// @function scr_room_entry_check()
+  5028: /// @desc Точка вызова из obj_globalManager/Step_0 при смене комнаты.
+  5034: function scr_room_entry_check() {
+
+=== scripts/scr_cutscene_make/scr_cutscene_make.gml ===
+     5: /// @function scr_cutscene_make()
+     6: /// @desc Создаёт менеджер катсцен и возвращает ссылку на него.
+     8: function scr_cutscene_make() {
+
+=== scripts/scr_cutscene_music/scr_cutscene_music.gml ===
+     1: /// @desc Cutscene action classes и wrapper-функции для управления музыкой из катсцен.
+     5: /// @function __cutscene_music_call(func_name, args)
+     6: /// @desc Проверяет существование и вызывает глобальную music-функцию, если она доступна.
+    11: function __cutscene_music_call(_func_name, _args) {
+    25: /// @function ActionMusicPlay(snd_asset, fade_sec, volume, persist_room_change)
+    26: /// @desc Cutscene action: переключает музыку на указанный трек с кроссфейдом и целевой громкостью.
+    32: function ActionMusicPlay(_snd_asset, _fade_sec, _volume = 1.0, _persist_room_change = true) : CutsceneAction() constructor {
+    58: /// @function ActionMusicStop(fade_sec, use_layered)
+    59: /// @desc Cutscene action: останавливает музыку с опциональным фейдом.
+    64: function ActionMusicStop(_fade_sec, _use_layered = false) : CutsceneAction() constructor {
+    81: /// @function ActionMusicVolume(vol, fade_sec)
+    82: /// @desc Cutscene action: плавно меняет громкость текущего трека.
+    85: function ActionMusicVolume(_vol, _fade_sec) : CutsceneAction() constructor {
+    98: /// @function ActionMusicPitch(pitch)
+    99: /// @desc Cutscene action: устанавливает pitch текущего трека.
+   101: function ActionMusicPitch(_pitch) : CutsceneAction() constructor {
+   113: /// @function ActionMusicPause()
+   114: /// @desc Cutscene action: ставит текущую музыку на паузу (включая intro, layer2 и prev-каналы).
+   115: function ActionMusicPause() : CutsceneAction() constructor {
+   121: /// @function ActionMusicResume()
+   122: /// @desc Cutscene action: снимает музыку с паузы.
+   123: function ActionMusicResume() : CutsceneAction() constructor {
+   131: /// @function ActionMusicIntroLoop(intro_asset, loop_asset, fade_sec)
+   132: /// @desc Cutscene action: играет intro один раз, затем переключается на loop.
+   136: function ActionMusicIntroLoop(_intro_asset, _loop_asset, _fade_sec) : CutsceneAction() constructor {
+   157: /// @function cutscene_music_pitch(pitch)
+   159: function cutscene_music_pitch(_pitch) {
+   165: /// @function cutscene_music_pause()
+   166: /// @desc Возвращает ActionMusicPause для добавления в катсцену.
+   168: function cutscene_music_pause() {
+   172: /// @function cutscene_music_resume()
+   173: /// @desc Возвращает ActionMusicResume для добавления в катсцену.
+   175: function cutscene_music_resume() {
+   181: /// @function ActionMusicDuck(multiplier, fade_sec)
+   182: /// @desc Cutscene action: приглушает музыку относительно текущей громкости.
+   185: function ActionMusicDuck(_multiplier, _fade_sec) : CutsceneAction() constructor {
+   196: /// @function ActionMusicUnduck(fade_sec)
+   197: /// @desc Cutscene action: снимает приглушение музыки.
+   199: function ActionMusicUnduck(_fade_sec) : CutsceneAction() constructor {
+   211: /// @function ActionMusicPlayLayered(calm_asset, battle_asset, fade_sec)
+   212: /// @desc Cutscene action: запускает два трека синхронно (calm + battle).
+   216: function ActionMusicPlayLayered(_calm_asset, _battle_asset, _fade_sec) : CutsceneAction() constructor {
+   228: /// @function ActionMusicSetIntensity(intensity, fade_sec)
+   229: /// @desc Cutscene action: меняет соотношение calm/battle слоёв.
+   232: function ActionMusicSetIntensity(_intensity, _fade_sec = 1.0) : CutsceneAction() constructor {
+   245: /// @function ActionMusicIntroLayered(intro_asset, calm_asset, battle_asset, fade_sec, start_intensity)
+   246: /// @desc Cutscene action: играет intro, затем автоматически переключается на layered loop (calm + battle).
+   252: function ActionMusicIntroLayered(_intro_asset, _calm_asset, _battle_asset, _fade_sec, _start_intensity) : CutsceneAction() constructor {
+   268: /// @function ActionMusicPhaseSequence(phases, fade_sec)
+   269: /// @desc Cutscene action: запускает фазовую последовательность музыки через MusicPhaseManager.
+   273: function ActionMusicPhaseSequence(_phases, _fade_sec) : CutsceneAction() constructor {
+
+=== scripts/scr_debug_activation_check/scr_debug_activation_check.gml ===
+     1: /// @function scr_debug_activation_check()
+     2: /// @description Секретное включение debug по F12 (5 нажатий за 2 секунды).
+     3: function scr_debug_activation_check() {
+
+=== scripts/scr_debug_draw_helpers/scr_debug_draw_helpers.gml ===
+     1: /// @function draw_text_outlined(xx, yy, text, scale, outline_col, text_col)
+     2: /// @description Отрисовка текста с обводкой (4 направления) для debug overlay.
+     9: function draw_text_outlined(xx, yy, text, scale, outline_col, text_col) {
+    20: /// @function draw_debug_collider(obj_type, color, _camx, _camy, _s, _ox, _oy)
+    21: /// @description Отрисовка bbox/sprite всех инстансов указанного типа объекта для debug overlay.
+    29: function draw_debug_collider(obj_type, color, _camx, _camy, _s, _ox, _oy) {
+
+=== scripts/scr_defaultLoad/scr_defaultLoad.gml ===
+     1: /// @function scr_defaultLoad()
+     2: /// @description Сценарий «новой игры» при выборе пустого слота: сбрасывает
+    11: function scr_defaultLoad(){
+
+=== scripts/scr_emote_system/scr_emote_system.gml ===
+     1: /// @desc Глобальная система emote bubbles, доступная не только в катсценах
+    15: /// @function emote_show(_target, _sprite, _duration, _offset_x, _offset_y, _scale)
+    16: /// @description Показывает всплывающую эмоцию (попап) над головой персонажа.
+    24: function emote_show(_target, _sprite = undefined, _duration = 60, _offset_x = 0, _offset_y = -24, _scale = 1) {
+    71: /// @function emote_hide_all_for(_target)
+    73: function emote_hide_all_for(_target) {
+    76: /// @function emote_hide_all()
+    77: function emote_hide_all() {
+    84: /// @function __emote_system_ready()
+    85: /// @description Проверяет, что глобальная система эмоций уже создана в obj_Init.
+    87: function __emote_system_ready() {
+    93: /// @function __emote_sprite_speed_per_frame(_spr)
+    94: /// @description Переводит авторскую скорость анимации спрайта в кадры за один кадр игры.
+    97: function __emote_sprite_speed_per_frame(_spr) {
+   107: /// @function emote_resolve_sprite(_sprite)
+   108: /// @description Превращает входные данные (строку или индекс) в валидный индекс спрайта.
+   111: function emote_resolve_sprite(_sprite) {
+   146: /// @function emote_step()
+   147: /// @description Обновляет состояние всех эмоций (время жизни и анимацию).
+   149: function emote_step() {
+   178: /// @function emote_draw_gui(_camx, _camy, _scale, _offset_x, _offset_y)
+   179: /// @description Отрисовывает все активные эмоции на слое GUI.
+   185: function emote_draw_gui(_camx, _camy, _scale, _offset_x, _offset_y) {
+
+=== scripts/scr_entity_state/scr_entity_state.gml ===
+     1: /// @function scr_entity_state_get(room_name, entity_id)
+     2: /// @description Возвращает сохранённое состояние сущности из реестра global.entity_state.
+     6: function scr_entity_state_get(room_name, entity_id) {
+    21: /// @function scr_entity_state_set(room_name, entity_id, state_struct)
+    22: /// @description Сохраняет состояние сущности в реестр global.entity_state.
+    27: function scr_entity_state_set(room_name, entity_id, state_struct) {
+    39: /// @function scr_entity_state_clear(room_name, entity_id)
+    40: /// @description Удаляет сохранённое состояние конкретной сущности из global.entity_state.
+    44: function scr_entity_state_clear(room_name, entity_id) {
+    66: /// @function scr_world_flag_set(room_name, flag, value)
+    67: /// @description Записывает персистентный флаг комнаты в мировое состояние.
+    72: function scr_world_flag_set(room_name, flag, value) {
+    83: /// @function scr_world_flag_get(room_name, flag, _default)
+    84: /// @description Читает персистентный флаг комнаты из мирового состояния.
+    89: function scr_world_flag_get(room_name, flag, _default = false) {
+
+=== scripts/scr_format_playtime/scr_format_playtime.gml ===
+     1: /// @function scr_format_playtime(seconds)
+     2: /// @desc Преобразует количество секунд в строку формата H:MM:SS.
+     5: function scr_format_playtime(seconds) {
+
+=== scripts/scr_game_state/scr_game_state.gml ===
+     1: /// @function scr_game_state_get_path()
+     2: /// @desc Возвращает стандартизированный абсолютный путь к файлу game_state.dat.
+     3: function scr_game_state_get_path() {
+    10: /// @function scr_game_state_default()
+    11: /// @desc Возвращает структуру game_state по умолчанию.
+    12: function scr_game_state_default() {
+    19: /// @function scr_game_state_load()
+    20: /// @desc Загружает game_state из файла (game_state.dat). При отсутствии файла возвращает дефолт.
+    22: function scr_game_state_load() {
+    74: /// @function scr_game_state_save(state)
+    75: /// @desc Сохраняет структуру game_state в файл (game_state.dat) атомарно через .tmp.
+    77: function scr_game_state_save(state) {
+
+=== scripts/scr_get_next_game_room/scr_get_next_game_room.gml ===
+     1: /// @function scr_room_is_dev_navigation_excluded(_room_name)
+     2: /// @desc Единый фильтр комнат, которые не должны быть целями dev-навигации
+     9: function scr_room_is_dev_navigation_excluded(_room_name) {
+    22: /// @function scr_get_next_game_room(direction)
+    23: /// @desc Возвращает следующую/предыдущую игровую комнату, пропуская служебные
+    25: function scr_get_next_game_room(direction) {
+
+=== scripts/scr_global_debug_hotkeys/scr_global_debug_hotkeys.gml ===
+     1: /// @function __debug_jump_room(_direction)
+     2: /// @description Debug-прыжок по игровым комнатам с безопасным спавном (F5 назад, F6 вперёд).
+     6: function __debug_jump_room(_direction) {
+    24: /// @function scr_global_debug_hotkeys()
+    25: /// @desc Обрабатывает функциональные клавиши дебага (F1-F7, F9).
+    29: function scr_global_debug_hotkeys() {
+
+=== scripts/scr_global_handle_dev_spawn/scr_global_handle_dev_spawn.gml ===
+     1: /// @function scr_global_handle_dev_spawn()
+     2: /// @description Создаёт игрока в комнате после DEV-LOAD
+     3: function scr_global_handle_dev_spawn() {
+
+=== scripts/scr_global_handle_notifications/scr_global_handle_notifications.gml ===
+     1: /// @function scr_global_handle_notifications()
+     2: /// @desc Обновляет таймер уведомлений и отключает их после истечения (в секундах, FPS-независимо)
+     6: function scr_global_handle_notifications() {
+
+=== scripts/scr_global_music_fade_previous/scr_global_music_fade_previous.gml ===
+     1: /// @function scr_global_music_fade_previous()
+     2: /// @desc Обрабатывает плавное затухание предыдущего трека музыки (time-based).
+     3: function scr_global_music_fade_previous() {
+
+=== scripts/scr_global_music_update_current/scr_global_music_update_current.gml ===
+     1: /// @function scr_global_music_update_current()
+     2: /// @desc Обновляет громкость текущего трека (time-based fade), duck multiplier,
+     4: function scr_global_music_update_current() {
+
+=== scripts/scr_global_on_room_change/scr_global_on_room_change.gml ===
+     1: /// @function scr_global_on_room_change(prev_room, new_room)
+     2: /// @desc Обработка смены комнаты: уведомления, музыка, антизастревание
+     9: function scr_global_on_room_change(prev_room, new_room) {
+
+=== scripts/scr_global_quick_save/scr_global_quick_save.gml ===
+     1: /// @function scr_global_quick_save()
+     2: /// @desc Быстрый сейв в текущий слот (клавиша F7, вызывается только в
+     5: function scr_global_quick_save() {
+
+=== scripts/scr_global_reset_settings_flag/scr_global_reset_settings_flag.gml ===
+     6: /// @function scr_global_reset_settings_flag()
+     7: /// @desc Заглушка без эффекта.
+     8: function scr_global_reset_settings_flag() {
+
+=== scripts/scr_global_toggle_fullscreen/scr_global_toggle_fullscreen.gml ===
+     1: /// @function scr_global_toggle_fullscreen()
+     2: /// @desc Обрабатывает глобальную клавишу Q для мгновенного переключения полноэкранного режима.
+     3: function scr_global_toggle_fullscreen() {
+
+=== scripts/scr_global_transition_safety/scr_global_transition_safety.gml ===
+     1: /// @function scr_global_transition_safety()
+     2: /// @desc Обрабатывает выталкивание игрока и выключение transition_ghost
+     4: function scr_global_transition_safety() {
+
+=== scripts/scr_inputApi/scr_inputApi.gml ===
+     8: /// @function scr_input__keys_for_action(action)
+     9: /// @desc Возвращает массив клавиш, назначенных на указанное действие (например, "jump" -> [vk_space, ord("Z")]).
+    11: function scr_input__keys_for_action(action) {
+    21: /// @function scr_input_actions_list()
+    22: /// @desc Единый список переназначаемых действий ввода. Все места, которым нужен
+    27: function scr_input_actions_list() {
+    31: /// @function scr_input_normalize_key(code)
+    32: /// @desc Приводит сохранённый код клавиши к допустимому значению.
+    41: function scr_input_normalize_key(code) {
+    49: /// @function scr_input__is_cutscene_blocked_here(_action)
+    50: /// @desc Проверяет, должен ли ввод быть заблокирован из-за активной катсцены.
+    54: function scr_input__is_cutscene_blocked_here(_action = "") {
+   114: /// @function scr_input__partial_control_allows(_mgr, _action)
+   115: /// @desc Проверяет, разрешено ли действие ввода в WHITELIST-режиме partial_control.
+   123: function scr_input__partial_control_allows(_mgr, _action) {
+   139: /// @function scr_input_gamepad_update()
+   140: /// @desc Обновляет состояние осей стиков геймпада раз за кадр (вызывается из obj_globalManager/Step_0).
+   141: function scr_input_gamepad_update() {
+   177: /// @function scr_input__gamepad_down(action)
+   178: /// @desc Проверяет ввод с геймпада (удержание кнопки или отклонение стика).
+   181: function scr_input__gamepad_down(action) {
+   222: /// @function scr_input__gamepad_pressed(action)
+   223: /// @desc Проверяет одиночное нажатие кнопки геймпада или отклонение стика.
+   226: function scr_input__gamepad_pressed(action) {
+   271: /// @function scr_input_down(action)
+   272: /// @desc Проверяет, УДЕРЖИВАЕТСЯ ли клавиша или кнопка геймпада для указанного действия.
+   274: function scr_input_down(action) {
+   301: /// @function scr_input_pressed(action)
+   302: /// @desc Проверяет, была ли НАЖАТА клавиша или кнопка геймпада (один раз) в этом кадре.
+   304: function scr_input_pressed(action) {
+   343: /// @function scr_input_repeater(action, delay, interval)
+   344: /// @desc Обрабатывает повторение ввода (как при зажатии клавиши печати) с учётом клавиатуры и геймпада.
+   348: function scr_input_repeater(action, delay = undefined, interval = undefined) {
+   439: /// @function scr_input_rebind(action, new_key)
+   440: /// @desc Переназначает основной слот действия (обёртка над scr_input_rebind_slot).
+   443: function scr_input_rebind(action, new_key) {
+   447: /// @function scr_input_rebind_slot(action, slotIndex, new_key, target_settings)
+   448: /// @desc Переназначает конкретный слот (1 или 2) для действия.
+   453: function scr_input_rebind_slot(action, slotIndex, new_key, target_settings = undefined) {
+   566: /// @function scr_input_keys_hint(settings, action)
+   567: /// @desc Собирает человекочитаемую подсказку клавиш действия из настроек —
+   574: function scr_input_keys_hint(settings, action) {
+
+=== scripts/scr_inventory_init/scr_inventory_init.gml ===
+     1: /// @function scr_inventory_init()
+     2: /// @description Инициализация ООП-инвентаря. Вызывается один раз из obj_Init.Create_0.
+     3: function scr_inventory_init() {
+    61: /// @function scr_stats_recalc()
+    62: /// @description Пересчитывает эффективные stat_atk/stat_def как
+    67: function scr_stats_recalc() {
+
+=== scripts/scr_item_apply_use/scr_item_apply_use.gml ===
+     1: /// @function scr_item_apply_use(_item)
+     2: /// @description Применяет эффект предмета к состоянию игры (мутации глобалов/предмета).
+     5: function scr_item_apply_use(_item) {
+
+=== scripts/scr_key_to_string/scr_key_to_string.gml ===
+     1: /// @function scr_key_to_string(key)
+     2: /// @desc Возвращает человекочитаемое имя клавиши
+     4: function scr_key_to_string(key) {
+
+=== scripts/scr_layer_ensure_instances/scr_layer_ensure_instances.gml ===
+     1: /// @function scr_layer_ensure_instances()
+     2: /// @description Гарантирует существование слоя "Instances" в текущей комнате; создаёт его на depth 0, если слоя нет.
+     4: function scr_layer_ensure_instances() {
+
+=== scripts/scr_menu_shader_guard/scr_menu_shader_guard.gml ===
+     1: /// @function scr_menu_shader_push()
+     2: /// @desc Включает ручную отрисовку application_surface (для шейдера меню) с учётом вложенности.
+     3: function scr_menu_shader_push() {
+    13: /// @function scr_menu_shader_pop()
+    14: /// @desc Отключает ручную отрисовку application_surface, когда вложенность меню обнулилась.
+    15: function scr_menu_shader_pop() {
+
+=== scripts/scr_menu_volume_guard/scr_menu_volume_guard.gml ===
+     1: /// @function scr_menu_volume_push(target)
+     2: /// @desc Ставит мастер-громкость на время меню (0.8 от текущей) с учётом вложенности.
+     4: function scr_menu_volume_push(target = 0.8) {
+    17: /// @function scr_menu_volume_pop()
+    18: /// @desc Восстанавливает мастер-громкость, когда стек меню опустел.
+    19: function scr_menu_volume_pop() {
+
+=== scripts/scr_music_init/scr_music_init.gml ===
+     1: /// @function scr_music_init()
+     2: /// @desc Инициализация музыкальной системы: глобальные переменные и функции управления музыкой.
+     4: function scr_music_init() {
+   140:     /// @function __music_get_settings_volume()
+   154:     /// @function global.__music_stop_intro()
+   155:     /// @desc Останавливает текущий intro (если играет или на паузе) и сбрасывает
+   174:     /// @function global.play_music(snd_asset)
+   175:     /// @desc Плавная смена трека с дефолтным временем фейда.
+   186:     /// @function global.play_music_fade(snd_asset, fade_sec)
+   187:     /// @desc Плавная смена трека с явным временем фейда.
+   243:     /// @function global.play_music_intro_layered(intro_asset, calm_asset, battle_asset, fade_sec, start_intensity)
+   244:     /// @desc Играет intro один раз, затем переключается на layered loop (calm + battle).
+   268:     /// @function global.play_music_immediate(snd_asset)
+   269:     /// @desc Мгновенная смена трека (старый останавливается сразу, новый играет сразу).
+   322:     /// @function global.stop_music(fade_sec)
+   323:     /// @desc Останавливает текущую музыку. Если fade_sec > 0, плавно затухает.
+   379:     /// @function global.set_music_pitch(pitch)
+   380:     /// @desc Устанавливает pitch текущего трека (1.0 = нормальный).
+   400:     /// @function global.set_music_volume_fade(vol, fade_sec)
+   401:     /// @desc Плавно меняет громкость текущего трека (не меняет трек).
+   451:     /// @function global.play_music_intro_loop(intro_asset, loop_asset, fade_sec)
+   452:     /// @desc Играет intro один раз, затем автоматически переключается на loop.
+   511:     /// @function global.pause_music()
+   512:     /// @desc Ставит текущую музыку на паузу (включая layer2, prev_instance, prev_layer2, intro).
+   537:     /// @function global.resume_music()
+   538:     /// @desc Снимает музыку с паузы.
+   563:     /// @function global.duck_music(multiplier, fade_sec)
+   564:     /// @desc Приглушает музыку относительно текущей громкости из настроек.
+   614:     /// @function global.unduck_music(fade_sec)
+   615:     /// @desc Снимает приглушение (duck_multiplier → 1.0).
+   623:     /// @function global.__music_stop_layer2()
+   624:     /// @desc Вспомогательная: останавливает второй слой, если играет.
+   638:     /// @function global.play_music_layered(calm_asset, battle_asset, fade_sec)
+   639:     /// @desc Запускает два трека синхронно: calm (instance) + battle (layer2_instance).
+   711:     /// @function global.set_music_layer_intensity(intensity, fade_sec)
+   712:     /// @desc Меняет соотношение calm/battle слоёв.
+   735:     /// @function global.stop_layered_music(fade_sec)
+   736:     /// @desc Останавливает оба слоя с фейдом.
+   799:     /// @desc Полный сброс последовательности фаз.
+   806:     /// @desc Загружает массив фаз (структуры {intro, calm, battle, intensity, fade});
+   822:     /// @desc Проигрывает фазу по индексу: intro→intro_layered, battle→layered,
+   871:     /// @desc Запускает последовательность с фазы 0.
+   878:     /// @desc Переходит к следующей фазе (current_index + 1).
+   885:     /// @desc Меняет интенсивность layered-слоёв текущей фазы.
+   893:     /// @desc Останавливает музыку фазы (layered-aware) и сбрасывает current_index.
+   905:     /// @function global.play_music_phase_sequence(phases, fade_sec)
+   906:     /// @desc Загружает массив фаз в music_phase_manager и запускает первую фазу.
+   915:     /// @function global.music_phase_next(fade_sec)
+   916:     /// @desc Переходит к следующей фазе последовательности.
+   925: /// @function __music_handoff_to_prev(fade_sec)
+   926: /// @desc Переносит текущий трек (и battle-слой в layered-режиме) в prev-канал
+   930: function __music_handoff_to_prev(_fade_sec) {
+   967: /// @function __music_fade_lerp(timer, duration, from, to)
+   968: /// @desc Значение time-based фейда по оставшемуся времени таймера.
+   976: function __music_fade_lerp(_timer, _duration, _from, _to) {
+
+=== scripts/scr_npc_pick_dialogue/scr_npc_pick_dialogue.gml ===
+     4: function scr_npc_pick_dialogue(){
+
+=== scripts/scr_p3r_draw_cursor/scr_p3r_draw_cursor.gml ===
+     1: /// @function scr_p3r_draw_cursor(x, y, [size], [color], [alpha])
+     2: /// @desc Undertale-style red pixel heart cursor
+     8: function scr_p3r_draw_cursor(_x, _y, _size = 16, _color = undefined, _alpha = 1) {
+
+=== scripts/scr_p3r_draw_panel/scr_p3r_draw_panel.gml ===
+     1: /// @function scr_p3r_draw_panel(x, y, w, h, [alpha], [slant])
+     2: /// @desc Undertale-style rectangular box with white border and dark fill
+     9: function scr_p3r_draw_panel(_x, _y, _w, _h, _alpha = 0.9, _slant = 0) {
+    37: /// @function scr_p3r_draw_button(x, y, w, h, selected, alpha, [slant])
+    38: /// @desc Undertale-style button row: selected = dark red highlight, unselected = plain
+    39: function scr_p3r_draw_button(_x, _y, _w, _h, _selected, _alpha, _slant = 0) {
+
+=== scripts/scr_p3r_menu_init/scr_p3r_menu_init.gml ===
+     1: /// @function scr_p3r_menu_state_create(options, [initial_index])
+     2: /// @desc Creates a menu state struct for P3R menus
+     6: function scr_p3r_menu_state_create(_options, _initial_index = 0) {
+    25: /// @function scr_p3r_menu_get_selected(menu_state)
+    26: /// @desc Returns the currently selected option [label, function]
+    27: function scr_p3r_menu_get_selected(_state) {
+    32: /// @function scr_p3r_menu_execute_selected(menu_state)
+    33: /// @desc Executes the function of the selected option
+    34: function scr_p3r_menu_execute_selected(_state) {
+    42: /// @function scr_p3r_menu_close(menu_state)
+    43: /// @desc Marks menu for closing transition
+    44: function scr_p3r_menu_close(_state) {
+
+=== scripts/scr_p3r_menu_nav/scr_p3r_menu_nav.gml ===
+     1: /// @function scr_p3r_menu_nav(index, count, wrap, actions, [allow_horizontal])
+     2: /// @desc Navigation wrapper: vertical + optional horizontal
+     9: function scr_p3r_menu_nav(_index, _count, _wrap, _actions, _allow_horizontal = false) {
+
+=== scripts/scr_p3r_palette/scr_p3r_palette.gml ===
+     1: /// @function scr_p3r_palette()
+     2: /// @desc Global color palette for Undertale-style menus. Call once at init.
+     3: function scr_p3r_palette() {
+
+=== scripts/scr_p3r_particles/scr_p3r_particles.gml ===
+     1: /// @function scr_p3r_particles_create()
+     2: /// @desc Creates a particle system for Undertale-style menu effects. Returns struct with system + types.
+     3: function scr_p3r_particles_create() {
+    42: /// @function scr_p3r_particles_destroy(particles)
+    43: /// @desc Destroys a particle system and all its types
+    44: function scr_p3r_particles_destroy(_particles) {
+    52: /// @function scr_p3r_particles_burst(particles, type, x, y, count)
+    53: /// @desc Emits a burst of particles at position
+    54: function scr_p3r_particles_burst(_particles, _type, _x, _y, _count) {
+    59: /// @function scr_p3r_particles_stream(particles, type, x, y, count)
+    60: /// @desc Emits a continuous stream of particles
+    61: function scr_p3r_particles_stream(_particles, _type, _x, _y, _count) {
+
+=== scripts/scr_parse_emote/scr_parse_emote.gml ===
+     1: /// @function scr_parse_emote(_speaker_data_raw, _display_raw, _actor_prev, _emotion_prev, _display_prev, _forced_emotion)
+     2: /// @description Парсит raw speaker / speaker-data строки Chatterbox в нормализованный portrait state.
+    23: function scr_parse_emote(_speaker_data_raw, _display_raw = "", _actor_prev = "", _emotion_prev = "", _display_prev = "", _forced_emotion = ""){
+   123: /// @function __parse_emote_resolve_display(_display_in, _actor_key, _actor_prev_key, _display_prev_str)
+   124: /// @description Общий resolve подписи спикера для обычной и forced-веток scr_parse_emote.
+   132: function __parse_emote_resolve_display(_display_in, _actor_key, _actor_prev_key, _display_prev_str) {
+
+=== scripts/scr_player_animation/scr_player_animation.gml ===
+     1: /// @function scr_player_animation(ui_blocking, movement_inputs)
+     2: /// @description Обрабатывает анимацию игрока: обновление спрайтов направления и скорости анимации.
+     6: function scr_player_animation(ui_blocking, movement_inputs) {
+
+=== scripts/scr_player_debug_ghost/scr_player_debug_ghost.gml ===
+     1: /// @function scr_player_debug_ghost()
+     2: /// @description Обрабатывает debug-клавишу F8 для переключения режима призрака.
+     6: function scr_player_debug_ghost() {
+
+=== scripts/scr_player_facing/scr_player_facing.gml ===
+     1: /// @function scr_sprite_for_facing(_facing)
+     2: /// @description Возвращает спрайт ходьбы по направлению facing.
+     5: function scr_sprite_for_facing(_facing) {
+    12: /// @function scr_facing_for_sprite(_sprite)
+    13: /// @description Возвращает направление игрока по текущему спрайту.
+    16: function scr_facing_for_sprite(_sprite) {
+    27: /// @function scr_player_facing()
+    28: /// @description Обновляет facing_direction на основе текущего спрайта.
+    30: function scr_player_facing() {
+
+=== scripts/scr_player_marker_update/scr_player_marker_update.gml ===
+     1: /// @function scr_player_marker_update()
+     2: /// @description Обновляет позицию маркера взаимодействия по направлению взгляда
+     8: function scr_player_marker_update() {
+
+=== scripts/scr_player_movement/scr_player_movement.gml ===
+     7: function scr_player_movement() {
+
+=== scripts/scr_player_process_mutually_exclusive_inputs/scr_player_process_mutually_exclusive_inputs.gml ===
+    20: function scr_player_process_mutually_exclusive_inputs(_up, _down, _left, _right) {
+
+=== scripts/scr_player_room_lock/scr_player_room_lock.gml ===
+     1: /// @function scr_player_room_lock()
+     2: /// @description Сбрасывает блок комнатного перехода, когда игрок вышел из хитбокса roomChanger.
+     7: function scr_player_room_lock() {
+
+=== scripts/scr_player_slope_resolve/scr_player_slope_resolve.gml ===
+     1: /// @function scr_player_slope_resolve(_slope)
+     2: /// @description Скольжение игрока вдоль диагонали склона и запрет входа в треугольник. Вызывается из scr_collision_resolve в контексте obj_player до применения xspd/yspd.
+     5: function scr_player_slope_resolve(_slope) {
+    59: /// @function scr_player_cell_blocked_by_slope(_tx, _ty, _exclude)
+    60: /// @description Проверяет, заходит ли bbox вызывающего инстанса в целевой точке
+    68: function scr_player_cell_blocked_by_slope(_tx, _ty, _exclude) {
+
+=== scripts/scr_player_ui_blocking/scr_player_ui_blocking.gml ===
+     1: /// @function scr_player_ui_blocking()
+     2: /// @description Проверяет блокировку UI и выставляет can_move, учитывая катсцену.
+     9: function scr_player_ui_blocking() {
+
+=== scripts/scr_resetGameToDefault/scr_resetGameToDefault.gml ===
+     1: /// @function scr_resetGameToDefault()
+     2: /// @description Полностью очищает игровые данные и завершает игру (game_end).
+     3: function scr_resetGameToDefault() {
+
+=== scripts/scr_roomFromName/scr_roomFromName.gml ===
+     1: /// @function scr_roomFromName(_name)
+     2: /// @description Возвращает id комнаты по строковому имени, либо -1 если не найдено.
+    10: function scr_roomFromName(_name) {
+
+=== scripts/scr_room_fade_update/scr_room_fade_update.gml ===
+     1: /// @function scr_room_fade_update()
+     2: /// @desc Обновляет логику фейда при переходе между комнатами.
+     8: function scr_room_fade_update() {
+
+=== scripts/scr_saveLoad/scr_saveLoad.gml ===
+    14: /// @function scr_saveLoad(_change_room = true)
+    15: /// @description Загружает сейв из global.current_save_slot. Файл читается и
+    21: function scr_saveLoad(_change_room = true){
+   353: /// @function scr_save_slot_names()
+   354: /// @description Единый список слотов сохранений. Все места, которым нужен перечень
+   359: function scr_save_slot_names() {
+   363: /// @function scr_save_metadata_defaults(slot, path)
+   364: /// @description Базовая структура метаданных слота для отсутствующего/битого сейва.
+   372: function scr_save_metadata_defaults(_slot, _path) {
+   384: /// @function scr_save_read_metadata(slot_path)
+   385: /// @description Читает «шапку» сейв-файла (x, y, facing, room, playtime).
+   391: function scr_save_read_metadata(_slot_path) {
+
+=== scripts/scr_saveSave/scr_saveSave.gml ===
+     9: /// @function scr_saveSave()
+    10: /// @desc Пишет текущее состояние сессии в слот global.current_save_slot.
+    15: function scr_saveSave(){
+
+=== scripts/scr_settingsManager/scr_settingsManager.gml ===
+    52: /// @function scr_settings_parse_real(value_str, fallback)
+    53: /// @desc Преобразует строку из файла настроек в число. real() на нечисловой строке
+    59: function scr_settings_parse_real(value_str, fallback) {
+    67: /// @function scr_settings_safe_volume(v)
+    68: /// @desc Возвращает громкость в диапазоне 0..1; нечисловое значение или NaN
+    73: function scr_settings_safe_volume(v) {
+    78: /// @function scr_loadSettings()
+    79: /// @desc Загружает настройки из файла. Если файла нет, возвращает настройки по умолчанию.
+    80: function scr_loadSettings() {
+   213: /// @function scr_saveSettings(settings)
+   214: /// @desc Сохраняет переданные настройки в файл.
+   216: function scr_saveSettings(settings) {
+   259: /// @function scr_applySettings(settings)
+   260: /// @desc Применяет настройки к игре (изменяет громкость, разрешение, включает дебаг).
+   262: function scr_applySettings(settings) {
+   351: /// @function scr_resetSettings()
+   352: /// @desc Сбрасывает все настройки к значениям по умолчанию (копия + apply/save).
+   353: function scr_resetSettings() {
+   360: /// @function scr_settings_deep_copy(settings)
+   361: /// @desc Создаёт точную копию структуры настроек .
+   363: function scr_settings_deep_copy(settings) {
+   377: /// @function scr_settings_apply_and_save(local_settings, mode)
+   378: /// @desc Применяет и/или сохраняет настройки
+   381: function scr_settings_apply_and_save(local_settings, mode = "both") {
+   404: /// @function scr_resetInputToDefault(settings)
+   405: /// @desc Сбрасывает только клавиши управления к дефолту
+   407: function scr_resetInputToDefault(settings) {
+   422: /// @function scr_settings_misc_items()
+   423: /// @desc Единый источник раскладки пунктов категории «Разное» меню настроек:
+   429: function scr_settings_misc_items() {
+   439: /// @function scr_buildInputMap(settings)
+   440: /// @desc Создает структуру "действие -> массив клавиш" для системы ввода.
+   442: function scr_buildInputMap(settings) {
+
+=== scripts/scr_settings_step_category/scr_settings_step_category.gml ===
+     1: /// @function scr_settings_step_category(actions)
+     2: /// @desc Обработка выбранной категории настроек (навигация и подтверждения).
+    10: function scr_settings_step_category(actions) {
+
+=== scripts/scr_settings_step_confirm_reset/scr_settings_step_confirm_reset.gml ===
+     1: /// @function scr_settings_step_confirm_reset(actions)
+     2: /// @desc Экран подтверждения сбросов (управление и полный сброс игры).
+     7: function scr_settings_step_confirm_reset(actions) {
+
+=== scripts/scr_settings_step_rebind/scr_settings_step_rebind.gml ===
+     1: /// @function scr_settings_step_rebind(actions)
+     2: /// @desc Обработка режима переназначения клавиш.
+     7: function scr_settings_step_rebind(actions) {
+
+=== scripts/scr_settings_step_root/scr_settings_step_root.gml ===
+     1: /// @function scr_settings_step_root(actions)
+     2: /// @desc Обрабатывает корневой список категорий меню настроек.
+     9: function scr_settings_step_root(actions) {
+
+=== scripts/scr_stress_tests/scr_stress_tests.gml ===
+     1: /// @description GML-based stress tests for the cutscene engine.
+    12: function __stress_create_manager() {
+    18: function __stress_assert_pos(_target, _x, _y, _tol) {
+    22: function __stress_assert_actor_exists(_key, _expected) {
+    26: /// @description Просит obj_cutsceneTest нажать клавиши действия в начале ближайшего Step'а.
+    33: function __stress_request_action_press(_action) {
+    57: /// @description Взводит отложенный ассерт на obj_cutsceneTest.
+    65: function __stress_arm_cutscene_expectation(_mode, _frames, _message) {
+    76: function stress_save_during_camera_shake() {
+   102: function stress_save_during_actor_move() {
+   136: function stress_save_with_globals() {
+   156: function stress_restore_missing_checkpoint() {
+   178: function stress_save_multiple_checkpoints() {
+   210: function stress_cleanup_transients() {
+   235: function stress_parallel_move_shake_emote_tween() {
+   252: function stress_wait_for_interact_abort_parallel() {
+   271: function stress_wait_for_interact_timeout_abort() {
+   290: function stress_parallel_sequence_nesting() {
+   317: function stress_schedule_blocking_in_parallel() {
+   332: function stress_branch_in_parallel() {
+   347: function stress_attach_detach_during_move() {
+   395: function stress_instant_mode_all_actions() {
+   417: /// @description Реентерабельный рестарт: новый менеджер создаётся и стартует
+   421: function stress_rapid_restart_sequence() {
+   476: function stress_abort_mid_action() {
+   514: function stress_instant_toggle_during_move() {
+   530: function stress_actor_create_destroy_rapid() {
+   550: function stress_cutscene_finish_cleanup() {
+   591: /// @description Тестирует реальный skip катсцены нажатием "back".
+   597: function stress_skip_cutscene_via_back() {
+   624: /// @description Тестирует что prevent_skip (skippable=false) блокирует skip.
+   628: function stress_prevent_skip_blocks_back() {
+   663: /// @function stress_branch_flag_and_guard_dot()
+   664: /// @desc Тестирует ActionBranchFlag и dot-нотацию в ActionGuardGlobal.
+   665: function stress_branch_flag_and_guard_dot() {
+   714: /// @function stress_save_load_v3_cycle()
+   715: /// @desc Тестирует полный цикл сохранения и загрузки v3 (статы игрока, флаги, entity_state, Chatterbox).
+   716: function stress_save_load_v3_cycle() {
+   808: /// @function stress_dialogue_non_blocking_and_auto_advance()
+   809: /// @desc Тестирует неблокирующий диалог (block_queue: false) и автопролистывание.
+   810: function stress_dialogue_non_blocking_and_auto_advance() {
+   841: /// @function stress_lerp_factor_runtime()
+   842: /// @desc Тестирует честное пошаговое приближение ActionLerp с коэффициентом factor.
+   843: function stress_lerp_factor_runtime() {
+   867: /// @function stress_goto_forward_and_loop_guard()
+   868: /// @desc Тестирует прыжки вперед по ноде goto, пропуск действий и защиту от вечных циклов.
+   869: function stress_goto_forward_and_loop_guard() {
+   896: /// @function stress_partial_control_all_modes()
+   897: /// @desc Тестирует все 3 режима частичного контроля ввода (LOCKED, WHITELIST, FREE).
+   898: function stress_partial_control_all_modes() {
+   932: /// @function stress_inventory_equip_stats_cycle()
+   933: /// @desc Тестирует добавление предмета, экипировку и пересчет статов персонажа.
+   934: function stress_inventory_equip_stats_cycle() {
+   985: /// @function stress_entity_state_persistence_cycle()
+   986: /// @desc Тестирует сохранение, чтение и очистку памяти сущностей и комнатных флагов.
+   987: function stress_entity_state_persistence_cycle() {
+
+=== scripts/scr_test_asserts/scr_test_asserts.gml ===
+     1: /// @desc Cutscene-specific assertion helpers.
+     4: /// @function __scr_test_resolve_target(target)
+     7: function __scr_test_resolve_target(_target) {
+    22: function scr_test_assert_position(_target, _expected_x, _expected_y, _tolerance) {
+    35: function scr_test_remember_position(_target) {
+    47: function scr_test_assert_position_relative_offset(_target, _dx_total, _dy_total, _tolerance) {
+    66: /// @function scr_test_assert_position_not_equal(_target, _not_x, _not_y, _tolerance, _message)
+    67: /// @description Проверяет, что позиция актёра НЕ равна заданной (с допуском).
+    73: function scr_test_assert_position_not_equal(_target, _not_x, _not_y, _tolerance, _message) {
+    87: function scr_test_assert_facing(_target, _expected_dir) {
+    98: function scr_test_assert_visible(_target, _expected) {
+   109: function scr_test_assert_depth(_target, _expected) {
+   120: function scr_test_assert_image_xscale(_target, _expected_sign, _message) {
+   131: function scr_test_assert_image_angle(_target, _expected_min, _expected_max, _message) {
+   142: function scr_test_assert_sprite_index(_target, _expected_sprite) {
+   154: function scr_test_assert_instance_variable(_target, _var_name, _expected, _message) {
+   165: function scr_test_assert_actor_exists(_key, _expected) {
+   175: function scr_test_assert_flag(_key, _expected) {
+   184: function scr_test_assert_plot(_expected) {
+   190: function scr_test_assert_player_can_move(_expected) {
+   203: function scr_test_assert_instance_exists_by_object(_obj, _expected) {
+   210: function scr_test_assert_camera_at(_expected_x, _expected_y, _tolerance) {
+   222: function scr_test_assert_camera_centered_at(_center_x, _center_y, _tolerance) {
+   235: function scr_test_assert_camera_tracking_actor(_target, _tolerance) {
+   256: function scr_test_assert_no_cutscene_active(_message) {
+   260: function scr_test_assert_cutscene_active(_message) {
+   264: function scr_test_branch_true() { return true; }
+   265: function scr_test_branch_false() { return false; }
+   267: function scr_test_set_global_guard(_value) {
+   271: /// @function scr_test_set_global_var(_name, _value)
+   272: /// @description Устанавливает произвольную глобальную переменную для guard_global-тестов.
+   275: function scr_test_set_global_var(_name, _value) {
+   280: function scr_test_set_skippable(_value) {
+   287: function scr_test_rapid_restart(_json_path) {
+   296: /// @function scr_test_assert_music_playing(_expected_sound, _message)
+   297: /// @description Проверяет, что музыка играет (global.music_instance валиден и global.music_paused == false).
+   301: function scr_test_assert_music_playing(_expected_sound, _message) {
+   320: /// @function scr_test_assert_music_stopped(_message)
+   321: /// @description Проверяет, что музыка остановлена (music_instance == -1 И music_current == noone).
+   325: function scr_test_assert_music_stopped(_message) {
+   332: /// @function scr_test_assert_music_paused(_expected, _message)
+   333: /// @description Проверяет состояние паузы музыки (global.music_paused).
+   336: function scr_test_assert_music_paused(_expected, _message) {
+   342: /// @function scr_test_assert_music_volume(_expected, _tolerance, _message)
+   343: /// @description Проверяет целевую громкость музыки (global.music_volume_target).
+   347: function scr_test_assert_music_volume(_expected, _tolerance, _message) {
+   354: /// @function scr_test_assert_music_pitch(_expected, _tolerance, _message)
+   355: /// @description Проверяет pitch музыки (global.music_pitch).
+   359: function scr_test_assert_music_pitch(_expected, _tolerance, _message) {
+   366: /// @function scr_test_assert_music_duck(_expected, _tolerance, _message)
+   367: /// @description Проверяет множитель приглушения музыки (global.music_duck_target).
+   371: function scr_test_assert_music_duck(_expected, _tolerance, _message) {
+   378: /// @function scr_test_assert_music_intensity(_expected, _tolerance, _message)
+   379: /// @description Проверяет целевую интенсивность слоёв музыки (global.music_layer_intensity_target).
+   383: function scr_test_assert_music_intensity(_expected, _tolerance, _message) {
+   390: /// @function scr_test_assert_camera_shake_active(_message)
+   391: /// @description Проверяет, что есть активный camera shake в cutscene_runtime_shakes.
+   393: function scr_test_assert_camera_shake_active(_message) {
+   405: /// @function scr_test_assert_camera_shake_inactive(_message)
+   406: /// @description Проверяет, что нет активного camera shake.
+   408: function scr_test_assert_camera_shake_inactive(_message) {
+   420: /// @function scr_test_assert_object_shake_active(_target, _message)
+   421: /// @description Проверяет, что есть активный object shake для указанной цели.
+   424: function scr_test_assert_object_shake_active(_target, _message) {
+   441: /// @function scr_test_assert_object_shake_inactive(_target, _message)
+   442: /// @description Проверяет, что нет активного object shake для указанной цели.
+   445: function scr_test_assert_object_shake_inactive(_target, _message) {
+   464: /// @function scr_test_assert_emote_active(_target, _expected_sprite, _message)
+   465: /// @description Проверяет, что над указанным актёром есть активная эмоция.
+   470: function scr_test_assert_emote_active(_target, _expected_sprite, _message) {
+   498: /// @function scr_test_assert_emote_inactive(_target, _message)
+   499: /// @description Проверяет, что над указанным актёром нет активных эмоций.
+   502: function scr_test_assert_emote_inactive(_target, _message) {
+   524: /// @function scr_test_assert_dialogue_open(_message)
+   525: /// @description Проверяет, что диалоговое окно (textboxTest_scribble) активно.
+   527: function scr_test_assert_dialogue_open(_message) {
+   532: /// @function scr_test_assert_dialogue_closed(_message)
+   533: /// @description Проверяет, что диалоговое окно закрыто.
+   535: function scr_test_assert_dialogue_closed(_message) {
+   540: /// @function scr_test_assert_dialogue_speed(_expected, _tolerance, _message)
+   541: /// @description Проверяет скорость печати текста в активном диалоговом окне (char_speed).
+   545: function scr_test_assert_dialogue_speed(_expected, _tolerance, _message) {
+   558: /// @function scr_test_assert_dialogue_flag(_flag_name, _expected, _message)
+   559: /// @description Проверяет флаг диалогового окна (prevent_skip, stay_open, auto_advance).
+   563: function scr_test_assert_dialogue_flag(_flag_name, _expected, _message) {
+   579: /// @function scr_test_assert_actor_emotion(_target, _expected, _message)
+   580: /// @description Проверяет current_emotion на самом актёре (после set_emotion / set_portrait_now).
+   584: function scr_test_assert_actor_emotion(_target, _expected, _message) {
+   595: /// @function scr_test_assert_forced_emotion(_target, _expected, _message)
+   596: /// @description Проверяет forced-эмоцию актёра после set_portrait_next.
+   604: function scr_test_assert_forced_emotion(_target, _expected, _message) {
+   639: /// @function scr_test_assert_mark_node(_expected, _message)
+   640: /// @description Проверяет, что менеджер катсцен записал последнюю ноду (last_reached_node).
+   643: function scr_test_assert_mark_node(_expected, _message) {
+   658: /// @function scr_test_assert_fade_active(_message)
+   659: /// @description Проверяет, что fade эффект активен (cutscene_runtime_fade.active == true).
+   661: function scr_test_assert_fade_active(_message) {
+   670: /// @function scr_test_assert_fade_alpha(_expected, _tolerance, _message)
+   671: /// @description Проверяет целевую альфу fade эффекта (cutscene_runtime_fade.target_alpha).
+   675: function scr_test_assert_fade_alpha(_expected, _tolerance, _message) {
+   687: /// @function scr_test_assert_fade_inactive(_message)
+   688: /// @description Проверяет, что fade эффект завершён (active == false).
+   690: function scr_test_assert_fade_inactive(_message) {
+   703: /// @function scr_test_simulate_action_press(_action)
+   704: /// @description Симулирует нажатие клавиш, назначенных на действие.
+   706: function scr_test_simulate_action_press(_action) {
+   713: /// @function scr_test_release_action_keys(_action)
+   714: /// @description Отпускает клавиши, назначенные на действие.
+   716: function scr_test_release_action_keys(_action) {
+   723: /// @function scr_test_simulate_interact(_key)
+   724: /// @description Имитирует взаимодействие игрока с целью: кладёт инстанс в
+   728: function scr_test_simulate_interact(_key) {
+   740: /// @function scr_test_assert_global_var(_name, _expected, _message)
+   741: /// @description Проверяет значение произвольной глобальной переменной —
+   746: function scr_test_assert_global_var(_name, _expected, _message) {
+   753: /// @function scr_test_assert_interact_pending(_key, _expected, _message)
+   754: /// @description Проверяет, остаётся ли цель в очереди взаимодействий:
+   759: function scr_test_assert_interact_pending(_key, _expected, _message) {
+
+=== scripts/scr_test_catalog/scr_test_catalog.gml ===
+     1: /// @desc Returns the full catalog of cutscene test cases.
+     3: function scr_test_catalog() {
+
+=== scripts/scr_test_framework/scr_test_framework.gml ===
+     1: /// @desc Lightweight test framework for GML/cutscene assertions.
+     4: function __test_ensure_globals() {
+    16: /// @function scr_test_init(name)
+    17: /// @desc Start a new test case. Resets current-failure flag and per-test globals, logs the start.
+    19: function scr_test_init(_name) {
+    32: /// @function scr_test_assert(condition, message)
+    33: /// @desc Records a pass/fail for the current test. Failing pushes to global.__test_results.
+    36: function scr_test_assert(_condition, _message) {
+    51: function scr_test_assert_true(_value, _message) {
+    55: function scr_test_assert_eq(_expected, _actual, _message) {
+    60: function scr_test_current_failed() {
+    65: function scr_test_results_clear() {
+    77: function scr_test_print_summary() {
+    91: /// @function scr_test_snapshot_state()
+    92: /// @desc Делает полный снимок состояния сессии перед запуском тестов для изоляции.
+    93: function scr_test_snapshot_state() {
+   118: /// @function scr_test_restore_state()
+   119: /// @desc Восстанавливает состояние сессии из снимка, удаляя временные артефакты тестов.
+   120: function scr_test_restore_state() {
+
+=== scripts/scr_test_runner/scr_test_runner.gml ===
+     1: /// @desc Helpers for sequential Run All mode. State is stored in obj_cutsceneTest.
+     4: /// @function scr_test_runner_build_all()
+     6: function scr_test_runner_build_all() {
+    10: /// @function scr_test_runner_build_category(category)
+    13: function scr_test_runner_build_category(_category) {
+    22: /// @function scr_test_runner_start_test(item)
+    23: /// @desc Called by obj_cutsceneTest to start a single test item.
+    26: function scr_test_runner_start_test(_item) {
+
+=== scripts/scr_toggle_debug_flag/scr_toggle_debug_flag.gml ===
+     1: /// @function scr_toggle_debug_flag(flag_name)
+     2: /// @desc Переключает debug-флаг. Источник истины — global.* (читается
+     6: function scr_toggle_debug_flag(flag_name) {
+
+=== scripts/scr_ui_list_controller/scr_ui_list_controller.gml ===
+     1: /// @function scr_ui_list_controller(index, count, rows_per_col, columns, actions)
+     2: /// @desc Универсальная навигация по списку с несколькими колонками
+     9: function scr_ui_list_controller(index, count, rows_per_col, columns, actions) {
+
+=== scripts/scr_ui_nav_vertical/scr_ui_nav_vertical.gml ===
+     1: /// @function scr_ui_nav_vertical(index, count, wrap, actions)
+     2: /// @desc Простая вертикальная навигация по списку
+     8: function scr_ui_nav_vertical(index, count, wrap, actions) {
+
+=== scripts/scr_ui_read_actions/scr_ui_read_actions.gml ===
+     1: /// @function scr_ui_read_actions(exclude_self)
+     2: /// @desc Единое чтение ввода для меню (up/down/left/right/confirm/back/delete)
+     4: function scr_ui_read_actions(exclude_self = false) {
+
+=== scripts/scribble/scribble.gml ===
+     8: function scribble(_string, _unique_id = undefined)
+
+=== scripts/scribble_add_macro/scribble_add_macro.gml ===
+     5: function scribble_add_macro(_name, _function)
+
+=== scripts/scribble_anim_blink/scribble_anim_blink.gml ===
+     6: function scribble_anim_blink(_on_duration, _off_duration, _time_offset)
+
+=== scripts/scribble_anim_cycle/scribble_anim_cycle.gml ===
+     6: function scribble_anim_cycle(_speed, _saturation, _value)
+
+=== scripts/scribble_anim_disabled/scribble_anim_disabled.gml ===
+     5: function scribble_anim_disabled(_state)
+
+=== scripts/scribble_anim_get_disabled/scribble_anim_get_disabled.gml ===
+     3: function scribble_anim_get_disabled()
+
+=== scripts/scribble_anim_jitter/scribble_anim_jitter.gml ===
+     6: function scribble_anim_jitter(_min_scale, _max_scale, _speed)
+
+=== scripts/scribble_anim_pulse/scribble_anim_pulse.gml ===
+     5: function scribble_anim_pulse(_scale, _speed)
+
+=== scripts/scribble_anim_rainbow/scribble_anim_rainbow.gml ===
+     5: function scribble_anim_rainbow(_weight, _speed)
+
+=== scripts/scribble_anim_reset/scribble_anim_reset.gml ===
+     4: function scribble_anim_reset()
+
+=== scripts/scribble_anim_shake/scribble_anim_shake.gml ===
+     5: function scribble_anim_shake(_size, _speed)
+
+=== scripts/scribble_anim_wave/scribble_anim_wave.gml ===
+     6: function scribble_anim_wave(_size, _frequency, _speed)
+
+=== scripts/scribble_anim_wheel/scribble_anim_wheel.gml ===
+     6: function scribble_anim_wheel(_size, _frequency, _speed)
+
+=== scripts/scribble_anim_wobble/scribble_anim_wobble.gml ===
+     5: function scribble_anim_wobble(_angle, _frequency)
+
+=== scripts/scribble_color_get/scribble_color_get.gml ===
+     7: function scribble_color_get(_name)
+
+=== scripts/scribble_color_set/scribble_color_set.gml ===
+    17: function scribble_color_set(_name, _colour)
+
+=== scripts/scribble_default_preprocessor_get/scribble_default_preprocessor_get.gml ===
+     3: function scribble_default_preprocessor_get()
+
+=== scripts/scribble_default_preprocessor_set/scribble_default_preprocessor_set.gml ===
+     5: function scribble_default_preprocessor_set(_function)
+
+=== scripts/scribble_external_font_add/scribble_external_font_add.gml ===
+    17: function scribble_external_font_add(_sprite, _image, _json, _font_name = undefined, _is_krutidev = false)
+
+=== scripts/scribble_external_font_exists/scribble_external_font_exists.gml ===
+     9: function scribble_external_font_exists(_font_name)
+
+=== scripts/scribble_external_font_remove/scribble_external_font_remove.gml ===
+    10: function scribble_external_font_remove(_font_name)
+
+=== scripts/scribble_external_sound_add/scribble_external_sound_add.gml ===
+     6: function scribble_external_sound_add(_sound, _alias)
+
+=== scripts/scribble_external_sound_exists/scribble_external_sound_exists.gml ===
+     3: function scribble_external_sound_exists(_alias)
+
+=== scripts/scribble_external_sound_remove/scribble_external_sound_remove.gml ===
+     3: function scribble_external_sound_remove(_alias)
+
+=== scripts/scribble_external_sprite_add/scribble_external_sprite_add.gml ===
+     6: function scribble_external_sprite_add(_sprite, _alias)
+
+=== scripts/scribble_external_sprite_exists/scribble_external_sprite_exists.gml ===
+     3: function scribble_external_sprite_exists(_alias)
+
+=== scripts/scribble_external_sprite_remove/scribble_external_sprite_remove.gml ===
+     3: function scribble_external_sprite_remove(_alias)
+
+=== scripts/scribble_flush_everything/scribble_flush_everything.gml ===
+     7: function scribble_flush_everything()
+
+=== scripts/scribble_flush_shader_uniforms/scribble_flush_shader_uniforms.gml ===
+     7: function scribble_flush_shader_uniforms()
+
+=== scripts/scribble_font_bake_outline_4dir/scribble_font_bake_outline_4dir.gml ===
+    10: function scribble_font_bake_outline_4dir(_source_font_name, _new_font_name, _outline_color, _smooth, _textureSize = undefined)
+
+=== scripts/scribble_font_bake_outline_8dir/scribble_font_bake_outline_8dir.gml ===
+    10: function scribble_font_bake_outline_8dir(_source_font_name, _new_font_name, _outline_color, _smooth, _textureSize = undefined)
+
+=== scripts/scribble_font_bake_outline_8dir_2px/scribble_font_bake_outline_8dir_2px.gml ===
+    10: function scribble_font_bake_outline_8dir_2px(_source_font_name, _new_font_name, _outline_color, _smooth, _textureSize = undefined)
+
+=== scripts/scribble_font_bake_outline_and_shadow/scribble_font_bake_outline_and_shadow.gml ===
+    16: function scribble_font_bake_outline_and_shadow(_sourceFontName, _newFontName, _dX, _dY, _outlineMode, _separation, _smooth, _textureSize = undefined)
+
+=== scripts/scribble_font_bake_shader/scribble_font_bake_shader.gml ===
+    17: function scribble_font_bake_shader(_source_font_name, _new_font_name, _shader, _outline, _l_pad, _t_pad, _r_pad, _b_pad, _separation, _smooth, _texture_size = 2048, _markAsRasterEffect = false)
+
+=== scripts/scribble_font_bake_shadow/scribble_font_bake_shadow.gml ===
+    13: function scribble_font_bake_shadow(_source_font_name, _new_font_name, _dx, _dy, _shadow_color, _shadow_alpha, _separation, _smooth)
+
+=== scripts/scribble_font_delete/scribble_font_delete.gml ===
+     4: function scribble_font_delete(_name)
+
+=== scripts/scribble_font_duplicate/scribble_font_duplicate.gml ===
+     5: function scribble_font_duplicate(_old, _new)
+
+=== scripts/scribble_font_exists/scribble_font_exists.gml ===
+     4: function scribble_font_exists(_name)
+
+=== scripts/scribble_font_force_bilinear_filtering/scribble_font_force_bilinear_filtering.gml ===
+     6: function scribble_font_force_bilinear_filtering(_font, _state)
+
+=== scripts/scribble_font_get_default/scribble_font_get_default.gml ===
+     4: function scribble_font_get_default()
+
+=== scripts/scribble_font_get_glyph_ranges/scribble_font_get_glyph_ranges.gml ===
+     5: function scribble_font_get_glyph_ranges(_name, _hex = false)
+
+=== scripts/scribble_font_has_character/scribble_font_has_character.gml ===
+     8: function scribble_font_has_character(_font_name, _character)
+
+=== scripts/scribble_font_rename/scribble_font_rename.gml ===
+     5: function scribble_font_rename(_old, _new)
+
+=== scripts/scribble_font_scale/scribble_font_scale.gml ===
+     8: function scribble_font_scale(_font, _scale)
+
+=== scripts/scribble_font_set_default/scribble_font_set_default.gml ===
+     6: function scribble_font_set_default(_font)
+
+=== scripts/scribble_font_set_halign_offset/scribble_font_set_halign_offset.gml ===
+     7: function scribble_font_set_halign_offset(_font, _halign, _offset)
+
+=== scripts/scribble_font_set_style_family/scribble_font_set_style_family.gml ===
+    10: function scribble_font_set_style_family(_r_font, _b_font, _i_font, _bi_font)
+
+=== scripts/scribble_font_set_valign_offset/scribble_font_set_valign_offset.gml ===
+     7: function scribble_font_set_valign_offset(_font, _valign, _offset)
+
+=== scripts/scribble_glyph_get/scribble_glyph_get.gml ===
+    13: function scribble_glyph_get(_font, _character, _property)
+
+=== scripts/scribble_glyph_set/scribble_glyph_set.gml ===
+    20: function scribble_glyph_set(_font, _character, _property, _value, _relative = false)
+
+=== scripts/scribble_is_text_element/scribble_is_text_element.gml ===
+     4: function scribble_is_text_element(_value)
+
+=== scripts/scribble_kerning_pair_get/scribble_kerning_pair_get.gml ===
+     9: function scribble_kerning_pair_get(_font, _first_char, _second_char)
+
+=== scripts/scribble_kerning_pair_set/scribble_kerning_pair_set.gml ===
+    11: function scribble_kerning_pair_set(_font, _first_char, _second_char, _value, _relative = false)
+
+=== scripts/scribble_markdown_format/scribble_markdown_format.gml ===
+   106: function scribble_markdown_format(_string)
+
+=== scripts/scribble_markdown_set_styles/scribble_markdown_set_styles.gml ===
+     5: function scribble_markdown_set_styles(_root_struct, _fast_mode = false)
+
+=== scripts/scribble_msdf_thickness_offset/scribble_msdf_thickness_offset.gml ===
+     5: function scribble_msdf_thickness_offset(_offset)
+
+=== scripts/scribble_refresh_everything/scribble_refresh_everything.gml ===
+     2: function scribble_refresh_everything()
+
+=== scripts/scribble_rgb_to_bgr/scribble_rgb_to_bgr.gml ===
+     6: function scribble_rgb_to_bgr(_rgb)
+
+=== scripts/scribble_super_clear/scribble_super_clear.gml ===
+     2: function scribble_super_clear(_target)
+
+=== scripts/scribble_super_create/scribble_super_create.gml ===
+     4: function scribble_super_create(_name)
+
+=== scripts/scribble_super_glyph_copy/scribble_super_glyph_copy.gml ===
+     8: function scribble_super_glyph_copy(_target, _source, _overwrite)
+    50: function __scribble_prepare_super_work_array(_input_array)
+    89: function __scribble_glyph_duplicate(_source_map, _source_grid, _target_map, _target_grid, _glyph, _overwrite)
+
+=== scripts/scribble_super_glyph_copy_all/scribble_super_glyph_copy_all.gml ===
+     6: function scribble_super_glyph_copy_all(_target, _source, _overwrite)
+
+=== scripts/scribble_super_glyph_delete/scribble_super_glyph_delete.gml ===
+     2: function scribble_super_glyph_delete(_target)
+
+=== scripts/scribble_typist/scribble_typist.gml ===
+     4: function scribble_typist(_per_line = false)
+
+=== scripts/scribble_typists_add_event/scribble_typists_add_event.gml ===
+     7: function scribble_typists_add_event(_name, _function)
+
+=== scripts/scribble_whitelist_sound/scribble_whitelist_sound.gml ===
+     5: function scribble_whitelist_sound(_wound)
+
+=== scripts/scribble_whitelist_sprite/scribble_whitelist_sprite.gml ===
+     5: function scribble_whitelist_sprite(_sprite)
+
+=== scripts/script_items/script_items.gml ===
+     6: /// @function item_database_register(_name, _factory)
+     7: /// @desc Регистрирует фабрику для предмета по имени. Позволяет расширять базу предметов без модификации item_database.
+    10: function item_database_register(_name, _factory) {
+    17: /// @function item_database(_name)
+    18: /// @desc Фабрика предметов: по имени возвращает НОВЫЙ экземпляр Item-наследника.
+    22: function item_database(_name) {
+    42: /// @function inventory_add(_item_or_name)
+    43: /// @desc Добавляет предмет в первый свободный слот global.inventory.
+    50: function inventory_add(_item_or_name) {
+
+=== scripts/string_height_scribble/string_height_scribble.gml ===
+    10: function string_height_scribble(_string)
+
+=== scripts/string_height_scribble_ext/string_height_scribble_ext.gml ===
+    11: function string_height_scribble_ext(_string, _width)
+
+=== scripts/string_length_scribble/string_length_scribble.gml ===
+    10: function string_length_scribble(_string)
+
+=== scripts/string_width_scribble/string_width_scribble.gml ===
+    10: function string_width_scribble(_string)
+
+=== scripts/string_width_scribble_ext/string_width_scribble_ext.gml ===
+    11: function string_width_scribble_ext(_string, _width)

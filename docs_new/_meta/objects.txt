@@ -1,0 +1,550 @@
+# objects.txt — инвентарь objects/**/*.yy
+# name, parentObjectId.name, spriteId.name, persistent, список событий
+# (eventType/eventNum -> имя события GameMaker).
+# Объектов: 53
+
+=== bush ===
+file:       objects/bush/bush.yy
+parent:     par_decor
+spriteId:   bush2
+persistent: False
+events:     0
+
+=== npc1 ===
+file:       objects/npc1/npc1.yy
+parent:     par_interactable
+spriteId:   npc
+persistent: False
+events:     2
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+
+=== npc2 ===
+file:       objects/npc2/npc2.yy
+parent:     npc1
+spriteId:   npc247
+persistent: False
+events:     0
+
+=== o_SharedTweener ===
+file:       objects/o_SharedTweener/o_SharedTweener.yy
+parent:     -
+spriteId:   -
+persistent: True
+events:     7
+  - Create (eventType=0, eventNum=0)
+  - End Step (eventType=3, eventNum=2)
+  - Begin Step (eventType=3, eventNum=1)
+  - Other Room End (eventType=7, eventNum=5)
+  - Other Room Start (eventType=7, eventNum=4)
+  - Other Game End (eventType=7, eventNum=3)
+  - Destroy (eventType=1, eventNum=0)
+
+=== objRoomChanger ===
+file:       objects/objRoomChanger/objRoomChanger.yy
+parent:     -
+spriteId:   spr_rmChanger
+persistent: False
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Collision obj_player (eventType=4, eventNum=0)
+
+=== obj_Init ===
+file:       objects/obj_Init/obj_Init.yy
+parent:     -
+spriteId:   -
+persistent: True
+events:     1
+  - Create (eventType=0, eventNum=0)
+
+=== obj_actor ===
+file:       objects/obj_actor/obj_actor.yy
+parent:     par_actor
+spriteId:   -
+persistent: False
+events:     2
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+
+=== obj_anim ===
+file:       objects/obj_anim/obj_anim.yy
+parent:     -
+spriteId:   -
+persistent: False
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Other User 0 (eventType=7, eventNum=10)
+
+=== obj_asher ===
+file:       objects/obj_asher/obj_asher.yy
+parent:     par_interactable
+spriteId:   spr_asher_default
+persistent: False
+events:     2
+  - Step (eventType=3, eventNum=0)
+  - Create (eventType=0, eventNum=0)
+
+=== obj_bench ===
+file:       objects/obj_bench/obj_bench.yy
+parent:     par_interactable
+spriteId:   bench1
+persistent: False
+events:     2
+  - Step (eventType=3, eventNum=0)
+  - Create (eventType=0, eventNum=0)
+
+=== obj_changingRoomsController ===
+file:       objects/obj_changingRoomsController/obj_changingRoomsController.yy
+parent:     -
+spriteId:   -
+persistent: True
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - Draw (eventType=8, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+
+=== obj_collider ===
+file:       objects/obj_collider/obj_collider.yy
+parent:     par_entity
+spriteId:   spr_collider
+persistent: False
+events:     2
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+
+=== obj_cutsceneManager ===
+file:       objects/obj_cutsceneManager/obj_cutsceneManager.yy
+parent:     -
+spriteId:   -
+persistent: True
+events:     7
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Draw (eventType=8, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Other Room Start (eventType=7, eventNum=4)
+  - Other Room End (eventType=7, eventNum=5)
+  - CleanUp (eventType=12, eventNum=0)
+
+=== obj_cutsceneTest ===
+file:       objects/obj_cutsceneTest/obj_cutsceneTest.yy
+parent:     -
+spriteId:   spr_save
+persistent: False
+events:     4
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Draw (eventType=8, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+
+=== obj_devLoader ===
+file:       objects/obj_devLoader/obj_devLoader.yy
+parent:     -
+spriteId:   -
+persistent: False
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+
+=== obj_dialoguetest ===
+file:       objects/obj_dialoguetest/obj_dialoguetest.yy
+parent:     par_interactable
+spriteId:   spr_interact
+persistent: False
+events:     2
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+
+=== obj_dummy ===
+file:       objects/obj_dummy/obj_dummy.yy
+parent:     obj_actor
+spriteId:   spr_Dummy
+persistent: False
+events:     0
+
+=== obj_face ===
+file:       objects/obj_face/obj_face.yy
+parent:     -
+spriteId:   -
+persistent: False
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - End Step (eventType=3, eventNum=2)
+  - Draw GUI (eventType=8, eventNum=64)
+
+=== obj_globalManager ===
+file:       objects/obj_globalManager/obj_globalManager.yy
+parent:     -
+spriteId:   -
+persistent: True
+events:     5
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - End Step (eventType=3, eventNum=2)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Other Game End (eventType=7, eventNum=3)
+
+=== obj_inGameMenu ===
+file:       objects/obj_inGameMenu/obj_inGameMenu.yy
+parent:     -
+spriteId:   -
+persistent: False
+events:     4
+  - Create (eventType=0, eventNum=0)
+  - Destroy (eventType=1, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Step (eventType=3, eventNum=0)
+
+=== obj_kachela ===
+file:       objects/obj_kachela/obj_kachela.yy
+parent:     par_decor
+spriteId:   kachela
+persistent: False
+events:     0
+
+=== obj_lantern ===
+file:       objects/obj_lantern/obj_lantern.yy
+parent:     par_decor
+spriteId:   lantern
+persistent: False
+events:     0
+
+=== obj_menu ===
+file:       objects/obj_menu/obj_menu.yy
+parent:     -
+spriteId:   -
+persistent: False
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Step (eventType=3, eventNum=0)
+
+=== obj_menuBGSpriteChanger ===
+file:       objects/obj_menuBGSpriteChanger/obj_menuBGSpriteChanger.yy
+parent:     -
+spriteId:   _1
+persistent: False
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Draw (eventType=8, eventNum=0)
+
+=== obj_menuTest ===
+file:       objects/obj_menuTest/obj_menuTest.yy
+parent:     -
+spriteId:   spr_black
+persistent: False
+events:     10
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Begin Step (eventType=3, eventNum=1)
+  - End Step (eventType=3, eventNum=2)
+  - Draw (eventType=8, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Draw GUI Begin (eventType=8, eventNum=74)
+  - Draw GUI End (eventType=8, eventNum=75)
+  - Pre Draw (eventType=8, eventNum=76)
+  - Post Draw (eventType=8, eventNum=77)
+
+=== obj_music_ctrl ===
+file:       objects/obj_music_ctrl/obj_music_ctrl.yy
+parent:     -
+spriteId:   -
+persistent: True
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+
+=== obj_p3r_background ===
+file:       objects/obj_p3r_background/obj_p3r_background.yy
+parent:     -
+spriteId:   spr_black
+persistent: False
+events:     11
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Begin Step (eventType=3, eventNum=1)
+  - End Step (eventType=3, eventNum=2)
+  - Draw (eventType=8, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Draw GUI Begin (eventType=8, eventNum=74)
+  - Draw GUI End (eventType=8, eventNum=75)
+  - Pre Draw (eventType=8, eventNum=76)
+  - Post Draw (eventType=8, eventNum=77)
+  - Destroy (eventType=1, eventNum=0)
+
+=== obj_p3r_pause ===
+file:       objects/obj_p3r_pause/obj_p3r_pause.yy
+parent:     -
+spriteId:   spr_black
+persistent: False
+events:     11
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Begin Step (eventType=3, eventNum=1)
+  - End Step (eventType=3, eventNum=2)
+  - Draw (eventType=8, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Draw GUI Begin (eventType=8, eventNum=74)
+  - Draw GUI End (eventType=8, eventNum=75)
+  - Pre Draw (eventType=8, eventNum=76)
+  - Post Draw (eventType=8, eventNum=77)
+  - Destroy (eventType=1, eventNum=0)
+
+=== obj_p3r_settings ===
+file:       objects/obj_p3r_settings/obj_p3r_settings.yy
+parent:     -
+spriteId:   spr_black
+persistent: False
+events:     11
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Begin Step (eventType=3, eventNum=1)
+  - End Step (eventType=3, eventNum=2)
+  - Draw (eventType=8, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Draw GUI Begin (eventType=8, eventNum=74)
+  - Draw GUI End (eventType=8, eventNum=75)
+  - Pre Draw (eventType=8, eventNum=76)
+  - Post Draw (eventType=8, eventNum=77)
+  - Destroy (eventType=1, eventNum=0)
+
+=== obj_p3r_title ===
+file:       objects/obj_p3r_title/obj_p3r_title.yy
+parent:     -
+spriteId:   spr_black
+persistent: False
+events:     11
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Begin Step (eventType=3, eventNum=1)
+  - End Step (eventType=3, eventNum=2)
+  - Draw (eventType=8, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Draw GUI Begin (eventType=8, eventNum=74)
+  - Draw GUI End (eventType=8, eventNum=75)
+  - Pre Draw (eventType=8, eventNum=76)
+  - Post Draw (eventType=8, eventNum=77)
+  - Destroy (eventType=1, eventNum=0)
+
+=== obj_p3r_transition ===
+file:       objects/obj_p3r_transition/obj_p3r_transition.yy
+parent:     -
+spriteId:   spr_black
+persistent: False
+events:     11
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Begin Step (eventType=3, eventNum=1)
+  - End Step (eventType=3, eventNum=2)
+  - Draw (eventType=8, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Draw GUI Begin (eventType=8, eventNum=74)
+  - Draw GUI End (eventType=8, eventNum=75)
+  - Pre Draw (eventType=8, eventNum=76)
+  - Post Draw (eventType=8, eventNum=77)
+  - Destroy (eventType=1, eventNum=0)
+
+=== obj_player ===
+file:       objects/obj_player/obj_player.yy
+parent:     par_actor
+spriteId:   spr_Chara_walking_D
+persistent: True
+events:     5
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Begin Step (eventType=3, eventNum=1)
+  - End Step (eventType=3, eventNum=2)
+  - CleanUp (eventType=12, eventNum=0)
+
+=== obj_pointMarker ===
+file:       objects/obj_pointMarker/obj_pointMarker.yy
+parent:     -
+spriteId:   spr_interact
+persistent: True
+events:     1
+  - Create (eventType=0, eventNum=0)
+
+=== obj_save ===
+file:       objects/obj_save/obj_save.yy
+parent:     par_interactable
+spriteId:   spr_save
+persistent: False
+events:     5
+  - Step (eventType=3, eventNum=0)
+  - Key Press 13 (eventType=9, eventNum=13)
+  - Create (eventType=0, eventNum=0)
+  - Alarm 0 (eventType=2, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+
+=== obj_saveManager ===
+file:       objects/obj_saveManager/obj_saveManager.yy
+parent:     -
+spriteId:   -
+persistent: False
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+
+=== obj_settingsManager ===
+file:       objects/obj_settingsManager/obj_settingsManager.yy
+parent:     -
+spriteId:   -
+persistent: False
+events:     4
+  - Create (eventType=0, eventNum=0)
+  - Destroy (eventType=1, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+
+=== obj_sheepFountain ===
+file:       objects/obj_sheepFountain/obj_sheepFountain.yy
+parent:     par_interactable
+spriteId:   fountain
+persistent: False
+events:     2
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+
+=== obj_sign ===
+file:       objects/obj_sign/obj_sign.yy
+parent:     par_decor
+spriteId:   sign1
+persistent: False
+events:     1
+  - Step (eventType=3, eventNum=0)
+
+=== obj_slopeCollider ===
+file:       objects/obj_slopeCollider/obj_slopeCollider.yy
+parent:     par_entity
+spriteId:   spr_slopeCollider
+persistent: False
+events:     3
+  - Step (eventType=3, eventNum=0)
+  - Create (eventType=0, eventNum=0)
+  - Collision obj_player (eventType=4, eventNum=0)
+
+=== obj_sound_test ===
+file:       objects/obj_sound_test/obj_sound_test.yy
+parent:     -
+spriteId:   spr_save
+persistent: False
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - Step (eventType=3, eventNum=0)
+
+=== obj_tree1 ===
+file:       objects/obj_tree1/obj_tree1.yy
+parent:     par_decor
+spriteId:   tree1
+persistent: False
+events:     0
+
+=== obj_tree2 ===
+file:       objects/obj_tree2/obj_tree2.yy
+parent:     par_decor
+spriteId:   tree2
+persistent: False
+events:     0
+
+=== obj_visualObject ===
+file:       objects/obj_visualObject/obj_visualObject.yy
+parent:     par_depth
+spriteId:   Sprite8
+persistent: False
+events:     1
+  - Create (eventType=0, eventNum=0)
+
+=== par_actor ===
+file:       objects/par_actor/par_actor.yy
+parent:     par_depth
+spriteId:   -
+persistent: False
+events:     2
+  - Step (eventType=3, eventNum=0)
+  - Create (eventType=0, eventNum=0)
+
+=== par_decor ===
+file:       objects/par_decor/par_decor.yy
+parent:     par_depth
+spriteId:   -
+persistent: False
+events:     1
+  - Create (eventType=0, eventNum=0)
+
+=== par_depth ===
+file:       objects/par_depth/par_depth.yy
+parent:     -
+spriteId:   spr_rmChanger
+persistent: False
+events:     2
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+
+=== par_entity ===
+file:       objects/par_entity/par_entity.yy
+parent:     -
+spriteId:   -
+persistent: False
+events:     1
+  - Create (eventType=0, eventNum=0)
+
+=== par_interactable ===
+file:       objects/par_interactable/par_interactable.yy
+parent:     par_depth
+spriteId:   -
+persistent: False
+events:     3
+  - Create (eventType=0, eventNum=0)
+  - Other Room Start (eventType=7, eventNum=4)
+  - Other Room End (eventType=7, eventNum=5)
+
+=== pinkBench ===
+file:       objects/pinkBench/pinkBench.yy
+parent:     par_decor
+spriteId:   bench
+persistent: False
+events:     0
+
+=== sand ===
+file:       objects/sand/sand.yy
+parent:     par_decor
+spriteId:   pesochnica
+persistent: False
+events:     0
+
+=== screenshot ===
+file:       objects/screenshot/screenshot.yy
+parent:     -
+spriteId:   -
+persistent: True
+events:     4
+  - Create (eventType=0, eventNum=0)
+  - Step (eventType=3, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - CleanUp (eventType=12, eventNum=0)
+
+=== spr_pinkBench ===
+file:       objects/spr_pinkBench/spr_pinkBench.yy
+parent:     par_decor
+spriteId:   bench
+persistent: False
+events:     0
+
+=== textboxTest_scribble ===
+file:       objects/textboxTest_scribble/textboxTest_scribble.yy
+parent:     -
+spriteId:   -
+persistent: False
+events:     5
+  - Create (eventType=0, eventNum=0)
+  - Begin Step (eventType=3, eventNum=1)
+  - Step (eventType=3, eventNum=0)
+  - Draw GUI (eventType=8, eventNum=64)
+  - CleanUp (eventType=12, eventNum=0)

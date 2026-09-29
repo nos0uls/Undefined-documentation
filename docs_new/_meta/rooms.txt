@@ -1,0 +1,223 @@
+# rooms.txt — инвентарь rooms/**/*.yy
+# имя, размер (roomSettings), слои (name/resourceType/depth),
+# подсчёт инстансов по objectId.name.
+# Комнат: 16
+
+=== DevRoom1 ===
+file:  rooms/DevRoom1/DevRoom1.yy
+size:  543 x 240 (roomSettings.Width x .Height)
+layers: 4
+  - Instances_1 [GMRInstanceLayer, depth=0] — instances: 5
+  - Instances [GMRInstanceLayer, depth=100] — instances: 5
+  - Assets_2 [GMRAssetLayer, depth=200]
+  - Background [GMRBackgroundLayer, depth=300]
+instances total: 10
+  obj_asher: 1
+  obj_collider: 1
+  obj_cutsceneTest: 1
+  obj_dialoguetest: 1
+  obj_menuTest: 1
+  obj_player: 1
+  obj_sheepFountain: 1
+  obj_sign: 1
+  obj_slopeCollider: 1
+  obj_tree2: 1
+
+=== SCREENSHOTS ===
+file:  rooms/SCREENSHOTS/SCREENSHOTS.yy
+size:  1366 x 768 (roomSettings.Width x .Height)
+layers: 2
+  - Instances [GMRInstanceLayer, depth=0] — instances: 0
+  - Background [GMRBackgroundLayer, depth=100]
+instances total: 0
+
+=== rm_after_tunnel ===
+file:  rooms/rm_after_tunnel/rm_after_tunnel.yy
+size:  519 x 240 (roomSettings.Width x .Height)
+layers: 5
+  - Tiles_1 [GMRTileLayer, depth=400]
+  - depth [GMRInstanceLayer, depth=450] — instances: 35
+  - road [GMRTileLayer, depth=500]
+  - grass [GMRTileLayer, depth=600]
+  - Background [GMRBackgroundLayer, depth=700]
+instances total: 35
+  obj_visualObject: 14
+  obj_collider: 8
+  obj_tree1: 8
+  obj_slopeCollider: 5
+
+=== rm_curver ===
+file:  rooms/rm_curver/rm_curver.yy
+size:  540 x 340 (roomSettings.Width x .Height)
+layers: 4
+  - Trees [GMRInstanceLayer, depth=0] — instances: 0
+  - path [GMRTileLayer, depth=100]
+  - grass [GMRTileLayer, depth=200]
+  - Background [GMRBackgroundLayer, depth=300]
+instances total: 0
+
+=== rm_cutsceneTest ===
+file:  rooms/rm_cutsceneTest/rm_cutsceneTest.yy
+size:  2000 x 1800 (roomSettings.Width x .Height)
+layers: 3
+  - Instances [GMRInstanceLayer, depth=0] — instances: 3
+  - Tiles_1 [GMRTileLayer, depth=100]
+  - Background [GMRBackgroundLayer, depth=200]
+instances total: 3
+  obj_cutsceneTest: 1
+  obj_player: 1
+  obj_save: 1
+
+=== rm_devLoad ===
+file:  rooms/rm_devLoad/rm_devLoad.yy
+size:  320 x 240 (roomSettings.Width x .Height)
+layers: 2
+  - Instances [GMRInstanceLayer, depth=0] — instances: 0
+  - Background [GMRBackgroundLayer, depth=100]
+instances total: 0
+
+=== rm_idk ===
+file:  rooms/rm_idk/rm_idk.yy
+size:  320 x 240 (roomSettings.Width x .Height)
+layers: 7
+  - depth [GMRInstanceLayer, depth=-350] — instances: 2
+  - trees_1_1 [GMRTileLayer, depth=-250]
+  - trees_1 [GMRTileLayer, depth=-245]
+  - trees [GMRTileLayer, depth=-240]
+  - road [GMRTileLayer, depth=20]
+  - grass [GMRTileLayer, depth=30]
+  - Background [GMRBackgroundLayer, depth=130]
+instances total: 2
+  bush: 1
+  obj_lantern: 1
+
+=== rm_init ===
+file:  rooms/rm_init/rm_init.yy
+size:  1280 x 980 (roomSettings.Width x .Height)
+layers: 2
+  - Instances [GMRInstanceLayer, depth=0] — instances: 1
+  - Background [GMRBackgroundLayer, depth=100]
+instances total: 1
+  obj_Init: 1
+
+=== rm_playground ===
+file:  rooms/rm_playground/rm_playground.yy
+size:  471 x 320 (roomSettings.Width x .Height)
+layers: 6
+  - Assets_1 [GMRAssetLayer, depth=0]
+  - Instances [GMRInstanceLayer, depth=100] — instances: 9
+  - Tiles_3 [GMRTileLayer, depth=200]
+    - Tiles_4 [GMRTileLayer, depth=300]
+  - Tiles_2 [GMRTileLayer, depth=400]
+  - Tiles_1 [GMRTileLayer, depth=500]
+  - Background [GMRBackgroundLayer, depth=600]
+instances total: 9
+  obj_lantern: 4
+  bush: 1
+  objRoomChanger: 1
+  obj_kachela: 1
+  obj_tree1: 1
+  sand: 1
+
+=== rm_road_curve ===
+file:  rooms/rm_road_curve/rm_road_curve.yy
+size:  500 x 340 (roomSettings.Width x .Height)
+layers: 8
+  - collis [GMRInstanceLayer, depth=-3200] — instances: 4
+  - depth [GMRInstanceLayer, depth=-400] — instances: 7
+  - Instances_1 [GMRInstanceLayer, depth=-300] — instances: 4
+  - tree [GMRInstanceLayer, depth=-200] — instances: 24
+  - Tiles_3 [GMRTileLayer, depth=-100]
+    - Tiles_6 [GMRTileLayer, depth=0]
+    - Tiles_4 [GMRTileLayer, depth=100]
+      - Tiles_5 [GMRTileLayer, depth=200]
+  - road [GMRTileLayer, depth=300]
+  - Assets_1 [GMRAssetLayer, depth=400]
+  - Tiles_1 [GMRTileLayer, depth=500]
+instances total: 39
+  obj_tree1: 24
+  obj_collider: 4
+  obj_lantern: 3
+  objRoomChanger: 2
+  npc1: 1
+  npc2: 1
+  obj_asher: 1
+  obj_save: 1
+  obj_sheepFountain: 1
+  obj_sign: 1
+
+=== rm_roomMenu ===
+file:  rooms/rm_roomMenu/rm_roomMenu.yy
+size:  1280 x 960 (roomSettings.Width x .Height)
+layers: 4
+  - Assets_1 [GMRAssetLayer, depth=0]
+  - Instances [GMRInstanceLayer, depth=100] — instances: 1
+  - Instances_1 [GMRInstanceLayer, depth=200] — instances: 1
+  - Background [GMRBackgroundLayer, depth=300]
+instances total: 2
+  obj_menu: 1
+  obj_menuBGSpriteChanger: 1
+
+=== rm_savesSelect ===
+file:  rooms/rm_savesSelect/rm_savesSelect.yy
+size:  1280 x 960 (roomSettings.Width x .Height)
+layers: 3
+  - Instances [GMRInstanceLayer, depth=0] — instances: 1
+  - Instances_1 [GMRInstanceLayer, depth=100] — instances: 1
+  - Background [GMRBackgroundLayer, depth=200]
+instances total: 2
+  obj_menuBGSpriteChanger: 1
+  obj_saveManager: 1
+
+=== rm_settings ===
+file:  rooms/rm_settings/rm_settings.yy
+size:  1280 x 960 (roomSettings.Width x .Height)
+layers: 2
+  - Instances [GMRInstanceLayer, depth=0] — instances: 1
+  - Instances_1 [GMRInstanceLayer, depth=100] — instances: 1
+instances total: 2
+  obj_menuBGSpriteChanger: 1
+  obj_settingsManager: 1
+
+=== rm_sound_test ===
+file:  rooms/rm_sound_test/rm_sound_test.yy
+size:  320 x 240 (roomSettings.Width x .Height)
+layers: 2
+  - Instances [GMRInstanceLayer, depth=0] — instances: 1
+  - Background [GMRBackgroundLayer, depth=100]
+instances total: 1
+  obj_sound_test: 1
+
+=== rm_uphill_school ===
+file:  rooms/rm_uphill_school/rm_uphill_school.yy
+size:  542 x 240 (roomSettings.Width x .Height)
+layers: 11
+  - Tiles_5 [GMRTileLayer, depth=0]
+  - depth [GMRInstanceLayer, depth=100] — instances: 6
+  - Instances_2 [GMRInstanceLayer, depth=200] — instances: 2
+  - colliders [GMRInstanceLayer, depth=300] — instances: 4
+  - Instances_1_1 [GMRInstanceLayer, depth=400] — instances: 1
+  - Instances_1 [GMRInstanceLayer, depth=500] — instances: 2
+  - tropa [GMRTileLayer, depth=600]
+  - grass [GMRTileLayer, depth=700]
+  - Tiles_3 [GMRTileLayer, depth=800]
+  - Assets_1 [GMRAssetLayer, depth=900]
+  - Backgrounds_1 [GMRBackgroundLayer, depth=1000]
+instances total: 15
+  obj_collider: 4
+  obj_lantern: 3
+  obj_tree1: 3
+  objRoomChanger: 1
+  obj_asher: 1
+  obj_bench: 1
+  obj_player: 1
+  spr_pinkBench: 1
+
+=== roomForDialogueTesting ===
+file:  rooms/roomForDialogueTesting/roomForDialogueTesting.yy
+size:  400 x 320 (roomSettings.Width x .Height)
+layers: 2
+  - Instances [GMRInstanceLayer, depth=0] — instances: 1
+  - Background [GMRBackgroundLayer, depth=100]
+instances total: 1
+  textboxTest_scribble: 1

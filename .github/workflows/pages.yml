@@ -34,7 +34,7 @@ jobs:
       - name: Build MkDocs site
         env:
           MKDOCS_SOCIAL_CARDS: true
-        run: mkdocs build
+        run: mkdocs build --strict
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
