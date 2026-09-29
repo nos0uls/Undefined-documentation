@@ -41,19 +41,19 @@ tags:
 
 ## Ключевые объекты { #key-objects }
 
-Полная иерархия родителей и событий — в [Объектах](../architecture/object-hierarchy.md); здесь — ориентир по главным.
+Полную иерархию родителей и событий см. в [Объектах](../architecture/object-hierarchy.md); здесь приведён ориентир по главным.
 
-- **Boot:** `obj_Init` (persistent, единственный инстанс в `rm_init` — первой комнате `RoomOrder`) объявляет `global.*` и создаёт `obj_globalManager` и `obj_music_ctrl`.
-- **Runtime-оркестратор:** `obj_globalManager` (persistent, создаётся из `obj_Init` на слое `scr_layer_ensure_instances()`) — смена комнат, debug-хоткеи, уведомления, покадровый шаг катсцен и эмоутов.
-- **Игрок и сцена:** `obj_player` (наследник `par_actor` → `par_depth`), интерактивные объекты под `par_interactable`, декор под `par_decor`, коллайдеры `obj_collider`/`obj_slopeCollider` под `par_entity`.
-- **Катсцены:** `obj_cutsceneManager` — очередь действий; `obj_actor` — управляемый персонаж; тестовый UI — `obj_cutsceneTest`.
-- **UI:** `obj_menu`, `obj_inGameMenu`, `obj_settingsManager`, `obj_saveManager`, `obj_devLoader`, `obj_face`, `textboxTest_scribble`; P3R-мокапы — `obj_p3r_*`.
+- Boot: `obj_Init` (persistent, единственный инстанс в `rm_init`, первой комнате `RoomOrder`) объявляет `global.*` и создаёт `obj_globalManager` и `obj_music_ctrl`.
+- Runtime-оркестратор: `obj_globalManager` (persistent, создаётся из `obj_Init` на слое `scr_layer_ensure_instances()`) отвечает за смену комнат, debug-хоткеи, уведомления, покадровый шаг катсцен и эмоутов.
+- Игрок и сцена: `obj_player` (наследник `par_actor` → `par_depth`), интерактивные объекты под `par_interactable`, декор под `par_decor`, коллайдеры `obj_collider`/`obj_slopeCollider` под `par_entity`.
+- Катсцены: `obj_cutsceneManager`: очередь действий; `obj_actor`: управляемый персонаж; тестовый UI: `obj_cutsceneTest`.
+- UI: `obj_menu`, `obj_inGameMenu`, `obj_settingsManager`, `obj_saveManager`, `obj_devLoader`, `obj_face`, `textboxTest_scribble`; P3R-мокапы: `obj_p3r_*`.
 
 ## Библиотеки в проекте { #libraries }
 
-- **Chatterbox** — рантайм диалогов Yarn Spinner. Скрипты `Chatterbox*` и приватные `__Chatterbox*`. `obj_Init` загружает `.yarn` через `ChatterboxLoadFromFile`; `readDialogue` создаёт окно `textboxTest_scribble` и передаёт ему файл и стартовую ноду, а само окно ведёт диалог по нодам через `ChatterboxCreate`/`ChatterboxContinue`/`ChatterboxSelect`.
-- **Scribble** — рендер текста с разметкой и эффектами. Скрипты `scribble*`/`__scribble_*`, шейдеры `__shd_scribble*`, шрифт `scribble_fallback_font`, лицензия `datafiles/scribble_license.txt`. Обёртки проекта: `draw_text_scribble`, `string_width_scribble` и др. Используется в текстбоксе и меню `obj_p3r_*`.
-- **TGMX (TweenGMX 1.0.8)** — твины. Скрипты `TGMX_*`, заметки в `notes/`, persistent-объект `o_SharedTweener` (создаётся лениво функцией `SharedTweener()` при первом твине). По факту твины вызывают только мокапы меню `obj_p3r_title`, `obj_p3r_pause`, `obj_p3r_settings`, `obj_p3r_transition` через `TweenFire`; библиотека сохранена в проекте до решения по P3R-мокапам.
+- **Chatterbox**: рантайм диалогов Yarn Spinner. Скрипты `Chatterbox*` и приватные `__Chatterbox*`. `obj_Init` загружает `.yarn` через `ChatterboxLoadFromFile`; `readDialogue` создаёт окно `textboxTest_scribble` и передаёт ему файл и стартовую ноду, а само окно ведёт диалог по нодам через `ChatterboxCreate`/`ChatterboxContinue`/`ChatterboxSelect`.
+- **Scribble**: рендер текста с разметкой и эффектами. Скрипты `scribble*`/`__scribble_*`, шейдеры `__shd_scribble*`, шрифт `scribble_fallback_font`, лицензия `datafiles/scribble_license.txt`. Обёртки проекта: `draw_text_scribble`, `string_width_scribble` и др. Используется в текстбоксе и меню `obj_p3r_*`.
+- **TGMX (TweenGMX 1.0.8)**: твины. Скрипты `TGMX_*`, заметки в `notes/`, persistent-объект `o_SharedTweener` (создаётся лениво функцией `SharedTweener()` при первом твине). По факту твины вызывают только мокапы меню `obj_p3r_title`, `obj_p3r_pause`, `obj_p3r_settings`, `obj_p3r_transition` через `TweenFire`; библиотека сохранена в проекте до решения по P3R-мокапам.
 
 ## datafiles/ { #datafiles }
 
@@ -64,13 +64,13 @@ tags:
 | `cutscenes/tests/` | ~90 JSON-тестов движка катсцен по одному действию (`move_basic`, `camera_pan`, `dialogue` и т.д.) + подкаталог `stress/` |
 | `scribble_license.txt` | Лицензия Scribble |
 
-`cutscene_engine_settings.json` — настройки движка катсцен: `schema_version`, `default_fps`, `strict_mode_default`, `default_actor_object`, `default_emote_sprite`, вайтлисты `run_functions`/`branch_conditions`, флаги `debug`. Читается один раз за сессию `cutscene_load_engine_settings`.
+`cutscene_engine_settings.json` содержит настройки движка катсцен: `schema_version`, `default_fps`, `strict_mode_default`, `default_actor_object`, `default_emote_sprite`, вайтлисты `run_functions`/`branch_conditions`, флаги `debug`. Читается один раз за сессию `cutscene_load_engine_settings`.
 
 !!! warning "Регистрация Included Files"
-    Файл из `datafiles/` попадает в сборку только если он зарегистрирован как Included File в `Undefinedtale888.yyp` — простого копирования в каталог недостаточно.
+    Файл из `datafiles/` попадает в сборку только если он зарегистрирован как Included File в `Undefinedtale888.yyp`. Простого копирования в каталог недостаточно.
 
 !!! note "Пути в рантайме"
-    Included Files копируются в рабочую директорию без префикса `datafiles/` — `cutscene_load_json` срезает префиксы `./` и `datafiles/` перед `file_exists`. В коде пути пишут относительно рабочей директории (`"cutscenes/test_movement.json"`).
+    Included Files копируются в рабочую директорию без префикса `datafiles/`: `cutscene_load_json` срезает префиксы `./` и `datafiles/` перед `file_exists`. В коде пути пишут относительно рабочей директории (`"cutscenes/test_movement.json"`).
 
 ## См. также
 

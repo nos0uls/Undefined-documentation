@@ -47,7 +47,7 @@ par_entity                       # корень-маркер, без родит�
 └── obj_slopeCollider            # треугольный коллайдер склона
 ```
 
-!!! note "obj_slopeCollider — прямой наследник par_entity"
+!!! note "obj_slopeCollider: прямой наследник par_entity"
     `obj_slopeCollider` наследует `par_entity` напрямую, минуя `obj_collider`: под `obj_collider` склон вёл себя как прямоугольная стена, и узкая треугольная проверка `collision()` не доходила до дела (`objects/obj_slopeCollider/Create_0.gml`).
 
 Объекты без родителя (не входят в gameplay-иерархию):
@@ -56,35 +56,35 @@ par_entity                       # корень-маркер, без родит�
 - **Меню и UI**: `obj_menu`, `obj_inGameMenu`, `obj_settingsManager`, `obj_saveManager`, `obj_menuBGSpriteChanger`, `obj_p3r_background`, `obj_p3r_pause`, `obj_p3r_settings`, `obj_p3r_title`, `obj_p3r_transition`;
 - **Прочее**: `objRoomChanger`, `obj_anim`, `obj_face`, `textboxTest_scribble`, `obj_devLoader`, `obj_cutsceneTest`, `obj_menuTest`, `obj_sound_test`.
 
-## `par_depth` — контракт глубины { #par-depth }
+## `par_depth`: контракт глубины { #par-depth }
 
-Базовый родитель Z-сортировки для изометрического вида: чем ниже объект на экране, тем ближе к камере. В `Create_0` задаёт `depth = -y` — аргумент `depth` у `instance_create_depth` для наследников перезаписывается и мёртв.
+Базовый родитель Z-сортировки для изометрического вида: чем ниже объект на экране, тем ближе к камере. В `Create_0` задаёт `depth = -y`: аргумент `depth` у `instance_create_depth` для наследников перезаписывается и мёртв.
 
-Глубина управляется тремя полями, которые в `Step_0` образуют **четыре режима по приоритету**:
+Глубина управляется тремя полями, которые в `Step_0` образуют четыре режима по приоритету:
 
 | Приоритет | Условие | Поведение |
 |-----------|---------|-----------|
 | 1 | `attached_target != noone` | Привязка: `depth` копируется из цели каждый кадр (шляпы, оружие на NPC). Цель уничтожена → привязка сбрасывается, один раз ставится `depth = -y`, дальше работает обычный режим |
 | 2 | `is_static == true` | Заморозка: глубина вычислена один раз в `Create`, дальше не трогается. Ставят декорации (`par_decor`, `obj_visualObject`, `obj_bench`, `obj_save`) |
-| 3 | `depth_mode == "manual"` | Ручной режим: `par_depth` не трогает `depth` — её задаёт внешний код. Ставят `ActionSetDepth` и `c_depth` через макрос `__CUTSCENE_DEPTH_MODE_MANUAL` |
+| 3 | `depth_mode == "manual"` | Ручной режим: `par_depth` не трогает `depth`, её задаёт внешний код. Ставят `ActionSetDepth` и `c_depth` через макрос `__CUTSCENE_DEPTH_MODE_MANUAL` |
 | 4 | `depth_mode == "auto"` (по умолчанию) | Авто: `depth = -y`, пересчёт только при реальном сдвиге (dirty-flag по `__depth_prev_x`/`__depth_prev_y`) |
 
 Ключевые правила контракта:
 
-- У `depth_mode` ровно два осмысленных значения — `"auto"` и `"manual"`; любое другое молча эквивалентно `"auto"`. `is_static` и `attached_target` — отдельные поля, а не значения `depth_mode`.
-- Запись `depth` снаружи в режиме `"auto"` временна — перезапишется `-y` при первом сдвиге. Долговременная ручная глубина обязана ставить `depth_mode = "manual"`.
-- Снапшот/restore катсцен (`__cutscene_snapshot_instance`/`__cutscene_apply_instance_snapshot` в `scr_cutscene_classes`) сохраняют и режим, и значение — после отката `depth_mode` возвращается к исходному.
+- У `depth_mode` ровно два осмысленных значения: `"auto"` и `"manual"`; любое другое молча эквивалентно `"auto"`. `is_static` и `attached_target` — отдельные поля, а не значения `depth_mode`.
+- Запись `depth` снаружи в режиме `"auto"` временна: перезапишется `-y` при первом сдвиге. Долговременная ручная глубина обязана ставить `depth_mode = "manual"`.
+- Снапшот/restore катсцен (`__cutscene_snapshot_instance`/`__cutscene_apply_instance_snapshot` в `scr_cutscene_classes`) сохраняют и режим, и значение: после отката `depth_mode` возвращается к исходному.
 
 !!! warning "Наследники со своим Step обязаны вызвать event_inherited()"
     Без `event_inherited()` в `Step_0` depth-FSM родителя не отработает и глубина перестанет обновляться. `par_depth/Step_0` специально не использует `exit`, чтобы дочерний код после `event_inherited()` не прерывался.
 
-## `par_entity` — маркер gameplay-объектов { #par-entity }
+## `par_entity`: маркер gameplay-объектов { #par-entity }
 
-Корень без родителя. `Create_0` содержит только комментарий: полей, методов и логики у `par_entity` нет — роль чисто группировочная. Выборки идут по object index наследников: `scr_collision_resolve()` проверяет `obj_collider` (стены) и `obj_slopeCollider` (склоны, метод `collision(_dx, _dy, _inst)` по треугольнику `tri_x`/`tri_y`).
+Корень без родителя. `Create_0` содержит только комментарий: полей, методов и логики у `par_entity` нет; роль чисто группировочная. Выборки идут по object index наследников: `scr_collision_resolve()` проверяет `obj_collider` (стены) и `obj_slopeCollider` (склоны, метод `collision(_dx, _dy, _inst)` по треугольнику `tri_x`/`tri_y`).
 
-Наследники `par_entity` не получают depth-сортировку — она им не нужна: коллайдеры невидимы и не сортируются с актёрами.
+Наследники `par_entity` не получают depth-сортировку: коллайдеры невидимы и не сортируются с актёрами.
 
-## `par_interactable` — интерактивные объекты { #par-interactable }
+## `par_interactable`: интерактивные объекты { #par-interactable }
 
 Родитель всего, с чем игрок взаимодействует: NPC, скамейки, сейвпоинты. Наследует `par_depth`, добавляет поля сущности и методы реестра состояния.
 
@@ -103,25 +103,25 @@ par_entity                       # корень-маркер, без родит�
 
 Уникальный идентификатор сущности внутри комнаты. Порядок назначения:
 
-1. Явное значение — в Instance Creation Code комнаты или через vars-struct `instance_create_*` (тогда поле существует до `Create`).
-2. Детерминированный fallback: `object_get_name(object_index) + ":" + xstart + ":" + ystart` — стабилен между заходами в комнату и сессиями.
+1. Явное значение: в Instance Creation Code комнаты или через vars-struct `instance_create_*` (тогда поле существует до `Create`).
+2. Детерминированный fallback: `object_get_name(object_index) + ":" + xstart + ":" + ystart` (стабилен между заходами в комнату и сессиями).
 
 !!! warning "Два инстанса одного объекта в одной точке"
-    Fallback даст им одинаковый `entity_id` — для таких случаев `entity_id` назначается явно в редакторе или коде.
+    Fallback даст им одинаковый `entity_id`, поэтому для таких случаев `entity_id` назначается явно в редакторе или коде.
 
 ### Методы `__entity_state_save` / `__entity_state_restore`
 
 Объявлены как instance-функции в `par_interactable/Create_0.gml` (не в `scripts/`); над реестром работают функции `scr_entity_state_get`/`scr_entity_state_set` из `scripts/scr_entity_state/scr_entity_state.gml`.
 
-- **`__entity_state_restore()`** — читает запись `room_name:entity_id` из `global.entity_state`; восстанавливает `interaction_count`, `seen_dialogues`, `x`, `y` (каждое поле — только при верном типе). После восстановления позиции пересчитывает `depth = -y`, если объект не прикреплён и не в `"manual"`. Идемпотентна.
-- **`__entity_state_save([_custom_fields])`** — пишет `{interaction_count, seen_dialogues, x, y}` в реестр; ключи структуры `_custom_fields` копируются поверх (точка расширения для наследников). Возвращает результат `scr_entity_state_set`.
+- **`__entity_state_restore()`**: читает запись `room_name:entity_id` из `global.entity_state`; восстанавливает `interaction_count`, `seen_dialogues`, `x`, `y` (каждое поле восстанавливается только при верном типе). После восстановления позиции пересчитывает `depth = -y`, если объект не прикреплён и не в `"manual"`. Идемпотентна.
+- **`__entity_state_save([_custom_fields])`**: пишет `{interaction_count, seen_dialogues, x, y}` в реестр; ключи структуры `_custom_fields` копируются поверх (точка расширения для наследников). Возвращает результат `scr_entity_state_set`.
 
 ### События Room Start / Room End
 
-- **`Other_4` (Room Start)** — повторный вызов `__entity_state_restore()` (первый — в конце `Create_0`, покрывает `entity_id`, заданный до `Create`). Instance Creation Code комнаты выполняется после `Create` и до Room Start, поэтому здесь `entity_id` уже финальный. Если метод не объявлен (дочерний `Create` не вызвал `event_inherited()`), пишется WARN `[entity_state]` вместо падения.
-- **`Other_5` (Room End)** — автосохранение `__entity_state_save()`. Пишется на выходе из комнаты, чтобы захватить и перемещения, сделанные катсценой.
+- **`Other_4` (Room Start)**: повторный вызов `__entity_state_restore()` (первый стоит в конце `Create_0` и покрывает `entity_id`, заданный до `Create`). Instance Creation Code комнаты выполняется после `Create` и до Room Start, поэтому здесь `entity_id` уже финальный. Если метод не объявлен (дочерний `Create` не вызвал `event_inherited()`), пишется WARN `[entity_state]` вместо падения.
+- **`Other_5` (Room End)**: автосохранение `__entity_state_save()`. Пишется на выходе из комнаты, чтобы захватить и перемещения, сделанные катсценой.
 
-Реестр `global.entity_state` создаётся в `obj_Init` (`rm_init`) и персистится в файлы сейвов через `scr_saveSave`/`scr_saveLoad` (сейв без записи грузится в пустой реестр, `scr_defaultLoad` сбрасывает его в `{}` при новой игре). Зарезервированная сущность `"_room"` хранит комнатные мировые флаги — `scr_world_flag_set`/`scr_world_flag_get` из того же скрипта.
+Реестр `global.entity_state` создаётся в `obj_Init` (`rm_init`) и персистится в файлы сейвов через `scr_saveSave`/`scr_saveLoad` (сейв без записи грузится в пустой реестр, `scr_defaultLoad` сбрасывает его в `{}` при новой игре). Зарезервированная сущность `"_room"` хранит комнатные мировые флаги (функции `scr_world_flag_set`/`scr_world_flag_get` из того же скрипта).
 
 ### Контракт взаимодействия
 
@@ -129,15 +129,15 @@ par_entity                       # корень-маркер, без родит�
 
 `dialogue_filename`/`dialogue_node` задаются в object properties наследника и переопределяются на инстансе в комнате; пустые значения делают объект молчаливым (`npc1/Step_0.gml`).
 
-## `par_decor` — статичные декорации { #par-decor }
+## `par_decor`: статичные декорации { #par-decor }
 
-Наследует `par_depth`; `Create_0` ставит `is_static = true` — глубина вычисляется один раз при спавне. Твёрдость задаётся выборкой по object index (`place_meeting/instance_place(..., par_decor)` в `scr_collision_resolve`), отдельного флага нет. Большинство наследников (`bush`, `obj_tree1`, `sand`…) не имеют своих событий — вся инициализация идёт от родителя.
+Наследует `par_depth`; `Create_0` ставит `is_static = true`, поэтому глубина вычисляется один раз при спавне. Твёрдость задаётся выборкой по object index (`place_meeting/instance_place(..., par_decor)` в `scr_collision_resolve`), отдельного флага нет. Большинство наследников (`bush`, `obj_tree1`, `sand`…) не имеют своих событий, вся инициализация идёт от родителя.
 
-## `par_actor` — актёры { #par-actor }
+## `par_actor`: актёры { #par-actor }
 
-Наследует `par_depth`; оба события (`Create_0`, `Step_0`) — только `event_inherited()`. Сам по себе `par_actor` — маркер «движущийся актёр»; вся движковая логика живёт в `obj_actor`:
+Наследует `par_depth`; оба события (`Create_0`, `Step_0`): только `event_inherited()`. Сам по себе `par_actor` — маркер «движущийся актёр»; вся движковая логика живёт в `obj_actor`:
 
-- **Движение**: `move_active`, `target_x`/`target_y`, `move_speed`, `move_blocked`, `use_collision`; метод `move_to_point(_tx, _ty, _spd, _collision)` — движение к точке с опциональной остановкой о solid-набор (`obj_collider` + `par_decor` + `par_interactable`).
+- **Движение**: `move_active`, `target_x`/`target_y`, `move_speed`, `move_blocked`, `use_collision`; метод `move_to_point(_tx, _ty, _spd, _collision)`: движение к точке с опциональной остановкой о solid-набор (`obj_collider` + `par_decor` + `par_interactable`).
 - **Idle**: `idle_timer`, `idle_delay_frames`, `idle_anim_speed`, `chara_idle_sprites`; методы `set_idle_config`, `set_idle_sprites`, `__apply_idle_sprite`.
 - **Прочее**: `auto_face`, `auto_walk`, `facing_direction`, `__cutscene_anim_override`.
 
@@ -148,7 +148,7 @@ par_entity                       # корень-маркер, без родит�
 | Объект | Родитель | События | Добавляет / перекрывает | Наследники |
 |--------|----------|---------|------------------------|------------|
 | `par_depth` | — | Create, Step | depth-контракт: `depth_mode`, `is_static`, `attached_target`, `depth = -y` | `par_actor`, `par_decor`, `par_interactable`, `obj_visualObject` |
-| `par_actor` | `par_depth` | Create, Step | Оба события — `event_inherited()`; маркер актёров | `obj_actor`, `obj_player` |
+| `par_actor` | `par_depth` | Create, Step | Оба события: `event_inherited()`; маркер актёров | `obj_actor`, `obj_player` |
 | `par_decor` | `par_depth` | Create | `is_static = true` | `bush`, `obj_kachela`, `obj_lantern`, `obj_sign`, `obj_tree1`, `obj_tree2`, `pinkBench`, `sand`, `spr_pinkBench` |
 | `par_interactable` | `par_depth` | Create, Room Start, Room End | `is_interactable`, `entity_id`, `interaction_count`, `seen_dialogues`, `__entity_state_save`/`__entity_state_restore` | `npc1` (→ `npc2`), `obj_asher`, `obj_bench`, `obj_dialoguetest`, `obj_save`, `obj_sheepFountain` |
 | `par_entity` | — | Create | Маркер без полей и логики | `obj_collider`, `obj_slopeCollider` |

@@ -63,23 +63,23 @@ graph LR
 
 Раскладка по фазам GameMaker, восстановленная из `eventList` объектов
 (`_meta/objects.txt`) и кода обработчиков. Порядок инстансов внутри одной фазы
-движком не гарантирован — на него логика не опирается; критичные зависимости
+движком не гарантирован, и логика на него не опирается; критичные зависимости
 («сначала движение, потом камера, потом чтение координат») разнесены по фазам.
 
 | Фаза | Объекты | Что происходит |
 |------|---------|----------------|
-| Begin Step | `o_SharedTweener`, `obj_player` (`Step_1`), `textboxTest_scribble`, `obj_menuTest`, семейство `obj_p3r_*` | У игрока — служебные метки `__room_born` / `__dedup_survivor`; у твинера — тик TGMX |
+| Begin Step | `o_SharedTweener`, `obj_player` (`Step_1`), `textboxTest_scribble`, `obj_menuTest`, семейство `obj_p3r_*` | У игрока: служебные метки `__room_born` / `__dedup_survivor`; у твинера: тик TGMX |
 | Step | `obj_globalManager`, `obj_player`, `obj_cutsceneManager`, `obj_music_ctrl`, `par_depth` и наследники, `obj_changingRoomsController`, NPC и UI-объекты | `obj_globalManager`: сброс dirty-флагов UI-кэша, `scr_input_gamepad_update`, детект смены комнаты, debug-хоткеи, dev-spawn, `emote_step`, `cutscene_runtime_step`, playtime, `scr_callMenuInit`. `obj_player`: UI-блок → движение/коллизии → анимация → facing → маркер → `event_inherited()` в `par_actor`/`par_depth`. `obj_cutsceneManager`: пропуск по `back` у `skippable`-катсцен, `__cutscene_update_attachments`, один тик очереди действий. `obj_music_ctrl`: фейды треков. `par_depth`: `depth = -y` по FSM приоритетов |
-| End Step | `obj_player` (`Step_2`), `obj_globalManager` (`Step_2`), `obj_face`, `o_SharedTweener`, `obj_menuTest`, `obj_p3r_*` | Игрок двигает follow-камеру `camera_set_view_pos` с клампом к комнате (пропуск при `global.cutscene_camera_override`); менеджер пишет `global.camera_x`/`global.camera_y` уже после движения — чтение в Step давало бы отставание на кадр |
+| End Step | `obj_player` (`Step_2`), `obj_globalManager` (`Step_2`), `obj_face`, `o_SharedTweener`, `obj_menuTest`, `obj_p3r_*` | Игрок двигает follow-камеру `camera_set_view_pos` с клампом к комнате (пропуск при `global.cutscene_camera_override`); менеджер пишет `global.camera_x`/`global.camera_y` уже после движения: чтение в Step давало бы отставание на кадр |
 | Draw | `obj_changingRoomsController`, `obj_cutsceneManager`, `obj_menuBGSpriteChanger`, `obj_menuTest`, `obj_p3r_*` | Фейды переходов и катсцен поверх мира (depth `__CUTSCENE_TRANSITION_DEPTH`); фоны меню |
-| Draw GUI | `obj_globalManager`, `textboxTest_scribble`, `obj_face`, `obj_cutsceneManager`, `obj_menu`, `obj_inGameMenu`, `obj_saveManager`, `obj_settingsManager`, `obj_save`, `obj_sound_test`, `obj_devLoader`, `obj_music_ctrl`, `screenshot`, `obj_menuTest`, `obj_p3r_*` | Весь HUD: диалоговое окно и портрет (оба рисует `textboxTest_scribble` через Scribble и `global.current_sprite`; `obj_face` лишь выбирает спрайт в End Step — его Draw_64 заглушка `exit;`), меню, уведомления и debug-оверлеи менеджера, debug-панель музыки (F9), фейд катсцены |
+| Draw GUI | `obj_globalManager`, `textboxTest_scribble`, `obj_face`, `obj_cutsceneManager`, `obj_menu`, `obj_inGameMenu`, `obj_saveManager`, `obj_settingsManager`, `obj_save`, `obj_sound_test`, `obj_devLoader`, `obj_music_ctrl`, `screenshot`, `obj_menuTest`, `obj_p3r_*` | Весь HUD: диалоговое окно и портрет (оба рисует `textboxTest_scribble` через Scribble и `global.current_sprite`; `obj_face` лишь выбирает спрайт в End Step (его Draw_64 — заглушка `exit;`)), меню, уведомления и debug-оверлеи менеджера, debug-панель музыки (F9), фейд катсцены |
 | Draw GUI Begin/End, Pre/Post Draw | `obj_menuTest`, семейство `obj_p3r_*` | Полный набор draw-событий у p3r-меню для слоёв и шейдерной обработки фона (`shd_grayscale` на `application_surface`, `shd_p3r_water` у `obj_p3r_background`) |
 
 !!! note "Внеочередные события"
     `obj_globalManager` дополнительно держит Other → Game End (`Other_3`):
     пишет `global.__total_playtime_seconds` в `game_state.dat` через
     `scr_game_state_save`. `obj_cutsceneManager` обрабатывает Room Start/Room End
-    и CleanUp — переживает смену комнаты как persistent-объект.
+    и CleanUp, поэтому переживает смену комнаты как persistent-объект.
 
 ## Persistent-объекты { #persistent }
 
@@ -99,7 +99,7 @@ graph LR
 
 !!! warning "Сирота на диске"
     У `obj_player` на диске лежит `Draw_0.gml`, но Draw-события нет в `eventList`
-    `obj_player.yy` — файл не исполняется, отрисовку делает движок
+    `obj_player.yy`: файл не исполняется, отрисовку делает движок
     (`eventList`: Create, Step, Begin Step, End Step, CleanUp).
 
 ## Самые крупные файлы { #god-files }
@@ -132,19 +132,20 @@ graph LR
   `scr_constants`/`scr_inventory_init`/`scr_music_init`; остальные глобалы
   (состояние музыки, `TGMX`, отладочные) создаются лениво при первом
   использовании. Финальный флаг `global.__init_done` — последняя строка события.
-  `obj_globalManager` инициализации не содержит — только рантайм.
+  `obj_globalManager` инициализации не содержит, только рантайм.
 - **Менеджеры-одиночки.** Музыка, катсцены, UI-блокировка и playtime живут в
   persistent-объектах в единственном экземпляре: `obj_globalManager` гасит дубли
   через `instance_number` в Create, `obj_music_ctrl`/`obj_changingRoomsController`
   защищены `instance_exists`-проверками в точках создания.
 - **Ввод через карту действий.** Код опрашивает `scr_input_down`/`scr_input_pressed`/
   `scr_input_repeater` по имени действия; клавиши приходят из `global.input_map`,
-  геймпад — из отдельного слоя в `scr_inputApi`.
+  а ввод геймпада обрабатывается отдельным слоем в `scr_inputApi`.
 - **UI-блокировка вместо стека.** `scr_checkUIBlocking` проверяет жёсткий список
   UI-объектов (`scr_ui_objects_list`) и флаги катсцены; результат кэшируется на кадр
   через dirty-флаги, которые ставит `obj_globalManager`.
-- **Data-driven контент.** Диалоги — `.yarn` файлы (Chatterbox), катсцены —
-  JSON через `cutscene_action_factory`, визуальный ряд текста — разметка Scribble.
+- **Data-driven контент.** Диалоги хранятся в `.yarn` файлах (Chatterbox),
+  катсцены — в JSON через `cutscene_action_factory`, а визуальный ряд текста
+  задаётся разметкой Scribble.
 - **Состояние мира отделено от сессии.** `global.entity_state` сериализуется в сейв,
   `global.room_flags` — сессионные пометки, сбрасываемые вместе с запуском.
 

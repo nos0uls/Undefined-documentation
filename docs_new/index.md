@@ -47,21 +47,21 @@ hide:
 
 === "Новичок в проекте"
 
-    1. [Настройка окружения](getting-started/setup.md) — IDE, runtime, первый запуск.
-    2. [Структура проекта](getting-started/project-structure.md) — что где лежит.
-    3. [Обзор архитектуры](architecture/overview.md) — как связаны подсистемы.
+    1. [Настройка окружения](getting-started/setup.md): IDE, runtime, первый запуск.
+    2. [Структура проекта](getting-started/project-structure.md): что где лежит.
+    3. [Обзор архитектуры](architecture/overview.md): как связаны подсистемы.
 
 === "Контент-мейкер катсцен"
 
-    1. [Обзор катсцен](cutscenes/overview.md) — способы задать сцену: JSON, GML, `c_*`-функции.
-    2. [Undefscene](undefscene/overview.md) — визуальный редактор сценариев.
-    3. [JSON-действия](cutscenes/json-actions.md) — все типы действий и их поля.
+    1. [Обзор катсцен](cutscenes/overview.md): способы задать сцену (JSON, GML, `c_*`-функции).
+    2. [Undefscene](undefscene/overview.md): визуальный редактор сценариев.
+    3. [JSON-действия](cutscenes/json-actions.md): все типы действий и их поля.
 
 === "Разработчик кода"
 
     1. [Архитектура](architecture/overview.md) → [инициализация](architecture/initialization.md) → [глобальное состояние](architecture/global-state.md).
-    2. [Системы](systems/input.md) — ввод, игрок, сохранения, музыка.
-    3. [Справочник GML-скриптов](reference/gml-scripts.md) — сигнатуры функций.
+    2. [Системы](systems/input.md): ввод, игрок, сохранения, музыка.
+    3. [Справочник GML-скриптов](reference/gml-scripts.md): сигнатуры функций.
 
 !!! info "В разработке"
     Документация обновляется параллельно с развитием проекта. Источник истины — код на ветке `audit-fixes-2026-09` (ревизия `7ee444a`).

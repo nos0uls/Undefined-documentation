@@ -13,13 +13,13 @@ tags:
 
 ## Действия и слоты биндов
 
-`scr_input_actions_list()` возвращает единый список из **9 переназначаемых действий** — его читают UI ребинда, сброс биндов (`scr_resetInputToDefault`) и построение карты ввода (`scr_buildInputMap`):
+`scr_input_actions_list()` возвращает единый список из 9 переназначаемых действий. Его читают UI ребинда, сброс биндов (`scr_resetInputToDefault`) и построение карты ввода (`scr_buildInputMap`):
 
 ```gml title="scripts/scr_inputApi/scr_inputApi.gml"
 return ["up","down","left","right","run","confirm","back","menu","delete"];
 ```
 
-Привязки хранятся в `global.player_settings` в виде **двух слотов на действие**: поля `input_<action>1` (основная клавиша) и `input_<action>2` (дополнительная). Значение `-1` означает пустой слот. `scr_buildInputMap(settings)` собирает из них `global.input_map` — структуру `действие → [слот1, слот2]`; коды прогоняются через `scr_input_normalize_key`, поэтому мусор из испорченного файла настроек не доходит до `keyboard_check`.
+Привязки хранятся в `global.player_settings` в виде двух слотов на действие: поля `input_<action>1` (основная клавиша) и `input_<action>2` (дополнительная). Значение `-1` означает пустой слот. `scr_buildInputMap(settings)` собирает из них `global.input_map`, структуру `действие → [слот1, слот2]`; коды прогоняются через `scr_input_normalize_key`, поэтому мусор из испорченного файла настроек не доходит до `keyboard_check`.
 
 Контракт `input_map` — только vk-коды клавиатуры (целые `2..255`); геймпад в карту не входит и обрабатывается отдельным слоем (см. [Геймпад](#gamepad)).
 
@@ -38,11 +38,11 @@ return ["up","down","left","right","run","confirm","back","menu","delete"];
 | `delete` | `ord("B")` | `-1` | `gp_select` | Удаление слота сохранения (`obj_saveManager`) |
 
 !!! note "Дубль `vk_shift`"
-    `vk_shift` по умолчанию стоит и на `run` (слот 1), и на `back` (слот 2) — Shift одновременно бег и кнопка отмены. Дубль клавиши легален: скан коллизий в `scr_input_rebind_slot` срабатывает только при явном ребинде на занятую клавишу.
+    `vk_shift` по умолчанию стоит и на `run` (слот 1), и на `back` (слот 2): Shift одновременно и бег, и кнопка отмены. Дубль клавиши легален: скан коллизий в `scr_input_rebind_slot` срабатывает только при явном ребинде на занятую клавишу.
 
 ## Инициализация
 
-`obj_Init/Create_0.gml` готовит глобалы ввода: `global.input_map = scr_buildInputMap(global.player_settings)` (после `scr_loadSettings`/`scr_applySettings`), дефолты репитера `global.input_repeater_defaults`, пустое состояние `global.__input_repeat_state`, структуры `global.__gamepad_axis_prev`/`__gamepad_axis_pressed` и кэш UI-блокировки. `global.default_settings` с дефолтными биндами создаётся кодом верхнего уровня `scr_settingsManager.gml` при загрузке программы — до `obj_Init`.
+`obj_Init/Create_0.gml` готовит глобалы ввода: `global.input_map = scr_buildInputMap(global.player_settings)` (после `scr_loadSettings`/`scr_applySettings`), дефолты репитера `global.input_repeater_defaults`, пустое состояние `global.__input_repeat_state`, структуры `global.__gamepad_axis_prev`/`__gamepad_axis_pressed` и кэш UI-блокировки. `global.default_settings` с дефолтными биндами создаётся кодом верхнего уровня `scr_settingsManager.gml` при загрузке программы, ещё до `obj_Init`.
 
 ## API опроса
 
@@ -52,7 +52,7 @@ return ["up","down","left","right","run","confirm","back","menu","delete"];
 |---------|-----------|-----------|
 | `scr_input_down` | `(action)` | `true`, пока клавиша или кнопка действия удерживается (`keyboard_check` + геймпад) |
 | `scr_input_pressed` | `(action)` | `true` ровно один кадр при нажатии (`keyboard_check_pressed` + геймпад) |
-| `scr_input_repeater` | `(action, delay = undefined, interval = undefined)` | Автоповтор нажатия при удержании — для навигации по спискам меню |
+| `scr_input_repeater` | `(action, delay = undefined, interval = undefined)` | Автоповтор нажатия при удержании (для навигации по спискам меню) |
 
 ### `scr_input_repeater`
 
@@ -62,7 +62,7 @@ return ["up","down","left","right","run","confirm","back","menu","delete"];
 2. Удержание дольше `delay` → фаза частого повтора: `true` каждые `interval` миллисекунд.
 3. Отпускание → сброс состояния.
 
-Дефолты берутся из `global.input_repeater_defaults` (`{ delay: 200, interval: 120 }` мс, задаётся в `obj_Init/Create_0.gml`), время считается по `current_time`. Состояние хранится в `global.__input_repeat_state` **на пару «инстанс + действие»** — два одновременно живых UI не делят общий таймер.
+Дефолты берутся из `global.input_repeater_defaults` (`{ delay: 200, interval: 120 }` мс, задаётся в `obj_Init/Create_0.gml`), время считается по `current_time`. Состояние хранится в `global.__input_repeat_state` на пару «инстанс + действие», так что два одновременно живых UI не делят общий таймер.
 
 ### Прочие функции `scr_inputApi`
 
@@ -71,46 +71,46 @@ return ["up","down","left","right","run","confirm","back","menu","delete"];
 | `scr_input__keys_for_action(action)` | Массив назначенных клавиш из `global.input_map` (или `[]`) |
 | `scr_input_normalize_key(code)` | Нормализация кода: допустимы `-1` и целые `2..255`; `vk_lshift`/`vk_rshift` сводятся к `vk_shift`, всё остальное мусорное → `-1` |
 | `scr_input_rebind(action, new_key)` | Обёртка над `scr_input_rebind_slot` для слота 1 |
-| `scr_input_rebind_slot(action, slotIndex, new_key, target_settings)` | Переназначение конкретного слота — см. [Ребинд](#rebind) |
+| `scr_input_rebind_slot(action, slotIndex, new_key, target_settings)` | Переназначение конкретного слота (см. [Ребинд](#rebind)) |
 | `scr_input_keys_hint(settings, action)` | Человекочитаемая подсказка биндов вида `"Z/Enter"` для UI |
-| `scr_ui_read_actions(exclude_self)` | Вне `scr_inputApi`: единое чтение ввода для меню — возвращает struct `{up, down, left, right, confirm, back, menu, delete, ui_blocking}`; навигация идёт через `scr_input_repeater`, `back`/`menu` читаются даже при UI-блокировке |
+| `scr_ui_read_actions(exclude_self)` | Вне `scr_inputApi`: единое чтение ввода для меню: возвращает struct `{up, down, left, right, confirm, back, menu, delete, ui_blocking}`; навигация идёт через `scr_input_repeater`, `back`/`menu` читаются даже при UI-блокировке |
 
 ## Геймпад { #gamepad }
 
-Геймпад читается напрямую, вне `input_map` и без ребинда — маппинг зашит в `scr_input__gamepad_down` и `scr_input__gamepad_pressed`. Опрос идёт по слотам `0..3` (`gamepad_is_connected`): учитываются все подключённые геймпады, срабатывает первый по порядку слота, сообщивший ввод.
+Геймпад читается напрямую, вне `input_map` и без ребинда: маппинг зашит в `scr_input__gamepad_down` и `scr_input__gamepad_pressed`. Опрос идёт по слотам `0..3` (`gamepad_is_connected`): учитываются все подключённые геймпады, срабатывает первый по порядку слота, сообщивший ввод.
 
-- **Кнопки:** `gp_face1` → `confirm`, `gp_face2` → `back` и `run`, `gp_face3` → `run`, `gp_face4`/`gp_start` → `menu`, `gp_select` → `delete`, крестовина `gp_padu`/`gp_padd`/`gp_padl`/`gp_padr` → направления.
-- **Левый стик:** оси `gp_axislv`/`gp_axislh` с порогом `±0.5` тоже дают `up`/`down`/`left`/`right` — для `scr_input_down` стик опрашивается напрямую каждый кадр.
-- **`pressed` для стика:** одно нажатие `gamepad_button_check_pressed` не работает для осей, поэтому `scr_input_gamepad_update()` (вызывается раз в кадр из `obj_globalManager/Step_0`) считает фронты отклонения стика и складывает их в `global.__gamepad_axis_pressed` / `global.__gamepad_axis_prev`.
+- Кнопки: `gp_face1` → `confirm`, `gp_face2` → `back` и `run`, `gp_face3` → `run`, `gp_face4`/`gp_start` → `menu`, `gp_select` → `delete`, крестовина `gp_padu`/`gp_padd`/`gp_padl`/`gp_padr` → направления.
+- Левый стик: оси `gp_axislv`/`gp_axislh` с порогом `±0.5` тоже дают `up`/`down`/`left`/`right`; для `scr_input_down` стик опрашивается напрямую каждый кадр.
+- `pressed` для стика: одно нажатие `gamepad_button_check_pressed` не работает для осей, поэтому `scr_input_gamepad_update()` (вызывается раз в кадр из `obj_globalManager/Step_0`) считает фронты отклонения стика и складывает их в `global.__gamepad_axis_pressed` / `global.__gamepad_axis_prev`.
 
 ## Ребинд { #rebind }
 
-Ребинд выполняется в меню настроек: `scr_settings_step_rebind(actions)` вызывается из `Step_0` `obj_settingsManager` (ветка `SETTINGS_STATE.REBIND`) со `self` = его инстанс — читает/пишет `settings_state`, `rebind_action`, `rebind_slot`, `input_delay_timer`, `local_settings`.
+Ребинд выполняется в меню настроек: `scr_settings_step_rebind(actions)` вызывается из `Step_0` `obj_settingsManager` (ветка `SETTINGS_STATE.REBIND`) со `self` = его инстанс, читает/пишет `settings_state`, `rebind_action`, `rebind_slot`, `input_delay_timer`, `local_settings`.
 
-**Захват клавиши:** при `keyboard_check_pressed(vk_anykey)` пойманная клавиша берётся из `keyboard_lastkey`; затем `scr_input_rebind_slot(rebind_action, rebind_slot, caught, local_settings)` пишет её в слот, после чего `scr_settings_apply_and_save` применяет и сохраняет настройки, а состояние репитера действия сбрасывается.
+Захват клавиши: при `keyboard_check_pressed(vk_anykey)` пойманная клавиша берётся из `keyboard_lastkey`; затем `scr_input_rebind_slot(rebind_action, rebind_slot, caught, local_settings)` пишет её в слот, после чего `scr_settings_apply_and_save` применяет и сохраняет настройки, а состояние репитера действия сбрасывается.
 
-**Специальные случаи:**
+Специальные случаи:
 
-- `actions.back` или `vk_escape` — отмена ребинда без записи.
-- `vk_backspace`/`vk_delete` — очистка слота. Слот 1 очищать запрещено («can't clear primary key!»), слот 2 можно очистить в `-1` (отображается как `-`).
-- Запрещённые клавиши: `vk_enter` — всегда; `vk_f1`–`vk_f12` — всегда; Shift (`vk_shift`/`vk_lshift`/`vk_rshift`) — для всех действий, кроме `run` (бег должен уметь вернуться на Shift).
-- `vk_lshift`/`vk_rshift`, пойманные для `run`, нормализуются в общий `vk_shift` — иначе бинд «сужался» бы до одной стороны клавиши.
+- `actions.back` или `vk_escape`: отмена ребинда без записи.
+- `vk_backspace`/`vk_delete`: очистка слота. Слот 1 очищать запрещено («can't clear primary key!»), слот 2 можно очистить в `-1` (отображается как `-`).
+- Запрещённые клавиши: `vk_enter` и `vk_f1`–`vk_f12` всегда; Shift (`vk_shift`/`vk_lshift`/`vk_rshift`) для всех действий, кроме `run` (бег должен уметь вернуться на Shift).
+- `vk_lshift`/`vk_rshift`, пойманные для `run`, нормализуются в общий `vk_shift`, иначе бинд «сужался» бы до одной стороны клавиши.
 
-**`scr_input_rebind_slot(action, slotIndex, new_key, target_settings = undefined)`:**
+`scr_input_rebind_slot(action, slotIndex, new_key, target_settings = undefined)`:
 
 1. Валидирует слот (`1` или `2`) и код клавиши (`2..255`); `new_key == -1` разрешён только для слота 2.
-2. Сканирует все слоты всех 9 действий на коллизии. Забрать клавишу, которая является **дефолтной для своего слота** (по `global.default_settings`), нельзя — отказ с нотификацией «can't bind to an already binded key!».
-3. Коллизионные слоты освобождаются: в них возвращается дефолт, а если дефолт уже занят другим слотом — `-1`.
+2. Сканирует все слоты всех 9 действий на коллизии. Забрать клавишу, которая является дефолтной для своего слота (по `global.default_settings`), нельзя: отказ с нотификацией «can't bind to an already binded key!».
+3. Коллизионные слоты освобождаются: в них возвращается дефолт, а если дефолт уже занят другим слотом, то `-1`.
 4. Пишет `new_key` в целевой слот. При `target_settings == undefined` (работа с `global.player_settings`) пересобирает `global.input_map` и сохраняет настройки через `scr_saveSettings`.
 
 ## Блокировка ввода
 
 Два независимых механизма:
 
-- **UI-блокировка** — `scr_checkUIBlocking(exclude_self, include_cutscene)`: `true`, если открыт блокирующий UI (единый список `scr_ui_objects_list()` — `obj_settingsManager`, `obj_menu`, `obj_saveManager`, `obj_inGameMenu`, `textboxTest_scribble`, p3r-меню и др., плюс `obj_sound_test` при `is_open`) или активна катсцена (`global.cutscene_active` / `global.cutscene_camera_override` при `include_cutscene`). Результат кэшируется в пределах кадра — только вызовы без `exclude_self`, с ним идёт полный пересчёт: dirty-флаги `global.__ui_blocking_dirty*` выставляет `obj_globalManager` каждый Step. Инстансы с `non_blocking = true` и вызывающий инстанс при `exclude_self` из проверки исключаются.
-- **Блокировка катсценой** — `scr_input__is_cutscene_blocked_here(action)`: при `global.cutscene_active` ввод не-UI объектов подменяется виртуальным (`__cutscene_virtual_down` на инстансе; продюсеров нет — фактически читается `false`). UI-объекты из того же `scr_ui_objects_list()` продолжают видеть реальный ввод — к ним точечно добавлены `obj_cutsceneManager` и `obj_sound_test`. Режим `partial_control_type` менеджера катсцены сужает блокировку: `FREE` — ввод свободен, `WHITELIST` — пропускаются действия из `partial_control_allowed_actions` (`scr_input__partial_control_allows` разворачивает алиасы `"move"` → направления + `run` и `"interact"` → `confirm`; пустой список — только `confirm`).
+- **UI-блокировка** (`scr_checkUIBlocking(exclude_self, include_cutscene)`): `true`, если открыт блокирующий UI (единый список `scr_ui_objects_list()`: `obj_settingsManager`, `obj_menu`, `obj_saveManager`, `obj_inGameMenu`, `textboxTest_scribble`, p3r-меню и др., плюс `obj_sound_test` при `is_open`) или активна катсцена (`global.cutscene_active` / `global.cutscene_camera_override` при `include_cutscene`). Результат кэшируется в пределах кадра (только вызовы без `exclude_self`; с ним идёт полный пересчёт): dirty-флаги `global.__ui_blocking_dirty*` выставляет `obj_globalManager` каждый Step. Инстансы с `non_blocking = true` и вызывающий инстанс при `exclude_self` из проверки исключаются.
+- **Блокировка катсценой** (`scr_input__is_cutscene_blocked_here(action)`): при `global.cutscene_active` ввод не-UI объектов подменяется виртуальным (`__cutscene_virtual_down` на инстансе; продюсеров нет, фактически читается `false`). UI-объекты из того же `scr_ui_objects_list()` продолжают видеть реальный ввод; к ним точечно добавлены `obj_cutsceneManager` и `obj_sound_test`. Режим `partial_control_type` менеджера катсцены сужает блокировку: при `FREE` ввод свободен, при `WHITELIST` пропускаются действия из `partial_control_allowed_actions` (`scr_input__partial_control_allows` разворачивает алиасы `"move"` → направления + `run` и `"interact"` → `confirm`; при пустом списке допустим только `confirm`).
 
-Подробнее о режимах частичного контроля — в [Partial Control](../cutscenes/partial-control.md).
+Подробнее о режимах частичного контроля: [Partial Control](../cutscenes/partial-control.md).
 
 ## Пример
 

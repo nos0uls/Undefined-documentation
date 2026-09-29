@@ -9,7 +9,7 @@ tags:
 
 # JSON-действия катсцен — справочник
 
-Полный список типов `type`, которые разбирает фабрика `cutscene_action_factory` из массива `actions` JSON-катсцены. Для каждого типа — поля, значения по умолчанию и создаваемый `Action*`-класс.
+Полный список типов `type`, которые разбирает фабрика `cutscene_action_factory` из массива `actions` JSON-катсцены. Для каждого типа указаны поля, значения по умолчанию и создаваемый `Action*`-класс.
 
 ## Формат файла
 
@@ -34,28 +34,28 @@ tags:
 | `schema_version` | real | Маркер экспортёра; загрузчиком не читается |
 | `settings.fps` | real | FPS для конвертации секунд в кадры; валиден диапазон `1..240`, иначе берётся `default_fps` из `cutscene_load_engine_settings()` |
 | `settings.skippable` | bool | `false` запрещает пропуск сцены кнопкой `back` (см. `obj_cutsceneManager/Step_0`); по умолчанию `true` |
-| `actions` | array | Список действий — объектов с полем `type` |
+| `actions` | array | Список действий: объекты с полем `type` |
 
-!!! info "settings.skippable — не действие"
+!!! info "settings.skippable: не действие"
     `skippable` — поле объекта `settings` верхнего уровня, а не элемент `actions`. Сюжетные сцены ставят `"settings": { "skippable": false }`, чтобы `back` не пропускал катсцену.
 
-Служебные элементы `actions` — не действия фабрики: `{"type": "start", "debug": true}` (работает только первым элементом — включает `manager.debug_enabled`) и `{"type": "end"}` (останавливает разбор; всё после него не выполняется).
+Служебные элементы `actions` — не действия фабрики: `{"type": "start", "debug": true}` (работает только первым элементом; включает `manager.debug_enabled`) и `{"type": "end"}` (останавливает разбор; всё после него не выполняется).
 
 ## Общие правила полей
 
 Поля читаются типизированными хелперами `__cutscene_json_get_*` из `cutscene_load_json.gml`:
 
-- **Цель** (`target` / `target_ref`, `target` приоритетнее): строка — ключ `actor_map` (регистрозависимо), зарезервированные `"player"`/`"player_body"` (регистронезависимо) или имя object-ассета; число — instance id или object-индекс. JSON `null` нормализуется в `noone` — `"target": null` отклоняется как «нет цели». Пустая строка и `noone` везде, где цель обязательна, отклоняют действие с записью в лог.
-- **Время**: `seconds`, `duration`, `time` — синонимы длительности в секундах (проверяются в этом порядке); конвертируются в кадры через `settings.fps`. Где фабрика вызывает `__cutscene_json_get_frames` (`wait`, `spin`, `shake_object`), явный `frames` имеет приоритет над секундными ключами.
+- **Цель** (`target` / `target_ref`, `target` приоритетнее): строка: ключ `actor_map` (регистрозависимо), зарезервированные `"player"`/`"player_body"` (регистронезависимо) или имя object-ассета; число: instance id или object-индекс. JSON `null` нормализуется в `noone`: `"target": null` отклоняется как «нет цели». Пустая строка и `noone` везде, где цель обязательна, отклоняют действие с записью в лог.
+- **Время**: `seconds`, `duration`, `time`: синонимы длительности в секундах (проверяются в этом порядке); конвертируются в кадры через `settings.fps`. Где фабрика вызывает `__cutscene_json_get_frames` (`wait`, `spin`, `shake_object`), явный `frames` имеет приоритет над секундными ключами.
 - **Числа**: строки-числа (`"120"`) парсятся; нечисловые строки, `NaN` и `±infinity` дают значение по умолчанию. Там, где `0` — валидное значение координаты (`move`, `set_position`, `jump`, `actor_create`, `spawn_entity`, `camera_center`, `camera_pan`, `room_change`), обязательность проверяется по наличию ключа, а не по значению.
 - **Булевы**: принимаются `true`/`false`, `1`/`0`, строки `"true"/"false"/"yes"/"no"/"on"/"off"/"1"/"0"`.
 - **Цвет** (`fade_in`/`fade_out`): индекс `c_*`-цвета, имя (`"black"`, `"white"`, `"red"`, …, `"gray"`/`"grey"`, `"dkgray"`, `"ltgray"`, …) или hex `"#RRGGBB"`/`"RRGGBB"`.
-- **Направление**: `"right"`/`"r"`, `"left"`/`"l"`, `"up"`/`"u"`, `"down"`/`"d"`; число `global.DIR.*` (`RIGHT=0`, `LEFT=1`, `UP=2`, `DOWN=3`) принимает только `set_facing` — у `move_relative_direction` поле `direction` читается строкой (`__cutscene_json_get_string`), поэтому JSON-число превращается в строку `"2"` и деградирует в `DOWN` с warning.
+- **Направление**: `"right"`/`"r"`, `"left"`/`"l"`, `"up"`/`"u"`, `"down"`/`"d"`; число `global.DIR.*` (`RIGHT=0`, `LEFT=1`, `UP=2`, `DOWN=3`) принимает только `set_facing`; у `move_relative_direction` поле `direction` читается строкой (`__cutscene_json_get_string`), поэтому JSON-число превращается в строку `"2"` и деградирует в `DOWN` с warning.
 - **Easing** (`tween`, `tween_camera`, `jump`): `"linear"` (по умолчанию), `"ease_in"`/`"in"`, `"ease_out"`/`"out"`, `"ease_in_out"`/`"in_out"`/`"ease"`.
-- **Свойства камеры** (`set_property`/`tween`/`lerp` с `kind:"camera"`, `tween_camera`): `"x"`, `"y"`, `"view_x"`, `"view_y"`, `"camera_x"`, `"camera_y"` — левый верхний угол view.
+- **Свойства камеры** (`set_property`/`tween`/`lerp` с `kind:"camera"`, `tween_camera`): `"x"`, `"y"`, `"view_x"`, `"view_y"`, `"camera_x"`, `"camera_y"`: левый верхний угол view.
 - **Dot-нотация состояния** (`branch_flag.key`, `guard_global.var`/`end_var`): резолвер `__cutscene_resolve_state_value` понимает `"flag.x"`/`"flags.x"` → `global.flag[$ "x"]`, `"stat.hp"` → `global.stat_hp`, `"entity_state.rm:eid[.field]"` → запись `global.entity_state`, `"struct.field"` → `global[$ struct][$ field]`; префикс `global.` срезается. Ключ без точки читается как `global.flag[key]` (в `branch_flag`) или целая global-переменная (в `guard_global`).
 
-Действие с невалидными обязательными полями не создаётся — фабрика возвращает `noone` и пишет `[CUTSCENE] FACTORY: action '<type>' rejected — …` в лог.
+Действие с невалидными обязательными полями не создаётся: фабрика возвращает `noone` и пишет `[CUTSCENE] FACTORY: action '<type>' rejected — …` в лог.
 
 ## Алиасы типов
 
@@ -85,7 +85,7 @@ tags:
 | `target` / `target_ref` | string/id | да | — |
 | `x`, `y` | real | да (ключи) | — |
 | `speed_px_sec` | real | нет | `60` (fallback на `speed`) |
-| `speed` | real | нет | `60` — читается, только если `speed_px_sec` отсутствует или `< 0` |
+| `speed` | real | нет | `60`; читается, только если `speed_px_sec` отсутствует или `< 0` |
 | `collision` | bool | нет | `false` |
 
 ```json title="datafiles/cutscenes/tests/move_basic.json"
@@ -102,7 +102,7 @@ tags:
 | `points` | array | да (непустой) | элементы `{x,y}` или `[x,y]`; нераспознанные пропускаются с warning |
 | `speed_px_sec` | real | нет | `60` |
 | `collision` | bool | нет | `false` |
-| `autofacing` | bool | нет | `true` — поворачивает актёра по ходу пути; исходный `auto_face` восстанавливается в `cleanup` |
+| `autofacing` | bool | нет | `true`: поворачивает актёра по ходу пути; исходный `auto_face` восстанавливается в `cleanup` |
 
 ```json title="datafiles/cutscenes/tests/move_path.json"
 { "type": "follow_path", "target": "test_actor", "speed_px_sec": 120, "points": [{ "x": 100, "y": 100 }, { "x": 150, "y": 100 }, { "x": 150, "y": 150 }] }
@@ -130,9 +130,9 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
-| `direction` | string | нет | `"right"` — только имена/буквы (`r/l/u/d` тоже); JSON-число строкифицируется и деградирует в `DOWN` с warning |
+| `direction` | string | нет | `"right"`; только имена/буквы (`r/l/u/d` тоже); JSON-число строкифицируется и деградирует в `DOWN` с warning |
 | `speed_px_sec` | real | нет | `60` |
-| `seconds` / `duration` / `time` | real | нет | `1` — длительность движения |
+| `seconds` / `duration` / `time` | real | нет | `1`; длительность движения |
 | `collision` | bool | нет | `false` |
 
 ```json title="datafiles/cutscenes/tests/move_rel_dir.json"
@@ -141,13 +141,13 @@ tags:
 
 ### `move_direct`
 
-Движение к точке либо с фиксированной скоростью, либо за фиксированное время. Создаёт `ActionMoveDirect` (внутри — `ActionMove`).
+Движение к точке либо с фиксированной скоростью, либо за фиксированное время. Создаёт `ActionMoveDirect` (внутри используется `ActionMove`).
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
 | `x`, `y` | real | нет | отсутствующая ось = текущая координата |
-| `value` | real | нет | `60` — при `use_speed:false` это кадры движения |
+| `value` | real | нет | `60`; при `use_speed:false` это кадры движения |
 | `use_speed` | bool | нет | `false` |
 | `seconds` / `duration` / `time`, `frames` | real | нет | переопределяют `value` при `use_speed:false` |
 | `collision` | bool | нет | `false` |
@@ -168,7 +168,7 @@ tags:
 | `target` / `target_ref` | string/id | да | — |
 | `x`, `y` | real | да (ключи) | — |
 | `seconds` / `duration` / `time` | real | нет | `0.5` |
-| `height` | real | нет | `16` — высота дуги в px |
+| `height` | real | нет | `16`: высота дуги в px |
 | `easing` | string | нет | `"linear"` |
 
 ```json title="datafiles/cutscenes/tests/jump.json"
@@ -261,7 +261,7 @@ tags:
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
 | `sprite` | string | нет | — (неразрешённое имя пропускается с warning, `sprite_index` не трогается) |
-| `image_index` | real | нет | не задаётся — поле остаётся как есть |
+| `image_index` | real | нет | не задаётся: поле остаётся как есть |
 | `image_speed` | real | нет | не задаётся; `> 0` включает `__cutscene_anim_override` |
 
 ```json title="datafiles/cutscenes/tests/animate.json"
@@ -277,7 +277,7 @@ tags:
 | `target` / `target_ref` | string/id | да | — |
 | `image_index` | real | нет | `0` |
 | `image_speed` | real | нет | `1` |
-| `pause` | bool | нет | `false` — `true` обнуляет `image_speed` после установки кадра |
+| `pause` | bool | нет | `false`; `true` обнуляет `image_speed` после установки кадра |
 
 ```json title="datafiles/cutscenes/tests/set_animation_frame.json"
 { "type": "set_animation_frame", "target": "test_actor", "image_index": 2, "image_speed": 0, "pause": true }
@@ -289,7 +289,7 @@ tags:
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `kind` | string | нет | `"instance"`; `"camera"` — камера, `target` не нужен |
+| `kind` | string | нет | `"instance"`; `"camera"`: камера, `target` не нужен |
 | `target` / `target_ref` | string/id | да для `kind != "camera"` | — |
 | `property` | string | да | — |
 | `value` | any | нет | `undefined` |
@@ -304,15 +304,15 @@ tags:
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `kind` | string | нет | `"instance"`; `"camera"` — `target` не нужен |
+| `kind` | string | нет | `"instance"`; `"camera"`: `target` не нужен |
 | `target` / `target_ref` | string/id | да для `kind != "camera"` | — |
 | `property` / `prop` | string | да | — |
 | `to_value` / `end_value` | real | нет | `0` |
 | `frames` | real | нет | приоритет над секундными ключами |
 | `seconds` / `duration` / `time` | real | нет | `1` сек, если нет `frames` |
-| `duration_frames` | real | нет | **секунды**, несмотря на имя — так экспортирует Undefscene |
+| `duration_frames` | real | нет | **секунды**, несмотря на имя (так экспортирует Undefscene) |
 | `easing` / `ease_name` | string | нет | `"linear"` |
-| `from_value` / `start_value_override` | real | нет | стартовое значение; без него — текущее свойство цели |
+| `from_value` / `start_value_override` | real | нет | стартовое значение; без него берётся текущее свойство цели |
 
 ```json title="datafiles/cutscenes/tests/tween.json"
 { "type": "tween", "target": "test_actor", "property": "x", "to_value": 200, "seconds": 0.5, "easing": "linear" }
@@ -327,8 +327,8 @@ tags:
 | `target` / `target_ref` | string/id | да | строка `"camera"` (любой регистр) переключает на камеру |
 | `property` / `prop` | string | да | — |
 | `to_value` / `end_value` | real | нет | `0` |
-| `factor` | real | нет | `0.1` — клампится в `0.001..1` |
-| `threshold` | real | нет | `0.5` — минимум `0.01` |
+| `factor` | real | нет | `0.1`: клампится в `0.001..1` |
+| `threshold` | real | нет | `0.5`: минимум `0.01` |
 
 ```json title="Синтетический пример (в datafiles/cutscenes не встречается)"
 { "type": "lerp", "target": "test_actor", "property": "image_alpha", "to_value": 0, "factor": 0.2 }
@@ -341,7 +341,7 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
-| `speed` | real | нет | `10` — итоговый угол в градусах, равномерно размазанный на длительность |
+| `speed` | real | нет | `10`: итоговый угол в градусах, равномерно размазанный на длительность |
 | `frames` | int | нет | `60` кадров; приоритет над секундными ключами |
 | `seconds` / `duration` / `time` | real | нет | — |
 
@@ -356,7 +356,7 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
-| `flipped` | bool | нет | `true` — `true` даёт отрицательный `image_xscale` |
+| `flipped` | bool | нет | `true`: даёт отрицательный `image_xscale` |
 
 ```json title="datafiles/cutscenes/tests/flip.json"
 { "type": "flip", "target": "test_actor", "flipped": true }
@@ -385,7 +385,7 @@ tags:
 | `seconds` / `duration` / `time` | real | нет | — |
 | `magnitude` | real | нет | `4` |
 | `magnitude_x`, `magnitude_y` | real | нет | = `magnitude` |
-| `decay` | bool | нет | `false` — затухание амплитуды |
+| `decay` | bool | нет | `false`: затухание амплитуды |
 | `frequency` | real | нет | `1` |
 
 ```json title="datafiles/cutscenes/tests/shake_object.json"
@@ -415,7 +415,7 @@ tags:
 |------|-----|-------|--------------|
 | `key` / `actor_key` / `actor_name` | string | да (первое непустое) | — |
 | `x`, `y` | real | да (ключи) | — |
-| `sprite_or_object` / `actor_sprite` | string/id | нет | имя object-ассета создаёт этот объект; имя sprite — `obj_actor` (точнее `default_actor_object` из engine-настроек) с этим спрайтом; без поля — объект по умолчанию |
+| `sprite_or_object` / `actor_sprite` | string/id | нет | имя object-ассета создаёт этот объект; имя sprite: `obj_actor` (точнее `default_actor_object` из engine-настроек) с этим спрайтом; без поля: объект по умолчанию |
 | `copy_from` / `copy_target` | string/id | нет | — источник внешности: спрайт, кадр, масштаб, `facing_direction`, `auto_face`, `auto_walk` (depth не копируется) |
 
 ```json title="datafiles/cutscenes/tests/actor_create.json"
@@ -430,7 +430,7 @@ tags:
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
 
-`obj_player` и его наследники защищены от уничтожения — действие пишет warning и пропускает удаление.
+`obj_player` и его наследники защищены от уничтожения: действие пишет warning и пропускает удаление.
 
 ```json title="datafiles/cutscenes/tests/spawn_entity.json (алиас destroy_entity)"
 { "type": "destroy_entity", "target": "spawned_test" }
@@ -444,8 +444,8 @@ tags:
 |------|-----|-------|--------------|
 | `object` / `actor_sprite` | string | да (имя object-ассета) | — |
 | `x`, `y` | real | да (ключи) | — |
-| `key` / `actor_name` | string | нет | `""` — при непустом ключе инстанс регистрируется в `actor_map` |
-| `depth` | real | нет | `0` (с warning; у наследников `par_depth` игнорируется — их `depth = -y`) |
+| `key` / `actor_name` | string | нет | `""`; при непустом ключе инстанс регистрируется в `actor_map` |
+| `depth` | real | нет | `0` (с warning; у наследников `par_depth` игнорируется: их `depth = -y`) |
 | `persistent` | bool | нет | `false` |
 
 ```json title="datafiles/cutscenes/tests/spawn_entity.json"
@@ -461,11 +461,11 @@ tags:
 | `target` / `target_ref` | string/id | да | кого привязываем |
 | `parent` / `parent_ref` | string/id | да | к кому привязываем |
 | `offset_x`, `offset_y` | real | нет | `0` |
-| `follow_facing` | bool | нет | `true` — копировать `image_xscale` родителя |
-| `follow_scale` | bool | нет | `true` — копировать `image_yscale` |
-| `follow_depth` | bool | нет | `true` — у `par_depth`-наследников через `attached_target`, иначе прямой записью `depth` |
-| `duration_seconds` | real | нет | `0` — `0` = мгновенный телепорт к точке привязки, `> 0` = плавный подлёт за N секунд |
-| `detach_on_cutscene_end` | bool | нет | `true` — авто-отвязка при `finish_cutscene` |
+| `follow_facing` | bool | нет | `true`: копировать `image_xscale` родителя |
+| `follow_scale` | bool | нет | `true`: копировать `image_yscale` |
+| `follow_depth` | bool | нет | `true`: у `par_depth`-наследников через `attached_target`, иначе прямой записью `depth` |
+| `duration_seconds` | real | нет | `0`: `0` = мгновенный телепорт к точке привязки, `> 0` = плавный подлёт за N секунд |
+| `detach_on_cutscene_end` | bool | нет | `true`: авто-отвязка при `finish_cutscene` |
 
 ```json title="datafiles/cutscenes/tests/attach_detach.json"
 { "type": "attach_to_target", "target": "child_actor", "parent_ref": "parent_actor", "offset_x": 20, "offset_y": 0, "follow_facing": true, "follow_scale": true, "follow_depth": true }
@@ -478,7 +478,7 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
-| `destroy_after_detach` | bool | нет | `false` — уничтожить инстанс после отвязки |
+| `destroy_after_detach` | bool | нет | `false`; `true` уничтожает инстанс после отвязки |
 | `keep_world_position` | — | — | игнорируется с warning (позиция и так сохраняется) |
 
 ```json title="datafiles/cutscenes/tests/attach_detach.json"
@@ -492,12 +492,12 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
-| `sprite` | string/id | нет | `undefined` — fallback: `default_emote_sprite` из engine-настроек, затем `chara_question_o`/`chara_question_c` |
+| `sprite` | string/id | нет | `undefined`; fallback: `default_emote_sprite` из engine-настроек, затем `chara_question_o`/`chara_question_c` |
 | `seconds` / `duration` / `time` | real | нет | `1` |
 | `offset_x` | real | нет | `0` |
 | `offset_y` | real | нет | `-24` |
 | `scale` | real | нет | `1` |
-| `wait` | bool | нет | `false` — `true` блокирует очередь до конца эмоции |
+| `wait` | bool | нет | `false`; `true` блокирует очередь до конца эмоции |
 
 ```json title="datafiles/cutscenes/tests/emote.json"
 { "type": "show_emote", "target": "test_actor", "sprite": "spr_StatHeart", "seconds": 1.0, "wait": false }
@@ -511,8 +511,8 @@ tags:
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
 | `emotion` | string | нет | `"default"` |
-| `apply_to_sprite` | bool | нет | `true` — меняет `sprite_index` на idle-спрайт эмоции |
-| `apply_to_portrait` | bool | нет | `true` — пишет в consume-once карту `global.__actor_forced_emotion` |
+| `apply_to_sprite` | bool | нет | `true`: меняет `sprite_index` на idle-спрайт эмоции |
+| `apply_to_portrait` | bool | нет | `true`: пишет в consume-once карту `global.__actor_forced_emotion` |
 
 ```json title="datafiles/cutscenes/tests/set_emotion.json"
 { "type": "set_emotion", "target": "test_actor", "emotion": "happy", "apply_to_sprite": false, "apply_to_portrait": true }
@@ -522,13 +522,13 @@ tags:
 
 ### `camera_track`
 
-Камера следует за целью заданное время; блокирует до конца таймера. Создаёт `ActionCameraTrack`. Клампа к границам комнаты нет — как у follow-камеры игрока.
+Камера следует за целью заданное время; блокирует до конца таймера. Создаёт `ActionCameraTrack`. Клампа к границам комнаты нет, как у follow-камеры игрока.
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
 | `seconds` / `duration` / `time` | real | нет | `0` (клампится до 1 кадра в классе) |
-| `offset_x`, `offset_y` | real | нет | `0` — смещение точки слежения |
+| `offset_x`, `offset_y` | real | нет | `0`: смещение точки слежения |
 
 ```json title="datafiles/cutscenes/tests/camera_track.json"
 { "type": "camera_track", "target": "test_actor", "seconds": 0.5 }
@@ -578,7 +578,7 @@ tags:
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `x`, `y` | real | хотя бы одно | `0` — **скорость в px/кадр по оси, не координата** |
+| `x`, `y` | real | хотя бы одно | `0`: **скорость в px/кадр по оси, не координата** |
 | `seconds` / `duration` / `time` | real | нет | `1` |
 | `speed`, `speed_px_sec` | — | — | игнорируются с warning |
 
@@ -617,7 +617,7 @@ tags:
 
 ### `tween_camera`
 
-Плавно меняет числовое свойство камеры (`x`, `y`, …); блокирует до конца. Создаёт `ActionTween("camera", prop, …, "camera")` — эквивалент `tween` с `kind:"camera"`.
+Плавно меняет числовое свойство камеры (`x`, `y`, …); блокирует до конца. Создаёт `ActionTween("camera", prop, …, "camera")`: эквивалент `tween` с `kind:"camera"`.
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
@@ -642,9 +642,9 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `file` | string | да | — обязано содержать `.yarn`; иначе действие отклоняется |
-| `node` | any | нет | `undefined` — стартовая нода файла |
-| `block_queue` | bool | нет | `true` — `false` запускает диалог неблокирующе (`non_blocking`), действие завершается сразу |
-| `auto_advance` | bool | нет | `false` — перекрывается `manager.dialogue_auto_advance`, если тот задан через `dialogue_control` |
+| `node` | any | нет | `undefined`: стартовая нода файла |
+| `block_queue` | bool | нет | `true`; при `false` диалог запускается неблокирующе (`non_blocking`), действие завершается сразу |
+| `auto_advance` | bool | нет | `false`; перекрывается `manager.dialogue_auto_advance`, если тот задан через `dialogue_control` |
 
 Несуществующий файл подменяется `dialogue_default_file` менеджера с warning. При `block_queue` действие ждёт `ChatterboxIsStopped`; если chatterbox не появился за `__CUTSCENE_DIALOGUE_WAIT_FRAMES` (~10 сек при 60 fps), действие пропускается по таймауту.
 
@@ -658,18 +658,18 @@ tags:
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `dialogue_controller` | id | нет | `undefined` — авто-поиск контроллера менеджера или любого `textboxTest_scribble` |
+| `dialogue_controller` | id | нет | `undefined`: авто-поиск контроллера менеджера или любого `textboxTest_scribble` |
 
 ```json title="datafiles/cutscenes/tests/wait_for_dialogue.json"
 { "type": "wait_for_dialogue" }
 ```
 
 !!! warning "stay_open и wait_for_dialogue"
-    При `stay_open: true` окно считается активным, пока не закрыто — закрывайте такой диалог явно через `clear_dialogue`.
+    При `stay_open: true` окно считается активным, пока не закрыто; закрывайте такой диалог явно через `clear_dialogue`.
 
 ### `set_dialogue_speed`
 
-Ставит скорость печати текста (символов в секунду) — персистентно на менеджере, применяется ко всем последующим диалогам. Создаёт `ActionSetDialogueSpeed`.
+Ставит скорость печати текста (символов в секунду): персистентно на менеджере, применяется ко всем последующим диалогам. Создаёт `ActionSetDialogueSpeed`.
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
@@ -689,13 +689,13 @@ tags:
 
 ### `dialogue_control`
 
-Ставит флаги поведения диалогового окна — на активный контроллер и на менеджер (для следующих диалогов). Создаёт `ActionDialogueControl`.
+Ставит флаги поведения диалогового окна: на активный контроллер и на менеджер (для следующих диалогов). Создаёт `ActionDialogueControl`.
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `prevent_skip` | bool | нет | `false` — запрет скипа печати по `confirm` |
-| `stay_open` | bool | нет | `false` — окно остаётся открытым после конца реплики |
-| `auto_advance` | bool | нет | `false` — диалог пролистывается сам |
+| `prevent_skip` | bool | нет | `false`: запрет скипа печати по `confirm` |
+| `stay_open` | bool | нет | `false`: окно остаётся открытым после конца реплики |
+| `auto_advance` | bool | нет | `false`: диалог пролистывается сам |
 
 ```json title="datafiles/cutscenes/tests/dialogue_control.json"
 { "type": "dialogue_control", "prevent_skip": true, "stay_open": true, "auto_advance": false }
@@ -737,7 +737,7 @@ tags:
 
 ## Музыка и звук
 
-Все music-действия идут через глобальные `play_music_*`/`set_music_*`-функции (`__cutscene_music_call`); отсутствующая функция — warning, не ошибка.
+Все music-действия идут через глобальные `play_music_*`/`set_music_*`-функции (`__cutscene_music_call`); отсутствующая функция даёт warning, а не ошибку.
 
 ### `play_sfx`
 
@@ -760,10 +760,10 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `sound` / `track` | string/id | да | — имя sound-ассета (`asset_get_index` + проверка `asset_sound`) |
-| `fade` | real | нет | `0.5` сек — `0` даёт мгновенную смену |
+| `fade` | real | нет | `0.5` сек; `0` даёт мгновенную смену |
 | `fade_in_seconds` | real | нет | переопределяет `fade` |
-| `volume` | real | нет | `1.0` — применяется только при `!= 1` и `>= 0` |
-| `persist_room_change` | bool | нет | `true` — трек помечается в `global.music_persist_track` и не затирается музыкой следующей комнаты |
+| `volume` | real | нет | `1.0`: применяется только при `!= 1` и `>= 0` |
+| `persist_room_change` | bool | нет | `true`: трек помечается в `global.music_persist_track` и не затирается музыкой следующей комнаты |
 
 !!! info "persist_room_change"
     Дефолт `true`: галочка «остаётся при переходе» в редакторе включена изначально, и старые JSON без поля получают то же поведение. Чтобы трек погас при смене комнаты, задайте `"persist_room_change": false` явно. `play_music` без persist снимает чужую пометку (`global.music_persist_track = noone`).
@@ -853,7 +853,7 @@ tags:
 
 ### `play_boss_music`
 
-Запускает два слоя синхронно — calm + battle. Создаёт `ActionMusicPlayLayered`.
+Запускает два слоя синхронно: calm + battle. Создаёт `ActionMusicPlayLayered`.
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
@@ -883,8 +883,8 @@ tags:
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `phases` | array | нет | `[]` — элементы-struct `{intro, calm, battle, intensity, fade}`; не-struct элементы молча пропускаются |
-| `fade` | real | нет | `0.5` сек — переход по умолчанию |
+| `phases` | array | нет | `[]`: элементы-struct `{intro, calm, battle, intensity, fade}`; не-struct элементы молча пропускаются |
+| `fade` | real | нет | `0.5` сек: переход по умолчанию |
 
 ```json title="datafiles/cutscenes/cutscene.json"
 { "type": "boss_music_phase", "phases": [ { "calm": "mus_loop_calm_loud", "battle": "mus_loop_battle", "intensity": 0.25, "fade": 0.4 } ], "fade": 0.4 }
@@ -914,7 +914,7 @@ tags:
 | `calm` | string/id | да | — |
 | `battle` | string/id | нет | — |
 | `fade` | real | нет | `0.5` сек |
-| `start_intensity` | real | нет | `0` — стартовое соотношение слоёв `0..1` |
+| `start_intensity` | real | нет | `0`: стартовое соотношение слоёв `0..1` |
 
 ```json title="datafiles/cutscenes/cutscene.json"
 { "type": "play_music_intro_layered", "intro": "mus_intro", "calm": "mus_loop_calm_loud", "battle": "mus_loop_battle", "fade": 0.5, "start_intensity": 0.2 }
@@ -926,7 +926,7 @@ tags:
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `intensity` | real | нет | `0.5` — `0` = calm, `1` = battle |
+| `intensity` | real | нет | `0.5`: `0` = calm, `1` = battle |
 | `fade` | real | нет | `1.0` сек |
 
 ```json title="datafiles/cutscenes/tests/crossfade_music.json"
@@ -942,7 +942,7 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `frames` | int | нет | приоритет над секундными ключами |
-| `seconds` / `duration` / `time` | real | нет | `0` кадров — действие завершается сразу |
+| `seconds` / `duration` / `time` | real | нет | `0` кадров: действие завершается сразу |
 
 ```json title="datafiles/cutscenes/tests/zero_wait.json"
 { "type": "wait", "seconds": 0 }
@@ -950,7 +950,7 @@ tags:
 
 ### `mark_node`
 
-Отмечает именованную точку в `manager.reached_nodes` — цель для `goto` и `guard_global` со `stop_when: "node_reached"`. Создаёт `ActionMarkNode`.
+Отмечает именованную точку в `manager.reached_nodes`: цель для `goto` и `guard_global` со `stop_when: "node_reached"`. Создаёт `ActionMarkNode`.
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
@@ -968,7 +968,7 @@ tags:
 |------|-----|-------|--------------|
 | `target` | string | да (непустое) | — имя метки |
 
-Прыжок ищется только в основной очереди (метки внутри `parallel`/sequence недостижимы). Прыжок назад переигрывает действия диапазона (сброс `started`, таймеров, `reset()`); лимит обратных переходов — 1024, дальше переход отменяется как вероятный бесконечный цикл. Самопрыжок — no-op с warning.
+Прыжок ищется только в основной очереди (метки внутри `parallel`/sequence недостижимы). Прыжок назад переигрывает действия диапазона (сброс `started`, таймеров, `reset()`); лимит обратных переходов: 1024, дальше переход отменяется как вероятный бесконечный цикл. Самопрыжок: no-op с warning.
 
 ```json title="Синтетический пример (в datafiles/cutscenes не встречается)"
 { "type": "goto", "target": "system_start" }
@@ -997,7 +997,7 @@ tags:
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `condition` | string/bool | нет | `""` — строка трактуется как имя script-ассета и вызывается; не-callable/не-bool → ветка false с warning |
+| `condition` | string/bool | нет | `""`: строка трактуется как имя script-ассета и вызывается; не-callable/не-bool → ветка false с warning |
 | `true_actions` | array | нет | `[]` |
 | `false_actions` | array | нет | `[]` |
 
@@ -1019,7 +1019,7 @@ tags:
 |------|-----|-------|--------------|
 | `key` | string | да (непустой) | — `global.flag[key]` или dot-путь (`flag.x`, `stat.hp`, `entity_state.rm:eid[.field]`, `struct.field`, `global.*` срезается) |
 | `operator` | string | нет | `"=="`; допустимы `exists`, `!exists`, `==`, `!=`, `>`, `<`, `>=`, `<=`; неизвестный → `==` с warning |
-| `value` | any | нет | `"true"` — сравнение толерантно к строкам/bool из JSON (`__cutscene_compare_values`); `>`,`<`,`>=`,`<=` приводят оба операнда к real |
+| `value` | any | нет | `"true"`: сравнение толерантно к строкам/bool из JSON (`__cutscene_compare_values`); `>`,`<`,`>=`,`<=` приводят оба операнда к real |
 | `true_actions`, `false_actions` | array | нет | `[]` |
 
 ```json title="Синтетический пример (в datafiles/cutscenes не встречается)"
@@ -1035,7 +1035,7 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `function` / `function_name` / `fn` | string | да | — имя script-ассета или callable-значения из `global`; не-script ассет и не-callable глобал отклоняются |
-| `args` | array/string | нет | `[]` — массив элементов или строка `"a,b,c"` (числовые части парсятся в real) |
+| `args` | array/string | нет | `[]`: массив элементов или строка `"a,b,c"` (числовые части парсятся в real) |
 
 К `args` в конец всегда добавляется менеджер катсцены: вызов идёт как `fn(arg0..argN, manager)`. Имена вне `whitelist.run_functions` из engine-настроек логируются, но допускаются (advisory-режим).
 
@@ -1050,7 +1050,7 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `delay_seconds` | real | нет | `0` |
-| `blocking` | bool | нет | `false` — `false`: inner уходит в `manager.scheduled_actions` и тикает фоном (fire-and-forget); `true`: действие дотикивает inner до его завершения |
+| `blocking` | bool | нет | `false`: `false` = inner уходит в `manager.scheduled_actions` и тикает фоном (fire-and-forget); `true` = действие дотикивает inner до его завершения |
 | `tag` | string | нет | `""` |
 | `action` | object | да | — action-объект, разбирается рекурсивно той же фабрикой; провал разбора отклоняет весь `schedule_action` |
 
@@ -1087,7 +1087,7 @@ tags:
 
 ### `set_plot`
 
-Пишет `global.plot` — счётчик прогресса сюжета. Создаёт `ActionSetPlot`.
+Пишет `global.plot` (счётчик прогресса сюжета). Создаёт `ActionSetPlot`.
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
@@ -1099,19 +1099,19 @@ tags:
 
 ### `guard_global`
 
-Условный блок / ожидание по global-переменной (dot-нотация `a.b` — см. общие правила). Создаёт `ActionGuardGlobal`.
+Условный блок / ожидание по global-переменной (dot-нотация `a.b`, см. общие правила). Создаёт `ActionGuardGlobal`.
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `var` | string | нет | `""` — пустой = условие всегда истинно, `actions` вставляются сразу |
-| `equals` | any | нет | `""` — сравнение через `__cutscene_compare_values` |
-| `if_false` | string | нет | `"skip"`; `"wait_until_true"` — ждать истинности каждый кадр; неизвестное → `skip` с warning |
-| `actions` | array | нет | `[]` — вставляются в очередь при истинном условии |
-| `stop_when` | string | нет | `"none"`; для `wait_until_true`: `"global_var"`, `"node_reached"`, `"timeout"` — прервать ожидание без вставки actions |
-| `end_var` | string | нет | `""` — переменная для `stop_when: "global_var"` |
+| `var` | string | нет | `""`: пустой = условие всегда истинно, `actions` вставляются сразу |
+| `equals` | any | нет | `""`: сравнение через `__cutscene_compare_values` |
+| `if_false` | string | нет | `"skip"`; `"wait_until_true"`: ждать истинности каждый кадр; неизвестное → `skip` с warning |
+| `actions` | array | нет | `[]`: вставляются в очередь при истинном условии |
+| `stop_when` | string | нет | `"none"`; для `wait_until_true`: `"global_var"`, `"node_reached"`, `"timeout"`: прервать ожидание без вставки actions |
+| `end_var` | string | нет | `""`: переменная для `stop_when: "global_var"` |
 | `end_equals` | any | нет | `""` |
-| `end_node` | string | нет | `""` — имя метки для `stop_when: "node_reached"` (см. `mark_node`) |
-| `end_timeout` | real | нет | `0` — секунды для `stop_when: "timeout"` |
+| `end_node` | string | нет | `""`: имя метки для `stop_when: "node_reached"` (см. `mark_node`) |
+| `end_timeout` | real | нет | `0`: секунды для `stop_when: "timeout"` |
 
 ```json title="datafiles/cutscenes/tests/guard_timeout.json"
 { "type": "guard_global", "var": "__test_guard_timeout", "equals": true, "if_false": "wait_until_true", "stop_when": "timeout", "end_timeout": 0.5, "actions": [
@@ -1120,7 +1120,7 @@ tags:
 ```
 
 !!! note "Типа `set_global` нет"
-    Отдельного действия `set_global` фабрика не регистрирует: флаги сюжета пишет `set_flag` (`global.flag`), прогресс — `set_plot` (`global.plot`), произвольную global-переменную меняйте через `run_function`. Читать состояние могут `branch_flag` и `guard_global` через dot-нотацию.
+    Отдельного действия `set_global` фабрика не регистрирует: флаги сюжета пишет `set_flag` (`global.flag`), прогресс: `set_plot` (`global.plot`), произвольную global-переменную меняйте через `run_function`. Читать состояние могут `branch_flag` и `guard_global` через dot-нотацию.
 
 ### `checkpoint_state`
 
@@ -1128,13 +1128,13 @@ tags:
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `checkpoint_id` | string | нет | `""` — пустой отклоняется в `start` с ошибкой |
+| `checkpoint_id` | string | нет | `""`: пустой отклоняется в `start` с ошибкой |
 | `include_actors` | bool | нет | `true` |
 | `include_player` | bool | нет | `true` |
 | `include_camera` | bool | нет | `true` |
 | `include_music` | bool | нет | `true` |
-| `include_globals` | array/string | нет | `""` — JSON-массив или legacy-строка с JSON внутри |
-| `include_instances` | array/string | нет | `""` — то же |
+| `include_globals` | array/string | нет | `""`: JSON-массив или legacy-строка с JSON внутри |
+| `include_instances` | array/string | нет | `""`: то же |
 
 ```json title="datafiles/cutscenes/tests/checkpoint_restore.json"
 { "type": "checkpoint_state", "checkpoint_id": "test_checkpoint_1", "include_actors": true, "include_player": true, "include_camera": true, "include_music": false }
@@ -1147,7 +1147,7 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `checkpoint_id` | string | нет | `""` |
-| `cleanup_transients` | bool | нет | `true` — уничтожить актёров, созданных после checkpoint |
+| `cleanup_transients` | bool | нет | `true`: уничтожить актёров, созданных после checkpoint |
 | `restore_camera` | bool | нет | `true` |
 | `restore_music` | bool | нет | `true` |
 | `on_missing` | string | нет | `"warn"`; `"fail"` пишет ERROR вместо WARNING; действие завершается в любом случае |
@@ -1164,10 +1164,10 @@ tags:
 |------|-----|-------|--------------|
 | `room` | string | да | — имя room-ассета |
 | `player_x`, `player_y` | real | да (ключи) | — точка спавна игрока в новой комнате |
-| `actors` | object | нет | `{}` — `{ "ключ_актёра": {x,y} }` или `[x,y]`; записи без `x`/`y` пропускаются с warning |
+| `actors` | object | нет | `{}`: `{ "ключ_актёра": {x,y} }` или `[x,y]`; записи без `x`/`y` пропускаются с warning |
 
 !!! warning "Переход в текущую комнату"
-    `room_change` в текущую комнату — no-op: контроллер затухает без `room_goto`, действие пишет WARNING «same-room завершение без перехода» и сбрасывает параметры.
+    `room_change` в текущую комнату даёт no-op: контроллер затухает без `room_goto`, действие пишет WARNING «same-room завершение без перехода» и сбрасывает параметры.
 
 ```json title="datafiles/cutscenes/tests/room_change.json"
 { "type": "room_change", "room": "rm_cutsceneTest", "player_x": 160, "player_y": 120 }
@@ -1181,11 +1181,11 @@ tags:
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
-| `control_type` | real | нет | `0` — `0` = `LOCKED` (игрок подчинён сцене), `1` = `WHITELIST`, `2` = `FREE` (полная свобода, катсцена в фоне); мусорное значение = всё заблокировано + warning |
-| `whitelist` | array | нет | `[]` — строки-ключи/`target_ref` объектов, с которыми можно взаимодействовать в режиме `1` (проверяет `scr_interaction` через `resolve_target`) |
-| `allowed_actions` | array/string | нет | `[]` — имена действий ввода, пропускаемых в режиме `1`; принимает также строку `"move,interact"` или `"[\"move\"]"` |
+| `control_type` | real | нет | `0`: `0` = `LOCKED` (игрок подчинён сцене), `1` = `WHITELIST`, `2` = `FREE` (полная свобода, катсцена в фоне); мусорное значение = всё заблокировано + warning |
+| `whitelist` | array | нет | `[]`: строки-ключи/`target_ref` объектов, с которыми можно взаимодействовать в режиме `1` (проверяет `scr_interaction` через `resolve_target`) |
+| `allowed_actions` | array/string | нет | `[]`: имена действий ввода, пропускаемых в режиме `1`; принимает также строку `"move,interact"` или `"[\"move\"]"` |
 
-Алиасы-группы в `allowed_actions`: `"move"` покрывает `up`/`down`/`left`/`right`/`run`, `"interact"` — `confirm`; остальные строки сравниваются с именами действий `input_map` напрямую. Пустой `allowed_actions` = только `confirm` (иначе `wait_for_interact` без таймаута был бы софтлоком). При `control_type > 0` игроку возвращается `can_move`, при `0` — снимается. Подробности — в [Частичный контроль](partial-control.md).
+Алиасы-группы в `allowed_actions`: `"move"` покрывает `up`/`down`/`left`/`right`/`run`, `"interact"`: `confirm`; остальные строки сравниваются с именами действий `input_map` напрямую. Пустой `allowed_actions` = только `confirm` (иначе `wait_for_interact` без таймаута был бы софтлоком). При `control_type > 0` игроку возвращается `can_move`, при `0` снимается. Подробности: [Частичный контроль](partial-control.md).
 
 ```json title="datafiles/cutscenes/cutscene.json"
 { "type": "partial_control", "control_type": 1, "whitelist": ["obj_cutsceneTest", "obj_player"] }
@@ -1193,12 +1193,12 @@ tags:
 
 ### `wait_for_interact`
 
-Ждёт, пока игрок взаимодействует с целью — цель ищется в `global.__interacted_targets` (очередь пишут обработчики взаимодействий). Создаёт `ActionWaitForInteract`.
+Ждёт, пока игрок взаимодействует с целью: цель ищется в `global.__interacted_targets` (очередь пишут обработчики взаимодействий). Создаёт `ActionWaitForInteract`.
 
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `target` / `target_ref` | string/id | да | — |
-| `timeout` | real | нет | `0` — секунды; `0` = ждать бесконечно |
+| `timeout` | real | нет | `0`: секунды; `0` = ждать бесконечно |
 | `timeout_action` | string | нет | `"continue"`; `"abort_parallel"` обрывает ближайшую `parallel`-группу по таймауту; неизвестное → `continue` с warning |
 | `interact_action` | string | нет | `"continue"`; `"abort_parallel"` обрывает соседние ветки при успешном взаимодействии |
 
@@ -1215,7 +1215,7 @@ tags:
 | Поле | Тип | Обяз. | По умолчанию |
 |------|-----|-------|--------------|
 | `seconds` / `duration` / `time` | real | нет | `0.5` |
-| `color` | string/real | нет | `c_black` — имя цвета или `"#RRGGBB"` |
+| `color` | string/real | нет | `c_black`: имя цвета или `"#RRGGBB"` |
 
 ```json title="datafiles/cutscenes/tests/fade_in.json"
 { "type": "fade_in", "seconds": 0.5 }

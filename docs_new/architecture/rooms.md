@@ -8,7 +8,7 @@ tags:
 
 # Комнаты
 
-В проекте 16 комнат: служебная `rm_init`, четыре меню-комнаты, три связанные игровые локации и набор dev/тест-комнат. Фактический порядок комнат задаёт массив `RoomOrderNodes` в `Undefinedtale888.yyp` — он определяет стартовую комнату и последовательность обхода `room_next`/`room_previous`.
+В проекте 16 комнат: служебная `rm_init`, четыре меню-комнаты, три связанные игровые локации и набор dev/тест-комнат. Фактический порядок комнат задаёт массив `RoomOrderNodes` в `Undefinedtale888.yyp`: он определяет стартовую комнату и последовательность обхода `room_next`/`room_previous`.
 
 ## Порядок комнат (Room Order)
 
@@ -31,7 +31,7 @@ tags:
 15. `rm_curver`
 16. `rm_idk`
 
-Игра стартует в `rm_init` (первая в списке). Порядок также используется dev-навигацией F5/F6: `scr_get_next_game_room()` идёт по `room_next`/`room_previous` и пропускает комнаты, для которых `scr_room_is_dev_navigation_excluded()` возвращает `true` — это `global.__service_menu_rooms` (`rm_roomMenu`, `rm_savesSelect`, `rm_settings`, `rm_devLoad`) плюс `rm_init` и `SCREENSHOTS`.
+Игра стартует в `rm_init` (первая в списке). Порядок также используется dev-навигацией F5/F6: `scr_get_next_game_room()` идёт по `room_next`/`room_previous` и пропускает комнаты, для которых `scr_room_is_dev_navigation_excluded()` возвращает `true`: это `global.__service_menu_rooms` (`rm_roomMenu`, `rm_savesSelect`, `rm_settings`, `rm_devLoad`) плюс `rm_init` и `SCREENSHOTS`.
 
 ## Все комнаты
 
@@ -70,15 +70,15 @@ function scr_layer_ensure_instances() {
 }
 ```
 
-- Проверяет наличие слоя по имени через `layer_exists`; если слоя нет — создаёт его на depth `0` через `layer_create`.
-- Возвращает строку `"Instances"`, которую вызывающий код передаёт в `instance_create_layer` — поэтому слой создаётся лениво, при первом динамическом спавне.
+- Проверяет наличие слоя по имени через `layer_exists`; если слоя нет, создаёт его на depth `0` через `layer_create`.
+- Возвращает строку `"Instances"`, которую вызывающий код передаёт в `instance_create_layer`, поэтому слой создаётся лениво, при первом динамическом спавне.
 - Вызывается из создания `obj_cutsceneManager` (`c_begin`, `cutscene_load_json`), диалогового окна `textboxTest_scribble` (`readDialogue`), dev-спавна `obj_player`, маркеров `obj_pointMarker`, менеджеров (`obj_music_ctrl`, `obj_globalManager`, `obj_saveManager`, `obj_settingsManager`, `obj_inGameMenu`) и `RoomCreationCode` комнат `rm_devLoad` и `SCREENSHOTS`.
 
-В комнатах без `Instances` созданный слой окажется на depth `0` — например, в `rm_road_curve` он ляжет позади `Tiles_3` (depth −100), на одной глубине с вложенным `Tiles_6` (depth 0) и перед `road` (depth 300).
+В комнатах без `Instances` созданный слой окажется на depth `0`: например, в `rm_road_curve` он ляжет позади `Tiles_3` (depth −100), на одной глубине с вложенным `Tiles_6` (depth 0) и перед `road` (depth 300).
 
 ## Ключевые инстансы
 
-- **`rm_init`**: `obj_Init` ×1 — persistent-инициализатор (см. [Инициализация](initialization.md)).
+- **`rm_init`**: `obj_Init` ×1: persistent-инициализатор (см. [Инициализация](initialization.md)).
 - **`rm_roomMenu`**: `obj_menu`, `obj_menuBGSpriteChanger`.
 - **`rm_savesSelect`**: `obj_saveManager`, `obj_menuBGSpriteChanger`.
 - **`rm_settings`**: `obj_settingsManager`, `obj_menuBGSpriteChanger`.
@@ -87,8 +87,8 @@ function scr_layer_ensure_instances() {
 - **`rm_playground`**: `obj_lantern` ×4, `obj_kachela`, `bush`, `sand`, `obj_tree1`, `objRoomChanger` ×1.
 - **`rm_road_curve`**: `obj_tree1` ×24, `obj_collider` ×4, `obj_lantern` ×3, `objRoomChanger` ×2, `npc1`, `npc2` (наследник `npc1`), `obj_asher`, `obj_save`, `obj_sheepFountain`, `obj_sign`.
 - **`rm_uphill_school`**: `obj_player`, `obj_asher`, `obj_bench`, `spr_pinkBench`, `obj_lantern` ×3, `obj_tree1` ×3, `obj_collider` ×4, `objRoomChanger` ×1.
-- **`rm_after_tunnel`**: `obj_visualObject` ×14, `obj_tree1` ×8, `obj_collider` ×8, `obj_slopeCollider` ×5 — чисто геометрия/декор, без интерактива.
-- **`rm_idk`**: `bush`, `obj_lantern` — два декора на слое `depth`.
+- **`rm_after_tunnel`**: `obj_visualObject` ×14, `obj_tree1` ×8, `obj_collider` ×8, `obj_slopeCollider` ×5: чисто геометрия/декор, без интерактива.
+- **`rm_idk`**: `bush`, `obj_lantern` (два декора на слое `depth`).
 - **`rm_cutsceneTest`**: `obj_cutsceneTest`, `obj_player`, `obj_save`.
 - **`roomForDialogueTesting`**: `textboxTest_scribble`.
 - **`rm_sound_test`**: `obj_sound_test`.
@@ -96,7 +96,7 @@ function scr_layer_ensure_instances() {
 
 ## Переходы между комнатами
 
-Триггер перехода — `objRoomChanger`. Свойства инстанса в .yy: `room_name` (целевая комната), `x_position`/`y_position` (точка спавна; `-1` по оси = позиция самого триггера), `eyes_glow` (визуальный флаг перехода). При столкновении с `obj_player` снимок свойств пишется в `pending_*`, а в следующем Step создаётся persistent `obj_changingRoomsController`, который выполняет фейд и `room_goto`. Подробности — в [Переходы между комнатами](../systems/room-transitions.md).
+Триггер перехода — `objRoomChanger`. Свойства инстанса в .yy: `room_name` (целевая комната), `x_position`/`y_position` (точка спавна; `-1` по оси = позиция самого триггера), `eyes_glow` (визуальный флаг перехода). При столкновении с `obj_player` снимок свойств пишется в `pending_*`, а в следующем Step создаётся persistent `obj_changingRoomsController`, который выполняет фейд и `room_goto`. Подробности см. в [Переходы между комнатами](../systems/room-transitions.md).
 
 | Комната | Целевая комната | Спавн (x, y) |
 |---------|-----------------|--------------|
@@ -114,11 +114,11 @@ graph LR
     rm_uphill_school -->|"objRoomChanger"| rm_road_curve
 ```
 
-`rm_init` → `rm_roomMenu` — единственный «жёсткий» переход: `obj_Init` в конце `Create` вызывает `room_goto(rm_roomMenu)`, если текущая комната `rm_init`. Все остальные перемещения — через `objRoomChanger`, загрузку сейва (`obj_saveManager` → `room_goto(rm_devLoad)` при devload-фокусе) или dev-навигацию F5/F6.
+`rm_init` → `rm_roomMenu` — единственный «жёсткий» переход: `obj_Init` в конце `Create` вызывает `room_goto(rm_roomMenu)`, если текущая комната `rm_init`. Все остальные перемещения идут через `objRoomChanger`, загрузку сейва (`obj_saveManager` → `room_goto(rm_devLoad)` при devload-фокусе) или dev-навигацию F5/F6.
 
-## rm_init — особая комната
+## rm_init: особая комната
 
-`rm_init` не участвует в игровом процессе: единственный инстанс — persistent `obj_Init`, который строит `global.rooms_by_name`, `global.__service_menu_rooms` и остальные глобалы, после чего уводит игру в `rm_roomMenu`. Комната-«тупик»: dev-фильтр `scr_room_is_dev_navigation_excluded` исключает её из F5/F6 и списка DEV-LOAD. Полный разбор — в [Инициализация](initialization.md).
+`rm_init` не участвует в игровом процессе: единственный инстанс — persistent `obj_Init`, который строит `global.rooms_by_name`, `global.__service_menu_rooms` и остальные глобалы, после чего уводит игру в `rm_roomMenu`. Комната-«тупик»: dev-фильтр `scr_room_is_dev_navigation_excluded` исключает её из F5/F6 и списка DEV-LOAD. Полный разбор см. в [Инициализация](initialization.md).
 
 ## См. также
 

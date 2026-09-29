@@ -17,7 +17,7 @@ tags:
     - Внутренний тестовый фреймворк: `scr_test_*`, `scr_stress_tests`.
     - Макрос-файлы без функций (`currentENUMS`, конфиги библиотек).
 
-Всего функций: **414** в **127** файлах. Колонка «Док-страница» ведёт на тематический раздел; `—` — отдельной страницы нет.
+Всего функций: **414** в **127** файлах. Колонка «Док-страница» ведёт на тематический раздел; `—`: отдельной страницы нет.
 
 ## Системные скрипты (`scripts/scr_*`)
 
@@ -26,7 +26,7 @@ tags:
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
 | `scr_play_sfx` | `scr_play_sfx(_sound_or_key, _volume = 1, _pitch = 1, _fallback_sound = undefined)` | Проигрывает UI-звук с учётом громкости SFX из настроек (global.__sfx_volume). | [Музыка и звук](../systems/music.md) |
-| `scr_SFXPlay` | `scr_SFXPlay(_action, _volume = 1, _pitch = 1)` | Legacy-алиас (имя вне snake_case сохранено ради ~70 точек вызова) — обёртка над scr_play_sfx с ui_snd_select как fallback-звуком. | [Музыка и звук](../systems/music.md) |
+| `scr_SFXPlay` | `scr_SFXPlay(_action, _volume = 1, _pitch = 1)` | Legacy-алиас (имя вне snake_case сохранено ради ~70 точек вызова): обёртка над scr_play_sfx с ui_snd_select как fallback-звуком. | [Музыка и звук](../systems/music.md) |
 
 ### `scripts/scr_anim/`
 
@@ -44,7 +44,7 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `scr_checkItemSkip` | `scr_checkItemSkip()` | Считает пустые слоты инвентаря (предметы, которые можно пропустить/пропустить). Используется для расчёта max_itemskip — количества пустых слотов. | [Инвентарь и статы](../systems/inventory-and-stats.md) |
+| `scr_checkItemSkip` | `scr_checkItemSkip()` | Считает пустые слоты инвентаря (предметы, которые можно пропустить/пропустить). Используется для расчёта max_itemskip: количества пустых слотов. | [Инвентарь и статы](../systems/inventory-and-stats.md) |
 
 ### `scripts/scr_checkPlayerFacing/`
 
@@ -76,7 +76,7 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `Script312` | `Script312()` | Пустой стаб (DELETE_CANDIDATE): имя не совпадает с ресурсом, живой аналог — `cutscene_animate` | — |
+| `Script312` | `Script312()` | Пустой стаб (DELETE_CANDIDATE): имя не совпадает с ресурсом, живой аналог: `cutscene_animate` | — |
 
 ### `scripts/scr_cutscene_classes/`
 
@@ -84,7 +84,7 @@ tags:
 | --- | --- | --- | --- |
 | `CutsceneAction` | `CutsceneAction() constructor` | Базовый конструктор действия катсцены (Command pattern) | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_get_resolver` | `__cutscene_get_resolver(_manager)` | Возвращает метод `resolve_target` менеджера, если он есть | [Архитектура катсцен](../cutscenes/architecture.md) |
-| `__cutscene_resolve_target_ref` | `__cutscene_resolve_target_ref(_resolver, _target)` | Резолвит `target_ref` через resolver; без resolver — только живой instance id | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `__cutscene_resolve_target_ref` | `__cutscene_resolve_target_ref(_resolver, _target)` | Резолвит `target_ref` через resolver; без resolver: только живой instance id | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_resolve_target` | `__cutscene_resolve_target(_manager, _target)` | Резолвит цель действия в instance id | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_warn_unresolved` | `__cutscene_warn_unresolved(_action_name, _role, _target)` | Логирует нерезолвнутую цель действия. | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_validate_mode` | `__cutscene_validate_mode(_value, _allowed, _fallback, _owner, _param)` | Валидирует строковый режим по списку допустимых значений. | [Архитектура катсцен](../cutscenes/architecture.md) |
@@ -96,7 +96,7 @@ tags:
 | `__cutscene_resolve_copy_source` | `__cutscene_resolve_copy_source(_manager, _copy_target)` | Нормализует copy_target до реального instance id, чтобы ActionActorCreate не вызывал instance_exists() на строке. | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_is_instant` | `__cutscene_is_instant(_manager)` | Возвращает флаг instant-режима менеджера | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_get_global_manager` | `__cutscene_get_global_manager()` | Возвращает `global.active_cutscene_manager` | [Архитектура катсцен](../cutscenes/architecture.md) |
-| `__cutscene_runtime_owner_id` | `__cutscene_runtime_owner_id()` | Возвращает id активной катсцены — это нужно, чтобы каждый runtime-эффект знал, какая катсцена его создала. | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `__cutscene_runtime_owner_id` | `__cutscene_runtime_owner_id()` | Возвращает id активной катсцены: это нужно, чтобы каждый runtime-эффект знал, какая катсцена его создала. | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_normalize_direction` | `__cutscene_normalize_direction(_dir)` | Нормализует направление: строка/число → `global.DIR.*` | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_direction_angle` | `__cutscene_direction_angle(_dir)` | Направление `DIR` → угол в градусах | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_angle_to_direction` | `__cutscene_angle_to_direction(_angle)` | Угол в градусах → направление `DIR` | [Архитектура катсцен](../cutscenes/architecture.md) |
@@ -106,7 +106,7 @@ tags:
 | `__cutscene_sync_move_target` | `__cutscene_sync_move_target(_inst)` | Подтягивает target_x/target_y актёра к его текущей позиции. | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_attachments_remove_by_target` | `__cutscene_attachments_remove_by_target(_target_inst)` | Удаляет запись attachment из global.__cutscene_attachments по target_inst. | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_find_active_textbox` | `__cutscene_find_active_textbox()` | Выбирает наиболее «живое» диалоговое окно среди textboxTest_scribble. | [Архитектура катсцен](../cutscenes/architecture.md) |
-| `__cutscene_dialogue_is_active` | `__cutscene_dialogue_is_active(_dialogue_controller = noone)` | Проверяет, открыто ли диалоговое окно (опционально — конкретный контроллер) | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `__cutscene_dialogue_is_active` | `__cutscene_dialogue_is_active(_dialogue_controller = noone)` | Проверяет, открыто ли диалоговое окно (опционально: конкретный контроллер) | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_find_dialogue_ctrl` | `__cutscene_find_dialogue_ctrl(_manager)` | Возвращает живой контроллер диалогового окна: сначала `dialogue_controller` менеджера, затем fallback на «живое» окно textboxTest_scribble | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_normalize_yarn_path` | `__cutscene_normalize_yarn_path(_file)` | Нормализует путь к yarn-файлу для Chatterbox: "\\" → "/", срезает префиксы "datafiles/" и "Dialogues/" (контент может указывать файл с ними или без). | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_ease_value` | `__cutscene_ease_value(_t, _easing)` | Вычисляет easing-коэффициент прогресса по имени кривой | [Архитектура катсцен](../cutscenes/architecture.md) |
@@ -120,16 +120,16 @@ tags:
 | `__cutscene_restore_camera_state` | `__cutscene_restore_camera_state(_cam_data)` | Возвращает view-позицию камеры и global.camera_x/y по snapshot-секции camera. | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_restore_music_state` | `__cutscene_restore_music_state(_music_data)` | Восстанавливает трек и громкость из snapshot-секции music и перезапускает сохранённый трек, если это валидный звуковой ассет. | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `__cutscene_restore_global_states` | `__cutscene_restore_global_states(_globals)` | Восстанавливает глобальные переменные из snapshot-секции globals с проверкой типов: при смене типа значение пропускается с warning. | [Архитектура катсцен](../cutscenes/architecture.md) |
-| `__cutscene_restore_instance_states` | `__cutscene_restore_instance_states(_instances)` | Восстанавливает зарегистрированные в snapshot инстансы по имени объекта. move_-поля им не применяются — секция хранит только визуальное состояние. | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `__cutscene_restore_instance_states` | `__cutscene_restore_instance_states(_instances)` | Восстанавливает зарегистрированные в snapshot инстансы по имени объекта. move_-поля им не применяются: секция хранит только визуальное состояние. | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `cutscene_runtime_tween_to` | `cutscene_runtime_tween_to(_target, _property, _to_value, _frames, _easing = __CUTSCENE_EASE_LINEAR, _from_value = undefined, _kind = __CUTSCENE_KIND_INSTANCE)` | Регистрирует runtime-твин свойства инстанса/камеры | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `cutscene_runtime_fade_to` | `cutscene_runtime_fade_to(_alpha, _frames, _color = c_black)` | Управляет runtime fade-оверлеем (альфа, цвет) | [Архитектура катсцен](../cutscenes/architecture.md) |
-| `cutscene_runtime_resolve_emote_sprite` | `cutscene_runtime_resolve_emote_sprite(_sprite = undefined)` | Резолвит спрайт эмоции в asset-индекс: строка ищется по имени ресурса, real — проверяется sprite_exists; при undefined/неразрешённом входе подставляется fallback из… | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `cutscene_runtime_resolve_emote_sprite` | `cutscene_runtime_resolve_emote_sprite(_sprite = undefined)` | Резолвит спрайт эмоции в asset-индекс: строка ищется по имени ресурса, real: проверяется sprite_exists; при undefined/неразрешённом входе подставляется fallback из… | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `cutscene_runtime_show_emote` | `cutscene_runtime_show_emote(_target, _sprite = undefined, _duration = __CUTSCENE_EMOTE_DURATION, _offset_x = 0, _offset_y = __CUTSCENE_EMOTE_OFFSET_Y, _scale = 1)` | Показывает эмоцию через глобальную emote system, не завязанную на cutscene manager. | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `cutscene_runtime_play_sfx` | `cutscene_runtime_play_sfx(_sound_or_key, _volume = 1, _pitch = 1)` | Проигрывает SFX из катсцены через `scr_play_sfx` | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `cutscene_runtime_set_visible` | `cutscene_runtime_set_visible(_target, _visible)` | Меняет `visible` цели из runtime-эффектов | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `cutscene_runtime_flip_x` | `cutscene_runtime_flip_x(_target, _flipped)` | Отражает спрайт цели по горизонтали (`image_xscale`) | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `cutscene_runtime_halt` | `cutscene_runtime_halt(_target)` | Останавливает движение цели из runtime-эффектов | [Архитектура катсцен](../cutscenes/architecture.md) |
-| `__cutscene_make_shake_entry` | `__cutscene_make_shake_entry(_kind, _target, _frames, _magnitude, _magnitude_x, _magnitude_y, _decay, _frequency)` | Собирает запись shake-эффекта — общий конструктор для object- и camera-вариантов (различаются только kind/target и проверкой цели). | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `__cutscene_make_shake_entry` | `__cutscene_make_shake_entry(_kind, _target, _frames, _magnitude, _magnitude_x, _magnitude_y, _decay, _frequency)` | Собирает запись shake-эффекта: общий конструктор для object- и camera-вариантов (различаются только kind/target и проверкой цели). | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `cutscene_runtime_shake_object` | `cutscene_runtime_shake_object(_target, _frames = 20, _magnitude = 4, _magnitude_x = undefined, _magnitude_y = undefined, _decay = false, _frequency = 1)` | Регистрирует runtime-тряску объекта | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `cutscene_runtime_shake_camera` | `cutscene_runtime_shake_camera(_frames = 20, _magnitude = 4, _magnitude_x = undefined, _magnitude_y = undefined, _decay = false, _frequency = 1)` | Регистрирует runtime-тряску камеры | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `cutscene_runtime_spin_object` | `cutscene_runtime_spin_object(_target, _speed, _frames = __CUTSCENE_DEFAULT_EFFECT_FRAMES)` | Регистрирует runtime-вращение объекта | [Архитектура катсцен](../cutscenes/architecture.md) |
@@ -212,7 +212,7 @@ tags:
 | `__cutscene_cleanup_old_checkpoints` | `__cutscene_cleanup_old_checkpoints()` | Удаляет старые checkpoint-ы при превышении лимита (LRU). | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `ActionCheckpointState` | `ActionCheckpointState(_checkpoint_id, _config) constructor` | Создаёт snapshot состояния катсцены и сохраняет его в global registry. | [Action-классы](../cutscenes/action-classes.md) |
 | `ActionRestoreState` | `ActionRestoreState(_checkpoint_id, _options) constructor` | Восстанавливает состояние из checkpoint. | [Action-классы](../cutscenes/action-classes.md) |
-| `__cutscene_room_entry_spawn` | `__cutscene_room_entry_spawn(_entry)` | Мёртвая функция спавна по entry-записи — тело зачищено (DELETE_CANDIDATE) | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `__cutscene_room_entry_spawn` | `__cutscene_room_entry_spawn(_entry)` | Мёртвая функция спавна по entry-записи: тело зачищено (DELETE_CANDIDATE) | [Архитектура катсцен](../cutscenes/architecture.md) |
 | `scr_room_entry_check` | `scr_room_entry_check()` | Точка вызова из obj_globalManager/Step_0 при смене комнаты. | [Переходы комнат](../systems/room-transitions.md) |
 
 ### `scripts/scr_cutscene_make/`
@@ -225,7 +225,7 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `__cutscene_music_call` | `__cutscene_music_call(_func_name, _args)` | Проверяет существование и вызывает глобальную music-функцию, если она доступна. Число аргументов не ограничено — массив разворачивается целиком. | [Action-классы](../cutscenes/action-classes.md) |
+| `__cutscene_music_call` | `__cutscene_music_call(_func_name, _args)` | Проверяет существование и вызывает глобальную music-функцию, если она доступна. Число аргументов не ограничено: массив разворачивается целиком. | [Action-классы](../cutscenes/action-classes.md) |
 | `ActionMusicPlay` | `ActionMusicPlay(_snd_asset, _fade_sec, _volume = 1.0, _persist_room_change = true) constructor` | Cutscene action: переключает музыку на указанный трек с кроссфейдом и целевой громкостью. | [Action-классы](../cutscenes/action-classes.md) |
 | `ActionMusicStop` | `ActionMusicStop(_fade_sec, _use_layered = false) constructor` | Cutscene action: останавливает музыку с опциональным фейдом. | [Action-классы](../cutscenes/action-classes.md) |
 | `ActionMusicVolume` | `ActionMusicVolume(_vol, _fade_sec) constructor` | Cutscene action: плавно меняет громкость текущего трека. | [Action-классы](../cutscenes/action-classes.md) |
@@ -241,7 +241,7 @@ tags:
 | `ActionMusicPlayLayered` | `ActionMusicPlayLayered(_calm_asset, _battle_asset, _fade_sec) constructor` | Cutscene action: запускает два трека синхронно (calm + battle). | [Action-классы](../cutscenes/action-classes.md) |
 | `ActionMusicSetIntensity` | `ActionMusicSetIntensity(_intensity, _fade_sec = 1.0) constructor` | Cutscene action: меняет соотношение calm/battle слоёв. | [Action-классы](../cutscenes/action-classes.md) |
 | `ActionMusicIntroLayered` | `ActionMusicIntroLayered(_intro_asset, _calm_asset, _battle_asset, _fade_sec, _start_intensity) constructor` | Cutscene action: играет intro, затем автоматически переключается на layered loop (calm + battle). | [Action-классы](../cutscenes/action-classes.md) |
-| `ActionMusicPhaseSequence` | `ActionMusicPhaseSequence(_phases, _fade_sec) constructor` | Cutscene action: запускает фазовую последовательность музыки через MusicPhaseManager. Каждая фаза — структура {intro, calm, battle, intensity, fade}. | [Action-классы](../cutscenes/action-classes.md) |
+| `ActionMusicPhaseSequence` | `ActionMusicPhaseSequence(_phases, _fade_sec) constructor` | Cutscene action: запускает фазовую последовательность музыки через MusicPhaseManager. Каждая фаза: структура {intro, calm, battle, intensity, fade}. | [Action-классы](../cutscenes/action-classes.md) |
 
 ### `scripts/scr_debug_activation_check/`
 
@@ -267,8 +267,8 @@ tags:
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
 | `emote_show` | `emote_show(_target, _sprite = undefined, _duration = 60, _offset_x = 0, _offset_y = -24, _scale = 1)` | Показывает всплывающую эмоцию (попап) над головой персонажа. | [Диалоги](../systems/dialogue.md) |
-| `emote_hide_all_for` | `emote_hide_all_for(_target)` | Скрывает все эмоции цели — тело зачищено (DELETE_CANDIDATE) | [Диалоги](../systems/dialogue.md) |
-| `emote_hide_all` | `emote_hide_all()` | Скрывает все эмоции — тело зачищено (DELETE_CANDIDATE) | [Диалоги](../systems/dialogue.md) |
+| `emote_hide_all_for` | `emote_hide_all_for(_target)` | Скрывает все эмоции цели: тело зачищено (DELETE_CANDIDATE) | [Диалоги](../systems/dialogue.md) |
+| `emote_hide_all` | `emote_hide_all()` | Скрывает все эмоции: тело зачищено (DELETE_CANDIDATE) | [Диалоги](../systems/dialogue.md) |
 | `__emote_system_ready` | `__emote_system_ready()` | Проверяет, что глобальная система эмоций уже создана в obj_Init. | [Диалоги](../systems/dialogue.md) |
 | `__emote_sprite_speed_per_frame` | `__emote_sprite_speed_per_frame(_spr)` | Переводит авторскую скорость анимации спрайта в кадры за один кадр игры. | [Диалоги](../systems/dialogue.md) |
 | `emote_resolve_sprite` | `emote_resolve_sprite(_sprite)` | Превращает входные данные (строку или индекс) в валидный индекс спрайта. | [Диалоги](../systems/dialogue.md) |
@@ -385,7 +385,7 @@ tags:
 | `scr_input_repeater` | `scr_input_repeater(action, delay = undefined, interval = undefined)` | Обрабатывает повторение ввода (как при зажатии клавиши печати) с учётом клавиатуры и геймпада. | [Ввод](../systems/input.md) |
 | `scr_input_rebind` | `scr_input_rebind(action, new_key)` | Переназначает основной слот действия (обёртка над scr_input_rebind_slot). | [Ввод](../systems/input.md) |
 | `scr_input_rebind_slot` | `scr_input_rebind_slot(action, slotIndex, new_key, target_settings = undefined)` | Переназначает конкретный слот (1 или 2) для действия. | [Ввод](../systems/input.md) |
-| `scr_input_keys_hint` | `scr_input_keys_hint(settings, action)` | Собирает человекочитаемую подсказку клавиш действия из настроек — например "Z/Enter". | [Ввод](../systems/input.md) |
+| `scr_input_keys_hint` | `scr_input_keys_hint(settings, action)` | Собирает человекочитаемую подсказку клавиш действия из настроек: например "Z/Enter". | [Ввод](../systems/input.md) |
 
 ### `scripts/scr_inventory_init/`
 
@@ -431,7 +431,7 @@ tags:
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
 | `scr_music_init` | `scr_music_init()` | Инициализация музыкальной системы: глобальные переменные и функции управления музыкой. Вызывается один раз из obj_Init.Create_0. | [Музыка и звук](../systems/music.md) |
-| `__music_handoff_to_prev` | `__music_handoff_to_prev(_fade_sec)` | Переносит текущий трек (и battle-слой в layered-режиме) в prev-канал для плавного затухания — общий блок смены трека во всех play-функциях. | [Музыка и звук](../systems/music.md) |
+| `__music_handoff_to_prev` | `__music_handoff_to_prev(_fade_sec)` | Переносит текущий трек (и battle-слой в layered-режиме) в prev-канал для плавного затухания: общий блок смены трека во всех play-функциях. | [Музыка и звук](../systems/music.md) |
 | `__music_fade_lerp` | `__music_fade_lerp(_timer, _duration, _from, _to)` | Значение time-based фейда по оставшемуся времени таймера | [Музыка и звук](../systems/music.md) |
 
 ### `scripts/scr_npc_pick_dialogue/`
@@ -526,7 +526,7 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `scr_player_process_mutually_exclusive_inputs` | `scr_player_process_mutually_exclusive_inputs(_up, _down, _left, _right)` | Обрабатывает взаимоисключающие клавиши движения (up/down, left/right). При одновременном нажатии противоположных клавиш — приоритет последней нажатой. | [Игрок](../systems/player.md) |
+| `scr_player_process_mutually_exclusive_inputs` | `scr_player_process_mutually_exclusive_inputs(_up, _down, _left, _right)` | Обрабатывает взаимоисключающие клавиши движения (up/down, left/right). При одновременном нажатии противоположных клавиш: приоритет последней нажатой. | [Игрок](../systems/player.md) |
 
 ### `scripts/scr_player_room_lock/`
 
@@ -624,7 +624,7 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `scr_toggle_debug_flag` | `scr_toggle_debug_flag(flag_name)` | Переключает debug-флаг. Источник истины — global.* (читается obj_globalManager/Draw_64); instance-копий на игроке больше нет, так что переключение работает и без… | [Отладка и тесты](../systems/debug-and-testing.md) |
+| `scr_toggle_debug_flag` | `scr_toggle_debug_flag(flag_name)` | Переключает debug-флаг. Источник истины: global.* (читается obj_globalManager/Draw_64); instance-копий на игроке больше нет, так что переключение работает и без… | [Отладка и тесты](../systems/debug-and-testing.md) |
 
 ### `scripts/scr_ui_list_controller/`
 
@@ -682,49 +682,49 @@ tags:
 | `cutscene_is_active` | `cutscene_is_active()` | Возвращает `global.cutscene_active` | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 | `cutscene_dialogue_is_active` | `cutscene_dialogue_is_active()` | Проверяет, идёт ли диалог, открытый катсценой | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 | `cutscene_register_chatterbox_functions` | `cutscene_register_chatterbox_functions()` | Регистрирует `c_*`-команды как функции Chatterbox для вызова из yarn | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_dialogue` | `c_dialogue(_file, _node = undefined)` | Добавляет `ActionDialogue` — запуск yarn-диалога | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_animate` | `c_animate(_target, _sprite, _image_index = undefined, _image_speed = undefined)` | Добавляет `ActionAnimate` — смена спрайта/кадра/скорости анимации цели | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_tween` | `c_tween(_target, _property, _to_value, _frames, _easing = undefined, _from_value = undefined, _kind = "instance")` | Добавляет `ActionTween` — твин свойства цели (или камеры при `kind="camera"`) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_dialogue` | `c_dialogue(_file, _node = undefined)` | Добавляет `ActionDialogue`: запуск yarn-диалога | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_animate` | `c_animate(_target, _sprite, _image_index = undefined, _image_speed = undefined)` | Добавляет `ActionAnimate`: смена спрайта/кадра/скорости анимации цели | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_tween` | `c_tween(_target, _property, _to_value, _frames, _easing = undefined, _from_value = undefined, _kind = "instance")` | Добавляет `ActionTween`: твин свойства цели (или камеры при `kind="camera"`) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 | `c_tween_camera` | `c_tween_camera(_property, _to_value, _frames, _easing = undefined, _from_value = undefined)` | Добавляет `ActionTween` для свойства камеры | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_fadein` | `c_fadein(_frames, _color = undefined)` | Добавляет `ActionFadeIn` — проявление экрана за N кадров | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_fadeout` | `c_fadeout(_frames, _color = undefined)` | Добавляет `ActionFadeOut` — затемнение экрана за N кадров | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_sfx` | `c_sfx(_sound_or_key, _volume = undefined, _pitch = undefined)` | Добавляет `ActionPlaySFX` — проигрывание звука | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_emote` | `c_emote(_target, _sprite = undefined, _frames = undefined, _offset_x = undefined, _offset_y = undefined, _scale = undefined)` | Добавляет `ActionEmote` — эмоция над целью | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_jump` | `c_jump(_target, _x, _y, _frames, _height = undefined, _easing = undefined)` | Добавляет `ActionJump` — прыжок цели в точку | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_halt` | `c_halt(_target = undefined)` | Добавляет `ActionHalt` — остановка движения цели (без аргумента — выбранного актёра) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_flip` | `c_flip(_target, _flipped = undefined)` | Добавляет `ActionFlip` — горизонтальное отражение спрайта цели | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_spin` | `c_spin(_target, _speed, _frames = undefined)` | Добавляет `ActionSpin` — вращение цели | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_shakeobj` | `c_shakeobj(_target = undefined, _frames = undefined, _magnitude = undefined)` | Добавляет `ActionShakeObject` — тряска цели (без аргумента — выбранного актёра) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_fadein` | `c_fadein(_frames, _color = undefined)` | Добавляет `ActionFadeIn`: проявление экрана за N кадров | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_fadeout` | `c_fadeout(_frames, _color = undefined)` | Добавляет `ActionFadeOut`: затемнение экрана за N кадров | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_sfx` | `c_sfx(_sound_or_key, _volume = undefined, _pitch = undefined)` | Добавляет `ActionPlaySFX`: проигрывание звука | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_emote` | `c_emote(_target, _sprite = undefined, _frames = undefined, _offset_x = undefined, _offset_y = undefined, _scale = undefined)` | Добавляет `ActionEmote`: эмоция над целью | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_jump` | `c_jump(_target, _x, _y, _frames, _height = undefined, _easing = undefined)` | Добавляет `ActionJump`: прыжок цели в точку | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_halt` | `c_halt(_target = undefined)` | Добавляет `ActionHalt` (остановка движения цели (без аргумента) выбранного актёра) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_flip` | `c_flip(_target, _flipped = undefined)` | Добавляет `ActionFlip`: горизонтальное отражение спрайта цели | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_spin` | `c_spin(_target, _speed, _frames = undefined)` | Добавляет `ActionSpin`: вращение цели | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_shakeobj` | `c_shakeobj(_target = undefined, _frames = undefined, _magnitude = undefined)` | Добавляет `ActionShakeObject` (тряска цели (без аргумента) выбранного актёра) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 | `c_visible` | `c_visible(_target, _visible = undefined)` | Устанавливает `visible` цели через `ActionSetProperty` | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_instant` | `c_instant(_enabled = undefined)` | Добавляет `ActionSetInstantMode` — мгновенное выполнение действий | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_walk` | `c_walk(_target, _dir, _speed, _frames, _use_collision = undefined)` | Добавляет `ActionMoveRelativeDirection` — движение по направлению N кадров | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_walkdirect` | `c_walkdirect(_target, _x, _y, _frames, _use_collision = undefined)` | Добавляет `ActionMoveDirect` — движение к точке за N кадров | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_walkdirect_speed` | `c_walkdirect_speed(_target, _x, _y, _speed, _use_collision = undefined)` | Добавляет `ActionMoveDirect` — движение к точке с заданной скоростью | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_waittalk` | `c_waittalk()` | Добавляет `ActionWaitForDialogue` — ждать завершения реплики | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_instant` | `c_instant(_enabled = undefined)` | Добавляет `ActionSetInstantMode`: мгновенное выполнение действий | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_walk` | `c_walk(_target, _dir, _speed, _frames, _use_collision = undefined)` | Добавляет `ActionMoveRelativeDirection`: движение по направлению N кадров | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_walkdirect` | `c_walkdirect(_target, _x, _y, _frames, _use_collision = undefined)` | Добавляет `ActionMoveDirect`: движение к точке за N кадров | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_walkdirect_speed` | `c_walkdirect_speed(_target, _x, _y, _speed, _use_collision = undefined)` | Добавляет `ActionMoveDirect`: движение к точке с заданной скоростью | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_waittalk` | `c_waittalk()` | Добавляет `ActionWaitForDialogue`: ждать завершения реплики | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 | `c_sprite` | `c_sprite(_target, _sprite, _image_index = undefined, _image_speed = undefined)` | Алиас `c_animate` (`ActionAnimate`) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 | `c_soundplay` | `c_soundplay(_sound_or_key, _volume = undefined, _pitch = undefined)` | Алиас `c_sfx` | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_var_instance` | `c_var_instance(_target, _property, _value)` | Добавляет `ActionSetProperty` — присвоить свойство цели | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_var_lerp_instance` | `c_var_lerp_instance(_target, _property, _from, _to, _frames, _easing = undefined)` | Добавляет `ActionTween` — твин свойства с явным начальным значением | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_var_instance` | `c_var_instance(_target, _property, _value)` | Добавляет `ActionSetProperty`: присвоить свойство цели | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_var_lerp_instance` | `c_var_lerp_instance(_target, _property, _from, _to, _frames, _easing = undefined)` | Добавляет `ActionTween`: твин свойства с явным начальным значением | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 | `c_lerp` | `c_lerp(_target, _property, _from, _to, _frames, _easing = undefined)` | Прокси к `c_var_lerp_instance` | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `c_var_lerp_to_instance` | `c_var_lerp_to_instance(_target, _property, _to, _frames, _easing = undefined)` | Добавляет `ActionTween` — твин свойства от текущего значения | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_var_lerp_to_instance` | `c_var_lerp_to_instance(_target, _property, _to, _frames, _easing = undefined)` | Добавляет `ActionTween`: твин свойства от текущего значения | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_cmd_x/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_cmd_x` | `c_cmd_x(arg0, arg1, arg2, arg3, arg4, arg5, arg6)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_cmd_x` | `c_cmd_x(arg0, arg1, arg2, arg3, arg4, arg5, arg6)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_delaycmd/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_delaycmd` | `c_delaycmd(_target, _delay_frames, _inner_cmd, _arg0)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_delaycmd` | `c_delaycmd(_target, _delay_frames, _inner_cmd, _arg0)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_delaywalk/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_delaywalk` | `c_delaywalk(_target, _delay_frames, _dir, _speed, _frames)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_delaywalk` | `c_delaywalk(_target, _delay_frames, _dir, _speed, _frames)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_depth/`
 
@@ -748,49 +748,49 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_instance` | `c_instance(_key, _x, _y)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_instance` | `c_instance(_key, _x, _y)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_pan/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_pan` | `c_pan(_x, _y, _frames)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_pan` | `c_pan(_x, _y, _frames)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_pan_wait/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_pan_wait` | `c_pan_wait(arg0, arg1, arg2)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_pan_wait` | `c_pan_wait(arg0, arg1, arg2)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_panobj/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_panobj` | `c_panobj(_target, _frames)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_panobj` | `c_panobj(_target, _frames)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_panspeed/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_panspeed` | `c_panspeed(_x, _y, _frames)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_panspeed` | `c_panspeed(_x, _y, _frames)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_play/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_play` | `c_play(_mgr = noone)` | Запускает собранную катсцену (`start_cutscene`); без менеджера — warning + `noone` | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_play` | `c_play(_mgr = noone)` | Запускает собранную катсцену (`start_cutscene`); без менеджера: warning + `noone` | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_setxy/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_setxy` | `c_setxy(_target, _x, _y)` | Добавляет `ActionSetXY` — мгновенный телепорт цели | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_setxy` | `c_setxy(_target, _x, _y)` | Добавляет `ActionSetXY`: мгновенный телепорт цели | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_shake/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_shake` | `c_shake(_frames = undefined, _magnitude = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_shake` | `c_shake(_frames = undefined, _magnitude = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/c_speaker/`
 
@@ -802,7 +802,7 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `c_wait` | `c_wait(_frames)` | Добавляет `ActionWait` — пауза очереди на N кадров | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `c_wait` | `c_wait(_frames)` | Добавляет `ActionWait`: пауза очереди на N кадров | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ## Обёртки и загрузчики катсцен (`scripts/cutscene_*`)
 
@@ -810,57 +810,57 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_init_action_factory` | `cutscene_init_action_factory()` | Заполняет `global.__cutscene_action_factory` — dispatch типа JSON-экшена → конструктор `Action*` | [JSON-экшены](../cutscenes/json-actions.md) |
+| `cutscene_init_action_factory` | `cutscene_init_action_factory()` | Заполняет `global.__cutscene_action_factory`: dispatch типа JSON-экшена → конструктор `Action*` | [JSON-экшены](../cutscenes/json-actions.md) |
 
 ### `scripts/cutscene_actor_create/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_actor_create` | `cutscene_actor_create(_target_key, _x, _y, _sprite_or_obj = undefined, _copy_from = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_actor_create` | `cutscene_actor_create(_target_key, _x, _y, _sprite_or_obj = undefined, _copy_from = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_actor_destroy/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_actor_destroy` | `cutscene_actor_destroy(_target_ref)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_actor_destroy` | `cutscene_actor_destroy(_target_ref)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_add/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
 | `cutscene_add` | `cutscene_add(_mgr, _action)` | Добавляет action-структуру в очередь менеджера катсцен. | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_tween` | `cutscene_tween(_target, _property, _to_value, _frames, _easing = undefined, _from_value = undefined, _kind = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_fade_in` | `cutscene_fade_in(_frames, _color = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_fade_out` | `cutscene_fade_out(_frames, _color = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_play_sfx` | `cutscene_play_sfx(_sound_or_key, _volume = undefined, _pitch = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_emote` | `cutscene_emote(_target, _sprite = undefined, _frames = undefined, _offset_x = undefined, _offset_y = undefined, _scale = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_jump` | `cutscene_jump(_target, _x, _y, _frames, _height = undefined, _easing = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_halt` | `cutscene_halt(_target)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_flip` | `cutscene_flip(_target, _flipped = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_spin` | `cutscene_spin(_target, _speed, _frames = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_shake_object` | `cutscene_shake_object(_target, _frames = undefined, _magnitude = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_set_visible` | `cutscene_set_visible(_target, _visible = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_set_instant` | `cutscene_set_instant(_enabled = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_wait_for_dialogue` | `cutscene_wait_for_dialogue(_dialogue_controller = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
-| `cutscene_set_property` | `cutscene_set_property(_target, _property, _value, _kind = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_tween` | `cutscene_tween(_target, _property, _to_value, _frames, _easing = undefined, _from_value = undefined, _kind = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_fade_in` | `cutscene_fade_in(_frames, _color = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_fade_out` | `cutscene_fade_out(_frames, _color = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_play_sfx` | `cutscene_play_sfx(_sound_or_key, _volume = undefined, _pitch = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_emote` | `cutscene_emote(_target, _sprite = undefined, _frames = undefined, _offset_x = undefined, _offset_y = undefined, _scale = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_jump` | `cutscene_jump(_target, _x, _y, _frames, _height = undefined, _easing = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_halt` | `cutscene_halt(_target)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_flip` | `cutscene_flip(_target, _flipped = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_spin` | `cutscene_spin(_target, _speed, _frames = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_shake_object` | `cutscene_shake_object(_target, _frames = undefined, _magnitude = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_set_visible` | `cutscene_set_visible(_target, _visible = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_set_instant` | `cutscene_set_instant(_enabled = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_wait_for_dialogue` | `cutscene_wait_for_dialogue(_dialogue_controller = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_set_property` | `cutscene_set_property(_target, _property, _value, _kind = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_animate/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_animate` | `cutscene_animate(_target_ref, _sprite, _image_index_set = undefined, _image_speed_set = undefined)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_animate` | `cutscene_animate(_target_ref, _sprite, _image_index_set = undefined, _image_speed_set = undefined)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_auto_facing_toggle/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_auto_facing_toggle` | `cutscene_auto_facing_toggle(_target_ref, _enabled)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_auto_facing_toggle` | `cutscene_auto_facing_toggle(_target_ref, _enabled)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_auto_walk_toggle/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_auto_walk_toggle` | `cutscene_auto_walk_toggle(_target_ref, _enabled)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_auto_walk_toggle` | `cutscene_auto_walk_toggle(_target_ref, _enabled)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_branch/`
 
@@ -872,37 +872,37 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_camera_center` | `cutscene_camera_center(_center_x, _center_y)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `cutscene_camera_center` | `cutscene_camera_center(_center_x, _center_y)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [Архитектура катсцен](../cutscenes/architecture.md) |
 
 ### `scripts/cutscene_camera_pan/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_camera_pan` | `cutscene_camera_pan(_view_x, _view_y, _frames)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `cutscene_camera_pan` | `cutscene_camera_pan(_view_x, _view_y, _frames)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [Архитектура катсцен](../cutscenes/architecture.md) |
 
 ### `scripts/cutscene_camera_shake/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_camera_shake` | `cutscene_camera_shake(_frames, _magnitude = 4)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `cutscene_camera_shake` | `cutscene_camera_shake(_frames, _magnitude = 4)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [Архитектура катсцен](../cutscenes/architecture.md) |
 
 ### `scripts/cutscene_camera_track/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_camera_track` | `cutscene_camera_track(_target_ref, _frames, _offset_x = 0, _offset_y = 0)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [Архитектура катсцен](../cutscenes/architecture.md) |
+| `cutscene_camera_track` | `cutscene_camera_track(_target_ref, _frames, _offset_x = 0, _offset_y = 0)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [Архитектура катсцен](../cutscenes/architecture.md) |
 
 ### `scripts/cutscene_dialogue/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_dialogue` | `cutscene_dialogue(_filename, _node)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_dialogue` | `cutscene_dialogue(_filename, _node)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_follow_path/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_follow_path` | `cutscene_follow_path(_target_ref, _points, _speed = 2, _collision = false)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_follow_path` | `cutscene_follow_path(_target_ref, _points, _speed = 2, _collision = false)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_load_engine_settings/`
 
@@ -937,25 +937,25 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_move` | `cutscene_move(_target_ref, _x, _y, _speed = 1, _collision = false)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_move` | `cutscene_move(_target_ref, _x, _y, _speed = 1, _collision = false)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_parallel/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_parallel` | `cutscene_parallel(_actions_array)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_parallel` | `cutscene_parallel(_actions_array)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_run_function/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_run_function` | `cutscene_run_function(_func, _args = [])` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_run_function` | `cutscene_run_function(_func, _args = [])` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_set_depth/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_set_depth` | `cutscene_set_depth(_target_ref, _depth)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_set_depth` | `cutscene_set_depth(_target_ref, _depth)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_set_facing/`
 
@@ -967,13 +967,13 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_set_xy` | `cutscene_set_xy(_target_ref, _x, _y)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_set_xy` | `cutscene_set_xy(_target_ref, _x, _y)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ### `scripts/cutscene_wait/`
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `cutscene_wait` | `cutscene_wait(_seconds)` | Недостижимая команда/обёртка — тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
+| `cutscene_wait` | `cutscene_wait(_seconds)` | Недостижимая команда/обёртка: тело зачищено (DELETE_CANDIDATE) | [GML DSL катсцен](../cutscenes/gml-dsl.md) |
 
 ## Прочие скрипты
 
@@ -993,7 +993,7 @@ tags:
 | `FoodItem` | `FoodItem(_name, _amount = 1, _heal = 10, _description = "Some food") constructor` | Еда: расходуемый предмет, use() лечит global.stat_hp и уменьшает amount. | [Инвентарь и статы](../systems/inventory-and-stats.md) |
 | `item_deserialize` | `item_deserialize(_data)` | Фабрика десериализации: восстанавливает предмет по полю __type из сейва. | [Инвентарь и статы](../systems/inventory-and-stats.md) |
 | `inventory_serialize` | `inventory_serialize(_inv_array)` | Сериализация всего инвентаря в массив плоских struct для сейва. | [Инвентарь и статы](../systems/inventory-and-stats.md) |
-| `inventory_deserialize` | `inventory_deserialize(_json_array)` | Десериализация всего инвентаря: инвариант — ровно 8 слотов. | [Инвентарь и статы](../systems/inventory-and-stats.md) |
+| `inventory_deserialize` | `inventory_deserialize(_json_array)` | Десериализация всего инвентаря: инвариант: ровно 8 слотов. | [Инвентарь и статы](../systems/inventory-and-stats.md) |
 
 ### `scripts/draw_text_scribble/`
 
@@ -1030,7 +1030,7 @@ tags:
 
 | Функция | Сигнатура | Назначение | Док-страница |
 | --- | --- | --- | --- |
-| `playableCharacterInfo` | `playableCharacterInfo(_name = "Chara", _lv = 20, _hp = 99, _money = 20) constructor` | Конструктор данных игрового персонажа (не используется — DELETE_CANDIDATE). | [Инвентарь и статы](../systems/inventory-and-stats.md) |
+| `playableCharacterInfo` | `playableCharacterInfo(_name = "Chara", _lv = 20, _hp = 99, _money = 20) constructor` | Конструктор данных игрового персонажа (не используется: DELETE_CANDIDATE). | [Инвентарь и статы](../systems/inventory-and-stats.md) |
 
 ### `scripts/readDialogue/`
 
@@ -1078,8 +1078,8 @@ tags:
 
 ## См. также
 
-- [Объекты и события](objects-and-events.md) — справочник объектов
-- [Глоссарий](glossary.md) — термины проекта
-- [GML DSL катсцен](../cutscenes/gml-dsl.md) — команды `c_*` в контексте движка
+- [Объекты и события](objects-and-events.md): справочник объектов
+- [Глоссарий](glossary.md): термины проекта
+- [GML DSL катсцен](../cutscenes/gml-dsl.md): команды `c_*` в контексте движка
 
 <!-- sources: _meta/scripts.txt; scripts/**/*.gml (/// @desc/@description/@summary); docs_new/_meta/nav_plan.md -->

@@ -14,66 +14,66 @@ tags:
 
 | Скрипт | Назначение |
 |--------|------------|
-| `scr_ui_read_actions(exclude_self = false)` | Возвращает структуру `actions` с полями `up`/`down`/`left`/`right` (через `scr_input_repeater`), `confirm`/`delete` (через `scr_input_pressed`), `back`/`menu` и `ui_blocking`. `back` и `menu` читаются всегда — открытое меню можно закрыть той же клавишей; остальные поля глушатся, пока `scr_checkUIBlocking` возвращает `true`. |
-| `scr_ui_nav_vertical(index, count, wrap, actions)` | Вертикальная навигация по списку; `wrap = true` — кольцевая. Возвращает `{ index, moved }`. |
+| `scr_ui_read_actions(exclude_self = false)` | Возвращает структуру `actions` с полями `up`/`down`/`left`/`right` (через `scr_input_repeater`), `confirm`/`delete` (через `scr_input_pressed`), `back`/`menu` и `ui_blocking`. `back` и `menu` читаются всегда: открытое меню можно закрыть той же клавишей; остальные поля глушатся, пока `scr_checkUIBlocking` возвращает `true`. |
+| `scr_ui_nav_vertical(index, count, wrap, actions)` | Вертикальная навигация по списку; `wrap = true`: кольцевая. Возвращает `{ index, moved }`. |
 | `scr_ui_list_controller(index, count, rows_per_col, columns, actions)` | Навигация по сетке из нескольких колонок; `left`/`right` сдвигают индекс на `rows_per_col`. Навигация всегда кольцевая по всему списку. |
 | `scr_menu_shader_push()` / `scr_menu_shader_pop()` | Счётчик вложенности `global.__menu_shader_depth`: первый `push` выключает автодроу `application_surface` (меню рисует его вручную с `shd_grayscale`), последний `pop` восстанавливает сохранённое состояние. |
-| `scr_menu_volume_push(target = 0.8)` / `scr_menu_volume_pop()` | Стек `global.__menu_volume_depth`: `push` приглушает `audio_master_gain` до `0.8` текущей громкости, `pop` на нулевой глубине возвращает `global.player_settings.master_volume`. Pop без парного push — no-op. |
+| `scr_menu_volume_push(target = 0.8)` / `scr_menu_volume_pop()` | Стек `global.__menu_volume_depth`: `push` приглушает `audio_master_gain` до `0.8` текущей громкости, `pop` на нулевой глубине возвращает `global.player_settings.master_volume`. Pop без парного push: no-op. |
 
 Звуки навигации во всех меню — `scr_SFXPlay("move" | "confirm" | "back" | "error")` (см. [Аудио](music.md)).
 
-## Главное меню — `obj_menu`
+## Главное меню: `obj_menu`
 
 Живёт в `rm_roomMenu` вместе с `obj_menuBGSpriteChanger`. Пункты — массив пар `[строка Scribble, функция]` в `menuOptions`:
 
 | Пункт | Действие |
 |-------|----------|
-| `Играть` | `room_goto(rm_savesSelect)` — экран выбора сейва |
+| `Играть` | `room_goto(rm_savesSelect)`: экран выбора сейва |
 | `Настройки` | `room_goto(rm_settings)` |
 | `Выход` | `game_end()` |
 
 - `select_index` по умолчанию `0`; если `global.menu_return_focus == 1` (выставляют пути выхода из настроек), фокус ставится на «Настройки» и флаг сбрасывается.
-- Навигация в `Step_0`: `scr_ui_nav_vertical(select_index, count, false, actions)` — без заворота на концах. Ветки `back` нет: из главного меню «назад» вести некуда.
+- Навигация в `Step_0`: `scr_ui_nav_vertical(select_index, count, false, actions)`: без заворота на концах. Ветки `back` нет: из главного меню «назад» вести некуда.
 - `Draw_64`: шрифт `ft_menuFont`, выделенный пункт `#762828`, строки по `y = 430 + 90·i`, футер `ft_menuFont_small` серым с текстом версии `UNDEF DEV. CONSOLE VER. 0.888` в правом нижнем углу.
 - Музыка: при создании вызывается `global.play_music(music_menu)`, если этот трек ещё не играет.
 
-### Фон меню — `obj_menuBGSpriteChanger`
+### Фон меню: `obj_menuBGSpriteChanger`
 
-Размещён в `rm_roomMenu`, `rm_savesSelect` и `rm_settings`; позиция и масштаб берутся из расстановки инстанса в комнате. Циклически показывает кадры `backgrounds = [_1, _2, _3]`, интервал `bg_switch_seconds = 2.5` секунды переводится в кадры через `game_get_speed(gamespeed_fps)` — не через измеренный `fps`. Спрайт рисуется через `draw_sprite_ext` под `shd_grayscale`.
+Размещён в `rm_roomMenu`, `rm_savesSelect` и `rm_settings`; позиция и масштаб берутся из расстановки инстанса в комнате. Циклически показывает кадры `backgrounds = [_1, _2, _3]`, интервал `bg_switch_seconds = 2.5` секунды переводится в кадры через `game_get_speed(gamespeed_fps)`, а не через измеренный `fps`. Спрайт рисуется через `draw_sprite_ext` под `shd_grayscale`.
 
-## In-game меню — `obj_inGameMenu`
+## In-game меню: `obj_inGameMenu`
 
 ### Открытие
 
 `scr_callMenuInit()` вызывается каждый шаг из `obj_globalManager/Step_0` и создаёт меню на `instance_create_depth(0, 0, -1000, obj_inGameMenu)`, когда выполнены все условия:
 
-1. `!global.is_menu_room(room)` — не в служебной комнате;
-2. `scr_input_pressed("menu")` — действие `menu` (по умолчанию `C`/`Esc`, см. [Ввод](input.md));
-3. `!scr_checkUIBlocking()` — нет другого UI-блокера.
+1. `!global.is_menu_room(room)`: не в служебной комнате;
+2. `scr_input_pressed("menu")`: действие `menu` (по умолчанию `C`/`Esc`, см. [Ввод](input.md));
+3. `!scr_checkUIBlocking()`: нет другого UI-блокера.
 
-При открытии игрок замораживается: `obj_player.can_move = false`, `image_speed = 0`, `image_index = 0`. В `Create_0` меню делает `scr_menu_shader_push()` и ставит `shader_guard_owned = true` — `Destroy_0` снимает guard при любом уничтожении, но не трогает чужой push (флаг обнуляется до `instance_destroy` на всех штатных выходах).
+При открытии игрок замораживается: `obj_player.can_move = false`, `image_speed = 0`, `image_index = 0`. В `Create_0` меню делает `scr_menu_shader_push()` и ставит `shader_guard_owned = true`: `Destroy_0` снимает guard при любом уничтожении, но не трогает чужой push (флаг обнуляется до `instance_destroy` на всех штатных выходах).
 
 ### Экраны
 
-Корневой список — `menu_options = ["ITEM", "STAT", "OPT"]`; текущий экран хранится в `current_option` (`-1` — корень, `1` — ITEM, `2` — STAT). Кольцевая навигация вверх/вниз по корню, `back`/`menu` закрывает меню.
+Корневой список — `menu_options = ["ITEM", "STAT", "OPT"]`; текущий экран хранится в `current_option` (`-1` = корень, `1` = ITEM, `2` = STAT). Кольцевая навигация вверх/вниз по корню, `back`/`menu` закрывает меню.
 
 - **ITEM** (`current_option = 1`): список `global.inventory` с пропуском пустых слотов (`undefined`); навигация по `item_selOption` перескакивает через пустоту. Confirm на предмете открывает ряд действий `item_options = ["USE","INFO","DROP"]` (`item_use` = `1..3`, `heart_x` = `0/42/90`):
-    - `USE` — вызывает `item.use()`; если вернул `true`, слот очищается;
-    - `INFO` — `global.show_notification(item.description)`;
-    - `DROP` — подэкран `drop_confirming` с выбором `YES`/`NO` (`drop_confirm_selection`); при `YES` предмет удаляется, ссылки `global.equipped_weapon`/`equipped_armor` на него обнуляются и вызывается `scr_stats_recalc()`. Пустой инвентарь показывает `NO ITEMS YET.`.
-- **STAT** (`current_option = 2`): шесть строк `stat_text` — `player_name`, `stat_lv`, `stat_hp`, `stat_atk`, `stat_def`, `stat_gold`; массив пересобирается в Draw, потому что `use()` предметов может менять HP уже после открытия меню.
-- **OPT**: не вкладка, а переход — меню делает `scr_menu_shader_pop()`, уничтожается и создаёт `obj_settingsManager` на слое `Instances` с `overlay_mode = true` и `return_to_ingame_menu = true` (с `scr_menu_volume_push()`). Индекс пункта задан макросом `#macro INGAME_MENU_OPT_INDEX 2` — при перестановке `menu_options` его нужно обновить синхронно.
+    - `USE`: вызывает `item.use()`; если вернул `true`, слот очищается;
+    - `INFO`: `global.show_notification(item.description)`;
+    - `DROP`: подэкран `drop_confirming` с выбором `YES`/`NO` (`drop_confirm_selection`); при `YES` предмет удаляется, ссылки `global.equipped_weapon`/`equipped_armor` на него обнуляются и вызывается `scr_stats_recalc()`. Пустой инвентарь показывает `NO ITEMS YET.`.
+- **STAT** (`current_option = 2`): шесть строк `stat_text`: `player_name`, `stat_lv`, `stat_hp`, `stat_atk`, `stat_def`, `stat_gold`; массив пересобирается в Draw, потому что `use()` предметов может менять HP уже после открытия меню.
+- **OPT**: не вкладка, а переход: меню делает `scr_menu_shader_pop()`, уничтожается и создаёт `obj_settingsManager` на слое `Instances` с `overlay_mode = true` и `return_to_ingame_menu = true` (с `scr_menu_volume_push()`). Индекс пункта задан макросом `#macro INGAME_MENU_OPT_INDEX 2`; при перестановке `menu_options` его нужно обновить синхронно.
 
 ### Отрисовка и указатель
 
-`Draw_64` рисует `application_surface` через `shd_grayscale`, затем UI в цвете. Масштаб мир→GUI единый: `s = min(gui_w/view_w, gui_h/view_h)` с letterbox-центрированием — все координаты заданы в view-единицах и домножаются на `s`. Окно списка предметов анимировано: `height` интерполируется `66 ↔ 176`, `yBox` — `88 ↔ 32`. Сердце-указатель `spr_StatHeart` движется через `menu_move_heart()` (lerp по `menu_heartpos`), цель вычисляется в `Step_0` от текущего экрана.
+`Draw_64` рисует `application_surface` через `shd_grayscale`, затем UI в цвете. Масштаб мир→GUI единый: `s = min(gui_w/view_w, gui_h/view_h)` с letterbox-центрированием; все координаты заданы в view-единицах и домножаются на `s`. Окно списка предметов анимировано: `height` интерполируется `66 ↔ 176`, `yBox`: `88 ↔ 32`. Сердце-указатель `spr_StatHeart` движется через `menu_move_heart()` (lerp по `menu_heartpos`), цель вычисляется в `Step_0` от текущего экрана.
 
 Возврат фокуса после закрытия настроек — одноразовый `global.ingame_menu_return_index` (инициализируется `-1` в `obj_Init`): `obj_settingsManager` пишет туда `INGAME_MENU_OPT_INDEX`, а новый `obj_inGameMenu` клэмпит значение в `sel_option`.
 
 !!! note "Мёртвый файл"
-    `objects/obj_inGameMenu/Alarm_0.gml` не привязан к событию объекта и нигде не планируется — уничтожение меню делает `Destroy_0`.
+    `objects/obj_inGameMenu/Alarm_0.gml` не привязан к событию объекта и нигде не планируется: уничтожение меню делает `Destroy_0`.
 
-## Настройки — `obj_settingsManager`
+## Настройки: `obj_settingsManager`
 
 Менеджер существует в двух режимах: инстанс комнаты `rm_settings` (приход из главного меню) и оверлей поверх игры, создаваемый из `obj_inGameMenu`. Поля `overlay_mode` и `return_to_ingame_menu` выставляет создающий код после `Create`.
 
@@ -84,7 +84,7 @@ tags:
 | Состояние | Обработчик | Что делает |
 |-----------|------------|------------|
 | `ROOT` | `scr_settings_step_root` | Навигация по `settings_categories`; confirm открывает категорию или «Выйти в меню», back → `handle_back()` |
-| `CATEGORY` | `scr_settings_step_category` | Навигация по пунктам категории; `left`/`right` — слот бинда (в «Управление») или `handle_setting_change(±1)` |
+| `CATEGORY` | `scr_settings_step_category` | Навигация по пунктам категории; `left`/`right`: слот бинда (в «Управление») или `handle_setting_change(±1)` |
 | `REBIND` | `scr_settings_step_rebind` | Ловит `keyboard_lastkey` как новый бинд |
 | `CONFIRM_RESET` | `scr_settings_step_confirm_reset` | Диалог подтверждения `controls` / `full_reset` |
 
@@ -94,27 +94,27 @@ tags:
 
 `settings_categories`: `Управление`, `Звук`, `Разное`, `Выйти в меню`.
 
-- **Управление**: строки — `scr_input_actions_list()` (9 действий) плюс «Назад»; два слота `input_<action>1/2`, `left`/`right` переключают `selected_col`. Confirm входит в `REBIND` для `rebind_action`/`rebind_slot`. Правила ребинда: слот 1 нельзя очистить (Backspace/Delete → `error` и уведомление), слот 2 очищается в `-1`; запрещены `vk_enter`, `vk_f1..vk_f12` и Shift для всех действий кроме `run` (для `run` боковые `vk_lshift`/`vk_rshift` нормализуются в `vk_shift`); запрещённая клавиша даёт уведомление. Занятая клавиша отклоняется с уведомлением только если она дефолтна для чужого слота; прочие коллизии `scr_input_rebind_slot` освобождает, возвращая слот к дефолту или `-1`. Детали — в [Ввод](input.md).
-- **Звук**: `master_volume`, `music_volume`, `sfx_volume` — шаг `0.1`, клэмп `0..1`. Изменение применяется сразу (`audio_master_gain`, `global.set_music_volume_fade` для музыки), а запись файла отложена до выхода из меню.
-- **Разное**: раскладка берётся из единого источника `scr_settings_misc_items()` — `borderless`, `debug`, `reset_controls`, `full_reset`, затем условные `playtime` (при `__total_playtime_seconds > 0`) и `devload` (при `global.debug`), последним всегда `back`. `borderless` переключает `fullscreen_borderless` (поле `fullscreen` принудительно `false` — нативный полный экран не используется); `debug` нельзя включить при `global.clean_state` (уведомление; выключение не блокируется); `playtime` — readonly, confirm показывает уведомление со `scr_format_playtime`; `devload` переключает `devload_focus` (стартовый фокус на кнопке DEV-LOAD в `obj_saveManager` в режиме загрузки).
-- **Выйти в меню**: сохраняет настройки, уничтожает `obj_player`, снимает volume/shader-стеки (`scr_menu_volume_pop`, `scr_menu_shader_pop`), ставит `global.menu_return_focus = 1` и уходит в `rm_roomMenu` — минуя `handle_back`.
+- **Управление**: строки берутся из `scr_input_actions_list()` (9 действий) плюс «Назад»; два слота `input_<action>1/2`, `left`/`right` переключают `selected_col`. Confirm входит в `REBIND` для `rebind_action`/`rebind_slot`. Правила ребинда: слот 1 нельзя очистить (Backspace/Delete → `error` и уведомление), слот 2 очищается в `-1`; запрещены `vk_enter`, `vk_f1..vk_f12` и Shift для всех действий кроме `run` (для `run` боковые `vk_lshift`/`vk_rshift` нормализуются в `vk_shift`); запрещённая клавиша даёт уведомление. Занятая клавиша отклоняется с уведомлением только если она дефолтна для чужого слота; прочие коллизии `scr_input_rebind_slot` освобождает, возвращая слот к дефолту или `-1`. Детали: [Ввод](input.md).
+- **Звук**: `master_volume`, `music_volume`, `sfx_volume`: шаг `0.1`, клэмп `0..1`. Изменение применяется сразу (`audio_master_gain`, `global.set_music_volume_fade` для музыки), а запись файла отложена до выхода из меню.
+- **Разное**: раскладка берётся из единого источника `scr_settings_misc_items()`: `borderless`, `debug`, `reset_controls`, `full_reset`, затем условные `playtime` (при `__total_playtime_seconds > 0`) и `devload` (при `global.debug`), последним всегда `back`. `borderless` переключает `fullscreen_borderless` (поле `fullscreen` принудительно `false`, нативный полный экран не используется); `debug` нельзя включить при `global.clean_state` (уведомление; выключение не блокируется); `playtime`: readonly, confirm показывает уведомление со `scr_format_playtime`; `devload` переключает `devload_focus` (стартовый фокус на кнопке DEV-LOAD в `obj_saveManager` в режиме загрузки).
+- **Выйти в меню**: сохраняет настройки, уничтожает `obj_player`, снимает volume/shader-стеки (`scr_menu_volume_pop`, `scr_menu_shader_pop`), ставит `global.menu_return_focus = 1` и уходит в `rm_roomMenu`, минуя `handle_back`.
 
 ### Применение и сохранение
 
-Редактируется локальная копия `local_settings = scr_settings_deep_copy(global.player_settings)` — все ключи из `global.default_settings` (`scr_settingsManager.gml`). `scr_settings_apply_and_save(local_settings, mode)` принимает `mode` = `"apply"`, `"save"` или `"both"`, обновляет `global.player_settings` и вызывает `scr_applySettings` (окно borderless через `window_set_showborder`/`window_set_size`/`window_set_position`, громкости, `global.debug`, пересборка `global.input_map`) и/или `scr_saveSettings` (текстовый файл `ключ=значение` в `global.settings_file`).
+Редактируется локальная копия `local_settings = scr_settings_deep_copy(global.player_settings)`: все ключи из `global.default_settings` (`scr_settingsManager.gml`). `scr_settings_apply_and_save(local_settings, mode)` принимает `mode` = `"apply"`, `"save"` или `"both"`, обновляет `global.player_settings` и вызывает `scr_applySettings` (окно borderless через `window_set_showborder`/`window_set_size`/`window_set_position`, громкости, `global.debug`, пересборка `global.input_map`) и/или `scr_saveSettings` (текстовый файл `ключ=значение` в `global.settings_file`).
 
-`handle_back()` из корня: `apply_and_save_settings()` → ветвление по режиму — `return_to_ingame_menu` пересоздаёт `obj_inGameMenu` с фокусом на OPT; `overlay_mode` размораживает игрока; комнатный режим уходит в `rm_roomMenu`. Затем `scr_menu_volume_pop()`, `scr_menu_shader_pop()`, `shader_guard_owned = false` и `instance_destroy()`. `Destroy_0` — страховка: снимает shader-guard, если меню уничтожено извне.
+`handle_back()` из корня: `apply_and_save_settings()` → ветвление по режиму: `return_to_ingame_menu` пересоздаёт `obj_inGameMenu` с фокусом на OPT; `overlay_mode` размораживает игрока; комнатный режим уходит в `rm_roomMenu`. Затем `scr_menu_volume_pop()`, `scr_menu_shader_pop()`, `shader_guard_owned = false` и `instance_destroy()`. `Destroy_0` — страховка: снимает shader-guard, если меню уничтожено извне.
 
 !!! note "Горячая клавиша Q"
-    `scr_global_toggle_fullscreen` (Q, только при `global.debug`) переключает borderless и синхронизирует `local_settings` открытого менеджера — вызывается из `obj_globalManager`, а не из меню.
+    `scr_global_toggle_fullscreen` (Q, только при `global.debug`) переключает borderless и синхронизирует `local_settings` открытого менеджера; вызывается из `obj_globalManager`, а не из меню.
 
 ## Уведомления
 
-`global.show_notification(text)` (определена в `obj_Init/Create_0`) пишет в единственный слот `obj_globalManager`: `notification_text`, `notification_active = true`, `notification_timer = notification_duration`. Очереди нет — новый вызов перезаписывает текущее уведомление и сбрасывает таймер. `scr_global_handle_notifications()` декрементит таймер по `delta_time` (FPS-независимо, `notification_duration = 1` секунда) и вызывается из `obj_globalManager/Step_0`; `scr_global_on_room_change` сбрасывает слот при смене комнаты. Рисуется в `Draw_64` менеджера: жёлтый текст `ft_inGameFont` по центру view.
+`global.show_notification(text)` (определена в `obj_Init/Create_0`) пишет в единственный слот `obj_globalManager`: `notification_text`, `notification_active = true`, `notification_timer = notification_duration`. Очереди нет: новый вызов перезаписывает текущее уведомление и сбрасывает таймер. `scr_global_handle_notifications()` декрементит таймер по `delta_time` (FPS-независимо, `notification_duration = 1` секунда) и вызывается из `obj_globalManager/Step_0`; `scr_global_on_room_change` сбрасывает слот при смене комнаты. Рисуется в `Draw_64` менеджера: жёлтый текст `ft_inGameFont` по центру view.
 
 Вызывают её, в частности, `INFO` предмета, отказы ребинда, блокировка debug-переключателя и `obj_p3r_title`.
 
-## Блокировка ввода — `scr_checkUIBlocking`
+## Блокировка ввода: `scr_checkUIBlocking`
 
 Единый список UI-объектов возвращает `scr_ui_objects_list()`:
 
@@ -130,11 +130,11 @@ return [
 ];
 ```
 
-`scr_checkUIBlocking(exclude_self = false, include_cutscene = true)` возвращает `true`, если существует инстанс хотя бы одного объекта из списка (пропускаются инстансы с `non_blocking = true` и вызывающий инстанс при `exclude_self`), открыт `obj_sound_test.is_open` либо при `include_cutscene` активны `global.cutscene_active` / `cutscene_camera_override`. Результат кэшируется в `global.__ui_blocking_cache*`: dirty-флаги каждый Step выставляет `obj_globalManager`, поэтому пересчёт идёт раз в кадр; вызовы с `exclude_self` не кэшируются. Тот же список читает слой ввода (`scr_input__is_cutscene_blocked_here`) — перечисленные объекты продолжают видеть реальный ввод во время катсцены.
+`scr_checkUIBlocking(exclude_self = false, include_cutscene = true)` возвращает `true`, если существует инстанс хотя бы одного объекта из списка (пропускаются инстансы с `non_blocking = true` и вызывающий инстанс при `exclude_self`), открыт `obj_sound_test.is_open` либо при `include_cutscene` активны `global.cutscene_active` / `cutscene_camera_override`. Результат кэшируется в `global.__ui_blocking_cache*`: dirty-флаги каждый Step выставляет `obj_globalManager`, поэтому пересчёт идёт раз в кадр; вызовы с `exclude_self` не кэшируются. Тот же список читает слой ввода (`scr_input__is_cutscene_blocked_here`): перечисленные объекты продолжают видеть реальный ввод во время катсцены.
 
 Игрок и интерактивные объекты проверяют блокировку перед движением и взаимодействием (см. [Игрок](player.md), [Взаимодействие](interaction.md)).
 
-## Комнаты меню — `is_menu_room`
+## Комнаты меню: `is_menu_room`
 
 `global.__service_menu_rooms` (`obj_Init/Create_0`) = `rm_roomMenu`, `rm_savesSelect`, `rm_settings`, `rm_devLoad`. `global.is_menu_room(_room)` принимает комнату или её имя. Эффекты флага:
 
@@ -142,21 +142,21 @@ return [
 |-------------|--------------------------|
 | `scr_callMenuInit` | In-game меню не открывается |
 | `obj_globalManager/Step_0` | Счётчики `__save_playtime_seconds`/`__total_playtime_seconds` не тикают |
-| `scr_global_on_room_change` | Целевой трек — `music_menu`; на границе меню↔игра трек меняется мгновенно (`play_music_immediate`), внутри — кроссфейдом |
+| `scr_global_on_room_change` | Целевой трек: `music_menu`; на границе меню↔игра трек меняется мгновенно (`play_music_immediate`), внутри: кроссфейдом |
 | `scr_global_quick_save` | Быстрый сейв заблокирован |
 | `scr_get_next_game_room` | Комнаты пропускаются при перечислении «игровых» |
 
-`rm_init` и `SCREENSHOTS` в список не входят — это служебные тупики без меню-семантики; их отсекает dev-фильтр `scr_room_is_dev_navigation_excluded`.
+`rm_init` и `SCREENSHOTS` в список не входят: это служебные тупики без меню-семантики; их отсекает dev-фильтр `scr_room_is_dev_navigation_excluded`.
 
 ## Тюнинг-константы
 
-Значения из Create/Draw UI-объектов; полная карта тюнинга диалогового окна — в файлах `textboxTest_scribble` (см. [Диалоги](dialogue.md)).
+Значения из Create/Draw UI-объектов; полная карта тюнинга диалогового окна: в файлах `textboxTest_scribble` (см. [Диалоги](dialogue.md)).
 
 | Параметр | Значение | Где задано |
 |----------|----------|------------|
 | Интервал смены фона меню | `bg_switch_seconds = 2.5` с | `obj_menuBGSpriteChanger/Create_0` |
 | Автоповтор навигации (задержка/интервал) | `global.input_repeater_defaults = { delay: 200, interval: 120 }` мс | `obj_Init/Create_0` |
-| Глушение ввода после ребинда/сброса | `input_delay_timer = 15` кадров (отмена confirm-диалога — `10`) | `scr_settings_step_*` |
+| Глушение ввода после ребинда/сброса | `input_delay_timer = 15` кадров (отмена confirm-диалога: `10`) | `scr_settings_step_*` |
 | Длительность уведомления | `notification_duration = 1` с | `obj_globalManager/Create_0` |
 | Приглушение звука в меню | `scr_menu_volume_push(0.8)` | `scr_menu_volume_guard` |
 | Шаг ползунков громкости | `±0.1`, клэмп `0..1` | `obj_settingsManager` `handle_setting_change` |
@@ -170,7 +170,7 @@ return [
 
 ## P3R-прототип
 
-Семейство `obj_p3r_title` / `obj_p3r_pause` / `obj_p3r_settings` / `obj_p3r_background` / `obj_p3r_transition` — экспериментальные меню в стилистике с твинами (TweenGMS) и палитрой `scr_p3r_palette`. Боевым UI не являются: созданы под `DevRoom1`, где триггер `obj_menuTest` открывает title по `K` и pause по `L`. Используют `scr_p3r_menu_state_create`/`scr_p3r_menu_nav` (обёртка над `scr_ui_nav_vertical`); guard'ы `scr_menu_shader_*`/`scr_menu_volume_*` поднимает только `obj_p3r_pause` — title/settings обходятся без них. Title, pause и settings включены в список UI-блокеров, чтобы не пропускать ввод игрока.
+Семейство `obj_p3r_title` / `obj_p3r_pause` / `obj_p3r_settings` / `obj_p3r_background` / `obj_p3r_transition` — экспериментальные меню в стилистике с твинами (TweenGMS) и палитрой `scr_p3r_palette`. Боевым UI не являются: созданы под `DevRoom1`, где триггер `obj_menuTest` открывает title по `K` и pause по `L`. Используют `scr_p3r_menu_state_create`/`scr_p3r_menu_nav` (обёртка над `scr_ui_nav_vertical`); guard'ы `scr_menu_shader_*`/`scr_menu_volume_*` поднимает только `obj_p3r_pause`: title/settings обходятся без них. Title, pause и settings включены в список UI-блокеров, чтобы не пропускать ввод игрока.
 
 ## См. также
 

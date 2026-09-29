@@ -21,16 +21,16 @@ tags:
 | `save1.txt` … `save3.txt` | `working_directory` | Позиционный текст + JSON-строки | `scr_saveSave` / `scr_saveLoad` |
 | `game_state.dat` | `working_directory` | `key=value` | `scr_game_state_save` / `scr_game_state_load` |
 | `player_settings.dat` | `working_directory` | `key=value` | `scr_saveSettings` / `scr_loadSettings` |
-| `entity_state` | Не файл — секция внутри сейва | JSON-struct | `scr_entity_state_*` |
+| `entity_state` | Не файл, а секция внутри сейва | JSON-struct | `scr_entity_state_*` |
 | `cutscenes/*.json` | `working_directory` (Included Files) | JSON | `cutscene_load_json` |
 | `cutscenes/cutscene_engine_settings.json` | `working_directory` (Included Files) | JSON | `cutscene_load_engine_settings` |
 | `Dialogues/*.yarn` | `working_directory` (Included Files) | Yarn (Chatterbox) | `ChatterboxLoadFromFile` |
 
-Сейвы слотов и `game_state.dat` пишутся атомарно: данные идут в `<file>.tmp`, затем `file_rename` переносит его поверх целевого (fallback — `file_copy` + `file_delete`). `player_settings.dat` атомарности не имеет — `scr_saveSettings` пишет напрямую в целевой файл.
+Сейвы слотов и `game_state.dat` пишутся атомарно: данные идут в `<file>.tmp`, затем `file_rename` переносит его поверх целевого (fallback: `file_copy` + `file_delete`). `player_settings.dat` атомарности не имеет: `scr_saveSettings` пишет напрямую в целевой файл.
 
 ## Сейв `<slot>.txt` { #save-slot }
 
-Слоты — `"save1"`, `"save2"`, `"save3"` (единый список в `scr_save_slot_names`). Путь: `working_directory + global.current_save_slot + ".txt"`. Формат позиционный, строго append-only: новые поля добавляются только перед строкой версии — «шапку» (строки 1–5) позиционно читают `obj_Init` и `scr_save_read_metadata`.
+Слоты: `"save1"`, `"save2"`, `"save3"` (единый список в `scr_save_slot_names`). Путь: `working_directory + global.current_save_slot + ".txt"`. Формат позиционный, строго append-only: новые поля добавляются только перед строкой версии. «Шапку» (строки 1–5) позиционно читают `obj_Init` и `scr_save_read_metadata`.
 
 Текущая версия схемы — `#macro SAVE_FORMAT_VERSION 3` в `scr_saveSave`. Номер версии всегда пишется последней строкой файла.
 
@@ -53,7 +53,7 @@ tags:
 | 13 | Переменные диалогов | JSON object / `""` | `ChatterboxVariablesExport()` |
 | 14 | Версия схемы | real | `SAVE_FORMAT_VERSION` = `3` |
 
-Инвентарь (строка 6) — массив из 8 записей: пустой слот — `null`, предмет — `{ "__type": …, "name": …, "description": … }`. `__type` определяет конструктор при загрузке (`item_deserialize`):
+Инвентарь (строка 6) — массив из 8 записей: пустой слот: `null`, предмет: `{ "__type": …, "name": …, "description": … }`. `__type` определяет конструктор при загрузке (`item_deserialize`):
 
 | `__type` | Дополнительные поля | Конструктор |
 |----------|---------------------|-------------|
@@ -62,7 +62,7 @@ tags:
 | `armor` | `defense` | `ArmorItem` |
 | `food` | `heal`, `amount` | `FoodItem` |
 
-Статы (строка 12) — структура:
+Структура статов (строка 12):
 
 ```json
 {"hp":20,"maxhp":20,"atk":10,"def":10,"base_atk":0,"base_def":0,"lv":1,"gold":0,"name":"HUMAN"}
@@ -77,7 +77,7 @@ tags:
 
 ### Детект версии в `scr_saveLoad`
 
-Все строки после 4-й читаются под guard `file_text_eof` — усечённый или старый файл не обрывает разбор. После строки 11 логика такая:
+Все строки после 4-й читаются под guard `file_text_eof`: усечённый или старый файл не обрывает разбор. После строки 11 логика такая:
 
 1. **EOF** → версия `1`.
 2. Следующая строка непустая и начинается с `{` → раскладка v3: stats JSON, затем строка Chatterbox, затем номер версии.
@@ -86,17 +86,17 @@ tags:
 
 ### Миграция v1/v2 → v3
 
-Отсутствующие секции получают дефолты: playtime `0`, инвентарь — `scr_inventory_init()` (стартовый набор), экипировка — `undefined`, `flag` — `{}`, `plot` — `0`, `entity_state` — `{}`.
+Отсутствующие секции получают дефолты: playtime `0`, инвентарь: `scr_inventory_init()` (стартовый набор), экипировка: `undefined`, `flag`: `{}`, `plot`: `0`, `entity_state`: `{}`.
 
-Статы в v1/v2 не хранились — применяются дефолты сессии (совпадают с `scr_inventory_init`): `stat_hp`/`stat_maxhp` `99`, `stat_base_atk`/`stat_base_def` `0`, `stat_lv` `20`, `stat_gold` `99`, `player_name` `"CHARA"`.
+Статы в v1/v2 не хранились: применяются дефолты сессии (совпадают с `scr_inventory_init`): `stat_hp`/`stat_maxhp` `99`, `stat_base_atk`/`stat_base_def` `0`, `stat_lv` `20`, `stat_gold` `99`, `player_name` `"CHARA"`.
 
 Для сейвов v3 без `base_atk`/`base_def` база выводится из эффективных значений: `max(0, atk − equipped_weapon.damage)` и `max(0, def − equipped_armor.defense)`. Пустая или не-JSON строка Chatterbox → `ChatterboxVariablesResetAll()` + `ChatterboxVariablesClearVisitedAll()`; JSON-строка → `ChatterboxVariablesImport`.
 
 ## `game_state.dat` { #game-state }
 
-Мета-состояние между запусками. Путь: `working_directory + global.game_state_file` — имя `"game_state.dat"` задаёт `obj_Init`; при отсутствии файла по этому пути загрузчик проверяет голый относительный `global.game_state_file` (файл от старой версии).
+Мета-состояние между запусками. Путь: `working_directory + global.game_state_file`; имя `"game_state.dat"` задаёт `obj_Init`; при отсутствии файла по этому пути загрузчик проверяет голый относительный `global.game_state_file` (файл от старой версии).
 
-Формат — строки `key=value`. Читатель разбивает по первому `=`, триммит ключ и значение; применяются только ключи, существующие в дефолтной структуре, неизвестные пропускаются. Значение `"true"`/`"false"` → bool, иначе попытка `real()`, при неудаче — строка как есть.
+Формат — строки `key=value`. Читатель разбивает по первому `=`, триммит ключ и значение; применяются только ключи, существующие в дефолтной структуре, неизвестные пропускаются. Значение `"true"`/`"false"` → bool, иначе попытка `real()`, при неудаче значение остаётся строкой как есть.
 
 | Ключ | Тип | Дефолт | Назначение |
 |------|-----|--------|------------|
@@ -105,9 +105,9 @@ tags:
 
 Записи пишутся в том порядке, в каком их отдаёт `variable_struct_get_names` по переданной структуре.
 
-**Кто пишет:** `obj_saveManager` после сохранения/загрузки слота и при удалении слота (fallback на другой слот), `scr_global_quick_save` — обновляют `last_played_save_slot`. При выходе `obj_globalManager` (Game End, `Other_3`) копирует `global.__total_playtime_seconds` в `total_playtime_seconds` и вызывает `scr_game_state_save`.
+**Кто пишет:** `last_played_save_slot` обновляют `obj_saveManager` (после сохранения/загрузки слота и при удалении слота с fallback на другой слот) и `scr_global_quick_save`. При выходе `obj_globalManager` (Game End, `Other_3`) копирует `global.__total_playtime_seconds` в `total_playtime_seconds` и вызывает `scr_game_state_save`.
 
-`scr_resetGameToDefault` удаляет `game_state.dat` и все слоты, затем ставит `global.clean_state = true`. Game End проверяет этот guard и не пишет файл после полного сброса — иначе wipe отменялся бы на выходе.
+`scr_resetGameToDefault` удаляет `game_state.dat` и все слоты, затем ставит `global.clean_state = true`. Game End проверяет этот guard и не пишет файл после полного сброса, иначе wipe отменялся бы на выходе.
 
 ## Реестр `entity_state` { #entity-state }
 
@@ -124,17 +124,17 @@ tags:
 | `x`, `y` | real | Позиция на момент записи |
 | *custom* | any | Поля из `_custom_fields` сливаются поверх |
 
-**Зарезервированная сущность `"_room"`:** `scr_world_flag_set/get` хранит персистентные комнатные флаги в записи `"<room_name>:_room"` под полем `flags` — `{"flags": {"flag_name": value}}`. Сессионный `global.room_flags` в сейв не входит и сбрасывается при загрузке.
+**Зарезервированная сущность `"_room"`:** `scr_world_flag_set/get` хранит персистентные комнатные флаги в записи `"<room_name>:_room"` под полем `flags` (`{"flags": {"flag_name": value}}`). Сессионный `global.room_flags` в сейв не входит и сбрасывается при загрузке.
 
-**Жизненный цикл:** восстановление — `__entity_state_restore` в `Create_0` и `Other_4` (Room Start) `par_interactable`; запись — `__entity_state_save` в `Other_5` (Room End) и после каждого взаимодействия в `scr_interaction` (инкремент `interaction_count`, добавление `"file:node"` в `seen_dialogues`).
+**Жизненный цикл:** восстановление: `__entity_state_restore` в `Create_0` и `Other_4` (Room Start) `par_interactable`; запись: `__entity_state_save` в `Other_5` (Room End) и после каждого взаимодействия в `scr_interaction` (инкремент `interaction_count`, добавление `"file:node"` в `seen_dialogues`).
 
 ## `player_settings.dat` { #settings-file }
 
-Имя файла — `"player_settings.dat"` (`global.settings_file` в `obj_Init`), относительный путь — `working_directory`. Формат — строки `key=value`; порядок записи — порядок ключей `global.default_settings`.
+Имя файла: `"player_settings.dat"` (`global.settings_file` в `obj_Init`); относительный путь: `working_directory`. Формат: строки `key=value`; порядок записи: порядок ключей `global.default_settings`.
 
-Разбор: первый `=`, trim ключа и значения; неизвестные ключи игнорируются и выпадают при перезаписи. Тип значения выводится из типа дефолта: для bool-ключей `"true"`/`"false"` или число `!= 0`; для real-ключей число либо `"true"`/`"false"` → `1`/`0`; для string — строка как есть.
+Разбор: первый `=`, trim ключа и значения; неизвестные ключи игнорируются и выпадают при перезаписи. Тип значения выводится из типа дефолта: для bool-ключей `"true"`/`"false"` или число `!= 0`; для real-ключей число либо `"true"`/`"false"` → `1`/`0`; для string: строка как есть.
 
-После разбора — валидация: bool-ключ должен остаться bool; real-ключ — real без NaN; значения `input_*` сверяются с `scr_input_normalize_key` (допустимы `-1` — слот пуст — и целые `2..255`; `vk_lshift`/`vk_rshift` сводятся к `vk_shift`; `vk_nokey`, `vk_anykey`, дробные и вне диапазона не проходят) — при расхождении ключ откатывается к дефолту; прочие real-поля клампятся в `0..1`. `need_resave` ставят отсутствие файла, пропущенный ключ и любое исправленное валидацией значение — файл перезаписывается объединёнными настройками.
+После разбора выполняется валидация: bool-ключ должен остаться bool; real-ключ остаётся real без NaN; значения `input_*` сверяются с `scr_input_normalize_key` (допустимы `-1` (слот пуст) и целые `2..255`; `vk_lshift`/`vk_rshift` сводятся к `vk_shift`; `vk_nokey`, `vk_anykey`, дробные и вне диапазона не проходят); при расхождении ключ откатывается к дефолту; прочие real-поля клампятся в `0..1`. `need_resave` ставят отсутствие файла, пропущенный ключ и любое исправленное валидацией значение; файл перезаписывается объединёнными настройками.
 
 | Ключ | Тип | Дефолт | Описание |
 |------|-----|--------|----------|
@@ -145,12 +145,12 @@ tags:
 | `fullscreen` | bool | `false` | Не используется: режим окна задаёт `fullscreen_borderless` |
 | `fullscreen_borderless` | bool | `false` | Безрамочное окно на весь экран |
 | `devload_focus` | bool | `false` | Фокус меню на кнопке загрузки (dev) |
-| `input_<action>1`, `input_<action>2` | real | см. ниже | Код клавиши vk_* / `ord()`; `-1` — слот пуст |
+| `input_<action>1`, `input_<action>2` | real | см. ниже | Код клавиши vk_* / `ord()`; `-1`: слот пуст |
 
-Действия (единый список `scr_input_actions_list`): `up`, `down`, `left`, `right`, `run`, `confirm`, `back`, `menu`, `delete` — у каждого два слота. Дефолтные бинды: `up/down/left/right` — стрелки `vk_up`/`vk_down`/`vk_left`/`vk_right`; `confirm` — `Z` + `vk_enter`; `run` — `vk_shift`; `back` — `X` + `vk_shift`; `menu` — `C` + `vk_escape`; `delete` — `B`. Вторые слоты у `up/down/left/right`, `run` и `delete` пусты (`-1`). В файле коды пишутся десятичными числами (`input_up1=38`, `input_confirm1=90`).
+Действия (единый список `scr_input_actions_list`): `up`, `down`, `left`, `right`, `run`, `confirm`, `back`, `menu`, `delete`, у каждого два слота. Дефолтные бинды: `up/down/left/right`: стрелки `vk_up`/`vk_down`/`vk_left`/`vk_right`; `confirm`: `Z` + `vk_enter`; `run`: `vk_shift`; `back`: `X` + `vk_shift`; `menu`: `C` + `vk_escape`; `delete`: `B`. Вторые слоты у `up/down/left/right`, `run` и `delete` пусты (`-1`). В файле коды пишутся десятичными числами (`input_up1=38`, `input_confirm1=90`).
 
 !!! note "Авто-ресейв файла"
-    `scr_loadSettings` перезаписывает `player_settings.dat`, когда файл отсутствует, ключа нет или значение исправлено валидацией: отсутствующие ключи дописываются, невалидные значения откатываются к дефолту. Неизвестные ключи сами по себе ресейв не вызывают, но при перезаписи стираются; то же со строками без `=` — комментариев в файле быть не должно.
+    `scr_loadSettings` перезаписывает `player_settings.dat`, когда файл отсутствует, ключа нет или значение исправлено валидацией: отсутствующие ключи дописываются, невалидные значения откатываются к дефолту. Неизвестные ключи сами по себе ресейв не вызывают, но при перезаписи стираются; то же со строками без `=`: комментариев в файле быть не должно.
 
 ## Cutscene JSON { #cutscene-json }
 
@@ -174,7 +174,7 @@ tags:
 
 ### Массив `actions`
 
-Каждый элемент — объект `{ "type": <имя>, ... }`; остальные поля зависят от типа и разбираются фабрикой `cutscene_action_factory` — полный список в [JSON-действиях](../cutscenes/json-actions.md).
+Каждый элемент — объект `{ "type": <имя>, ... }`; остальные поля зависят от типа и разбираются фабрикой `cutscene_action_factory` (полный список: [JSON-действия](../cutscenes/json-actions.md)).
 
 Служебные элементы схемы экспортёра: `{"type": "start"}` — не действие; у первого элемента из него читается `debug` (bool, включает лог менеджера); `{"type": "end"}` — конец списка, действия после него не выполняются.
 
@@ -199,7 +199,7 @@ tags:
 
 | Поле | Тип | Дефолт | Назначение |
 |------|-----|--------|------------|
-| `schema_version` | real | `1` | Больше поддерживаемой — warning, файл читается как есть |
+| `schema_version` | real | `1` | Больше поддерживаемой: warning, файл читается как есть |
 | `engine_version` | string | `"1.0.0"` | Зарезервировано, потребителей нет |
 | `default_fps` | real | `60` | FPS по умолчанию; вне `1..240` → `60` |
 | `strict_mode_default` | bool | `false` | Зарезервировано (strict-валидация не реализована) |
@@ -212,7 +212,7 @@ tags:
 
 ## Yarn-диалоги { #yarn }
 
-Файлы лежат в `datafiles/Dialogues/*.yarn`; `CHATTERBOX_INCLUDED_FILES_SUBDIRECTORY` = `"Dialogues"` — загрузка идёт по имени файла через `ChatterboxLoadFromFile("testDialogue.yarn")`. `obj_Init` грузит `testDialogue.yarn` при старте; остальные файлы подгружает `textboxTest_scribble` по запросу (`dialogue_filename`), если файл ещё не в системе (`ChatterboxIsLoaded`). Точка входа в диалог — `readDialogue(filename, node)`.
+Файлы лежат в `datafiles/Dialogues/*.yarn`; `CHATTERBOX_INCLUDED_FILES_SUBDIRECTORY` = `"Dialogues"`: загрузка идёт по имени файла через `ChatterboxLoadFromFile("testDialogue.yarn")`. `obj_Init` грузит `testDialogue.yarn` при старте; остальные файлы подгружает `textboxTest_scribble` по запросу (`dialogue_filename`), если файл ещё не в системе (`ChatterboxIsLoaded`). Точка входа в диалог — `readDialogue(filename, node)`.
 
 ### Структура узла
 
@@ -232,13 +232,13 @@ Chara [chara:question]: Текст реплики с [wave]разметкой[/w
 ===
 ```
 
-- **Заголовки** — строки `key: value` до разделителя `---`. Обязателен `title:` (имя узла для `<<jump>>`/`readDialogue`); `__PrivCrochet_*` — служебные поля редактора Crochet (позиция, цвет, теги), Chatterbox читает их как обычные заголовки.
-- **`---`** — конец заголовков, дальше тело узла.
-- **`===`** — конец узла; следующий блок заголовков открывает новый узел.
-- **`#`** — начало метаданных до конца строки (`\#` экранирует; файловый тег `#__PrivCrochet_version:1` — такой же маркер), **`//`** — комментарий до конца строки (внутри `<< >>` не действует). Оба маркера срабатывают в любом месте строки, не только в её начале.
-- **`->`** — вариант выбора; его тело — строки с большим отступом.
-- **`<< >>`** — команда: `<<jump Node>>`, `<<wait>>`, `<<set>>` и произвольные вызовы. `CHATTERBOX_ACTION_MODE` = `1` — содержимое исполняется как выражение; функции должны быть зарегистрированы `ChatterboxAddFunction`. `cutscene_register_chatterbox_functions` (вызывается в `obj_Init`) регистрирует мост катсцен: `c_begin`, `c_play`, `c_end`, `c_wait`, `c_walk`, `c_waittalk`, `c_speaker`, `c_facing`, `c_emote`, `c_sfx`, `c_soundplay`, `c_var`, `c_var_lerp_to`, `c_tween`, `c_fadein`, `c_fadeout`, `cutscene_play_json` и др.
-- **Реплика** — `Спикер [code:emotion]: текст`. Текстбокс разбирает строку через `ChatterboxGetContentSpeaker` (имя) и `ChatterboxGetContentSpeakerData` (содержимое `[...]` → `scr_parse_emote` выбирает портрет); `[тег]`-вставки внутри реплики (`[wave]`, `[delay, 400]`, `[c_red]`) — разметка Scribble, литеральная скобка экранируется `[[`.
+- **Заголовки**: строки `key: value` до разделителя `---`. Обязателен `title:` (имя узла для `<<jump>>`/`readDialogue`); `__PrivCrochet_*`: служебные поля редактора Crochet (позиция, цвет, теги), Chatterbox читает их как обычные заголовки.
+- **`---`**: конец заголовков, дальше тело узла.
+- **`===`**: конец узла; следующий блок заголовков открывает новый узел.
+- **`#`**: начало метаданных до конца строки (`\#` экранирует; файловый тег `#__PrivCrochet_version:1`, такой же маркер), **`//`**: комментарий до конца строки (внутри `<< >>` не действует). Оба маркера срабатывают в любом месте строки, не только в её начале.
+- **`->`**: вариант выбора; его тело — строки с большим отступом.
+- **`<< >>`**: команда: `<<jump Node>>`, `<<wait>>`, `<<set>>` и произвольные вызовы. `CHATTERBOX_ACTION_MODE` = `1`: содержимое исполняется как выражение; функции должны быть зарегистрированы `ChatterboxAddFunction`. `cutscene_register_chatterbox_functions` (вызывается в `obj_Init`) регистрирует мост катсцен: `c_begin`, `c_play`, `c_end`, `c_wait`, `c_walk`, `c_waittalk`, `c_speaker`, `c_facing`, `c_emote`, `c_sfx`, `c_soundplay`, `c_var`, `c_var_lerp_to`, `c_tween`, `c_fadein`, `c_fadeout`, `cutscene_play_json` и др.
+- **Реплика**: `Спикер [code:emotion]: текст`. Текстбокс разбирает строку через `ChatterboxGetContentSpeaker` (имя) и `ChatterboxGetContentSpeakerData` (содержимое `[...]` → `scr_parse_emote` выбирает портрет); `[тег]`-вставки внутри реплики (`[wave]`, `[delay, 400]`, `[c_red]`) — разметка Scribble, литеральная скобка экранируется `[[`.
 - Переменные узлов и visited-метки попадают в сейв строкой 13 (`ChatterboxVariablesExport`/`ChatterboxVariablesImport`).
 
 ## См. также

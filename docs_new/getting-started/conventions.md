@@ -8,7 +8,7 @@ tags:
 
 # Конвенции кода
 
-Правила именования и оформления кода в `Undefinedtale888/`. Формальный стандарт зафиксирован в `guide.md` в корне проекта; ниже — то, что реально соблюдено в коде, с расхождениями.
+Правила именования и оформления кода в `Undefinedtale888/`. Формальный стандарт зафиксирован в `guide.md` в корне проекта; ниже приведено то, что реально соблюдено в коде, с расхождениями.
 
 ## Именование ресурсов { #naming-assets }
 
@@ -27,14 +27,14 @@ tags:
 | `shd_` | Шейдеры | `shd_grayscale`, `shd_p3r_glow`, `shd_Chara_Eyes` |
 
 !!! note "Фактические исключения"
-    Часть ресурсов именуется без префикса или по-своему: объекты `bush`, `npc1`, `npc2`, `pinkBench`, `sand`, `screenshot`, `textboxTest_scribble`, `spr_pinkBench` (объект с именем в спрайтовом префиксе), `objRoomChanger` (camelCase без подчёркивания); комнаты `DevRoom1`, `SCREENSHOTS`, `roomForDialogueTesting`; музыка встречается и как `mus_`, и как `music_`; спрайты `bush2`, `npc`, `kachela` без `spr_`. `guide.md` предписывает `fnt_`/`snd_`/`shd_`/`tls_`, но шрифты фактически идут как `ft_*`, а тайлсеты — `grassTile`, `ts_main`.
+    Часть ресурсов именуется без префикса или по-своему: объекты `bush`, `npc1`, `npc2`, `pinkBench`, `sand`, `screenshot`, `textboxTest_scribble`, `spr_pinkBench` (объект с именем в спрайтовом префиксе), `objRoomChanger` (camelCase без подчёркивания); комнаты `DevRoom1`, `SCREENSHOTS`, `roomForDialogueTesting`; музыка встречается и как `mus_`, и как `music_`; спрайты `bush2`, `npc`, `kachela` без `spr_`. `guide.md` предписывает `fnt_`/`snd_`/`shd_`/`tls_`, но шрифты фактически идут как `ft_*`, а тайлсеты: `grassTile`, `ts_main`.
 
 ## Именование в коде { #naming-code }
 
 | Конвенция | Где | Пример |
 |---|---|---|
 | `_param` / `_tmp` | Аргументы функций и локальные временные | `cutscene_load_json(_path)`, `var _buf`, `var _normalized_path` |
-| `camelCase`/`snake_case` | Локальные и инстанс-переменные — в коде встречаются оба стиля | `menu_cursor_target_y`, `can_move`, `move_active`, `itemType` |
+| `camelCase`/`snake_case` | Локальные и инстанс-переменные: в коде встречаются оба стиля | `menu_cursor_target_y`, `can_move`, `move_active`, `itemType` |
 | `global.*` | Глобальное состояние | `global.game_state`, `global.input_map`, `global.player_settings` |
 | `global.__*` | Внутренние глобалы подсистем | `global.__cutscene_build_mgr`, `global.__music_volume`, `global.__init_done` |
 | `__name` | Приватные функции и макросы внутри подсистемы | `__cutscene_resolve_target`, `#macro __CUTSCENE_EPSILON`, `__shd_scribble*` (Scribble), `__Chatterbox*` (Chatterbox) |
@@ -42,7 +42,7 @@ tags:
 | `PascalCase` | Имена enum | `ITEMTYPE`, `PLAYER_AXIS_FSM` |
 
 !!! note "Смысл двойного подчёркивания"
-    `__` — маркер «не для внешнего использования»: у библиотек это весь внутренний слой (`__ChatterboxClassInstruction`, `__scribble_class_typist`), у своего кода — хелперы внутри файла (`__cutscene_get_resolver` в `scr_cutscene_classes.gml`) и служебные глобалы (`global.__cutscene_checkpoints`).
+    `__` служит маркером «не для внешнего использования»: у библиотек это весь внутренний слой (`__ChatterboxClassInstruction`, `__scribble_class_typist`), у своего кода: хелперы внутри файла (`__cutscene_get_resolver` в `scr_cutscene_classes.gml`) и служебные глобалы (`global.__cutscene_checkpoints`).
 
 ## JSDoc-комментарии { #jsdoc }
 
@@ -77,32 +77,32 @@ function cutscene_load_json(_path) {
 
 ## Регионы и структура файлов { #regions }
 
-`#region`/`#endregion` используются в 52 файлах — и в библиотеках, и в своих скриптах. Крупные модули делят на именованные блоки:
+`#region`/`#endregion` используются в 52 файлах, как в библиотеках, так и в своих скриптах. Крупные модули делят на именованные блоки:
 
-- `scr_cutscene_classes.gml` — по региону на класс действия: `#region ActionSetAnimationFrame`, `#region ActionMoveRelative — движение актёра относительно текущей позиции (dx/dy)`.
-- `scr_music_init.gml` — фазы инициализации: `#region Защита повторной инициализации`, `#region Room-to-Track mapping`.
-- `cutscene_action_factory.gml`, `scr_settings_step_root.gml`, `scr_saveLoad.gml` — аналогично.
+- `scr_cutscene_classes.gml` делится на регионы по классам действий: `#region ActionSetAnimationFrame`, `#region ActionMoveRelative — движение актёра относительно текущей позиции (dx/dy)`.
+- `scr_music_init.gml` делится на фазы инициализации: `#region Защита повторной инициализации`, `#region Room-to-Track mapping`.
+- `cutscene_action_factory.gml`, `scr_settings_step_root.gml`, `scr_saveLoad.gml` разбиты аналогично.
 
 ## Правила проекта { #project-rules }
 
-Файлов правил для агентов (`AGENTS.md`, `.windsurf/`, `.devin/rules/`) в репозитории игры нет. Действующий стандарт — `Undefinedtale888/guide.md`; из него и из фактического кода:
+Файлов правил для агентов (`AGENTS.md`, `.windsurf/`, `.devin/rules/`) в репозитории игры нет. Действующий стандарт: `Undefinedtale888/guide.md`; из него и из фактического кода:
 
-- **Заголовки `///` обязательны** для экспортируемых функций; их отсутствие — «блокирующая ошибка» на ревью.
-- **Инициализация в `Create`, освобождение в `Clean Up`** — `ds_*`-структуры уничтожаются явно, утечки запрещены.
-- **Guard clauses вместо исключений** — проверка входных данных в начале функции, ранний возврат с `show_debug_message` (`cutscene_load_json` возвращает `noone`; в `cutscene_add` отброшенный action логируется только при `global.debug`).
-- **Глобалы объявляются в `obj_Init`** — `obj_Init/Create_0.gml` — «единое место инициализации» (`scr_settingsManager.gml` прямо фиксирует это в комментарии); единственное задокументированное исключение — `global.default_settings`, присваиваемый телом скрипта при загрузке программы.
-- **Тексты не хардкодить** — строки выносятся в данные (Yarn/JSON).
-- **Магические числа — в `#macro`/константы** (`__CUTSCENE_*`, `SAVE_FORMAT_VERSION`, `MANAGER_DEPTH`).
-- **Префиксы ресурсов** — таблица выше; статический аудит по `guide.md` проверяет соответствие `obj_`/`spr_`/`snd_`/`rm_`/`scr_`/`shd_`/`fnt_`/`tls_`.
+- Заголовки `///` обязательны для экспортируемых функций; их отсутствие считается «блокирующей ошибкой» на ревью.
+- Инициализация в `Create`, освобождение в `Clean Up`: `ds_*`-структуры уничтожаются явно, утечки запрещены.
+- Guard clauses вместо исключений: проверка входных данных в начале функции, ранний возврат с `show_debug_message` (`cutscene_load_json` возвращает `noone`; в `cutscene_add` отброшенный action логируется только при `global.debug`).
+- Глобалы объявляются в `obj_Init`: `obj_Init/Create_0.gml` служит «единым местом инициализации» (`scr_settingsManager.gml` прямо фиксирует это в комментарии); единственное задокументированное исключение: `global.default_settings`, присваиваемый телом скрипта при загрузке программы.
+- Тексты не хардкодить: строки выносятся в данные (Yarn/JSON).
+- Магические числа выносятся в `#macro`/константы (`__CUTSCENE_*`, `SAVE_FORMAT_VERSION`, `MANAGER_DEPTH`).
+- Префиксы ресурсов: см. таблицу выше; статический аудит по `guide.md` проверяет соответствие `obj_`/`spr_`/`snd_`/`rm_`/`scr_`/`shd_`/`fnt_`/`tls_`.
 
 !!! info "Метки аудита в комментариях"
-    Комментарии местами ссылаются на идентификаторы находок аудита — `(F-535)`, `(E-V03)`, `(F-055)`. Это ссылки на `audit_2026-09/`, а не часть стандарта именования.
+    Комментарии местами ссылаются на идентификаторы находок аудита: `(F-535)`, `(E-V03)`, `(F-055)`. Это ссылки на `audit_2026-09/`, а не часть стандарта именования.
 
 ## Кодировка и концы строк { #encoding }
 
-- `.gitattributes` проекта принудительно ставит **LF** для `*.gml`, `*.yy`, `*.yyp`, `*.json` (`text eol=lf`); корневой `.gitattributes` репозитория добавляет `* text=auto`. CRLF в коммитах не ожидаются.
-- Исходники — **UTF-8**: комментарии и строки на русском.
-- **BOM** допустим во входных JSON: `cutscene_load_json` срезает сигнатуру UTF-8 BOM `EF BB BF` по байтам буфера до `buffer_read` — `buffer_text` иначе декодировал бы BOM в символ `U+FEFF` в начале текста.
+- `.gitattributes` проекта принудительно ставит LF для `*.gml`, `*.yy`, `*.yyp`, `*.json` (`text eol=lf`); корневой `.gitattributes` репозитория добавляет `* text=auto`. CRLF в коммитах не ожидаются.
+- Исходники в UTF-8: комментарии и строки на русском.
+- BOM допустим во входных JSON: `cutscene_load_json` срезает сигнатуру UTF-8 BOM `EF BB BF` по байтам буфера до `buffer_read`: `buffer_text` иначе декодировал бы BOM в символ `U+FEFF` в начале текста.
 
 ## См. также
 

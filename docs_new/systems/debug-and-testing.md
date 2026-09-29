@@ -14,17 +14,17 @@ tags:
 
 ## Обзор
 
-- **Флаг** — `global.debug`: инициализируется в `obj_Init` из `global.player_settings.debug_enabled`, включается комбинацией `F12` ×5 или пунктом настроек.
-- **Диспетчер хоткеев** — `scr_global_debug_hotkeys()`, вызывается каждый Step из `obj_globalManager/Step_0` и сразу выходит при `global.debug == false`. `F8` обрабатывается отдельно — `scr_player_debug_ghost()` в `Step_0` `obj_player`, т.к. мутирует инстанс-поля игрока.
-- **Dev-спавн** — канал `global.__dev_spawn` + `__dev_spawn_x/y/facing`; применяет `scr_global_handle_dev_spawn()` (Step `obj_globalManager`).
-- **Тесты** — каталог `scr_test_catalog()` + раннер в `obj_cutsceneTest` (меню по `F10`).
+- **Флаг** `global.debug`: инициализируется в `obj_Init` из `global.player_settings.debug_enabled`, включается комбинацией `F12` ×5 или пунктом настроек.
+- **Диспетчер хоткеев**: `scr_global_debug_hotkeys()`, вызывается каждый Step из `obj_globalManager/Step_0` и сразу выходит при `global.debug == false`. `F8` обрабатывается отдельно: `scr_player_debug_ghost()` в `Step_0` `obj_player`, т.к. мутирует инстанс-поля игрока.
+- **Dev-спавн**: канал `global.__dev_spawn` + `__dev_spawn_x/y/facing`; применяет `scr_global_handle_dev_spawn()` (Step `obj_globalManager`).
+- **Тесты**: каталог `scr_test_catalog()` + раннер в `obj_cutsceneTest` (меню по `F10`).
 
 ## Активация `global.debug`
 
-`scr_debug_activation_check()` (`obj_globalManager/Step_0`) считает нажатия `vk_f12`: каждое нажатие инкрементирует `global.__debug_activation_count` и заново взводит `global.__debug_activation_timer = 2.0` (секунды, отсчёт по `delta_time`) — окно скользящее, достаточно не делать пауз дольше 2 с между нажатиями; при истечении таймера счётчик сбрасывается. Пять нажатий включают `global.debug`. При активации:
+`scr_debug_activation_check()` (`obj_globalManager/Step_0`) считает нажатия `vk_f12`: каждое нажатие инкрементирует `global.__debug_activation_count` и заново взводит `global.__debug_activation_timer = 2.0` (секунды, отсчёт по `delta_time`): окно скользящее, достаточно не делать пауз дольше 2 с между нажатиями; при истечении таймера счётчик сбрасывается. Пять нажатий включают `global.debug`. При активации:
 
-1. `global.player_settings.debug_enabled = true` и `scr_saveSettings()` — debug переживает перезапуск.
-2. Если открыт `obj_settingsManager`, синхронизируется `local_settings.debug_enabled` — иначе apply из меню откатил бы флаг.
+1. `global.player_settings.debug_enabled = true` и `scr_saveSettings()`: debug переживает перезапуск.
+2. Если открыт `obj_settingsManager`, синхронизируется `local_settings.debug_enabled`, иначе apply из меню откатил бы флаг.
 3. Уведомление `"Debug is active"` через `global.show_notification`.
 
 Второй путь — пункт `debug` в меню настроек (`obj_settingsManager`), переключающий `local_settings.debug_enabled` + `apply_and_save_settings()`. Пункт заблокирован при `global.clean_state == true` («режим тестера» после `scr_resetGameToDefault`), если `global.debug` ещё не включён. Комбинация `F12` `clean_state` не проверяет.
@@ -36,50 +36,50 @@ tags:
 | Клавиша | Действие | Реализация |
 |---------|----------|------------|
 | `F12` ×5, паузы < 2 с | Включить `global.debug` | `scr_debug_activation_check` |
-| `F1` | Toggle `global.debug_show_info` — оверлей FPS, depth игрока, имя комнаты, позиция | `scr_toggle_debug_flag`, отрисовка в `obj_globalManager/Draw_64` |
-| `F2` | Toggle `global.debug_show_colliders` — bbox `obj_collider` (красный) и `par_interactable` (жёлтый) в GUI-координатах | `draw_debug_collider` (`scr_debug_draw_helpers`) |
-| `F3` | Toggle `global.debug_show_hitbox` — bbox игрока от текущего спрайта и маркер взаимодействия | `scr_toggle_debug_flag` |
-| `F4` | `game_restart()` — полный перезапуск; `obj_Init` в `rm_init` проходит инициализацию заново | инлайн в `scr_global_debug_hotkeys` |
+| `F1` | Toggle `global.debug_show_info`: оверлей FPS, depth игрока, имя комнаты, позиция | `scr_toggle_debug_flag`, отрисовка в `obj_globalManager/Draw_64` |
+| `F2` | Toggle `global.debug_show_colliders`: bbox `obj_collider` (красный) и `par_interactable` (жёлтый) в GUI-координатах | `draw_debug_collider` (`scr_debug_draw_helpers`) |
+| `F3` | Toggle `global.debug_show_hitbox`: bbox игрока от текущего спрайта и маркер взаимодействия | `scr_toggle_debug_flag` |
+| `F4` | `game_restart()`: полный перезапуск; `obj_Init` в `rm_init` проходит инициализацию заново | инлайн в `scr_global_debug_hotkeys` |
 | `F5` | Предыдущая игровая комната | `__debug_jump_room(-1)` |
 | `F6` | Следующая игровая комната | `__debug_jump_room(1)` |
-| `F7` | Быстрый сейв в текущий слот | `scr_global_quick_save()` — см. [Система сохранений](save-system.md) |
+| `F7` | Быстрый сейв в текущий слот | `scr_global_quick_save()` (см. [Система сохранений](save-system.md)) |
 | `F8` | Toggle режима призрака у игрока | `scr_player_debug_ghost` (Step `obj_player`) |
-| `F9` | Toggle `global.debug_show_music` — оверлей музыкального движка | `obj_music_ctrl/Draw_64` |
+| `F9` | Toggle `global.debug_show_music`: оверлей музыкального движка | `obj_music_ctrl/Draw_64` |
 | `F10` | Меню тестов катсцен `obj_cutsceneTest` | создаёт инстанс на `scr_layer_ensure_instances()`, если его нет в комнате |
-| `Q` | Toggle безрамочного окна (`fullscreen_borderless`) | `scr_global_toggle_fullscreen` — отдельный вызов в `obj_globalManager/Step_0` под `global.debug` |
+| `Q` | Toggle безрамочного окна (`fullscreen_borderless`) | `scr_global_toggle_fullscreen`: отдельный вызов в `obj_globalManager/Step_0` под `global.debug` |
 
-`F5`/`F6` идут через `scr_get_next_game_room(direction)`, который шагает `room_next`/`room_previous` и пропускает служебные комнаты фильтром `scr_room_is_dev_navigation_excluded` (`global.__service_menu_rooms` + `rm_init` + `SCREENSHOTS`). Перед `room_goto` взводится dev-спавн с `undefined`-координатами — игрок окажется в центре целевой комнаты с `facing = DIR.DOWN`.
+`F5`/`F6` идут через `scr_get_next_game_room(direction)`, который шагает `room_next`/`room_previous` и пропускает служебные комнаты фильтром `scr_room_is_dev_navigation_excluded` (`global.__service_menu_rooms` + `rm_init` + `SCREENSHOTS`). Перед `room_goto` взводится dev-спавн с `undefined`-координатами: игрок окажется в центре целевой комнаты с `facing = DIR.DOWN`.
 
-Переключить любой флаг вручную: `scr_toggle_debug_flag("debug_show_colliders")` — инвертирует `global[$ flag_name]`, при неизвестном имени пишет warning в лог.
+Переключить любой флаг вручную: `scr_toggle_debug_flag("debug_show_colliders")`: инвертирует `global[$ flag_name]`, при неизвестном имени пишет warning в лог.
 
 ## Dev-спавн и `rm_devLoad`
 
 Канал спавна — четыре глобала (дефолты в `obj_Init`):
 
-- `global.__dev_spawn` — флаг «после следующего `room_goto` спавнить игрока»;
-- `global.__dev_spawn_x` / `__dev_spawn_y` — `undefined` означает центр целевой комнаты (`room_width/2`, `room_height/2` считаются уже после перехода);
-- `global.__dev_spawn_facing` — направление (`global.DIR.*`), дефолта нет: все писатели выставляют его в том же кадре.
+- `global.__dev_spawn`: флаг «после следующего `room_goto` спавнить игрока»;
+- `global.__dev_spawn_x` / `__dev_spawn_y`: `undefined` означает центр целевой комнаты (`room_width/2`, `room_height/2` считаются уже после перехода);
+- `global.__dev_spawn_facing`: направление (`global.DIR.*`); дефолта нет: все писатели выставляют его в том же кадре.
 
-`scr_global_handle_dev_spawn()` в Step `obj_globalManager` срабатывает один раз на флаг: если `obj_player` существует — переставляет его (обнуляет `xspd`/`yspd`, фракции, `can_move = true`, спрайт по `scr_sprite_for_facing(facing)`), иначе создаёт инстанс на слое `scr_layer_ensure_instances()`. Писатели канала: `F5`/`F6`, `obj_devLoader`, `scr_saveLoad` (прокидывает `global.__next_spawn_*` из сейва), `scr_defaultLoad`, возврат из теста (`obj_cutsceneTest`).
+`scr_global_handle_dev_spawn()` в Step `obj_globalManager` срабатывает один раз на флаг: если `obj_player` существует, переставляет его (обнуляет `xspd`/`yspd`, фракции, `can_move = true`, спрайт по `scr_sprite_for_facing(facing)`), иначе создаёт инстанс на слое `scr_layer_ensure_instances()`. Писатели канала: `F5`/`F6`, `obj_devLoader`, `scr_saveLoad` (прокидывает `global.__next_spawn_*` из сейва), `scr_defaultLoad`, возврат из теста (`obj_cutsceneTest`).
 
-`rm_devLoad` — комната-меню выбора комнаты для прыжка. `RoomCreationCode` создаёт `obj_devLoader` (не `persistent`), тот собирает список из `global.rooms_by_name` (fallback — обход `room_first`/`room_next`), фильтрует тем же `scr_room_is_dev_navigation_excluded` и сортирует по имени. Список — две колонки, навигация через `scr_ui_read_actions` + `scr_ui_list_controller`; `confirm` взводит dev-спавн (`undefined`-координаты, `DIR.UP`) и делает `room_goto`, `back` возвращает в `rm_savesSelect`. Вход — пункт `DEV-LOAD` в конце списка слотов `obj_saveManager`, виден только в режиме загрузки (не `SAVEMENU_MODE.SAVE`) при `global.debug`.
+`rm_devLoad` — комната-меню выбора комнаты для прыжка. `RoomCreationCode` создаёт `obj_devLoader` (не `persistent`), тот собирает список из `global.rooms_by_name` (fallback: обход `room_first`/`room_next`), фильтрует тем же `scr_room_is_dev_navigation_excluded` и сортирует по имени. Список — две колонки, навигация через `scr_ui_read_actions` + `scr_ui_list_controller`; `confirm` взводит dev-спавн (`undefined`-координаты, `DIR.UP`) и делает `room_goto`, `back` возвращает в `rm_savesSelect`. Вход — пункт `DEV-LOAD` в конце списка слотов `obj_saveManager`, виден только в режиме загрузки (не `SAVEMENU_MODE.SAVE`) при `global.debug`.
 
 ## Режим призрака (`F8`)
 
-У игрока два канала: `debug_ghost` — ручной toggle по `F8` (`scr_player_debug_ghost`, Step `obj_player`), `transition_ghost` — принудительное окно антизастревания на 16 кадров после смены комнаты (взводит `scr_global_on_room_change`, снимает `scr_global_transition_safety`). Эффективное значение — `ghost_mode = debug_ghost || transition_ghost`; его читает `scr_player_movement` (пропуск коллизий).
+У игрока два канала: `debug_ghost`: ручной toggle по `F8` (`scr_player_debug_ghost`, Step `obj_player`); `transition_ghost`: принудительное окно антизастревания на 16 кадров после смены комнаты (взводит `scr_global_on_room_change`, снимает `scr_global_transition_safety`). Эффективное значение — `ghost_mode = debug_ghost || transition_ghost`; его читает `scr_player_movement` (пропуск коллизий).
 
 !!! warning "F8 не снимает transition-окно"
-    `F8` переключает только `debug_ghost`: пока не истекло 16-кадровое окно `transition_ghost`, `ghost_mode` остаётся включённым — защита от застревания не гасится клавишей.
+    `F8` переключает только `debug_ghost`: пока не истекло 16-кадровое окно `transition_ghost`, `ghost_mode` остаётся включённым: защита от застревания не гасится клавишей.
 
 ## Скриншоты комнат: `screenshot` и `SCREENSHOTS`
 
-Комната `SCREENSHOTS` в `RoomCreationCode` создаёт объект `screenshot` (`persistent` — переживает `room_goto`). Это state machine, которая проходит все игровые комнаты и пишет каждую тайлами в `working_directory/screenshots/`:
+Комната `SCREENSHOTS` в `RoomCreationCode` создаёт объект `screenshot` (`persistent`, переживает `room_goto`). Это state machine, которая проходит все игровые комнаты и пишет каждую тайлами в `working_directory/screenshots/`:
 
-1. `boot` — очищает папку вывода, собирает очередь комнат обходом `room_first`→`room_next`. Фильтр — `scr_room_is_dev_navigation_excluded` плюс `capture_extra_excluded_rooms` = `rm_cutsceneTest`, `roomForDialogueTesting`, `DevRoom1`.
+1. `boot`: очищает папку вывода, собирает очередь комнат обходом `room_first`→`room_next`. Фильтр — `scr_room_is_dev_navigation_excluded` плюс `capture_extra_excluded_rooms` = `rm_cutsceneTest`, `roomForDialogueTesting`, `DevRoom1`.
 2. При создании включает `global.cutscene_camera_override` (хранит прежнее значение для отката). В каждой комнате: снимает follow-target с `view_camera[0]` (`camera_set_view_target`), считает сетку, пишет meta, прячет игрока (`image_alpha = 0`), ждёт `room_settle_frames = 8` кадров.
-3. Комната режется сеткой `capture_rows × capture_cols` по размеру viewport; на каждый тайл — `camera_set_view_pos`, `camera_settle_frames = 2` кадра, затем `screen_save` в Draw GUI (оверлей в кадр не попадает).
-4. Файлы: `room_name-rNNN-cNNN.png` + `room_name-meta.json` (`room_name`, `file_prefix`, `room_width/height`, `capture_width/height`, `rows`, `cols`, `naming`) — метаданные для сборки полного изображения комнаты в редакторе.
-5. `ESC` — abort. По завершении runner возвращается в `entry_room`; при запуске из `SCREENSHOTS` возврата нет — статус висит 120 кадров, затем инстанс удаляется. Clean Up восстанавливает `cutscene_camera_override`, camera target и состояние игрока.
+3. Комната режется сеткой `capture_rows × capture_cols` по размеру viewport; на каждый тайл: `camera_set_view_pos`, `camera_settle_frames = 2` кадра, затем `screen_save` в Draw GUI (оверлей в кадр не попадает).
+4. Файлы: `room_name-rNNN-cNNN.png` + `room_name-meta.json` (`room_name`, `file_prefix`, `room_width/height`, `capture_width/height`, `rows`, `cols`, `naming`): метаданные для сборки полного изображения комнаты в редакторе.
+5. `ESC`: abort. По завершении runner возвращается в `entry_room`; при запуске из `SCREENSHOTS` возврата нет: статус висит 120 кадров, затем инстанс удаляется. Clean Up восстанавливает `cutscene_camera_override`, camera target и состояние игрока.
 
 ## Тест-фреймворк катсцен
 
@@ -92,15 +92,15 @@ tags:
 |--------|------------|
 | `scr_test_framework` | База: `scr_test_init(name)`, `scr_test_assert(cond, msg)`, `scr_test_assert_true`, `scr_test_assert_eq`, `scr_test_current_failed`, `scr_test_results_clear`, `scr_test_print_summary`, `scr_test_snapshot_state` / `scr_test_restore_state` |
 | `scr_test_asserts` | Доменные ассерты: позиция/facing/visible/depth/спрайт/переменные актёра, `actor_exists`, `flag`/`plot`, камера (at/centered/tracking/shake), музыка (playing/stopped/paused/volume/pitch/duck/intensity), эмоции, диалог (open/closed/speed/flags/emotion), `mark_node`, fade, произвольный global, очередь interact. Плюс хелперы `scr_test_remember_position`, `scr_test_simulate_action_press`, `scr_test_simulate_interact`, `scr_test_set_global_var`, `scr_test_set_skippable`, `scr_test_rapid_restart` |
-| `scr_test_runner` | Очередь Run All: `scr_test_runner_build_all()`, `scr_test_runner_build_category(category)`, `scr_test_runner_start_test(item)` — для `fn`-теста вызывает функцию напрямую, для `json` — `cutscene_load_json` + `start_cutscene` |
-| `scr_test_catalog` | `scr_test_catalog()` — массив записей `{ id, label, json|fn, category, desc, expect_fail? }` |
+| `scr_test_runner` | Очередь Run All: `scr_test_runner_build_all()`, `scr_test_runner_build_category(category)`, `scr_test_runner_start_test(item)`: для `fn`-теста вызывает функцию напрямую, для `json`: `cutscene_load_json` + `start_cutscene` |
+| `scr_test_catalog` | `scr_test_catalog()`: массив записей `{ id, label, json|fn, category, desc, expect_fail? }` |
 | `scr_stress_tests` | GML-стресс-тесты: строят менеджеров катсцен программно из `Action`-структур для ассертов посреди проигрывания |
 
 `scr_test_snapshot_state()` сохраняет в `global.__test_state_snapshot` клоны `flag`, `entity_state`, `inventory`, статов `stat_*`, экипировки, `player_name`, `current_save_slot` и экспорт Chatterbox (`ChatterboxVariablesExport`); `scr_test_restore_state()` возвращает всё обратно, дёргает `scr_stats_recalc()` и удаляет тестовые файлы `save_test_v3.txt`/`save99.txt`.
 
 ### Каталог тестов
 
-`scr_test_catalog()` возвращает 123 записи. Категории собираются в меню динамически — новая категория появляется сама.
+`scr_test_catalog()` возвращает 123 записи. Категории собираются в меню динамически: новая категория появляется сама.
 
 ??? note "Полный каталог по категориям (123 теста)"
     | Категория | Кол-во | Тесты (`id`) |
@@ -121,17 +121,17 @@ tags:
     | `stress_dialogue` | 1 | `stress_dialogue_nonblocking` |
     | `stress_gameplay` | 1 | `stress_inventory_stats` |
 
-JSON-тесты лежат в `datafiles/cutscenes/tests/` (стресс-кейсы — `tests/stress/`); ассерты внутри JSON вызываются действием `run_function` с именем `scr_test_assert_*`.
+JSON-тесты лежат в `datafiles/cutscenes/tests/` (стресс-кейсы: `tests/stress/`); ассерты внутри JSON вызываются действием `run_function` с именем `scr_test_assert_*`.
 
-## `obj_cutsceneTest` — меню тестов (`F10`)
+## `obj_cutsceneTest`: меню тестов (`F10`)
 
-Инстанс размещён в `rm_cutsceneTest` и `DevRoom1` (там меню открывается по `confirm` в радиусе `interact_radius = 50` — подсказка `SPACE`); `F10` переключает `menu_open` у существующего или создаёт объект в любой комнате, при открытом меню игрок замораживается (`can_move = false`).
+Инстанс размещён в `rm_cutsceneTest` и `DevRoom1` (там меню открывается по `confirm` в радиусе `interact_radius = 50`, подсказка `SPACE`); `F10` переключает `menu_open` у существующего или создаёт объект в любой комнате, при открытом меню игрок замораживается (`can_move = false`).
 
-**Меню** (ввод `scr_ui_read_actions`): `←`/`→` — категория (`ALL` + все из каталога), `↑`/`↓` — пункт с прокруткой, `confirm` — запуск, `back` — закрыть. Первый пункт — `▶ Run All Tests` / `▶ Run Category Tests` по выбранной категории.
+**Меню** (ввод `scr_ui_read_actions`): `←`/`→`: категория (`ALL` + все из каталога); `↑`/`↓`: пункт с прокруткой; `confirm`: запуск; `back`: закрыть. Первый пункт — `▶ Run All Tests` / `▶ Run Category Tests` по выбранной категории.
 
-**Одиночный запуск**: `scr_test_results_clear()` → `scr_test_snapshot_state()` → запись `global.__cutscene_test_return = { room, x, y, facing, active: true }` → `scr_test_init(item.id)` → старт JSON-катсцены или `fn`. После `!global.cutscene_active` — `scr_test_restore_state()` и возврат игрока в исходную точку (через dev-спавн при смене комнаты) + уведомление `"Returned to origin"`.
+**Одиночный запуск**: `scr_test_results_clear()` → `scr_test_snapshot_state()` → запись `global.__cutscene_test_return = { room, x, y, facing, active: true }` → `scr_test_init(item.id)` → старт JSON-катсцены или `fn`. После `!global.cutscene_active`: `scr_test_restore_state()` и возврат игрока в исходную точку (через dev-спавн при смене комнаты) + уведомление `"Returned to origin"`.
 
-**Run All**: снапшот → очередь `scr_test_runner_build_all()`/`build_category()` → последовательный `scr_test_runner_start_test`, переход к следующему по `!global.cutscene_active`. Watchdog — `menu_run_all_timeout_frames = 60 * game_get_speed(gamespeed_fps)` кадров на тест: по таймауту катсцена прерывается `finish_cutscene()` и тест фейлится. `expect_fail: true` инвертирует ожидание. По окончании — `scr_test_print_summary()`, возврат по `__cutscene_test_return` и **`game_end()` с кодом `0` (все прошли) или `1` (есть фейлы)** — режим пригоден для CI-прогона. `back` во время прогона — досрочный abort с restore и возвратом.
+**Run All**: снапшот → очередь `scr_test_runner_build_all()`/`build_category()` → последовательный `scr_test_runner_start_test`, переход к следующему по `!global.cutscene_active`. Watchdog: `menu_run_all_timeout_frames = 60 * game_get_speed(gamespeed_fps)` кадров на тест: по таймауту катсцена прерывается `finish_cutscene()` и тест фейлится. `expect_fail: true` инвертирует ожидание. По окончании: `scr_test_print_summary()`, возврат по `__cutscene_test_return` и **`game_end()` с кодом `0` (все прошли) или `1` (есть фейлы)**: режим пригоден для CI-прогона. `back` во время прогона: досрочный abort с restore и возвратом.
 
 Стресс-тесты симулируют ввод через очередь `__inject_key_queue`: клавиши жмутся `keyboard_key_press` в начале Step `obj_cutsceneTest` и удерживаются 4 кадра (`__inject_held_keys`), `__inject_self_guard` глушит собственные обработчики `back`, чтобы симуляция не срывала меню/прогон. Отложенные skip-ассерты — `__inject_expect_*` (режимы `finish`/`survive` с дедлайном).
 
@@ -151,7 +151,7 @@ JSON-тесты лежат в `datafiles/cutscenes/tests/` (стресс-кей�
   category: "stress_lifecycle", desc: "Описание кейса" },
 ```
 
-`scr_test_init` внутри `fn` вызывать не нужно — оба входных пути (Run All и одиночный запуск) уже инициализируют тест по `id` каталога. Провалы пишите через `scr_test_assert*`; если тест обязан упасть — `expect_fail: true`.
+`scr_test_init` внутри `fn` вызывать не нужно: оба входных пути (Run All и одиночный запуск) уже инициализируют тест по `id` каталога. Провалы пишите через `scr_test_assert*`; если тест обязан упасть: `expect_fail: true`.
 
 ## См. также
 

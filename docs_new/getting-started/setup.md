@@ -17,13 +17,13 @@ tags:
 | Платформа разработки | Linux | headless-сборка идёт целью `Linux Compile` |
 
 !!! note "Каталоги Beta-канала"
-    IDE и кэш рантаймов лежат под `~/.local/share/GameMakerStudio2-Beta/` — проект работает на Beta-канале GameMaker. В `Cache/runtimes/` установлены `runtime-2026.100.0.1098` и `runtime-2026.100.0.1106`; сборка использует `runtime-2026.100.0.1106`.
+    IDE и кэш рантаймов лежат под `~/.local/share/GameMakerStudio2-Beta/`: проект работает на Beta-канале GameMaker. В `Cache/runtimes/` установлены `runtime-2026.100.0.1098` и `runtime-2026.100.0.1106`; сборка использует `runtime-2026.100.0.1106`.
 
 ### Настройки проекта (`options/`)
 
-- **Общие** (`options/main/options_main.yy`): `option_game_speed` = `60` — игра рассчитана на 60 FPS; `option_author` = `Sp0ildy`.
-- **Linux** (`options/linux/options_linux.yy`): `option_linux_display_name` = `Undefinedtale888`, текстурная страница `2048x2048`.
-- **Windows** (`options/windows/options_windows.yy`): `option_windows_display_name` = `UNDEFINEDtale-888`, имя исполняемого файла `${undefinedtale-888}.exe`, настроен NSIS-инсталлятор, текстурная страница `2048x2048`.
+- Общие (`options/main/options_main.yy`): `option_game_speed` = `60` (игра рассчитана на 60 FPS); `option_author` = `Sp0ildy`.
+- Linux (`options/linux/options_linux.yy`): `option_linux_display_name` = `Undefinedtale888`, текстурная страница `2048x2048`.
+- Windows (`options/windows/options_windows.yy`): `option_windows_display_name` = `UNDEFINEDtale-888`, имя исполняемого файла `${undefinedtale-888}.exe`, настроен NSIS-инсталлятор, текстурная страница `2048x2048`.
 - Каталоги `options/` для других платформ (`android`, `html5`, `ios`, `mac`, `operagx`, `tvos`, `reddit`) присутствуют в репозитории; фактическая сборка нацелена на Linux (см. [Сборка](build.md)).
 
 ## Клонирование
@@ -32,38 +32,38 @@ tags:
 git clone https://github.com/Sp0ildy/Undefinedtale-888.git
 ```
 
-Проект GameMaker лежит в подкаталоге `Undefinedtale888/` внутри репозитория, файл проекта — `Undefinedtale888/Undefinedtale888.yyp`.
+Проект GameMaker лежит в подкаталоге `Undefinedtale888/` внутри репозитория, файл проекта: `Undefinedtale888/Undefinedtale888.yyp`.
 
 ## Открытие и первый запуск
 
 1. Запустите GameMaker IDE и откройте `Undefinedtale888/Undefinedtale888.yyp`.
-2. Внешние библиотеки ставить не нужно — они уже внутри проекта: Scribble и Chatterbox лежат скриптами в `scripts/` под папкой дерева ресурсов `доп_расширения`, TweenGMX — под папкой `TweenGMX` (это папки в дереве ресурсов `.yyp`, а не каталоги на диске).
-3. Нажмите `F5` — IDE скомпилирует проект и запустит игру.
+2. Внешние библиотеки ставить не нужно: они уже внутри проекта. Scribble и Chatterbox лежат скриптами в `scripts/` под папкой дерева ресурсов `доп_расширения`, а TweenGMX лежит под папкой `TweenGMX` (это папки в дереве ресурсов `.yyp`, а не каталоги на диске).
+3. Нажмите `F5`: IDE скомпилирует проект и запустит игру.
 
-Стартовая комната — `rm_init`: она идёт первой в списке `RoomOrderNodes` в `Undefinedtale888.yyp`, за ней следует `rm_roomMenu`. Порядок инициализации описан в [Инициализации](../architecture/initialization.md).
+Стартовая комната: `rm_init`; она идёт первой в списке `RoomOrderNodes` в `Undefinedtale888.yyp`, за ней следует `rm_roomMenu`. Порядок инициализации описан в [Инициализации](../architecture/initialization.md).
 
 ### Что ещё лежит в каталоге проекта
 
 Кроме стандартных каталогов ресурсов (`objects/`, `scripts/`, `rooms/`, `sprites/`, `sounds/`, `fonts/`, `tilesets/`, `shaders/`, `animcurves/`, `datafiles/`, `options/`):
 
-- `README.md` — руководство для участника: установка, запуск, Yarn, локализация, деплой;
-- `guide.md`, `УПРАВЛЕНИЕ.txt` — внутренние стандарты разработки и таблица игровых/debug-клавиш;
-- `cutscene_system_research.md` — исследование движка катсцен;
-- `notes/` — вендорская документация библиотеки TweenGMX (`TGMX_Documentation`, `TGMX_Terms_of_Use`, `TGMX_Update_Log`);
-- `audit/`, `audit_2026-09/` — материалы аудитов кода, не часть сборки;
-- `Undefinedtale888.resource_order` — порядок ресурсов в дереве IDE.
+- `README.md`: руководство для участника (установка, запуск, Yarn, локализация, деплой);
+- `guide.md`, `УПРАВЛЕНИЕ.txt`: внутренние стандарты разработки и таблица игровых/debug-клавиш;
+- `cutscene_system_research.md`: исследование движка катсцен;
+- `notes/`: вендорская документация библиотеки TweenGMX (`TGMX_Documentation`, `TGMX_Terms_of_Use`, `TGMX_Update_Log`);
+- `audit/`, `audit_2026-09/`: материалы аудитов кода, не часть сборки;
+- `Undefinedtale888.resource_order`: порядок ресурсов в дереве IDE.
 
 ## Рядом с проектом: редактор Undefscene
 
-Катсцены для игры собираются в **Undefscene** — отдельном репозитории [`nos0uls/Undefscene`](https://github.com/nos0uls/Undefscene). Это Electron-приложение (каталог `editor-app/`): визуальный node-based редактор, который компилирует граф нод в JSON, исполняемый движком катсцен игры. Установка и интерфейс — в разделе [Undefscene](../undefscene/overview.md).
+Катсцены для игры собираются в **Undefscene**, отдельном репозитории [`nos0uls/Undefscene`](https://github.com/nos0uls/Undefscene). Это Electron-приложение (каталог `editor-app/`): визуальный node-based редактор, который компилирует граф нод в JSON, исполняемый движком катсцен игры. Установка и интерфейс описаны в разделе [Undefscene](../undefscene/overview.md).
 
 ## Проблемы при открытии
 
 !!! warning "Проект не открывается или просит другой runtime"
-    Проверьте версию IDE: в `MetaData.IDEVersion` записано `2026.100.0.1161`, фактический рантайм — `2026.100.0.1106`. Работайте на Beta-канале соответствующей версии.
+    Проверьте версию IDE: в `MetaData.IDEVersion` записано `2026.100.0.1161`, фактический рантайм: `2026.100.0.1106`. Работайте на Beta-канале соответствующей версии.
 
 !!! tip "Нет подходящего runtime"
-    Список установленных рантаймов: `ls ~/.local/share/GameMakerStudio2-Beta/Cache/runtimes/`. Для сборки из консоли нужен `runtime-2026.100.0.1106` — подробности в [Сборке](build.md).
+    Список установленных рантаймов: `ls ~/.local/share/GameMakerStudio2-Beta/Cache/runtimes/`. Для сборки из консоли нужен `runtime-2026.100.0.1106` (подробности в [Сборке](build.md)).
 
 ## См. также
 

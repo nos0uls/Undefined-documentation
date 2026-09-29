@@ -26,31 +26,31 @@ Draw-событие не зарегистрировано: `Draw_0.gml` — фа
 
 ## Persistent и дедупликация
 
-`obj_player` — `persistent: true`: при `room_goto` инстанс переносится в новую комнату, а редакторская копия игрока в этой комнате создаёт дубль. Create каждого инстанса выбирает выжившего:
+`obj_player` помечен `persistent: true`: при `room_goto` инстанс переносится в новую комнату, а редакторская копия игрока в этой комнате создаёт дубль. Create каждого инстанса выбирает выжившего:
 
-- `__room_born` — комната, в которой выполнен Create инстанса. Перенесённый инстанс на стартовой волне Create держит `__room_born` прошлой комнаты — это и есть признак выжившего.
-- `__dedup_survivor` — метка «уже выбранного выжившего». Действует только на стартовой волне Create (случай двух редакторских дублей: поздний Create иначе убил бы «осевшего» игрока). Сбрасывается в Begin Step.
-- Create дубля уничтожает всех, кроме выжившего, и завершается по `exit` — дубль не пишет `global.obj_player` и не создаёт маркер.
+- `__room_born`: комната, в которой выполнен Create инстанса. Перенесённый инстанс на стартовой волне Create держит `__room_born` прошлой комнаты. Это и есть признак выжившего.
+- `__dedup_survivor`: метка «уже выбранного выжившего». Действует только на стартовой волне Create (случай двух редакторских дублей: поздний Create иначе убил бы «осевшего» игрока). Сбрасывается в Begin Step.
+- Create дубля уничтожает всех, кроме выжившего, и завершается по `exit`: дубль не пишет `global.obj_player` и не создаёт маркер.
 
 Позиция выжившего разрешается по приоритету:
 
-1. `global.__next_spawn_x` / `global.__next_spawn_y` / `global.__next_spawn_facing` — явный спавн-оверрайд (пишут `scr_saveLoad` при загрузке сейва и `scr_defaultLoad` при новой игре; `obj_Init` лишь инициализирует их в `undefined`). Применяется к выжившему, глобалы обнуляются в `undefined`. Facing дополнительно ставит спрайт через `scr_sprite_for_facing`. DEV-спавн идёт по отдельному каналу `global.__dev_spawn_*` → `scr_global_handle_dev_spawn` и `__next_spawn_*` не трогает.
-2. Если жив `obj_changingRoomsController` — позицию уже задал переход: контроллер пишет `obj_player.x = newX`, `obj_player.y = newY` сразу после `room_goto` (`scr_room_fade_update`), если переход не помечен `__player_pos_by_manager` (катсценный путь Room Start менеджера).
-3. Иначе — редакторские координаты дубля переносятся на выжившего.
+1. `global.__next_spawn_x` / `global.__next_spawn_y` / `global.__next_spawn_facing`: явный спавн-оверрайд (пишут `scr_saveLoad` при загрузке сейва и `scr_defaultLoad` при новой игре; `obj_Init` лишь инициализирует их в `undefined`). Применяется к выжившему, глобалы обнуляются в `undefined`. Facing дополнительно ставит спрайт через `scr_sprite_for_facing`. DEV-спавн идёт по отдельному каналу `global.__dev_spawn_*` → `scr_global_handle_dev_spawn` и `__next_spawn_*` не трогает.
+2. Если жив `obj_changingRoomsController`, позицию уже задал переход: контроллер пишет `obj_player.x = newX`, `obj_player.y = newY` сразу после `room_goto` (`scr_room_fade_update`), если переход не помечен `__player_pos_by_manager` (катсценный путь Room Start менеджера).
+3. Иначе редакторские координаты дубля переносятся на выжившего.
 
-После дедупа выживший «оседает»: `__room_born = room`, затем каждый Begin Step обновляет `__room_born` текущей комнатой. Поэтому второй Create от программного спавна отличается от перенесённого: «уроженец» комнаты без метки выжившего уничтожается дедупом нового инстанса. Сам DEV-спавн (`scr_global_handle_dev_spawn`, вызывает `obj_globalManager`) второй инстанс не создаёт: при живом игроке переставляет его, при отсутствии — создаёт.
+После дедупа выживший «оседает»: `__room_born = room`, затем каждый Begin Step обновляет `__room_born` текущей комнатой. Поэтому второй Create от программного спавна отличается от перенесённого: «уроженец» комнаты без метки выжившего уничтожается дедупом нового инстанса. Сам DEV-спавн (`scr_global_handle_dev_spawn`, вызывает `obj_globalManager`) второй инстанс не создаёт: при живом игроке переставляет его, при отсутствии создаёт.
 
-В конце Create инстанс пишет `global.obj_player = id` — глобальная ссылка на единственного игрока. CleanUp обнуляет её в `noone`, если ссылка указывает на уничтожаемый инстанс.
+В конце Create инстанс пишет `global.obj_player = id`, глобальную ссылку на единственного игрока. CleanUp обнуляет её в `noone`, если ссылка указывает на уничтожаемый инстанс.
 
 ## Движение
 
-`scr_player_movement` возвращает struct итогового ввода `{up, down, left, right}` с опциональным полем `slide_facing` (на пути с FSM его может не быть — читается через `variable_struct_exists`) — результат читает и `scr_player_animation`.
+`scr_player_movement` возвращает struct итогового ввода `{up, down, left, right}` с опциональным полем `slide_facing` (на пути с FSM его может не быть, читается через `variable_struct_exists`); результат читает и `scr_player_animation`.
 
 Гарды ввода (в порядке проверки):
 
-- `move_active` — прямой драйв координатами от катсцены (`ActionMove*`, хелперы `scr_cutscene_classes`). Пока флаг взведён, ввод игнорируется, `xspd`/`yspd` обнуляются. Страховка: при `move_active && !global.cutscene_active` флаг гасится — иначе игрок остался бы замороженным на всю сессию.
-- `can_move` — выставляет `scr_player_ui_blocking`: `false` при блокирующем UI (`scr_checkUIBlocking(false, false)`), `false` во время катсцены без partial control (`global.active_cutscene_manager.partial_control_type > 0` разрешает движение).
-- `instance_exists(obj_changingRoomsController)` — на время фейда ввод не читается, скорость нулевая.
+- `move_active`: прямой драйв координатами от катсцены (`ActionMove*`, хелперы `scr_cutscene_classes`). Пока флаг взведён, ввод игнорируется, `xspd`/`yspd` обнуляются. Страховка: при `move_active && !global.cutscene_active` флаг гасится, иначе игрок остался бы замороженным на всю сессию.
+- `can_move` выставляет `scr_player_ui_blocking`: `false` при блокирующем UI (`scr_checkUIBlocking(false, false)`), `false` во время катсцены без partial control (`global.active_cutscene_manager.partial_control_type > 0` разрешает движение).
+- `instance_exists(obj_changingRoomsController)`: на время фейда ввод не читается, скорость нулевая.
 
 Скорости:
 
@@ -65,59 +65,59 @@ Draw-событие не зарегистрировано: `Draw_0.gml` — фа
 Особенности расчёта:
 
 - Противоположные клавиши оси разруливает FSM `scr_player_process_mutually_exclusive_inputs` (enum `PLAYER_AXIS_FSM`, состояния в полях `__v_fsm`/`__h_fsm`): при зажатых `up+down` или `left+right` приоритет у последней нажатой.
-- Диагональная нормализация отсутствует намеренно (Delta-code стиль Undertale/Deltarune): по диагонали персонаж быстрее, но шаг кадра всегда строго целый — это убирает субпиксельный jitter и дрожание камеры.
-- `run_spd` дробный: целая часть накапливается в `x_frac`/`y_frac`, на позицию применяется только `floor` от аккумулятора. Дробная часть самих `x`/`y` (после телепортов перехода или катсцены) забирается в аккумулятор — координаты возвращаются к целым без потери дистанции.
+- Диагональная нормализация отсутствует намеренно (Delta-code стиль Undertale/Deltarune): по диагонали персонаж быстрее, но шаг кадра всегда строго целый, что убирает субпиксельный jitter и дрожание камеры.
+- `run_spd` дробный: целая часть накапливается в `x_frac`/`y_frac`, на позицию применяется только `floor` от аккумулятора. Дробная часть самих `x`/`y` (после телепортов перехода или катсцены) забирается в аккумулятор: координаты возвращаются к целым без потери дистанции.
 - `prev_x`/`prev_y` обновляются в начале функции до ранних выходов: `scr_player_animation` считает движение как «позиция сдвинулась за кадр».
 
 Применение скорости:
 
-- `ghost_mode == true` — `x += xspd; y += yspd` без коллизий.
-- Иначе — `scr_collision_resolve()`, затем `x += xspd; y += yspd`.
+- `ghost_mode == true`: `x += xspd; y += yspd` без коллизий.
+- Иначе выполняется `scr_collision_resolve()`, затем `x += xspd; y += yspd`.
 
-После резолва считается подсказка `slide_facing`: если ввод шёл в заблокированную ось, а тело едет по другой, в struct дописывается направление фактического движения — `scr_player_animation` ставит его приоритетнее ввода.
+После резолва считается подсказка `slide_facing`: если ввод шёл в заблокированную ось, а тело едет по другой, в struct дописывается направление фактического движения; `scr_player_animation` ставит его приоритетнее ввода.
 
 ## Коллизии
 
-Solid-группы — `obj_collider`, `par_decor`, `par_interactable`. Проверка «клетка свободна» — инстанс-функция `solid_free(_px, _py)`, объединяющая `place_meeting` по всем трём группам: поджатие к стене и step-up останавливаются перед любым solid-типом. `obj_slopeCollider` сюда не входит — треугольник склона легально пересекает bbox игрока и резолвится отдельно.
+Solid-группы — `obj_collider`, `par_decor`, `par_interactable`. Проверка «клетка свободна» — инстанс-функция `solid_free(_px, _py)`, объединяющая `place_meeting` по всем трём группам: поджатие к стене и step-up останавливаются перед любым solid-типом. `obj_slopeCollider` сюда не входит: треугольник склона легально пересекает bbox игрока и резолвится отдельно.
 
 `scr_collision_resolve` вызывается из `scr_player_movement` до применения `xspd`/`yspd` и работает в контексте игрока:
 
-1. `resolve_solid(obj_collider)` → `resolve_solid(par_decor)` → `resolve_solid(par_interactable)` — инстанс-метод из Create. Каждый проход предиктивно корректирует `xspd`/`yspd`: поджатие к стене попиксельно (лимит `max(1, ceil|xspd|, ceil|yspd|) + 1` шагов), step-up на низкий бортик до `ceil|xspd|` px при свободных клетках подъёма и назначения, snap-down — спуск на уступ до `ceil|xspd|` px, стык к полу/потолку по вертикали.
-2. Склоны: `instance_place_list` по `obj_slopeCollider` в клетке `(x + xspd, y + yspd)` — broad-phase по прямоугольной маске `spr_collider`; каждый найденный клин резолвится `scr_player_slope_resolve`, следующий клин видит уже подправленные скорости.
+1. `resolve_solid(obj_collider)` → `resolve_solid(par_decor)` → `resolve_solid(par_interactable)` (инстанс-метод из Create). Каждый проход предиктивно корректирует `xspd`/`yspd`: поджатие к стене попиксельно (лимит `max(1, ceil|xspd|, ceil|yspd|) + 1` шагов), step-up на низкий бортик до `ceil|xspd|` px при свободных клетках подъёма и назначения, snap-down (спуск на уступ до `ceil|xspd|` px), стык к полу/потолку по вертикали.
+2. Склоны: `instance_place_list` по `obj_slopeCollider` в клетке `(x + xspd, y + yspd)` (broad-phase по прямоугольной маске `spr_collider`); каждый найденный клин резолвится `scr_player_slope_resolve`, следующий клин видит уже подправленные скорости.
 3. Корректирующее выталкивание: резолв предиктивный и не выводит тело, уже сидящее внутри solid (пересекающиеся коллайдеры разных групп, сдвинувшийся коллайдер). Ищется ближайшая свободная клетка кольцами радиусом `1..16` по 8 направлениям (шаг 45°), координаты округляются.
 
-Отдельный unstuck есть и в Create: при спавне внутри solid — спираль кольцами радиусом `1..50`, 8 лучей, кандидаты округляются и клампятся к границам комнаты до проверки.
+Отдельный unstuck есть и в Create: при спавне внутри solid применяется спиральный поиск кольцами радиусом `1..50`, 8 лучей, кандидаты округляются и клампятся к границам комнаты до проверки.
 
 ## Склоны
 
-`obj_slopeCollider` наследует `par_entity` напрямую — под `obj_collider` склон вёл бы себя как прямоугольная стена. Проверка двухфазная:
+`obj_slopeCollider` наследует `par_entity` напрямую: под `obj_collider` склон вёл бы себя как прямоугольная стена. Проверка двухфазная:
 
-- **Broad phase** — прямоугольная маска `spr_collider` (`spriteMaskId` в `obj_slopeCollider.yy`): `instance_place_list` в `scr_collision_resolve` отбирает клинья, чей прямоугольник пересекает клетку назначения.
-- **Narrow phase** — инстанс-метод `collision(_dx, _dy, _inst)`: `rectangle_in_triangle` прямоугольника `_inst` со смещением против треугольника `tri_x`/`tri_y`. Инстанс передаётся явно: на кадре перехода живых `obj_player` бывает два, и `obj_player.bbox_*` дал бы чужой прямоугольник.
+- **Broad phase**: прямоугольная маска `spr_collider` (`spriteMaskId` в `obj_slopeCollider.yy`): `instance_place_list` в `scr_collision_resolve` отбирает клинья, чей прямоугольник пересекает клетку назначения.
+- **Narrow phase**: инстанс-метод `collision(_dx, _dy, _inst)`: `rectangle_in_triangle` прямоугольника `_inst` со смещением против треугольника `tri_x`/`tri_y`. Инстанс передаётся явно: на кадре перехода живых `obj_player` бывает два, и `obj_player.bbox_*` дал бы чужой прямоугольник.
 
-Геометрию считает `slope_update_geometry` (Create и каждый Step — страховка на случай изменения трансформа в рантайме):
+Геометрию считает `slope_update_geometry` (Create и каждый Step, как страховка на случай изменения трансформа в рантайме):
 
 - Базовый треугольник спрайта: залиты углы TL, BL, BR (прямой угол в BL), пустой — TR; читается tight-bbox спрайта, не инстанса (AABB повёрнутого прямоугольника шире треугольника).
-- Локальные вершины масштабируются `image_xscale`/`image_yscale` и поворачиваются на `image_angle` (в GM — против часовой стрелки) в room-координаты.
-- `slope_in_x`/`slope_in_y` — единичная нормаль гипотенузы, смотрящая внутрь треугольника: от середины гипотенузы (TL→BR) к прямому углу (BL). По знаку компонент резолв отличает «пол» (нормаль вниз) от «потолка» (нормаль вверх).
-- `dir` — legacy-поле совместимости: ближайший квадрант `floor(image_angle / 90) mod 4`, затем кумулятивно `+1` при `image_xscale < 0`, `+3` при `image_yscale < 0` и ещё `+2`, если отрицательны оба scale (итог по модулю 4).
+- Локальные вершины масштабируются `image_xscale`/`image_yscale` и поворачиваются на `image_angle` (в GM против часовой стрелки) в room-координаты.
+- `slope_in_x`/`slope_in_y`: единичная нормаль гипотенузы, смотрящая внутрь треугольника: от середины гипотенузы (TL→BR) к прямому углу (BL). По знаку компонент резолв отличает «пол» (нормаль вниз) от «потолка» (нормаль вверх).
+- `dir`: legacy-поле совместимости: ближайший квадрант `floor(image_angle / 90) mod 4`, затем кумулятивно `+1` при `image_xscale < 0`, `+3` при `image_yscale < 0` и ещё `+2`, если отрицательны оба scale (итог по модулю 4).
 
-`scr_player_slope_resolve(_slope)` выполняет два прохода скольжения, лимит итераций — `ceil(current_spd) + 1`:
+`scr_player_slope_resolve(_slope)` выполняет два прохода скольжения с лимитом итераций `ceil(current_spd) + 1`:
 
-- **Горизонтальный**: пока `_slope.collision(xspd, 0, id)` — сдвиг по Y на `−sign(slope_in_y)` (наружу из залитой части клина); каждый шаг требует свободной целевой клетки по всем трём solid-группам и по треугольникам соседних клиньев (`scr_player_cell_blocked_by_slope`, текущий склон исключается — промежуточная клетка на нём законна). Если скольжение не помогло — `xspd = 0` (стена).
-- **Вертикальный**: симметрично, сдвиг по X на `−sign(slope_in_x)`, иначе `yspd = 0`.
+- Горизонтальный: пока срабатывает `_slope.collision(xspd, 0, id)`, идёт сдвиг по Y на `−sign(slope_in_y)` (наружу из залитой части клина); каждый шаг требует свободной целевой клетки по всем трём solid-группам и по треугольникам соседних клиньев (`scr_player_cell_blocked_by_slope`, текущий склон исключается, промежуточная клетка на нём законна). Если скольжение не помогло, `xspd = 0` (стена).
+- Вертикальный: симметрично, сдвиг по X на `−sign(slope_in_x)`, иначе `yspd = 0`.
 
 Событие Collision у `obj_slopeCollider` пустое: обработка целиком в `scr_player_slope_resolve`.
 
 ## Анимация, facing и маркер
 
-`facing_direction` — направление взгляда (`global.DIR`: `RIGHT=0`, `LEFT=1`, `UP=2`, `DOWN=3`). Источник истины — спрайт: `scr_player_facing` каждый Step синхронизирует поле через `scr_facing_for_sprite` (выходит, пока `global.active_cutscene_manager.is_running`); спрайт вне набора ходьбы (idle, эмоция от катсцены) даёт `-1` — прежний facing сохраняется. При спавне поле ставится из `global.__next_spawn_facing` или `global.DIR.UP`.
+`facing_direction` — направление взгляда (`global.DIR`: `RIGHT=0`, `LEFT=1`, `UP=2`, `DOWN=3`). Источник истины — спрайт: `scr_player_facing` каждый Step синхронизирует поле через `scr_facing_for_sprite` (выходит, пока `global.active_cutscene_manager.is_running`); спрайт вне набора ходьбы (idle, эмоция от катсцены) даёт `-1`; прежний facing сохраняется. При спавне поле ставится из `global.__next_spawn_facing` или `global.DIR.UP`.
 
 `scr_player_animation(ui_blocking, movement_inputs)`:
 
 - Не работает во время катсцены (`global.cutscene_active` или `global.active_cutscene_manager.is_running`).
-- Выбор спрайта по приоритету: `slide_facing` → `right` → `left` → `down` → `up` (на диагонали спрайт всегда горизонтальный — осознанный Undertale-стиль). Маппинг — `scr_sprite_for_facing` → `spr_Chara_walking_{R,L,D,U}`.
-- `is_moving` — фактическое смещение (`x`/`y` ≠ `prev_x`/`prev_y`). При блокировке или стоянии: `image_speed = 0`, `image_index = 0`. При движении с нажатыми клавишами: `image_speed = current_spd / walk_spd` — частота кадров масштабируется под бег; старт с `image_index = 1`, чтобы не мелькал idle-кадр.
+- Выбор спрайта по приоритету: `slide_facing` → `right` → `left` → `down` → `up` (на диагонали спрайт всегда горизонтальный, осознанный Undertale-стиль). Маппинг: `scr_sprite_for_facing` → `spr_Chara_walking_{R,L,D,U}`.
+- `is_moving`: фактическое смещение (`x`/`y` ≠ `prev_x`/`prev_y`). При блокировке или стоянии: `image_speed = 0`, `image_index = 0`. При движении с нажатыми клавишами: `image_speed = current_spd / walk_spd`, частота кадров масштабируется под бег; старт с `image_index = 1`, чтобы не мелькал idle-кадр.
 
 `marker_id` — невидимый `obj_pointMarker` (persistent), создаётся в Create на слое `scr_layer_ensure_instances()`. У маркера собственный дедуп (`instance_number(obj_pointMarker) > 1` → самоуничтожение) и пересоздание в `scr_player_marker_update` при внешней потере. Позиция по `facing_direction` от origin игрока (низ спрайта):
 
@@ -128,13 +128,13 @@ Solid-группы — `obj_collider`, `par_decor`, `par_interactable`. Пров
 | `UP` | `(x, y − 15)` |
 | `DOWN` | `(x, y + 5)` |
 
-Читатели маркера — `scr_interaction` (скрипт `interactionWithNPCsOrObjects`: `point_in_rectangle` по bbox интерактива, при `_use_mask_check` — `position_meeting` по маске), `obj_save`, `obj_sound_test`; все берут точку через `global.obj_player.marker_id`, а не по object index — при дубле `obj_pointMarker` тот отдал бы чужой инстанс. `instance_find(obj_pointMarker, 0)` применяет только сам игрок — при перехвате живого маркера в Create и в `scr_player_marker_update`. Debug-отрисовку кружка по F3 делает `obj_globalManager` Draw GUI.
+Читатели маркера — `scr_interaction` (скрипт `interactionWithNPCsOrObjects`: `point_in_rectangle` по bbox интерактива, `position_meeting` по маске при `_use_mask_check`), `obj_save`, `obj_sound_test`; все берут точку через `global.obj_player.marker_id`, а не по object index: при дубле `obj_pointMarker` тот отдал бы чужой инстанс. `instance_find(obj_pointMarker, 0)` применяет только сам игрок: при перехвате живого маркера в Create и в `scr_player_marker_update`. Debug-отрисовку кружка по F3 делает `obj_globalManager` Draw GUI.
 
 ## Depth и камера
 
-Глубину обрабатывает `par_depth` через `event_inherited()` в конце Step — ручного `depth = -y` у игрока нет. Режим `depth_mode` игрока — `"auto"` по умолчанию: `depth = -y` пересчитывается dirty-flag'ом при реальном смещении. Иерархия приоритетов `par_depth`: `attached_target` → `is_static` → `depth_mode == "manual"` (внешний код, например `ActionSetDepth` в катсценах) → авто.
+Глубину обрабатывает `par_depth` через `event_inherited()` в конце Step; ручного `depth = -y` у игрока нет. У игрока `depth_mode` по умолчанию `"auto"`: `depth = -y` пересчитывается dirty-flag'ом при реальном смещении. Иерархия приоритетов `par_depth`: `attached_target` → `is_static` → `depth_mode == "manual"` (внешний код, например `ActionSetDepth` в катсценах) → авто.
 
-Камера — в End Step: `view_camera[0]` центрируется на игроке с клампом к границам комнаты (`clamp(x − vw/2, 0, room_width − vw)`, аналогично по Y), координаты целые. При `global.cutscene_camera_override` блок пропускается — камерой владеет катсцена.
+Камера обрабатывается в End Step: `view_camera[0]` центрируется на игроке с клампом к границам комнаты (`clamp(x − vw/2, 0, room_width − vw)`, аналогично по Y), координаты целые. При `global.cutscene_camera_override` блок пропускается: камерой владеет катсцена.
 
 ## Ghost-режим и блокировка перехода
 

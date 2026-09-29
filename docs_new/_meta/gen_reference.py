@@ -571,6 +571,29 @@ def md_row(*cells):
     return "| " + " | ".join(c.replace("|", "\\|") for c in cells) + " |"
 
 
+# ------------------------------------------------------------- стиль (тире)
+# « — » как суррогат связки — ИИ-маркер; чистим в генерируемом тексте.
+# Парные вставки « — x — » → скобки; одиночные «X — пояснение» → «X: пояснение».
+# Не трогаем: пустые ячейки `| — |`, строки sources-комментария, код-блоки.
+_DASH_PAIR = re.compile(r"(?<=[\w`\)\]\"*А-Яа-яёЁ]) — ([^—|.;:\n]{1,80}?) — (?=[^\s|])")
+_DASH_SOLO = re.compile(r"(?<=[\w`\)\]\"*А-Яа-яёЁ]) — (?=[^\s|])")
+
+
+def fix_dashes(page_text):
+    out_lines = []
+    in_fence = False
+    for line in page_text.split("\n"):
+        if line.strip().startswith("```"):
+            in_fence = not in_fence
+        if in_fence or "<!-- sources:" in line:
+            out_lines.append(line)
+            continue
+        line = _DASH_PAIR.sub(r" (\1) ", line)
+        line = _DASH_SOLO.sub(": ", line)
+        out_lines.append(line)
+    return "\n".join(out_lines)
+
+
 def script_group(dir_name):
     if dir_name.startswith("c_"):
         return "dsl"
@@ -872,9 +895,9 @@ def main():
         sys.exit("gen_reference: пустой scripts.txt или objects.txt")
 
     with open(OUT_SCRIPTS, "w", encoding="utf-8") as fh:
-        fh.write(gen_scripts_page(files))
+        fh.write(fix_dashes(gen_scripts_page(files)))
     with open(OUT_OBJECTS, "w", encoding="utf-8") as fh:
-        fh.write(gen_objects_page(objs))
+        fh.write(fix_dashes(gen_objects_page(objs)))
 
     n_funcs = sum(
         len(f["funcs"]) for f in files

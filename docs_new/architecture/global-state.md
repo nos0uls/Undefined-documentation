@@ -10,12 +10,12 @@ tags:
 
 # Глобальное состояние
 
-Реестр всех `global.*` проекта — 187 уникальных имён (`_meta/globals.txt`). Большинство инициализируется в `obj_Init/Create_0.gml` и его вызовах (`scr_constants`, `scr_music_init`, `scr_inventory_init`) — порядок и пайплайн описаны в [Инициализации](initialization.md); здесь — только справочник имён.
+Реестр всех `global.*` проекта — 187 уникальных имён (`_meta/globals.txt`). Большинство инициализируется в `obj_Init/Create_0.gml` и его вызовах (`scr_constants`, `scr_music_init`, `scr_inventory_init`); порядок и пайплайн описаны в [Инициализации](initialization.md). Здесь собран только справочник имён.
 
 ## Как читать таблицы { #how-to-read }
 
-- **Инициализация** — место, где глобал получает первое осмысленное значение (не первое присваивание в алфавитном порядке файлов). `function` в колонке «Тип» — глобал хранит метод (`global.play_music(...)`, `global.is_menu_room(...)`).
-- **В сейве** — попадает ли значение в персистентные файлы: `слот` — сериализуется `scr_saveSave` в `<slot>.txt` (раскладка — [Форматы данных](data-formats.md)); `game_state.dat` / `player_settings.dat` — соответствующие файлы; `—` — живёт только в сессии.
+- **Инициализация**: место, где глобал получает первое осмысленное значение (не первое присваивание в алфавитном порядке файлов). `function` в колонке «Тип» означает, что глобал хранит метод (`global.play_music(...)`, `global.is_menu_room(...)`).
+- **В сейве**: попадает ли значение в персистентные файлы. `слот`: сериализуется `scr_saveSave` в `<slot>.txt` (раскладка: [Форматы данных](data-formats.md)); `game_state.dat` / `player_settings.dat`: соответствующие файлы; `—`: живёт только в сессии.
 - Имена с `__` — внутреннее состояние подсистем (см. [Приватные глобалы](#private-globals)).
 
 ## Константы и конфигурация { #constants }
@@ -27,7 +27,7 @@ Read-only по соглашению: `scr_constants` прямо запрещае
 | `global.DIR` | struct `{RIGHT:0, LEFT:1, UP:2, DOWN:3}` | `scr_constants.gml:14` | — (константа) | весь код с `facing` (спавн, меню, катсцены) | — |
 | `global.SETTINGS_STATE` | struct `{ROOT, CATEGORY, REBIND, CONFIRM_RESET}` | `scr_constants.gml:21` | — (константа) | `obj_settingsManager`, `scr_settings_step_*` | — |
 | `global.P3R_COLORS` | struct (палитра цветов) | `scr_p3r_palette.gml:6` | `scr_p3r_palette()` (лениво, один раз) | `obj_p3r_*` (Draw) | — |
-| `global.default_settings` | struct | `scr_settingsManager.gml:11` — выполняется при загрузке скрипта, до `obj_Init` | top-level код скрипта | `scr_loadSettings`, `scr_resetGameToDefault` | — |
+| `global.default_settings` | struct | `scr_settingsManager.gml:11`: выполняется при загрузке скрипта, до `obj_Init` | top-level код скрипта | `scr_loadSettings`, `scr_resetGameToDefault` | — |
 | `global.input_repeater_defaults` | struct `{delay, interval}` | `obj_Init/Create_0.gml:97` | `obj_Init` | `scr_inputApi` (дефолты повтора) | — |
 | `global.ui_snd_select` | sound | `obj_Init/Create_0.gml:103` | `obj_Init` | `obj_devLoader`, меню (`scr_SFXPlay`) | — |
 | `global.ui_sfx_map` | struct (ключ действия → sound) | `obj_Init/Create_0.gml:108` | `obj_Init` | `scr_SFXPlay` (строковый ключ) | — |
@@ -43,7 +43,7 @@ Read-only по соглашению: `scr_constants` прямо запрещае
 
 | Имя | Тип | Инициализация | Пишет | Читает | В сейве |
 |-----|-----|---------------|-------|--------|---------|
-| `global.input_map` | struct `{action: [keys]}` | `obj_Init/Create_0.gml:94` (`scr_buildInputMap`) | `obj_Init`; пересборка при ребинде — `scr_inputApi:472,560`, `scr_settingsManager:336` | `scr_inputApi` (проверки ввода) | — (выводится из `player_settings`) |
+| `global.input_map` | struct `{action: [keys]}` | `obj_Init/Create_0.gml:94` (`scr_buildInputMap`) | `obj_Init`; пересборка при ребинде: `scr_inputApi:472,560`, `scr_settingsManager:336` | `scr_inputApi` (проверки ввода) | — (выводится из `player_settings`) |
 | `global.__input_repeat_state` | struct (состояние повторов по action) | `obj_Init/Create_0.gml:98` | `scr_inputApi:390-395` | `scr_inputApi`, `scr_settings_step_rebind` (сброс при ребинде) | — |
 | `global.__gamepad_axis_prev` | struct `{up,down,left,right}` | `obj_Init/Create_0.gml:99` | `scr_inputApi:143,173` | `scr_inputApi` (edge-детект осей) | — |
 | `global.__gamepad_axis_pressed` | struct | `obj_Init/Create_0.gml:100` | `scr_inputApi:144,172` | `scr_inputApi:262-264` | — |
@@ -72,10 +72,10 @@ Read-only по соглашению: `scr_constants` прямо запрещае
 
 | Имя | Тип | Инициализация | Пишет | Читает | В сейве |
 |-----|-----|---------------|-------|--------|---------|
-| `global.flag` | struct (произвольные ключи) | `obj_Init/Create_0.gml:330` | `ActionSetFlag` (`scr_cutscene_classes:4608`), `scr_saveLoad:232`; сброс — `scr_defaultLoad:27` | `ActionBranchFlag` / `__cutscene_resolve_state_value`, `scr_saveSave` | слот (JSON, строка 9) |
-| `global.plot` | real | `obj_Init/Create_0.gml:331` | `ActionSetPlot` (`scr_cutscene_classes:4626`), `scr_saveLoad:233`; сброс — `scr_defaultLoad:28` | `__cutscene_resolve_state_value("plot")`, `scr_saveSave` | слот (real, строка 10) |
-| `global.entity_state` | struct `"room:eid" → record` | `obj_Init/Create_0.gml:339` | `scr_entity_state_set` (вызывает `par_interactable`), `scr_saveLoad:234`; сброс — `scr_defaultLoad:29` | `scr_entity_state_get`, restore в `par_interactable`, `scr_saveSave` | слот (JSON, строка 11) |
-| `global.room_flags` | struct | `obj_Init/Create_0.gml:29` | только сброс — `obj_Init`, `scr_saveLoad:326`, `scr_defaultLoad:31` | нет (подсистема мертва: `scr_room_entry_check` — заглушка) | — |
+| `global.flag` | struct (произвольные ключи) | `obj_Init/Create_0.gml:330` | `ActionSetFlag` (`scr_cutscene_classes:4608`), `scr_saveLoad:232`; сброс: `scr_defaultLoad:27` | `ActionBranchFlag` / `__cutscene_resolve_state_value`, `scr_saveSave` | слот (JSON, строка 9) |
+| `global.plot` | real | `obj_Init/Create_0.gml:331` | `ActionSetPlot` (`scr_cutscene_classes:4626`), `scr_saveLoad:233`; сброс: `scr_defaultLoad:28` | `__cutscene_resolve_state_value("plot")`, `scr_saveSave` | слот (real, строка 10) |
+| `global.entity_state` | struct `"room:eid" → record` | `obj_Init/Create_0.gml:339` | `scr_entity_state_set` (вызывает `par_interactable`), `scr_saveLoad:234`; сброс: `scr_defaultLoad:29` | `scr_entity_state_get`, restore в `par_interactable`, `scr_saveSave` | слот (JSON, строка 11) |
+| `global.room_flags` | struct | `obj_Init/Create_0.gml:29` | только сброс: `obj_Init`, `scr_saveLoad:326`, `scr_defaultLoad:31` | нет (подсистема мертва: `scr_room_entry_check` является заглушкой) | — |
 | `global.global_emote_system` | struct `{active_emotes: []}` | `obj_Init/Create_0.gml:262` | `scr_emote_system` (push/delete) | `scr_emote_system`, `scr_test_asserts` | — |
 | `global.current_sprite` | sprite | `scr_inventory_init.gml:57` | `textboxTest_scribble` (Step_0:71, Step_1:16), `obj_face/Step_2:4`, `scr_cutscene_classes:2885` | `textboxTest_scribble` (Draw_64) | — |
 | `global.current_voice` | sound | `scr_inventory_init.gml:58` | `textboxTest_scribble/Step_0:72`, `scr_cutscene_classes:2886` | `textboxTest_scribble` (Create_0) | — |
@@ -90,8 +90,8 @@ Read-only по соглашению: `scr_constants` прямо запрещае
 | `global.current_save_slot` | string | `obj_Init/Create_0.gml:222` | `obj_saveManager`, `scr_global_quick_save:21`, `scr_resetGameToDefault:27` | `scr_saveSave:16`, `scr_saveLoad:23` | — (указатель на слот) |
 | `global.last_played_save_slot` | string | `obj_Init/Create_0.gml:219` | `obj_saveManager`, `scr_global_quick_save:26` | `obj_Init` (выбор слота на старте) | game_state.dat |
 | `global.__save_slot_names` | array | `obj_Init/Create_0.gml:234` (`scr_save_slot_names()`) | `obj_Init` | `obj_Init` (цикл), `obj_saveManager/Create_0.gml:5-6` | — |
-| `global.__save_slot_metadata_cache` | struct `{slot: meta}` | `obj_Init/Create_0.gml:235` | `obj_Init` (цикл `:237-258`); обновление после записи — `obj_saveManager:104,195`, `scr_global_quick_save:38` | `obj_saveManager/Create_0.gml:36-38` | — |
-| `global.__save_playtime_seconds` | real | `obj_Init/Create_0.gml:75` | `obj_globalManager/Step_0:68` (тик), `scr_saveLoad:220`, `scr_defaultLoad:26` | `scr_saveSave:62` (и debug-лог `:145`) — `scr_save_read_metadata` читает шапку файла, не глобал | слот (строка 5) |
+| `global.__save_slot_metadata_cache` | struct `{slot: meta}` | `obj_Init/Create_0.gml:235` | `obj_Init` (цикл `:237-258`); обновление после записи: `obj_saveManager:104,195`, `scr_global_quick_save:38` | `obj_saveManager/Create_0.gml:36-38` | — |
+| `global.__save_playtime_seconds` | real | `obj_Init/Create_0.gml:75` | `obj_globalManager/Step_0:68` (тик), `scr_saveLoad:220`, `scr_defaultLoad:26` | `scr_saveSave:62` (и debug-лог `:145`): `scr_save_read_metadata` читает шапку файла, не глобал | слот (строка 5) |
 | `global.__total_playtime_seconds` | real | `obj_Init/Create_0.gml:78-80` | `obj_globalManager/Step_0:69` (тик) | `obj_globalManager/Other_3` (→ `game_state`), `obj_settingsManager` | game_state.dat |
 | `global.player_settings` | struct | `obj_Init/Create_0.gml:85` (`scr_loadSettings`) | `scr_settingsManager:393`, `obj_settingsManager:211`, `scr_resetGameToDefault:23`, `scr_global_toggle_fullscreen`, `scr_debug_activation_check` | `scr_applySettings`, `scr_buildInputMap`, меню настроек | player_settings.dat |
 | `global.clean_state` | bool | `obj_Init/Create_0.gml:23` | `scr_resetGameToDefault:20` | `obj_globalManager/Other_3:4` (не писать game_state после wipe), `obj_settingsManager` | — |
@@ -102,8 +102,8 @@ Read-only по соглашению: `scr_constants` прямо запрещае
 | Имя | Тип | Инициализация | Пишет | Читает | В сейве |
 |-----|-----|---------------|-------|--------|---------|
 | `global.__dev_spawn` | bool | `obj_Init/Create_0.gml:119` | `obj_devLoader`, `scr_global_debug_hotkeys` (F5/F6), `scr_saveLoad:344`, `scr_defaultLoad:64`, `obj_cutsceneTest` | `scr_global_handle_dev_spawn` | — |
-| `global.__dev_spawn_x` / `__dev_spawn_y` | real / `undefined` | `obj_Init/Create_0.gml:120-121` | те же (`undefined` — «центр комнаты»: `obj_devLoader:29-30`, `scr_global_debug_hotkeys:17-18`) | `scr_global_handle_dev_spawn` | — |
-| `global.__dev_spawn_facing` | real | не инициализируется в `obj_Init` намеренно (`Create_0.gml:122-125`); первая запись — `obj_cutsceneTest/Step_0.gml:71` | `obj_devLoader:31`, `scr_global_debug_hotkeys:19`, `scr_saveLoad:347`, `scr_defaultLoad:67` | `scr_global_handle_dev_spawn:16` | — |
+| `global.__dev_spawn_x` / `__dev_spawn_y` | real / `undefined` | `obj_Init/Create_0.gml:120-121` | те же (`undefined` означает «центр комнаты»: `obj_devLoader:29-30`, `scr_global_debug_hotkeys:17-18`) | `scr_global_handle_dev_spawn` | — |
+| `global.__dev_spawn_facing` | real | не инициализируется в `obj_Init` намеренно (`Create_0.gml:122-125`); первая запись: `obj_cutsceneTest/Step_0.gml:71` | `obj_devLoader:31`, `scr_global_debug_hotkeys:19`, `scr_saveLoad:347`, `scr_defaultLoad:67` | `scr_global_handle_dev_spawn:16` | — |
 | `global.__next_spawn_x` / `__next_spawn_y` / `__next_spawn_facing` | real / `undefined` | `obj_Init/Create_0.gml:129-131` | `scr_saveLoad:289-291`, `scr_defaultLoad:44-46` (и сброс `:71-73`) | `obj_player/Create_0.gml:37-48,197-220` (consume-once) | — (канал «сейв → спавн») |
 | `global.__transition_safety_frames` | real | `obj_Init/Create_0.gml:134` | `scr_global_on_room_change:78` (`16`), `scr_global_transition_safety` (декремент) | `scr_global_transition_safety` | — |
 | `global.is_menu_room` | function | `obj_Init/Create_0.gml:189` | `obj_Init` | `obj_globalManager/Step_0:66` (пауза playtime), `scr_global_on_room_change`, `scr_global_quick_save`, `scr_callMenuInit` | — |
@@ -123,7 +123,7 @@ Read-only по соглашению: `scr_constants` прямо запрещае
 | `global.__menu_volume_depth` | real | `scr_music_init.gml:130` | `scr_menu_volume_guard` (push/pop) | `scr_menu_volume_guard` | — |
 | `global.__window_prev_x` / `__window_prev_y` / `__window_prev_w` / `__window_prev_h` | real | `obj_Init/Create_0.gml:60-63` | `scr_settingsManager:277-280` | `scr_settingsManager` (восстановление окна) | — |
 | `global.__window_borderless_active` | bool | `obj_Init/Create_0.gml:64` | `scr_settingsManager:293,305` | `scr_settingsManager` | — |
-| `global.show_notification` | function | `obj_Init/Create_0.gml:284` | `obj_Init` | вызывают `inventory_add` и др.; рендер — `obj_globalManager/Draw_64` | — |
+| `global.show_notification` | function | `obj_Init/Create_0.gml:284` | `obj_Init` | вызывают `inventory_add` и др.; рендер: `obj_globalManager/Draw_64` | — |
 
 ## Катсцены { #cutscenes }
 
@@ -132,19 +132,19 @@ Read-only по соглашению: `scr_constants` прямо запрещае
 | `global.cutscene_active` | bool | `obj_Init/Create_0.gml:151` | `obj_cutsceneManager` (`:644`/`701`), `scr_saveLoad:310`, `obj_cutsceneTest` | `scr_checkUIBlocking`, `scr_inputApi`, `scr_global_on_room_change` | — |
 | `global.active_cutscene_id` | string | `obj_Init/Create_0.gml:152` | `obj_cutsceneManager:643` (id при старте) / `:699` (`""` при финале), `scr_saveLoad:312` | `obj_cutsceneManager`, `obj_cutsceneTest` | — |
 | `global.active_cutscene_manager` | instance | `obj_Init/Create_0.gml:153` | `obj_cutsceneManager:613` (`id`) / `:700` (`noone`) | `c_play`, `scr_inputApi:90`, тесты | — |
-| `global.cutscene_camera_override` | bool | `obj_Init/Create_0.gml:154` | `obj_cutsceneManager:664,724`, `screenshot` (Create_0:68,308 / CleanUp_0:5); сброс — `scr_saveLoad:311` | `scr_checkUIBlocking`, `obj_cutsceneManager`, `obj_player/Step_2:3` | — |
+| `global.cutscene_camera_override` | bool | `obj_Init/Create_0.gml:154` | `obj_cutsceneManager:664,724`, `screenshot` (Create_0:68,308 / CleanUp_0:5); сброс: `scr_saveLoad:311` | `scr_checkUIBlocking`, `obj_cutsceneManager`, `obj_player/Step_2:3` | — |
 | `global.__cutscene_build_mgr` | instance | `obj_Init/Create_0.gml:155` | `c_begin:30`, `c_end`, `scr_saveLoad:316-320` | `c_cmd`, `c_play`, `scr_saveLoad`, `obj_cutsceneManager:618-619` | — |
-| `global.__cutscene_action_factory` | struct / `undefined` | `obj_Init/Create_0.gml:156` (лениво — `cutscene_action_factory.gml:1243`) | `cutscene_action_factory` | `cutscene_load_json:211-212` | — |
-| `global.__interacted_targets` | array (instance id) | `obj_Init/Create_0.gml:157` | `interactionWithNPCsOrObjects:93`, `obj_save/Step_0:30`; сброс — `scr_saveLoad:323`, `scr_defaultLoad:32` | `ActionWaitForInteract` (`scr_cutscene_classes:4574-4597`), `scr_test_asserts` | — |
-| `global.__cutscene_checkpoints` | struct | `obj_Init/Create_0.gml:162` | `ActionCheckpointState` (`scr_cutscene_classes:4880`); сброс — `obj_cutsceneManager:751`, `__cutscene_cleanup_old_checkpoints` | `ActionRestoreState` (`:4936`) | — |
-| `global.__cutscene_attachments` | array | `obj_Init/Create_0.gml:163` | attach-действия катсцен; сброс — `obj_cutsceneManager:297` | `__cutscene_update_attachments` (`scr_cutscene_classes:3703`), `obj_cutsceneManager` | — |
+| `global.__cutscene_action_factory` | struct / `undefined` | `obj_Init/Create_0.gml:156` (лениво: `cutscene_action_factory.gml:1243`) | `cutscene_action_factory` | `cutscene_load_json:211-212` | — |
+| `global.__interacted_targets` | array (instance id) | `obj_Init/Create_0.gml:157` | `interactionWithNPCsOrObjects:93`, `obj_save/Step_0:30`; сброс: `scr_saveLoad:323`, `scr_defaultLoad:32` | `ActionWaitForInteract` (`scr_cutscene_classes:4574-4597`), `scr_test_asserts` | — |
+| `global.__cutscene_checkpoints` | struct | `obj_Init/Create_0.gml:162` | `ActionCheckpointState` (`scr_cutscene_classes:4880`); сброс: `obj_cutsceneManager:751`, `__cutscene_cleanup_old_checkpoints` | `ActionRestoreState` (`:4936`) | — |
+| `global.__cutscene_attachments` | array | `obj_Init/Create_0.gml:163` | attach-действия катсцен; сброс: `obj_cutsceneManager:297` | `__cutscene_update_attachments` (`scr_cutscene_classes:3703`), `obj_cutsceneManager` | — |
 | `global.__cutscene_chatterbox_registered` | bool | `obj_Init/Create_0.gml:269` | `c_cmd.gml:211` (один раз) | `c_cmd:145` | — |
-| `global.__actor_forced_emotion` | struct `{actor: emotion}` | лениво — `scr_cutscene_classes:2828,3241` | `ActionSetPortraitNext` (`:2815`), `ActionSetEmotion` (`:3216`); сброс — `obj_cutsceneManager:722` | `textboxTest_scribble/Step_0:46-49` (consume-once), `scr_test_asserts:627` | — |
-| `global.music_persist_track` | sound / `noone` | `scr_music_init.gml:35` | `scr_cutscene_music:51`; сброс — `obj_cutsceneManager:757` | `scr_global_on_room_change:39-43` | — |
+| `global.__actor_forced_emotion` | struct `{actor: emotion}` | лениво — `scr_cutscene_classes:2828,3241` | `ActionSetPortraitNext` (`:2815`), `ActionSetEmotion` (`:3216`); сброс: `obj_cutsceneManager:722` | `textboxTest_scribble/Step_0:46-49` (consume-once), `scr_test_asserts:627` | — |
+| `global.music_persist_track` | sound / `noone` | `scr_music_init.gml:35` | `scr_cutscene_music:51`; сброс: `obj_cutsceneManager:757` | `scr_global_on_room_change:39-43` | — |
 
 ## Музыка { #music }
 
-Инициализация — `scr_music_init()` (вызывается из `obj_Init`); покадровое обновление — `obj_music_ctrl/Step_0` через `scr_global_music_update_current` и `scr_global_music_fade_previous`. Два пространства имён не пересекаются: `__music_volume`/`__sfx_volume`/`__current_master_volume` — снимки настроек, `music_*` без `__` — живое состояние движка.
+Инициализация: `scr_music_init()` (вызывается из `obj_Init`); покадровое обновление: `obj_music_ctrl/Step_0` через `scr_global_music_update_current` и `scr_global_music_fade_previous`. Два пространства имён не пересекаются: `__music_volume`/`__sfx_volume`/`__current_master_volume` — снимки настроек, а `music_*` без `__` — живое состояние движка.
 
 ??? note "Состояние музыкального движка (45 глобалов)"
     | Имя | Тип | Инициализация | Пишет | Читает | В сейве |
@@ -193,13 +193,13 @@ Read-only по соглашению: `scr_constants` прямо запрещае
     | `global.music_phase_stop_fade` | real | `scr_music_init.gml:84` | `scr_music_init` | `music_phase_manager.stop/set_intensity` | — |
     | `global.music_autorestart_fade` | real | `scr_music_init.gml:86` | `scr_music_init` | `scr_global_music_update_current` (рестарт при подъёме громкости с 0) | — |
     | `global.music_default_game_track` | sound | `scr_music_init.gml:114` | `scr_music_init` | `scr_global_on_room_change` | — |
-    | `global.room_music_override` | `undefined` | `scr_music_init.gml:117` | `scr_music_init` | нет (мёртвое имя — зарезервировано) | — |
+    | `global.room_music_override` | `undefined` | `scr_music_init.gml:117` | `scr_music_init` | нет (мёртвое имя, зарезервировано) | — |
 
 ### API-функции (глобалы-методы) { #music-api }
 
-Все определены в `scr_music_init.gml`; сигнатуры и поведение — на странице музыкальной системы. В таблице — только точки вызова.
+Все определены в `scr_music_init.gml`; сигнатуры и поведение — на странице музыкальной системы. В таблице приведены только точки вызова.
 
-Катсценные действия вызывают API по строковому имени через `__cutscene_music_call` (`scr_cutscene_music.gml:11-21`) — в таблице указан класс действия, а не место вызова.
+Катсценные действия вызывают API по строковому имени через `__cutscene_music_call` (`scr_cutscene_music.gml:11-21`), поэтому в таблице указан класс действия, а не место вызова.
 
 | Имя | Инициализация | Вызывают |
 |-----|---------------|----------|
@@ -226,9 +226,9 @@ Read-only по соглашению: `scr_constants` прямо запрещае
 
 | Имя | Тип | Инициализация | Пишет | Читает | В сейве |
 |-----|-----|---------------|-------|--------|---------|
-| `global.__current_master_volume` | real | `obj_Init/Create_0.gml:45` | `scr_applySettings`, `scr_menu_volume_guard`, `obj_settingsManager` | `scr_menu_volume_guard`, `scr_music_init` (в `audio_master_gain`) | — (источник — `player_settings.master_volume`) |
-| `global.__music_volume` | real | `obj_Init/Create_0.gml:46` | `scr_applySettings:319`, `obj_settingsManager:189` | `__music_get_settings_volume`, `scr_music_init:124-125` | — (источник — `player_settings.music_volume`) |
-| `global.__sfx_volume` | real | `obj_Init/Create_0.gml:47` | `scr_applySettings:320`, `obj_settingsManager:203` | `scr_SFXPlay:44` | — (источник — `player_settings.sfx_volume`) |
+| `global.__current_master_volume` | real | `obj_Init/Create_0.gml:45` | `scr_applySettings`, `scr_menu_volume_guard`, `obj_settingsManager` | `scr_menu_volume_guard`, `scr_music_init` (в `audio_master_gain`) | — (источник: `player_settings.master_volume`) |
+| `global.__music_volume` | real | `obj_Init/Create_0.gml:46` | `scr_applySettings:319`, `obj_settingsManager:189` | `__music_get_settings_volume`, `scr_music_init:124-125` | — (источник: `player_settings.music_volume`) |
+| `global.__sfx_volume` | real | `obj_Init/Create_0.gml:47` | `scr_applySettings:320`, `obj_settingsManager:203` | `scr_SFXPlay:44` | — (источник: `player_settings.sfx_volume`) |
 
 ## Debug и тесты { #debug }
 
@@ -256,9 +256,9 @@ Read-only по соглашению: `scr_constants` прямо запрещае
 
 ## Приватные глобалы (`__`) { #private-globals }
 
-Префикс `__` — конвенция «внутреннее состояние подсистемы»: контент (катсцены, yarn, комнаты) их не трогает — ни читает, ни пишет. Исключения, где `__`-глобал — часть публичного канала: `__next_spawn_*` (писатели — `scr_saveLoad`/`scr_defaultLoad`, читатель — `obj_player`), `__dev_spawn*` (DEV-LOAD), `__interacted_targets` (его пишет `interactionWithNPCsOrObjects`).
+Префикс `__` — конвенция «внутреннее состояние подсистемы»: контент (катсцены, yarn, комнаты) их не трогает, ни читает, ни пишет. Исключения, где `__`-глобал — часть публичного канала: `__next_spawn_*` (писатели: `scr_saveLoad`/`scr_defaultLoad`, читатель: `obj_player`), `__dev_spawn*` (DEV-LOAD), `__interacted_targets` (его пишет `interactionWithNPCsOrObjects`).
 
-Полный список (детали — в таблицах выше):
+Полный список (детали см. в таблицах выше):
 
 ??? note "Все `__`-имена по подсистемам"
     - **init:** `__init_done`
@@ -274,20 +274,20 @@ Read-only по соглашению: `scr_constants` прямо запрещае
 
 ## Динамические и мёртвые имена { #dynamic }
 
-Часть обращений к глобалам идёт по строковому имени, поэтому в `globals.txt` есть записи без `first_write` — это не отдельные переменные, а артефакты сканирования:
+Часть обращений к глобалам идёт по строковому имени, поэтому в `globals.txt` есть записи без `first_write`: это не отдельные переменные, а артефакты сканирования:
 
-- **`variable_global_get` / `variable_global_set`** — checkpoint-снапшоты катсцен (`include_globals` в `scr_cutscene_classes.gml:859-868`, restore `:1083-1094`) снимают и восстанавливают произвольные глобалы по имени из JSON.
-- **dot-пути состояния** — `__cutscene_resolve_state_value` (`scr_cutscene_classes.gml:4067-4127`) разрешает `"flag.x"` → `global.flag[$ "x"]`, `"entity_state.<room:eid>.<field>"` → запись реестра, `"stat.hp"` / `"stat_hp"` → `global.stat_hp`, `"<struct>.<field>"` → `global[$ struct][$ field]`.
-- **`global[$ flag_name]`** — `scr_toggle_debug_flag` (`scr_toggle_debug_flag.gml:11-12`) инвертирует `debug_show_*` по имени строкой.
-- **`variable_global_get(_fn_name)`** — `cutscene_action_factory.gml:103-104` и `__cutscene_music_call` (`scr_cutscene_music.gml:11-21`) вызывают глобалы-функции (`play_music` и др.) по имени из JSON-поля.
+- **`variable_global_get` / `variable_global_set`**: checkpoint-снапшоты катсцен (`include_globals` в `scr_cutscene_classes.gml:859-868`, restore `:1083-1094`) снимают и восстанавливают произвольные глобалы по имени из JSON.
+- **dot-пути состояния**: `__cutscene_resolve_state_value` (`scr_cutscene_classes.gml:4067-4127`) разрешает `"flag.x"` → `global.flag[$ "x"]`, `"entity_state.<room:eid>.<field>"` → запись реестра, `"stat.hp"` / `"stat_hp"` → `global.stat_hp`, `"<struct>.<field>"` → `global[$ struct][$ field]`.
+- **`global[$ flag_name]`**: `scr_toggle_debug_flag` (`scr_toggle_debug_flag.gml:11-12`) инвертирует `debug_show_*` по имени строкой.
+- **`variable_global_get(_fn_name)`**: `cutscene_action_factory.gml:103-104` и `__cutscene_music_call` (`scr_cutscene_music.gml:11-21`) вызывают глобалы-функции (`play_music` и др.) по имени из JSON-поля.
 
 | Запись в `globals.txt` | Что это на самом деле |
 |------------------------|------------------------|
-| `global.__next_spawn_`, `global.stat_`, `global.equipped_` | упоминания префиксов семейств в комментариях (`obj_player/Create_0.gml:35`, `scr_saveSave.gml:6,109`, `obj_inGameMenu/Step_0.gml:172`) — не отдельные переменные |
+| `global.__next_spawn_`, `global.stat_`, `global.equipped_` | упоминания префиксов семейств в комментариях (`obj_player/Create_0.gml:35`, `scr_saveSave.gml:6,109`, `obj_inGameMenu/Step_0.gml:172`); не отдельные переменные |
 | `global.json` | ложное срабатывание на имени файла `guard_global.json` (`scr_test_catalog.gml:81`) |
-| `global.name` | комментарий `scr_inventory_init.gml:30` (объяснение, почему имя — `player_name`) |
+| `global.name` | комментарий `scr_inventory_init.gml:30` (объяснение, почему имя взято как `player_name`) |
 | `global.thing`, `global.value` | комментарии в библиотеке TweenGMS (`TGMX_7_Properties.gml:891,992`) |
-| `global.settings` | устаревший doc-комментарий `scr_inputApi.gml:452` — код использует `global.player_settings` |
+| `global.settings` | устаревший doc-комментарий `scr_inputApi.gml:452`: код использует `global.player_settings` |
 | `global.settings_closing` | удалённый флаг; осталась пометка в `scr_global_reset_settings_flag.gml:1` |
 | `global.roomNeed` | удалённый канал результата загрузки (F-583); упоминания только в комментариях (`scr_saveLoad.gml:292`, `scr_defaultLoad.gml:8`, `obj_saveManager/Step_0.gml:135`) |
 

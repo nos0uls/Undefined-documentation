@@ -31,7 +31,7 @@ Instance layer (`GMRInstanceLayer`) в `.yy` комнаты, на котором
 
 ### Instance Creation Code
 
-Код, выполняемый для конкретного инстанса после его `Create` — файлы `InstanceCreationCode_*.gml` в каталоге комнаты. Через него задают `entity_id` и параметры интерактивов и триггеров перехода.
+Код, выполняемый для конкретного инстанса после его `Create`: файлы `InstanceCreationCode_*.gml` в каталоге комнаты. Через него задают `entity_id` и параметры интерактивов и триггеров перехода.
 
 Подробнее: [Комнаты](../architecture/rooms.md)
 
@@ -43,7 +43,7 @@ Instance layer (`GMRInstanceLayer`) в `.yy` комнаты, на котором
 
 ### `datafiles` / Included Files
 
-Каталог Included Files проекта: `Dialogues/*.yarn`, `cutscenes/**/*.json` (включая `cutscenes/cutscene_engine_settings.json`), `cutscenes/*.yarn`, `scribble_license.txt`. В рантайме файлы доступны из `working_directory` без префикса `datafiles/` — загрузчик `cutscene_load_json` срезает префиксы `./` и `datafiles/`.
+Каталог Included Files проекта: `Dialogues/*.yarn`, `cutscenes/**/*.json` (включая `cutscenes/cutscene_engine_settings.json`), `cutscenes/*.yarn`, `scribble_license.txt`. В рантайме файлы доступны из `working_directory` без префикса `datafiles/`: загрузчик `cutscene_load_json` срезает префиксы `./` и `datafiles/`.
 
 Подробнее: [Структура проекта](../getting-started/project-structure.md#datafiles), [Форматы данных](../architecture/data-formats.md#file-map)
 
@@ -51,31 +51,31 @@ Instance layer (`GMRInstanceLayer`) в `.yy` комнаты, на котором
 
 ### Дедупликация игрока
 
-Логика в `obj_player/Create_0`: persistent-игрок переживает `room_goto`, поэтому расставленный в редакторе дубль в той же комнате уничтожается. Выжившим считается перенесённый инстанс (его `__room_born` указывает на прошлую комнату); он помечается `__dedup_survivor`, а дубль выходит из Create без полной инициализации — `global.obj_player` и маркер не перезаписываются.
+Логика в `obj_player/Create_0`: persistent-игрок переживает `room_goto`, поэтому расставленный в редакторе дубль в той же комнате уничтожается. Выжившим считается перенесённый инстанс (его `__room_born` указывает на прошлую комнату); он помечается `__dedup_survivor`, а дубль выходит из Create без полной инициализации: `global.obj_player` и маркер не перезаписываются.
 
 Подробнее: [Игрок](../systems/player.md)
 
 ### Маркер (`obj_pointMarker`)
 
-Невидимый persistent-инстанс, созданный в Create игрока и хранимый в `global.obj_player.marker_id` — точка перед лицом персонажа, попадание которой в `bbox` интерактива считается наведением. Позицию каждый кадр ставит `scr_player_marker_update()` по `facing_direction`; инвариант «ровно один маркер» держит страховка в его Create.
+Невидимый persistent-инстанс, созданный в Create игрока и хранимый в `global.obj_player.marker_id`: точка перед лицом персонажа, попадание которой в `bbox` интерактива считается наведением. Позицию каждый кадр ставит `scr_player_marker_update()` по `facing_direction`; инвариант «ровно один маркер» держит страховка в его Create.
 
 Подробнее: [Взаимодействие и интерактивные объекты](../systems/interaction.md)
 
 ### `par_depth` и depth-режимы
 
-Корень иерархии Z-сортировки (`depth = -y`, чем ниже объект — тем ближе к камере). Режим `depth_mode` принимает два значения: `"auto"` (пересчёт каждый Step по dirty-flag) и `"manual"` (глубину ставит внешний код — `ActionSetDepth`, `c_depth`). Заморозка и привязка — отдельные поля: `is_static` (глубина вычисляется один раз, декорации) и `attached_target` (глубина копируется из цели).
+Корень иерархии Z-сортировки (`depth = -y`, чем ниже объект — тем ближе к камере). Режим `depth_mode` принимает два значения: `"auto"` (пересчёт каждый Step по dirty-flag) и `"manual"` (глубину ставит внешний код: `ActionSetDepth`, `c_depth`). Заморозка и привязка — отдельные поля: `is_static` (глубина вычисляется один раз, декорации) и `attached_target` (глубина копируется из цели).
 
 Подробнее: [Иерархия объектов — `par_depth`](../architecture/object-hierarchy.md#par-depth)
 
 ### `facing_direction` и `global.DIR`
 
-Направление взгляда игрока и актёров. Константы — struct `global.DIR` (`RIGHT:0`, `LEFT:1`, `UP:2`, `DOWN:3`) из `scr_constants()`; маппинг направления в спрайт делает `scr_sprite_for_facing`.
+Направление взгляда игрока и актёров. Константы: struct `global.DIR` (`RIGHT:0`, `LEFT:1`, `UP:2`, `DOWN:3`) из `scr_constants()`; маппинг направления в спрайт делает `scr_sprite_for_facing`.
 
 Подробнее: [Игрок](../systems/player.md), [Соглашения](../getting-started/conventions.md)
 
 ### `scr_interaction`
 
-Единая проверка взаимодействия: нажатие `confirm`, маркер в `bbox`/маске, `is_interactable`, отсутствие UI-блокировки. При срабатывании регистрирует id интерактива в `global.__interacted_targets` и запускает диалог через `readDialogue`. Файл скрипта называется `interactionWithNPCsOrObjects.gml` по историческим причинам — рабочая функция `scr_interaction`.
+Единая проверка взаимодействия: нажатие `confirm`, маркер в `bbox`/маске, `is_interactable`, отсутствие UI-блокировки. При срабатывании регистрирует id интерактива в `global.__interacted_targets` и запускает диалог через `readDialogue`. Файл скрипта называется `interactionWithNPCsOrObjects.gml` по историческим причинам, рабочая функция — `scr_interaction`.
 
 Подробнее: [Взаимодействие и интерактивные объекты](../systems/interaction.md)
 
@@ -89,13 +89,13 @@ Instance layer (`GMRInstanceLayer`) в `.yy` комнаты, на котором
 
 ### `entity_id`
 
-Уникальный идентификатор сущности в комнате — поле наследников `par_interactable`. Задаётся в Instance Creation Code или vars-struct `instance_create_*`; fallback детерминированный — `"объект:xstart:ystart"`. Два инстанса одного объекта в одной точке получат один id, поэтому в таких случаях `entity_id` назначают явно.
+Уникальный идентификатор сущности в комнате — поле наследников `par_interactable`. Задаётся в Instance Creation Code или vars-struct `instance_create_*`; fallback детерминированный: `"объект:xstart:ystart"`. Два инстанса одного объекта в одной точке получат один id, поэтому в таких случаях `entity_id` назначают явно.
 
 Подробнее: [Иерархия объектов — `par_interactable`](../architecture/object-hierarchy.md#par-interactable)
 
 ### World flags
 
-Персистентные комнатные флаги поверх `entity_state`: `scr_world_flag_set(room, flag, value)` / `scr_world_flag_get(room, flag)` пишут в зарезервированную сущность `"_room"`. Отличать от сессионных `global.room_flags` — они в сейв не входят и сбрасываются при загрузке.
+Персистентные комнатные флаги поверх `entity_state`: `scr_world_flag_set(room, flag, value)` / `scr_world_flag_get(room, flag)` пишут в зарезервированную сущность `"_room"`. Отличать от сессионных `global.room_flags`: они в сейв не входят и сбрасываются при загрузке.
 
 Подробнее: [Глобальное состояние](../architecture/global-state.md#world), [Система сохранений](../systems/save-system.md)
 
@@ -107,31 +107,31 @@ Instance layer (`GMRInstanceLayer`) в `.yy` комнаты, на котором
 
 ### Слот сейва
 
-Один из трёх слотов `save1`–`save3` (единый список — `scr_save_slot_names()`); файл слота — `working_directory + <slot> + ".txt"`. Активный слот сессии — `global.current_save_slot`, последний использованный — `global.last_played_save_slot`; метаданные слотов кэшируются в `global.__save_slot_metadata_cache`.
+Один из трёх слотов `save1`–`save3` (единый список: `scr_save_slot_names()`); файл слота: `working_directory + <slot> + ".txt"`. Активный слот сессии: `global.current_save_slot`, последний использованный: `global.last_played_save_slot`; метаданные слотов кэшируются в `global.__save_slot_metadata_cache`.
 
 Подробнее: [Система сохранений](../systems/save-system.md)
 
 ### `game_state.dat`
 
-Файл межсессионного состояния в формате построчный `key=value`: хранит `last_played_save_slot` и `total_playtime_seconds`. Чтение/запись — `scr_game_state_load`/`scr_game_state_save`, запись атомарная через `.tmp`; путь можно переопределить через `global.game_state_file`.
+Файл межсессионного состояния в формате построчный `key=value`: хранит `last_played_save_slot` и `total_playtime_seconds`. Чтение/запись: `scr_game_state_load`/`scr_game_state_save`, запись атомарная через `.tmp`; путь можно переопределить через `global.game_state_file`.
 
 Подробнее: [Форматы данных — `game_state.dat`](../architecture/data-formats.md#game-state)
 
 ### `player_settings.dat`
 
-Файл настроек игрока (громкости, бинды, `debug_enabled`), путь — `global.settings_file`. В сейв не входит и живёт отдельно от слотов.
+Файл настроек игрока (громкости, бинды, `debug_enabled`), путь: `global.settings_file`. В сейв не входит и живёт отдельно от слотов.
 
 Подробнее: [Форматы данных — `player_settings.dat`](../architecture/data-formats.md#settings-file)
 
 ### `global.__next_spawn_*`
 
-Spawn-override: `__next_spawn_x`, `__next_spawn_y`, `__next_spawn_facing` — точка, в которую игрока поставит переход/загрузка; применяется и сбрасывается при спавне. Писатели — `scr_saveLoad`, `scr_defaultLoad`, дедупликация игрока.
+Spawn-override: `__next_spawn_x`, `__next_spawn_y`, `__next_spawn_facing` — точка, в которую игрока поставит переход/загрузка; применяется и сбрасывается при спавне. Писатели: `scr_saveLoad`, `scr_defaultLoad`, дедупликация игрока.
 
 Подробнее: [Переходы между комнатами](../systems/room-transitions.md)
 
 ### `global.clean_state`
 
-Флаг полного сброса: `scr_resetGameToDefault()` удаляет все `save*.txt` и `game_state.dat`, выставляет `clean_state = true` и завершает игру — `obj_globalManager/Other_3` по флагу пропускает запись `game_state.dat`, чтобы не воскрешать файл.
+Флаг полного сброса: `scr_resetGameToDefault()` удаляет все `save*.txt` и `game_state.dat`, выставляет `clean_state = true` и завершает игру: `obj_globalManager/Other_3` по флагу пропускает запись `game_state.dat`, чтобы не воскрешать файл.
 
 Подробнее: [Система сохранений](../systems/save-system.md)
 
@@ -139,7 +139,7 @@ Spawn-override: `__next_spawn_x`, `__next_spawn_y`, `__next_spawn_facing` — т
 
 ### Input map
 
-Таблица `действие → [клавиши]` в `global.input_map`, собираемая `scr_buildInputMap()` из настроек. Проверки ввода идут по именам действий (`confirm`, `back`, `up`…), а не по кодам клавиш — раскладка отделена от логики.
+Таблица `действие → [клавиши]` в `global.input_map`, собираемая `scr_buildInputMap()` из настроек. Проверки ввода идут по именам действий (`confirm`, `back`, `up`…), а не по кодам клавиш: раскладка отделена от логики.
 
 Подробнее: [Система ввода](../systems/input.md)
 
@@ -171,7 +171,7 @@ Spawn-override: `__next_spawn_x`, `__next_spawn_y`, `__next_spawn_facing` — т
 
 ### Yarn-узел
 
-Именованная секция `.yarn`-файла: заголовок `title: <имя>`, тело между `---` и `===`. Запускается `readDialogue(file, node)`; у интерактивов узел задают поля `dialogue_filename`/`dialogue_node`, в катсценах — `ActionDialogue`/`c_dialogue`.
+Именованная секция `.yarn`-файла: заголовок `title: <имя>`, тело между `---` и `===`. Запускается `readDialogue(file, node)`; у интерактивов узел задают поля `dialogue_filename`/`dialogue_node`, в катсценах: `ActionDialogue`/`c_dialogue`.
 
 Подробнее: [Диалоги](../systems/dialogue.md)
 
@@ -189,7 +189,7 @@ Spawn-override: `__next_spawn_x`, `__next_spawn_y`, `__next_spawn_facing` — т
 
 ### Emote
 
-Всплывающая иконка-эмоция над инстансом: `emote_show(target, sprite, duration, ...)`, реестр — `global.global_emote_system.active_emotes`. Единицы времени — кадры игры; вызовы из катсцен — `c_emote`/`ActionEmote`/JSON `show_emote`.
+Всплывающая иконка-эмоция над инстансом: `emote_show(target, sprite, duration, ...)`, реестр: `global.global_emote_system.active_emotes`. Единицы времени — кадры игры; вызовы из катсцен: `c_emote`/`ActionEmote`/JSON `show_emote`.
 
 Подробнее: [Диалоги](../systems/dialogue.md)
 
@@ -197,7 +197,7 @@ Spawn-override: `__next_spawn_x`, `__next_spawn_y`, `__next_spawn_facing` — т
 
 ### `obj_cutsceneManager`
 
-Persistent-менеджер катсцен: очередь `action_queue`, курсор `current_action_index`, флаги `is_running`/`instant_mode`, история `reached_nodes`, камера и реестры актёров. Ссылка на активный менеджер — `global.active_cutscene_manager`.
+Persistent-менеджер катсцен: очередь `action_queue`, курсор `current_action_index`, флаги `is_running`/`instant_mode`, история `reached_nodes`, камера и реестры актёров. Ссылка на активный менеджер: `global.active_cutscene_manager`.
 
 Подробнее: [Архитектура катсцен](../cutscenes/architecture.md)
 
@@ -221,19 +221,19 @@ Action — инстанс конструктора `CutsceneAction` или на�
 
 ### Актёр (actor)
 
-Персонаж под управлением катсцены: `obj_actor` (наследник `par_actor` → `par_depth`), игрок или созданный действием `actor_create` инстанс. Движение — поля `target_x`/`target_y`/`move_active`, адресация в действиях — по `target`.
+Персонаж под управлением катсцены: `obj_actor` (наследник `par_actor` → `par_depth`), игрок или созданный действием `actor_create` инстанс. Движение: поля `target_x`/`target_y`/`move_active`, адресация в действиях: по `target`.
 
 Подробнее: [Актёры и камера](../cutscenes/actors-and-camera.md)
 
 ### `mark_node` / `goto`
 
-Пара JSON-действий для ветвления очереди. `mark_node` ставит именованную отметку — `manager.mark_node_reached()` пишет её в историю `reached_nodes` (лимит 50); `goto` переводит курсор выполнения на отметку в основной очереди (пустая цель отклоняется фабрикой). Отметки читают также условия вида `stop_when = "node_reached"`.
+Пара JSON-действий для ветвления очереди. `mark_node` ставит именованную отметку: `manager.mark_node_reached()` пишет её в историю `reached_nodes` (лимит 50); `goto` переводит курсор выполнения на отметку в основной очереди (пустая цель отклоняется фабрикой). Отметки читают также условия вида `stop_when = "node_reached"`.
 
 Подробнее: [JSON-действия](../cutscenes/json-actions.md)
 
 ### Partial control
 
-Частичный контроль игрока во время катсцены. JSON-действие `partial_control` выставляет `manager.partial_control_*`: режим `control_type` по enum `INTERACT_PARTIAL_CONTROL` (`LOCKED` — полный запрет, `WHITELIST` — только объекты из `whitelist` и действия `allowed_actions`, `FREE` — полная свобода).
+Частичный контроль игрока во время катсцены. JSON-действие `partial_control` выставляет `manager.partial_control_*`: режим `control_type` по enum `INTERACT_PARTIAL_CONTROL` (`LOCKED`: полный запрет, `WHITELIST`: только объекты из `whitelist` и действия `allowed_actions`, `FREE`: полная свобода).
 
 Подробнее: [Частичный контроль](../cutscenes/partial-control.md)
 
@@ -245,7 +245,7 @@ Action — инстанс конструктора `CutsceneAction` или на�
 
 ### GML-DSL (`c_*`)
 
-Набор функций `c_move`, `c_dialogue`, `c_emote` и др. (~40 штук), зарегистрированных в Chatterbox через `ChatterboxAddFunction` — мост из yarn-команд `<<c_*(...)>>` в катсценную систему. Сборку очереди между `c_begin`/`c_end` ведёт `global.__cutscene_build_mgr`.
+Набор функций `c_move`, `c_dialogue`, `c_emote` и др. (~40 штук), зарегистрированных в Chatterbox через `ChatterboxAddFunction`: мост из yarn-команд `<<c_*(...)>>` в катсценную систему. Сборку очереди между `c_begin`/`c_end` ведёт `global.__cutscene_build_mgr`.
 
 Подробнее: [GML-DSL катсцен](../cutscenes/gml-dsl.md)
 
@@ -259,25 +259,25 @@ Action — инстанс конструктора `CutsceneAction` или на�
 
 ### `delta_time`-фейд
 
-Принцип `scr_room_fade_update()`: скорости фейда заданы в долях экрана за секунду и умножаются на `delta_time / 1000000` — затемнение/осветление не зависит от FPS. Тот же приём используют накопление playtime и таймер активации debug-режима.
+Принцип `scr_room_fade_update()`: скорости фейда заданы в долях экрана за секунду и умножаются на `delta_time / 1000000`: затемнение/осветление не зависит от FPS. Тот же приём используют накопление playtime и таймер активации debug-режима.
 
 Подробнее: [Переходы между комнатами](../systems/room-transitions.md)
 
 ### Debug mode
 
-Режим отладки `global.debug`: включается пятью нажатиями `F12` за 2 секунды (`scr_debug_activation_check()`) или настройкой `debug_enabled`. Даёт оверлеи `debug_show_colliders`/`debug_show_hitbox`/`debug_show_info`/`debug_show_music`, хоткеи `F1`–`F10` (`F8` — ghost-mode, отдельно в `scr_player_debug_ghost`), пункт `DEV-LOAD` в меню слотов и быстрый сейв по `F7`.
+Режим отладки `global.debug`: включается пятью нажатиями `F12` за 2 секунды (`scr_debug_activation_check()`) или настройкой `debug_enabled`. Даёт оверлеи `debug_show_colliders`/`debug_show_hitbox`/`debug_show_info`/`debug_show_music`, хоткеи `F1`–`F10` (`F8`: ghost-mode, отдельно в `scr_player_debug_ghost`), пункт `DEV-LOAD` в меню слотов и быстрый сейв по `F7`.
 
 Подробнее: [Отладка и тестирование](../systems/debug-and-testing.md)
 
 ### Ghost-mode
 
-Режим прохождения игрока сквозь стены: `ghost_mode = debug_ghost || transition_ghost`. `debug_ghost` переключается по `F8` (`scr_player_debug_ghost`); `transition_ghost` — антизастревание, включается `scr_global_on_room_change` на время после перехода. В `ghost_mode` движение идёт без `scr_collision_resolve`.
+Режим прохождения игрока сквозь стены: `ghost_mode = debug_ghost || transition_ghost`. `debug_ghost` переключается по `F8` (`scr_player_debug_ghost`); `transition_ghost` — антизастревание, включаемое `scr_global_on_room_change` на время после перехода. В `ghost_mode` движение идёт без `scr_collision_resolve`.
 
 Подробнее: [Отладка и тестирование](../systems/debug-and-testing.md)
 
 ### `global.__dev_spawn`
 
-Канал спавна игрока по глобалам: `__dev_spawn` (флаг) + `__dev_spawn_x`/`__dev_spawn_y`/`__dev_spawn_facing`. Читает `scr_global_handle_dev_spawn()` из `obj_globalManager/Step_0`: при живом игроке переставляет его, иначе создаёт новый инстанс. Писатели — `obj_devLoader`, переходы `F5`/`F6`, `scr_saveLoad`, `scr_defaultLoad`.
+Канал спавна игрока по глобалам: `__dev_spawn` (флаг) + `__dev_spawn_x`/`__dev_spawn_y`/`__dev_spawn_facing`. Читает `scr_global_handle_dev_spawn()` из `obj_globalManager/Step_0`: при живом игроке переставляет его, иначе создаёт новый инстанс. Писатели: `obj_devLoader`, переходы `F5`/`F6`, `scr_saveLoad`, `scr_defaultLoad`.
 
 Подробнее: [Отладка и тестирование](../systems/debug-and-testing.md), [Система сохранений](../systems/save-system.md)
 

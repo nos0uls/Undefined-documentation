@@ -38,7 +38,7 @@ tags:
 | `obj_saveManager` | — | нет | — | Create, Step, Draw GUI | [Сохранения](../systems/save-system.md) |
 | `obj_settingsManager` | — | нет | — | Create, Destroy, Step, Draw GUI | [UI и меню](../systems/ui-and-menus.md) |
 
-`o_SharedTweener` — служебный объект библиотеки TweenGMS, не игровой код.
+`o_SharedTweener`: служебный объект библиотеки TweenGMS, не игровой код.
 
 ## Игрок и мир
 
@@ -103,8 +103,8 @@ tags:
 
 ## См. также
 
-- [Справочник GML-скриптов](gml-scripts.md) — функции проекта
-- [Иерархия объектов](../architecture/object-hierarchy.md) — роль `par_*` родителей
-- [Инициализация](../architecture/initialization.md) — `obj_Init` и стартовая последовательность
+- [Справочник GML-скриптов](gml-scripts.md): функции проекта
+- [Иерархия объектов](../architecture/object-hierarchy.md): роль `par_*` родителей
+- [Инициализация](../architecture/initialization.md): `obj_Init` и стартовая последовательность
 
 <!-- sources: _meta/objects.txt; objects/*/*.yy; docs_new/_meta/nav_plan.md -->
